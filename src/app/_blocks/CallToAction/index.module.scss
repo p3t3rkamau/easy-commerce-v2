@@ -3,11 +3,18 @@
 $spacer-h: calc(var(--block-padding) / 2);
 
 .callToAction {
+  margin: 0;
   padding-left: $spacer-h;
   padding-right: $spacer-h;
+  // border: 1px solid black;
   position: relative;
   background-color: var(--theme-elevation-100);
   color: var(--theme-elevation-1000);
+  @include small-break {
+    padding-left: -20px;
+    padding-right: -20px;
+  }
+
 }
 
 :global([data-theme="dark"]) {
@@ -32,6 +39,7 @@ $spacer-h: calc(var(--block-padding) / 2);
 .wrap {
   display: flex;
   gap: $spacer-h;
+  
   align-items: center;
 
   @include mid-break {

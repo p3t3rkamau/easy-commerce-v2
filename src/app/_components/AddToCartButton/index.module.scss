@@ -12,3 +12,7 @@
   visibility: hidden;
   opacity: 0;
 }
+.disabledButton {
+  opacity: 0.5; /* Adjust the opacity to make the button appear faded */
+  cursor: not-allowed; /* Change the cursor to indicate that the button is disabled */
+}

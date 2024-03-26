@@ -13,33 +13,30 @@ export const ArchiveBlock: React.FC<
   }
 > = props => {
   const {
-    introContent,
+    // introContent,
     id,
     relationTo,
     populateBy,
     limit,
     populatedDocs,
     populatedDocsTotal,
-    selectedDocs,
     categories,
   } = props
 
   return (
     <div id={`block-${id}`} className={classes.archiveBlock}>
-      {introContent && (
+      {/* {introContent && (
         <Gutter className={classes.introContent}>
           <RichText content={introContent} />
         </Gutter>
-      )}
+      )} */}
       <CollectionArchive
         populateBy={populateBy}
         relationTo={relationTo}
         populatedDocs={populatedDocs}
         populatedDocsTotal={populatedDocsTotal}
-        selectedDocs={selectedDocs}
         categories={categories}
         limit={limit}
-        sort="-publishedOn"
       />
     </div>
   )

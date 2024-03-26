@@ -4,6 +4,7 @@ import { invertBackground } from '../../fields/invertBackground'
 
 export const MediaBlock: Block = {
   slug: 'mediaBlock',
+  imageURL: 'https://i.pinimg.com/originals/e0/2c/8b/e02c8b152a7fcb56ab168fc6a17f7ecf.jpg',
   fields: [
     invertBackground,
     {

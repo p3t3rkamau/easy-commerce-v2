@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation'
 import { Order } from '../../../../payload/payload-types'
 import { Button } from '../../../_components/Button'
 import { Message } from '../../../_components/Message'
-import { priceFromJSON } from '../../../_components/Price'
+import { Price } from '../../../_components/Price'
 import { useCart } from '../../../_providers/Cart'
 
 import classes from './index.module.scss'
@@ -57,10 +57,7 @@ export const CheckoutForm: React.FC<{}> = () => {
                 items: (cart?.items || [])?.map(({ product, quantity }) => ({
                   product: typeof product === 'string' ? product : product.id,
                   quantity,
-                  price:
-                    typeof product === 'object'
-                      ? priceFromJSON(product.priceJSON, 1, true)
-                      : undefined,
+                  price: typeof product === 'object' ? Price(product.price, 1, true) : undefined,
                 })),
               }),
             })

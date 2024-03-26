@@ -3,8 +3,14 @@ import type { CollectionConfig } from 'payload/types'
 import { admins } from '../../access/admins'
 import { Archive } from '../../blocks/ArchiveBlock'
 import { CallToAction } from '../../blocks/CallToAction'
+// import { CaseStudyCards } from '../../blocks/CaseStudyCards'
+// import { CaseStudiesHighlight } from '../../blocks/CaseStudiesHighlight'
+// import { CaseStudyCards } from '../../blocks/CaseStudyCards'
 import { Content } from '../../blocks/Content'
+import { ContentMedia } from '../../blocks/ContentMedia'
+import { FormBlock } from '../../blocks/Form'
 import { MediaBlock } from '../../blocks/MediaBlock'
+// import { ReusableContent } from '../../blocks/ReusableContent'
 import { hero } from '../../fields/hero'
 import { slugField } from '../../fields/slug'
 import { populateArchiveBlock } from '../../hooks/populateArchiveBlock'
@@ -75,7 +81,31 @@ export const Pages: CollectionConfig = {
               name: 'layout',
               type: 'blocks',
               required: true,
-              blocks: [CallToAction, Content, MediaBlock, Archive],
+              blocks: [
+                CallToAction,
+                Content,
+                MediaBlock,
+                Archive,
+                ContentMedia,
+                // CardGrid,
+                // Banner,
+                // BlogContent,
+                // Code,
+                // BlogMarkdown,
+                // // CaseStudyCards,
+                // // CaseStudiesHighlight,
+                // CodeFeature,
+                // Accordion,
+                // ContentGrid,
+                // Form,
+                FormBlock,
+                // HoverHighlights,
+                // LinkGrid,
+                // MediaContent,
+                // Slider,
+                // Steps,
+                // StickyHighlights,
+              ],
             },
           ],
         },

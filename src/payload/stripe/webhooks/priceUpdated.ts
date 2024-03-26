@@ -53,11 +53,14 @@ export const priceUpdated: StripeWebhookHandler<{
       limit: 100,
     })
 
+    const price = stripePrices.data[0].unit_amount
+
+    // Update product with price value
     await payload.update({
       collection: 'products',
       id: payloadProductID,
       data: {
-        priceJSON: JSON.stringify(stripePrices),
+        price: price, // pass price value instead of whole object
         skipSync: true,
       },
     })

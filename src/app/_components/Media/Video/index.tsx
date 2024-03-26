@@ -10,34 +10,38 @@ export const Video: React.FC<MediaProps> = props => {
   const { videoClassName, resource, onClick } = props
 
   const videoRef = useRef<HTMLVideoElement>(null)
-  // const [showFallback] = useState<boolean>()
 
   useEffect(() => {
     const { current: video } = videoRef
     if (video) {
       video.addEventListener('suspend', () => {
-        // setShowFallback(true);
-        // console.warn('Video was suspended, rendering fallback image.')
+        // Handle fallback or other actions if needed
+        console.warn('Video was suspended.')
       })
     }
   }, [])
 
   if (resource && typeof resource !== 'string') {
-    const { filename } = resource
+    const { filename, imagekit } = resource
+    console.log('videourl', imagekit.url)
 
     return (
-      <video
-        playsInline
-        autoPlay
-        muted
-        loop
-        controls={false}
-        className={[classes.video, videoClassName].filter(Boolean).join(' ')}
-        onClick={onClick}
-        ref={videoRef}
-      >
-        <source src={`${process.env.NEXT_PUBLIC_SERVER_URL}/media/${filename}`} />
-      </video>
+      <>
+        {imagekit && imagekit.url && (
+          <video
+            playsInline
+            autoPlay
+            muted
+            loop
+            controls={false}
+            className={[classes.video, videoClassName].filter(Boolean).join(' ')}
+            onClick={onClick}
+            ref={videoRef}
+          >
+            <source src={imagekit.url} />
+          </video>
+        )}
+      </>
     )
   }
 

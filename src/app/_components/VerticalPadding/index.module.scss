@@ -1,9 +1,14 @@
+@use '../../../app/_css/queries.scss' as *;
+
 .top-large {
   padding-top: var(--block-padding);
 }
 
 .top-medium {
   padding-top: calc(var(--block-padding) / 2);
+  @include small-break {
+    padding-top: 10px;
+  }
 }
 
 .bottom-large {
@@ -12,4 +17,7 @@
 
 .bottom-medium {
   padding-bottom: calc(var(--block-padding) / 2);
+  @include small-break {
+    padding-bottom: 10px;
+  }
 }

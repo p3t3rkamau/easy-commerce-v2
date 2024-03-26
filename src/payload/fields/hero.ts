@@ -33,6 +33,10 @@ export const hero: Field = {
           label: 'Low Impact',
           value: 'lowImpact',
         },
+        {
+          label: 'Custom Hero',
+          value: 'customHero',
+        },
       ],
     },
     richText({
@@ -52,8 +56,32 @@ export const hero: Field = {
       relationTo: 'media',
       required: true,
       admin: {
-        condition: (_, { type } = {}) => ['highImpact', 'mediumImpact'].includes(type),
+        condition: (_, { type } = {}) =>
+          ['highImpact', 'mediumImpact', 'customHero'].includes(type),
       },
     },
+    // {
+    //   name: 'slides',
+    //   label: 'Slides',
+    //   labels: {
+    //     singular: 'Slide',
+    //     plural: 'Slides',
+    //   },
+    //   type: 'array',
+    //   minRows: 3,
+    //   maxRows: 9,
+    //   fields: [
+    //     {
+    //       name: 'media',
+    //       type: 'upload',
+    //       relationTo: 'media',
+    //       required: true,
+    //       admin: {
+    //         condition: (_, { type } = {}) =>
+    //           ['highImpact', 'mediumImpact', 'customHero'].includes(type),
+    //       },
+    //     },
+    //   ],
+    // },
   ],
 }
