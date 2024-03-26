@@ -58,14 +58,14 @@ const FooterComponent = ({ footer }: { footer: Footer }) => {
 
             <p>Categories</p>
             {categories.map((category: Category, index: number) => (
-              <li key={index}>
+              <li className={classes.footerlist} key={index}>
                 <span>{category.title}</span>
               </li>
             ))}
             <div>
               <p>Contact Us</p>
               <ul>
-                <li>0795820643 || 0795820643</li>
+                <li>0789993396 || 0717730005</li>
               </ul>
             </div>
             <div className={classes.socialLinks}>
@@ -91,6 +91,8 @@ const FooterComponent = ({ footer }: { footer: Footer }) => {
                 )
               })}
             </div>
+            <p>Payment Method</p>
+            <Image src={'/mpesa-image.png'} alt={'mpesa image'} width={50} height={20} />
             <p>{footer?.copyright}</p>
           </div>
         </Gutter>
