@@ -15,6 +15,8 @@
   position: relative;
   min-height: 400px;
   background-color: var(--color-dark-50);
+  justify-content: center;
+  
 
   @include small-break {
     min-height: 250px;
@@ -40,15 +42,44 @@
   margin-bottom: 16px;
   margin-top: 8px;
 }
-
+.categories{
+  display: flex;
+  width: 70%;
+  margin-top: 10px;
+  align-items: center;
+  justify-content: space-around;
+  @include small-break {
+    width: 90%;
+  
+  }
+ 
+}
 .category {
-  font-size: 16px;
+  font-size: 14px;
+  padding: 3px 5px;
+  border: 1px solid var(--theme-elevation-1000);
+  border-radius: 10px;
+  @include small-break {
+    padding: 3px 4px;
+    margin: 5px;
+  }
+  
+  
+}
+.outOfStock {
+  color: red;
+  font-size: 20px;
 }
 
-.stock {
+.inStock {
   color: var(--color-green-500);
   font-size: 20px;
 }
+
+// .stock {
+//   color: var(--color-green-500);
+//   font-size: 20px;
+// }
 
 .separator {
   color: var(--color-gray-500);
@@ -118,63 +149,37 @@
   justify-content: center;
   display: flex;
 }
-
-
-.productHero {
-  // Define styles for the product hero wrapper
-
-  .mediaWrapper {
-    position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: flex-start;
-  }
-
-  .image {
-    // Define styles for the main product image
-    width: 100%;
-    max-width: 400px; // Adjust as needed
-    height: auto;
-    margin-bottom: 20px; // Add spacing between main image and thumbnails
-  }
-
-  .thumbnail {
-    // Define styles for the thumbnail images
-    width: 50px; // Adjust thumbnail size as needed
-    height: auto;
-    margin: 0 10px; // Add spacing between thumbnails
-    cursor: pointer; // Change cursor to indicate clickability
-    transition: opacity 0.3s ease; // Add transition for smooth hover effect
-
-    &:hover {
-      opacity: 0.7; // Reduce opacity on hover for visual feedback
-    }
-  }
-
-  .currentImageWrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1; // Ensure the large image is displayed above thumbnails
-  }
-
-  .currentImage {
-    // Define styles for the large image displayed when a thumbnail is clicked
-    max-width: 100%; // Ensure the image fits within the container
-    max-height: 100%;
+.smallImagesWrapper{
+  padding: 3px;
+}
+.otherImagesContainer{
+  padding: 3px;
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.otherImageItem{
+  background-color: var(--color-dark-50);
+  
+  @include small-break {
+    border-radius: 0;
   }
 }
-.otherImagesWrapper{
-  width: 100px;
-  border: 1px solid black;
-  position: relative;
+.SmallImages{
+  padding: 3px;
+  max-width: 300px;
+  min-height: 120px;
+  padding: 5px;
+  object-fit: contain;
+  aspect-ratio: 1/1;
+  max-width: 100%;
+  cursor: pointer;
 }
-.otherImage{
-  width: 100px;
+.zoomEffect:hover {
+  transform: scale(1.2);
+  transition: .8s ease-in-out;
+}
+.selected {
+  border-color: #333; /* Add an outer border to indicate selection */
 }

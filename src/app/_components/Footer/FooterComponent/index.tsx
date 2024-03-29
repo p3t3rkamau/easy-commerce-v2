@@ -52,48 +52,93 @@ const FooterComponent = ({ footer }: { footer: Footer }) => {
       <div className={classes.footer}>
         <Gutter>
           <div className={classes.wrap}>
-            <Link href="/">
-              <Image src="/Easy-logo.svg" alt="logo" width={80} height={50} />
-            </Link>
-
-            <p>Categories</p>
-            {categories.map((category: Category, index: number) => (
-              <li className={classes.footerlist} key={index}>
-                <span>{category.title}</span>
-              </li>
-            ))}
-            <div>
-              <p>Contact Us</p>
-              <ul>
-                <li>0789993396 || 0717730005</li>
-              </ul>
+            <div className={classes.footerLogo}>
+              <Link href="/">
+                <Image src="/Easy-logo.svg" alt="logo" width={100} height={50} />
+              </Link>
             </div>
-            <div className={classes.socialLinks}>
-              {navItems.map(item => {
-                const icon = item?.link?.icon as Media
+            <div className={classes.footerWrapper}>
+              <div>
+                <h3>Contact Us</h3>
+                <ul>
+                  <li>
+                    <span className={classes.footerLabel}>Address: </span>Anna's Arcade First Floor
+                    Room 29c
+                  </li>
+                  <li>
+                    <span className={classes.footerLabel}>Phone No: </span>0789993396 || 0717730005
+                  </li>
+                  <li>
+                    <span className={classes.footerLabel}>Email: </span>hello@easybake.co.ke
+                  </li>
+                  <li>
+                    <span className={classes.footerLabel}>Working Days/Hours: </span>Mon-Fri /
+                    8:30Am-6Pm | Sat 9:00-5Pm
+                  </li>
+                </ul>
+                <div className={classes.Socials}>
+                  <p>Follow US On</p>
+                  <div className={classes.socialLinks}>
+                    {navItems.map(item => {
+                      const icon = item?.link?.icon as Media
 
-                return (
-                  <Button
-                    key={item.link.label}
-                    el="link"
-                    href={item.link.url}
-                    newTab={true}
-                    className={classes.socialLinkItem}
-                  >
-                    <Image
-                      src={icon?.imagekit?.url}
-                      alt={item.link.label}
-                      width={24}
-                      height={24}
-                      className={classes.socialIcon}
-                    />
-                  </Button>
-                )
-              })}
+                      return (
+                        <Button
+                          key={item.link.label}
+                          el="link"
+                          href={item.link.url}
+                          newTab={true}
+                          className={classes.socialLinkItem}
+                        >
+                          <Image
+                            src={icon?.imagekit?.url}
+                            alt={item.link.label}
+                            width={24}
+                            height={24}
+                            className={classes.socialIcon}
+                          />
+                        </Button>
+                      )
+                    })}
+                  </div>
+                </div>
+              </div>
+              <div className={classes.Footercategories}>
+                <h3>Categories</h3>
+                {categories.map((category: Category, index: number) => (
+                  <li className={classes.footerlist} key={index}>
+                    <span>{category.title}</span>
+                  </li>
+                ))}
+              </div>
+              <div className={classes.Topbrands}>
+                <h3>Top Brands</h3>
+                <ul>
+                  <li>Easybake</li>
+                  <li>Puratos</li>
+                  <li>Dairyland</li>
+                  <li>Americolor</li>
+                  <li>Pristine</li>
+                </ul>
+              </div>
+              <div className={classes.InformationSection}>
+                <h3>Information</h3>
+                <ul>
+                  <li>WishList</li>
+                  <li>About Us</li>
+                  <li>FAQ's</li>
+                  <li>Return Policy</li>
+                  <li>Shipping</li>
+                </ul>
+              </div>
+              {/* <div className={classes.paymentMethod}>
+                <p>Payment Method</p>
+                <Image src={'/mpesa-image.png'} alt={'mpesa image'} width={50} height={20} />
+              </div> */}
             </div>
-            <p>Payment Method</p>
-            <Image src={'/mpesa-image.png'} alt={'mpesa image'} width={50} height={20} />
-            <p>{footer?.copyright}</p>
+            <div className={classes.copyright}>
+              <p>{footer?.copyright}</p>
+            </div>
           </div>
         </Gutter>
       </div>

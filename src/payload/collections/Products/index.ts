@@ -126,8 +126,8 @@ const Products: CollectionConfig = {
         plural: 'Images',
       },
       type: 'array',
-      minRows: 3,
-      maxRows: 9,
+      minRows: 4,
+      maxRows: 6,
       fields: [
         {
           type: 'upload',

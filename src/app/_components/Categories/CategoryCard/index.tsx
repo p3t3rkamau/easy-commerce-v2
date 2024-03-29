@@ -34,8 +34,8 @@ const CategoryCard = ({ category }: CategoryCardProps) => {
     <Link href="/products" onClick={() => setCategoryFilters([category.id])}>
       <div className={`${classes.card} ${classes.cardWithBackground}`}>
         <NextImage alt={'category image'} src={imageUrl} width={500} height={500} />
-        {/* <p className={classes.title}>{category.title}</p> */}
       </div>
+      <p className={classes.title}>{category.title}</p>
     </Link>
   )
 }
