@@ -24,11 +24,25 @@ export const ProductHero: React.FC<{
     OtherImages,
   } = product // Destructure price, size, and colors from product
   const [mainImage, setMainImage] = useState(metaImage)
+  console.log('volume:', volumeAndWeight)
 
   const alternativeImageUrl = '/Easy-logo.svg'
 
   const handleSmallImageClick = image => {
     setMainImage(image)
+  }
+  const [selectedSizes, setSelectedSizes] = useState<string[]>([])
+
+  // Event handler for size selection
+  const handleSizeSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedOption = event.target.value
+    if (selectedSizes.includes(selectedOption)) {
+      // If size is already selected, remove it
+      setSelectedSizes(selectedSizes.filter(size => size !== selectedOption))
+    } else {
+      // If size is not selected, add it
+      setSelectedSizes([...selectedSizes, selectedOption])
+    }
   }
   // State to manage selected colors
   const [selectedColors, setSelectedColors] = useState<string[]>([])
@@ -47,26 +61,24 @@ export const ProductHero: React.FC<{
   // Initialize state for selected volume and weight options
   const [selectedVolumeAndWeight, setSelectedVolumeAndWeight] = useState<string[]>([])
 
-  // Event handler for volume and weight selection
-  const handleVolumeAndWeightSelect = (event: ChangeEvent<HTMLSelectElement>) => {
-    const selectedOptions = Array.from(event.target.selectedOptions, option => option.value)
-    setSelectedVolumeAndWeight(selectedOptions)
-  }
-  const [selectedSizes, setSelectedSizes] = useState<string[]>([])
-
-  // Event handler for size selection
-  const handleSizeSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleVolumeAndWeightSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedOption = event.target.value
-    if (selectedSizes.includes(selectedOption)) {
-      // If size is already selected, remove it
-      setSelectedSizes(selectedSizes.filter(size => size !== selectedOption))
+    const formattedOption = `${selectedOption.split('_')[1]}_${selectedOption.split('_')[0]}`
+
+    if (selectedVolumeAndWeight.includes(formattedOption)) {
+      // If volume/weight is already selected, remove it
+      setSelectedVolumeAndWeight(
+        selectedVolumeAndWeight.filter(option => option !== formattedOption),
+      )
     } else {
-      // If size is not selected, add it
-      setSelectedSizes([...selectedSizes, selectedOption])
+      // If volume/weight is not selected, add it
+      setSelectedVolumeAndWeight([...selectedVolumeAndWeight, formattedOption])
     }
   }
+
   // Function to convert RGB values to color names
   const rgbToColorName = rgbString => {
+    //TODO:create a function that pulls this data from another file
     // Define a mapping of common color names to their RGB values
     const colorNames = {
       rgb_255_255_255_: 'White',
@@ -192,7 +204,7 @@ export const ProductHero: React.FC<{
         <p className={`${classes.stock} ${OutOfStock ? classes.outOfStock : classes.inStock}`}>
           {OutOfStock ? 'Out of stock' : 'In stock'}
         </p>
-
+        {/* TODO: this should be a function in itself */}
         <Price product={product} button={false} />
         {size && size.length > 0 && (
           <div className={classes.sizeSelect}>
@@ -207,7 +219,7 @@ export const ProductHero: React.FC<{
             <p>Order: {selectedSizes.join(', ')}</p>
           </div>
         )}
-
+        {/* TODO: this should be a function in itself */}
         {/* Render Colors as Comma-Separated Boxes */}
         {colors && colors.length > 0 && (
           <div className={classes.colorContainer}>
@@ -237,17 +249,18 @@ export const ProductHero: React.FC<{
             <p>Order: {selectedColors.map(rgbToColorName).join(', ')}</p>
           </div>
         )}
-
+        {/* TODO: this should be a function in itself */}
+        {/* TODO:volume function not working */}
         {/* Render Volume and Weight as a Select Component */}
         {volumeAndWeight && volumeAndWeight.length > 0 && (
           <div className={classes.volumeAndWeightSelect}>
             <label htmlFor="volumeAndWeightSelect">Volume and Weight:</label>
-            <select id="volumeAndWeightSelect" onChange={handleVolumeAndWeightSelect}>
-              {volumeAndWeight.map((option, index) => (
-                <option key={index} value={option}>
-                  {option}
-                </option>
-              ))}
+            <select
+              id="volumeAndWeightSelect"
+              onChange={handleVolumeAndWeightSelect}
+              value={selectedVolumeAndWeight}
+            >
+              {/* Render options for volumes and weights */}
             </select>
             <p>Order: {selectedVolumeAndWeight.join(', ')}</p>
           </div>

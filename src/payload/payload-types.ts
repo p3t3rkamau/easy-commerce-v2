@@ -135,7 +135,7 @@ export interface Page {
       }
     | {
         populateBy?: ('collection' | 'selection') | null;
-        relationTo?: ('products') | null;
+        relationTo?: ('products' | 'post') | null;
         categories?: (string | Category)[] | null;
         limit?: number | null;
         selectedDocs?:
@@ -603,6 +603,15 @@ export interface Product {
         | '10kg'
         | '15kg'
         | '20kg'
+        | 'Orange Emulsion (50 ml)'
+        | 'Orange Emulsion (240 ml)'
+        | 'Red Velvet (50 ml)'
+        | 'Red Velvet (240 ml)'
+        | 'Blueberry (240 ml)'
+        | 'Hot Pink (50 ml)'
+        | 'Royal Blue (50 ml)'
+        | 'Fondant Black (50 ml)'
+        | 'Orange Liquid Food Color (50 ml)'
       )[]
     | null;
   rating?: number | null;

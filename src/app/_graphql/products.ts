@@ -28,6 +28,7 @@ export const PRODUCT = `
         price
         size 
         colors 
+        volumeAndWeight
         OutOfStock
         OtherImages {
           media {

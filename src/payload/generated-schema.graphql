@@ -1996,6 +1996,15 @@ enum Product_volumeAndWeight {
   _10kg
   _15kg
   _20kg
+  OrangeEmulsion_50ml_
+  OrangeEmulsion_240ml_
+  RedVelvet_50ml_
+  RedVelvet_240ml_
+  Blueberry_240ml_
+  HotPink_50ml_
+  RoyalBlue_50ml_
+  FondantBlack_50ml_
+  OrangeLiquidFoodColor_50ml_
 }
 
 type Review {
@@ -5500,6 +5509,15 @@ enum Product_volumeAndWeight_Input {
   _10kg
   _15kg
   _20kg
+  OrangeEmulsion_50ml_
+  OrangeEmulsion_240ml_
+  RedVelvet_50ml_
+  RedVelvet_240ml_
+  Blueberry_240ml_
+  HotPink_50ml_
+  RoyalBlue_50ml_
+  FondantBlack_50ml_
+  OrangeLiquidFoodColor_50ml_
 }
 
 input Product_rating_operator {
@@ -6869,6 +6887,15 @@ enum ProductVersion_Version_volumeAndWeight {
   _10kg
   _15kg
   _20kg
+  OrangeEmulsion_50ml_
+  OrangeEmulsion_240ml_
+  RedVelvet_50ml_
+  RedVelvet_240ml_
+  Blueberry_240ml_
+  HotPink_50ml_
+  RoyalBlue_50ml_
+  FondantBlack_50ml_
+  OrangeLiquidFoodColor_50ml_
 }
 
 type ProductVersion_Version_Meta {
@@ -7511,6 +7538,15 @@ enum versionsProduct_version__volumeAndWeight_Input {
   _10kg
   _15kg
   _20kg
+  OrangeEmulsion_50ml_
+  OrangeEmulsion_240ml_
+  RedVelvet_50ml_
+  RedVelvet_240ml_
+  Blueberry_240ml_
+  HotPink_50ml_
+  RoyalBlue_50ml_
+  FondantBlack_50ml_
+  OrangeLiquidFoodColor_50ml_
 }
 
 input versionsProduct_version__rating_operator {
@@ -26753,6 +26789,15 @@ enum Product_volumeAndWeight_MutationInput {
   _10kg
   _15kg
   _20kg
+  OrangeEmulsion_50ml_
+  OrangeEmulsion_240ml_
+  RedVelvet_50ml_
+  RedVelvet_240ml_
+  Blueberry_240ml_
+  HotPink_50ml_
+  RoyalBlue_50ml_
+  FondantBlack_50ml_
+  OrangeLiquidFoodColor_50ml_
 }
 
 input mutationProduct_MetaInput {
@@ -27052,6 +27097,15 @@ enum ProductUpdate_volumeAndWeight_MutationInput {
   _10kg
   _15kg
   _20kg
+  OrangeEmulsion_50ml_
+  OrangeEmulsion_240ml_
+  RedVelvet_50ml_
+  RedVelvet_240ml_
+  Blueberry_240ml_
+  HotPink_50ml_
+  RoyalBlue_50ml_
+  FondantBlack_50ml_
+  OrangeLiquidFoodColor_50ml_
 }
 
 input mutationProductUpdate_MetaInput {
