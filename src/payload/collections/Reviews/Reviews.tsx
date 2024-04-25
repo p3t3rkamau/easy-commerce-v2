@@ -20,7 +20,13 @@ const Reviews: CollectionConfig = {
       },
     },
     {
-      name: 'review',
+      name: 'name',
+      label: 'Name',
+      type: 'text',
+      required: false,
+    },
+    {
+      name: 'message',
       label: 'Review',
       type: 'textarea',
       required: false,

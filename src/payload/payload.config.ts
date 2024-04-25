@@ -16,9 +16,12 @@ import imagekitPlugin from 'payloadcms-plugin-imagekit'
 
 // import { ReusableContent } from './blocks/ReusableContent'
 import { Alerts } from './collections/Alerts'
+// import Attributes from './collections/Attributes'
+import AttributeCollection from './collections/Attributes'
 // import { CaseStudies } from './collections/CaseStudies'
 import Categories from './collections/Categories'
 import Comments from './collections/Comments'
+import HeaderCategories from './collections/HeaderCategories'
 import { Media } from './collections/Media'
 import { Orders } from './collections/Orders'
 import { Pages } from './collections/Pages'
@@ -34,6 +37,7 @@ import BeforeDashboard from './components/BeforeDashboard'
 import BeforeLogin from './components/BeforeLogin'
 import { Footer } from './globals/Footer'
 import { Header } from './globals/Header'
+import { MainMenu } from './globals/MainMenu'
 import { Settings } from './globals/Settings'
 // import payloadMux from './plugins/payload-mux/plugin'
 // import payloadVercel from './plugins/payload-vercel/plugin'
@@ -107,11 +111,13 @@ export default buildConfig({
     Projects,
     Posts,
     Alerts,
+    HeaderCategories,
+    AttributeCollection,
     // CaseStudies,
     // QuestionSets,
     // ReusableContent,
   ],
-  globals: [Settings, Header, Footer],
+  globals: [Settings, Header, Footer, MainMenu],
   typescript: {
     outputFile: path.resolve(__dirname, 'payload-types.ts'),
   },

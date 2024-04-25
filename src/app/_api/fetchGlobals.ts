@@ -1,5 +1,5 @@
-import type { Footer, Header, Settings } from '../../payload/payload-types'
-import { FOOTER_QUERY, HEADER_QUERY, SETTINGS_QUERY } from '../_graphql/globals'
+import type { Footer, Header, MainMenu, Settings } from '../../payload/payload-types'
+import { FOOTER_QUERY, GLOBALS, HEADER_QUERY, SETTINGS_QUERY } from '../_graphql/globals'
 import { GRAPHQL_API_URL } from './shared'
 
 export async function fetchSettings(): Promise<Settings> {
@@ -76,10 +76,35 @@ export async function fetchFooter(): Promise<Footer> {
   return footer
 }
 
+export async function fetchMainMenu(): Promise<Footer> {
+  if (!GRAPHQL_API_URL) throw new Error('NEXT_PUBLIC_SERVER_URL not found')
+
+  const mainmenu = await fetch(`${GRAPHQL_API_URL}/api/graphql`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      query: GLOBALS,
+    }),
+  })
+    .then(res => {
+      if (!res.ok) throw new Error('Error fetching doc')
+      return res.json()
+    })
+    ?.then(res => {
+      if (res?.errors) throw new Error(res?.errors[0]?.message || 'Error fetching MainMenu')
+      return res.data?.Footer
+    })
+
+  return mainmenu
+}
+
 export const fetchGlobals = async (): Promise<{
   settings: Settings
   header: Header
   footer: Footer
+  mainmenu: MainMenu
 }> => {
   // initiate requests in parallel, then wait for them to resolve
   // this will eagerly start to the fetch requests at the same time
@@ -87,16 +112,15 @@ export const fetchGlobals = async (): Promise<{
   const settingsData = fetchSettings()
   const headerData = fetchHeader()
   const footerData = fetchFooter()
+  const mainMenuData = fetchMainMenu()
 
-  const [settings, header, footer]: [Settings, Header, Footer] = await Promise.all([
-    await settingsData,
-    await headerData,
-    await footerData,
-  ])
+  const [settings, header, footer, mainmenu]: [Settings, Header, Footer, MainMenu] =
+    await Promise.all([await settingsData, await headerData, await footerData, await mainMenuData])
 
   return {
     settings,
     header,
     footer,
+    mainmenu,
   }
 }

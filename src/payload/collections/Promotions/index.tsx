@@ -15,6 +15,11 @@ const Promotions: CollectionConfig = {
       required: true,
     },
     {
+      name: 'Description',
+      type: 'textarea',
+      required: true,
+    },
+    {
       name: 'media',
       type: 'upload',
       relationTo: 'media',

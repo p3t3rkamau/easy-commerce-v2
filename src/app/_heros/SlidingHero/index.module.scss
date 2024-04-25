@@ -1,0 +1,52 @@
+@use '../../_css/common.scss' as *;
+
+.SliderContainer {
+  position: relative;
+  width: 100%;
+  max-width: 1250px;
+  margin: 0 auto;
+  overflow: hidden;
+  box-shadow: 0 8px 8px rgba(0, 0, 0, 0.1);
+  height: 700px;
+  box-shadow: 20px;
+  margin-top: 20px;
+
+  @include mid-break {
+    max-width: 700px;
+    height: 400px;
+  }
+
+  @include small-break {
+    max-width: 360px;
+    height: 200px;
+  }
+}
+
+.card {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.active {
+  display: block;
+  opacity: 1;
+  will-change: transform, opacity;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+  position: relative; // Add this line
+
+  @include small-break {
+    border-radius: 8px;
+  }
+}

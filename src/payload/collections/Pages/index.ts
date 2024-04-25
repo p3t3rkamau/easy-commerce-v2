@@ -7,16 +7,17 @@ import { CallToAction } from '../../blocks/CallToAction'
 // import { CaseStudiesHighlight } from '../../blocks/CaseStudiesHighlight'
 // import { CaseStudyCards } from '../../blocks/CaseStudyCards'
 import { Content } from '../../blocks/Content'
+import { ContentBlock } from '../../blocks/ContentBlock'
 import { ContentMedia } from '../../blocks/ContentMedia'
 import { FormBlock } from '../../blocks/Form'
 import { MediaBlock } from '../../blocks/MediaBlock'
 // import { ReusableContent } from '../../blocks/ReusableContent'
 import { hero } from '../../fields/hero'
+import link from '../../fields/link'
 import { slugField } from '../../fields/slug'
 import { populateArchiveBlock } from '../../hooks/populateArchiveBlock'
 import { adminsOrPublished } from './access/adminsOrPublished'
 import { revalidatePage } from './hooks/revalidatePage'
-
 export const Pages: CollectionConfig = {
   slug: 'pages',
   admin: {
@@ -99,12 +100,82 @@ export const Pages: CollectionConfig = {
                 // ContentGrid,
                 // Form,
                 FormBlock,
+                ContentBlock,
                 // HoverHighlights,
                 // LinkGrid,
                 // MediaContent,
                 // Slider,
                 // Steps,
                 // StickyHighlights,
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: 'SlidingImages',
+      label: 'Sliding Image',
+      labels: {
+        singular: 'image',
+        plural: 'Images',
+      },
+      type: 'array',
+      minRows: 4,
+      maxRows: 20,
+      fields: [
+        {
+          type: 'upload',
+          name: 'media',
+          relationTo: 'media',
+          required: true,
+        },
+        {
+          name: 'Heading',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'Description',
+          type: 'textarea',
+          required: true,
+        },
+      ],
+    },
+    {
+      name: 'Accordion',
+      label: 'Accordion',
+      labels: {
+        singular: 'accordion',
+        plural: 'accordion',
+      },
+      type: 'array',
+      minRows: 2,
+      maxRows: 20,
+      fields: [
+        {
+          label: ({ data }) => data?.title || 'Untitled',
+          type: 'collapsible', // required
+          fields: [
+            // required
+            {
+              name: 'Heading',
+              type: 'text',
+              required: true,
+            },
+            {
+              name: 'Description',
+              type: 'textarea',
+              required: true,
+            },
+            {
+              name: 'navItems',
+              type: 'array',
+              maxRows: 6,
+              fields: [
+                link({
+                  appearances: false,
+                }),
               ],
             },
           ],

@@ -3,8 +3,8 @@ import type { Block } from 'payload/types'
 import { blockFields } from '../../fields/blockFields'
 import richText from '../../fields/richText'
 
-export const Content: Block = {
-  slug: 'content',
+export const ContentBlock: Block = {
+  slug: 'contentBlock',
   fields: [
     blockFields({
       name: 'contentFields',

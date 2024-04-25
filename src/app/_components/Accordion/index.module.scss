@@ -1,0 +1,58 @@
+.faqHeader{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/* index.module.scss */
+
+.itineraryList {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .accordion {
+    background-color: #263137;
+    box-shadow: 0 8px 8px rgba(0, 0, 0, 0.1);
+    color: #f8f5f5;
+    cursor: pointer;
+    padding: 15px;
+    width: 100%;
+    text-align: left;
+    margin: 2px;
+    border: none;
+    outline: none;
+    transition: 0.2s ease;
+  }
+  
+  .accordion:hover {
+    background-color: #161615;
+  }
+  
+  .accordion.active {
+    background-color: #b88d5e;
+  }
+  
+  .accordion p {
+    padding: 10px;
+    background-color: #e4dbdb;
+  }
+  
+  .expandButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    background-color: #05051fdc;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .expandButton:hover {
+    background-color:#2e114e;
+  }
+  

@@ -13,6 +13,29 @@ export type CartItems =
       id?: string | null;
     }[]
   | null;
+export type SubCategory =
+  | {
+      Name: string;
+      url?: string | null;
+      SubcategoryImage: string | Media;
+      Attribute?: Attribute;
+      id?: string | null;
+    }[]
+  | null;
+export type Attribute =
+  | {
+      Name: string;
+      url?: string | null;
+      id?: string | null;
+    }[]
+  | null;
+export type Attribute_Properties =
+  | {
+      label: string;
+      value: string;
+      id?: string | null;
+    }[]
+  | null;
 
 export interface Config {
   collections: {
@@ -29,6 +52,8 @@ export interface Config {
     projects: Project;
     posts: Post;
     alerts: Alert;
+    headercategories: Headercategory;
+    attributes_Collection: Attributes_Collection;
     search: Search;
     redirects: Redirect;
     forms: Form;
@@ -40,6 +65,7 @@ export interface Config {
     settings: Settings;
     header: Header;
     footer: Footer;
+    'main-menu': MainMenu;
   };
 }
 export interface Page {
@@ -173,6 +199,37 @@ export interface Page {
         blockType: 'formBlock';
       }
   )[];
+  SlidingImages?:
+    | {
+        media: string | Media;
+        Heading: string;
+        Description: string;
+        id?: string | null;
+      }[]
+    | null;
+  Accordion?:
+    | {
+        Heading: string;
+        Description: string;
+        navItems?:
+          | {
+              link: {
+                type?: ('reference' | 'custom') | null;
+                newTab?: boolean | null;
+                reference?: {
+                  relationTo: 'pages';
+                  value: string | Page;
+                } | null;
+                url?: string | null;
+                label: string;
+                icon?: string | Media | null;
+              };
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
   slug?: string | null;
   meta?: {
     title?: string | null;
@@ -629,7 +686,8 @@ export interface Product {
 export interface Review {
   id: string;
   user?: (string | null) | User;
-  review?: string | null;
+  name?: string | null;
+  message?: string | null;
   rating: '0' | '0.5' | '1' | '1.5' | '2' | '2.5' | '3' | '3.5' | '4' | '4.5' | '5';
   updatedAt: string;
   createdAt: string;
@@ -820,6 +878,7 @@ export interface Video {
 export interface Promotion {
   id: string;
   title: string;
+  Description: string;
   media?: string | Media | null;
   updatedAt: string;
   createdAt: string;
@@ -1224,6 +1283,20 @@ export interface Alert {
   updatedAt: string;
   createdAt: string;
 }
+export interface Headercategory {
+  id: string;
+  Category: string;
+  Subcategory?: SubCategory;
+  updatedAt: string;
+  createdAt: string;
+}
+export interface Attributes_Collection {
+  id: string;
+  Attribute_Name: string;
+  Attribute_Property?: Attribute_Properties;
+  updatedAt: string;
+  createdAt: string;
+}
 export interface Search {
   id: string;
   title?: string | null;
@@ -1337,6 +1410,108 @@ export interface Footer {
           label: string;
           icon?: string | Media | null;
         };
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+export interface MainMenu {
+  id: string;
+  tabs?:
+    | {
+        label: string;
+        enableDirectLink?: boolean | null;
+        enableDropdown?: boolean | null;
+        link?: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?: {
+            relationTo: 'pages';
+            value: string | Page;
+          } | null;
+          url?: string | null;
+        };
+        description?: string | null;
+        descriptionLinks?:
+          | {
+              link: {
+                type?: ('reference' | 'custom') | null;
+                newTab?: boolean | null;
+                reference?: {
+                  relationTo: 'pages';
+                  value: string | Page;
+                } | null;
+                url?: string | null;
+                label: string;
+                icon?: string | Media | null;
+              };
+              id?: string | null;
+            }[]
+          | null;
+        navItems?:
+          | {
+              style?: ('default' | 'featured' | 'list') | null;
+              defaultLink?: {
+                link: {
+                  type?: ('reference' | 'custom') | null;
+                  newTab?: boolean | null;
+                  reference?: {
+                    relationTo: 'pages';
+                    value: string | Page;
+                  } | null;
+                  url?: string | null;
+                  label: string;
+                  icon?: string | Media | null;
+                };
+                description?: string | null;
+              };
+              featuredLink?: {
+                tag?: string | null;
+                label?:
+                  | {
+                      [k: string]: unknown;
+                    }[]
+                  | null;
+                links?:
+                  | {
+                      link: {
+                        type?: ('reference' | 'custom') | null;
+                        newTab?: boolean | null;
+                        reference?: {
+                          relationTo: 'pages';
+                          value: string | Page;
+                        } | null;
+                        url?: string | null;
+                        label: string;
+                        icon?: string | Media | null;
+                      };
+                      id?: string | null;
+                    }[]
+                  | null;
+              };
+              listLinks?: {
+                tag?: string | null;
+                links?:
+                  | {
+                      link: {
+                        type?: ('reference' | 'custom') | null;
+                        newTab?: boolean | null;
+                        reference?: {
+                          relationTo: 'pages';
+                          value: string | Page;
+                        } | null;
+                        url?: string | null;
+                        label: string;
+                        icon?: string | Media | null;
+                      };
+                      id?: string | null;
+                    }[]
+                  | null;
+              };
+              id?: string | null;
+            }[]
+          | null;
         id?: string | null;
       }[]
     | null;

@@ -36,6 +36,11 @@ export const PAGE = `
           ${ARCHIVE_BLOCK}
         }
         ${META}
+        Accordion{
+          Heading
+          Description
+
+        }
       }
     }
   }
