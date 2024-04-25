@@ -198,6 +198,27 @@ export interface Page {
         blockName?: string | null;
         blockType: 'formBlock';
       }
+    | {
+        contentFields: {
+          useLeadingHeader?: boolean | null;
+          leadingHeader: {
+            [k: string]: unknown;
+          }[];
+          layout?: ('oneColumn' | 'twoColumns' | 'twoThirdsOneThird' | 'halfAndHalf' | 'threeColumns') | null;
+          columnOne: {
+            [k: string]: unknown;
+          }[];
+          columnTwo: {
+            [k: string]: unknown;
+          }[];
+          columnThree: {
+            [k: string]: unknown;
+          }[];
+        };
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'contentBlock';
+      }
   )[];
   SlidingImages?:
     | {
