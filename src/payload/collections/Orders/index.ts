@@ -4,6 +4,7 @@ import { admins } from '../../access/admins'
 import { adminsOrLoggedIn } from '../../access/adminsOrLoggedIn'
 import { adminsOrOrderedBy } from './access/adminsOrOrderedBy'
 import { clearUserCart } from './hooks/clearUserCart'
+// import { initiateMpesaPayment } from './hooks/initiateMpesaPayment'
 import { populateOrderedBy } from './hooks/populateOrderedBy'
 import { updateUserPurchases } from './hooks/updateUserPurchases'
 import { LinkToPaymentIntent } from './ui/LinkToPaymentIntent'
@@ -42,6 +43,31 @@ export const Orders: CollectionConfig = {
         components: {
           Field: LinkToPaymentIntent,
         },
+      },
+    },
+    {
+      name: 'DeliveryLocation',
+      label: 'DeliveryLocation',
+      type: 'relationship',
+      relationTo: 'forms',
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    // {
+    //   name: 'DeliverLocation',
+    //   label: 'Delivery Location',
+    //   type: 'relationship',
+    //   relationTo: 'deliveryLocations',
+    //   admin: {
+    //     position: 'sidebar',
+    //   },
+    // },
+    {
+      name: 'mpesaTransactionRef',
+      type: 'text',
+      admin: {
+        position: 'sidebar',
       },
     },
     {

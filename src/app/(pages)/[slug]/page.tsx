@@ -20,7 +20,9 @@ import { generateMeta } from '../../_utilities/generateMeta'
 // If you are not using Payload Cloud then this line can be removed, see `../../../README.md#cache`
 export const dynamic = 'force-dynamic'
 
+import { TableDemo } from '../../../app/_components/Shadcn-ui/table'
 import Categories from '../../_components/Categories'
+import ExpandableFloatingActionButton from '../../_components/ChatwidgetComponent/_components/FloatingAction/ExpandableFloatingActionButton'
 
 // import { HomeCarousel } from '../../_components/HomeCarousel/HomeCarousel'
 // import Promotion from '../../_components/Promotion'
@@ -75,7 +77,7 @@ export default async function Page({ params: { slug = 'home' } }) {
               blocks={layout}
               disableTopPadding={!hero || hero?.type === 'none' || hero?.type === 'lowImpact'}
             />
-            {/* <Promotion promoImage={''} /> */}
+            <ExpandableFloatingActionButton />
           </Gutter>
         </section>
       ) : (

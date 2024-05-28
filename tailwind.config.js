@@ -1,14 +1,14 @@
-import type { Config } from 'tailwindcss'
-const { fontFamily } = require('tailwindcss/defaultTheme')
+/** @type {import('tailwindcss').Config} */
+const {
+  isolateInsideOfContainer,
+  isolateOutsideOfContainer,
+  isolateForComponents,
+  scopedPreflightStyles,
+} = require('tailwindcss-scoped-preflight')
 
-const config = {
-  darkMode: ['class'],
-  content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-  ],
+module.exports = {
+  darkMode: ['[data-theme="dark"]'],
+  content: ['./src/**/*.{tsx,ts,jsx,mdx}'],
   prefix: '',
   theme: {
     container: {
@@ -73,12 +73,17 @@ const config = {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
-      fontFamily: {
-        sans: ['var(--font-sans)', ...fontFamily.sans],
-      },
     },
   },
-  plugins: [require('tailwindcss-animate')],
-} satisfies Config
-
-export default config
+  plugins: [
+    require('tailwindcss-animate'),
+    scopedPreflightStyles({
+      isolationStrategy: isolateInsideOfContainer({
+        cssSelector: '#action-save, h1, h2, h3, body',
+        mode: 'expect matched',
+      }),
+    }),
+  ],
+  blocklist: ['table'],
+  preflight: false,
+}

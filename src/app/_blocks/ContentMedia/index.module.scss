@@ -1,47 +1,70 @@
-@import '../../_css/common';
+@import '../../_css/common.scss';
 
 .contentMediaBlock {
-  position: relative;
-  display: flex;
-  width: 100%;
-  gap: calc(var(--base) * 6);
-  align-items: center;
+    margin-bottom: 10px;
+  
+    .contentWrapper {
+      display: flex;
+      align-items: flex-start;
 
-  @include large-break {
-    gap: calc(var(--base) * 3);
+      gap: 2rem;
+      @include small-break{
+        flex-direction: column;
+      }
+  
+      &.mediaRight {
+        flex-direction: row;
+        @include small-break{
+          flex-direction: column;
+        }
+      }
+  
+      &.mediaLeft {
+        flex-direction: row-reverse;
+        @include small-break{
+          flex-direction: column;
+        }
+      }
+  
+      .mediaContainer {
+        flex: 0 0 50%;
+        max-width: 50%;
+
+  
+        img {
+          width: auto;
+          height: auto;
+          object-fit: cover;
+          
+        }
+      }
+  
+      .richTextContainer {
+        flex: 0 0 50%;
+        max-width: 50%;
+      }
+    }
   }
-
-  @include mid-break {
-    flex-direction: column;
+  .image{
+    width: auto;
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px;
+    min-height: 300px;
+    @include small-break{
+      min-height: 250px;
+    }
   }
-}
-
-.invert {
-  flex-direction: row-reverse;
-
-  @include mid-break {
-    flex-direction: column-reverse;
+ @include small-break {
+    .contentMediaBlock {
+      .contentWrapper {
+        flex-direction: column;
+  
+        .mediaContainer,
+        .richTextContainer {
+          flex: 1 1 auto;
+          max-width: 100%;
+        }
+      }
+    }
   }
-}
-
-.content {
-  width: 50%;
-
-  @include mid-break {
-    width: unset;
-  }
-}
-
-.media {
-  width: 50%;
-
-  @include mid-break {
-    width: unset;
-  }
-}
-
-.caption {
-  color: var(--theme-elevation-500);
-  margin-top: var(--base);
-  height: 0;
-}

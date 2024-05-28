@@ -1,0 +1,50 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: var(--header-background-color);
+    color: var(--header-color);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .BackIcon{
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--avatar-background-color);
+    margin-right: 10px;
+    
+  }
+  .avatarColumn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .avatarFlex{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+  }
+  .RefreshBtn{
+    margin-right: 14px;
+    font-weight: 900;
+   
+    font-size: 24px;
+    cursor: pointer;
+    
+  }
+  .CloseBtn{
+    margin-left: 10px;
+    font-weight: 900;
+   
+    font-size: 24px;
+    cursor: pointer;
+  }

@@ -21,6 +21,7 @@ import AttributeCollection from './collections/Attributes'
 // import { CaseStudies } from './collections/CaseStudies'
 import Categories from './collections/Categories'
 import Comments from './collections/Comments'
+import { DeliveryLocations } from './collections/DeliveryLocation'
 import HeaderCategories from './collections/HeaderCategories'
 import { Media } from './collections/Media'
 import { Orders } from './collections/Orders'
@@ -28,9 +29,9 @@ import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
 import Products from './collections/Products'
 import { Projects } from './collections/Projects'
-import Promotion from './collections/Promotions'
 // import { QuestionSets } from './collections/QuestionSets'
 import Reviews from './collections/Reviews/Reviews'
+import SiteMedia from './collections/SiteMedia/sitemedia'
 import Users from './collections/Users'
 import Videos from './collections/Videos'
 import BeforeDashboard from './components/BeforeDashboard'
@@ -55,6 +56,7 @@ dotenv.config({
 
 export default buildConfig({
   admin: {
+    css: path.resolve(__dirname, '../../tailwind.css'),
     user: Users.slug,
     bundler: webpackBundler(), // bundler-config
     components: {
@@ -85,7 +87,18 @@ export default buildConfig({
             // [path.resolve(__dirname, 'plugins/payload-mux/hooks')]: mockModulePath,
             stripe: mockModulePath,
             express: mockModulePath,
+            '@': path.resolve(__dirname),
           },
+        },
+        module: {
+          ...config.module,
+          rules: [
+            ...config.module.rules,
+            {
+              test: /\tailwind.css$/i,
+              use: ['css-loader', 'postcss-loader'],
+            },
+          ],
         },
       }
     },
@@ -106,13 +119,14 @@ export default buildConfig({
     Categories,
     Users,
     Reviews,
-    Promotion,
+    SiteMedia,
     Comments,
     Projects,
     Posts,
     Alerts,
     HeaderCategories,
     AttributeCollection,
+    DeliveryLocations,
     // CaseStudies,
     // QuestionSets,
     // ReusableContent,

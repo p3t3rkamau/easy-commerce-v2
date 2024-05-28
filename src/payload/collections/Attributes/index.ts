@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload/types'
 
 const AttributeCollection: CollectionConfig = {
-  slug: 'attributes_Collection',
+  slug: 'attributes Collection',
   admin: {
     useAsTitle: 'Attributes_Field',
   },
@@ -23,7 +23,7 @@ const AttributeCollection: CollectionConfig = {
           type: 'array', // required
           label: 'Attribute_Property',
           minRows: 1,
-          maxRows: 50,
+          maxRows: 15000,
           interfaceName: 'Attribute_Properties', // optional
           labels: {
             singular: 'AttributeProperty',
@@ -35,7 +35,7 @@ const AttributeCollection: CollectionConfig = {
               type: 'text',
               required: true,
               admin: {
-                width: '50%',
+                width: '33%',
               },
             },
             {
@@ -43,7 +43,14 @@ const AttributeCollection: CollectionConfig = {
               type: 'text',
               required: true,
               admin: {
-                width: '50%',
+                width: '33%',
+              },
+            },
+            {
+              name: 'Price',
+              type: 'number',
+              admin: {
+                width: '33%',
               },
             },
           ],

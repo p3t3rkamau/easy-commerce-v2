@@ -14,27 +14,37 @@ type Props = Extract<Page['layout'][0], { blockType: 'mediaBlock' }> & {
 }
 
 export const MediaBlock: React.FC<Props> = props => {
-  const { media, position = 'default', staticImage } = props
-
-  let caption
-  if (media && typeof media === 'object') caption = media.caption
+  const { media, richText, position = 'mediaUp', staticImage } = props
 
   return (
     <div className={classes.mediaBlock}>
-      {position === 'fullscreen' && (
-        <div className={classes.fullscreen}>
-          <Media resource={media} src={staticImage} />
-        </div>
+      {position === 'mediaUp' && (
+        <>
+          <Gutter>
+            <div className={classes.mediaContainer}>
+              <Media resource={media} src={staticImage} imgClassName={classes.image} />
+            </div>
+          </Gutter>
+          <Gutter>
+            <div className={classes.richTextContainer}>
+              <RichText content={richText} />
+            </div>
+          </Gutter>
+        </>
       )}
-      {position === 'default' && (
-        <Gutter>
-          <Media resource={media} src={staticImage} />
-        </Gutter>
-      )}
-      {caption && (
-        <Gutter className={classes.caption}>
-          <RichText content={caption} />
-        </Gutter>
+      {position === 'mediaDown' && (
+        <>
+          <Gutter>
+            <div className={classes.richTextContainer}>
+              <RichText content={richText} />
+            </div>
+          </Gutter>
+          <Gutter>
+            <div className={classes.mediaContainer}>
+              <Media resource={media} src={staticImage} imgClassName={classes.image} />
+            </div>
+          </Gutter>
+        </>
       )}
     </div>
   )

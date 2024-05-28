@@ -3,13 +3,13 @@ import type { CollectionConfig } from 'payload/types'
 import { admins } from '../../access/admins'
 import { Archive } from '../../blocks/ArchiveBlock'
 import { CallToAction } from '../../blocks/CallToAction'
+import { CallToActionWithImage } from '../../blocks/CallToActionWithImage'
 // import { CaseStudyCards } from '../../blocks/CaseStudyCards'
 // import { CaseStudiesHighlight } from '../../blocks/CaseStudiesHighlight'
 // import { CaseStudyCards } from '../../blocks/CaseStudyCards'
 import { Content } from '../../blocks/Content'
-import { ContentBlock } from '../../blocks/ContentBlock'
 import { ContentMedia } from '../../blocks/ContentMedia'
-import { FormBlock } from '../../blocks/Form'
+import { DoubleImagesBlock } from '../../blocks/DoubleMedia/ManyImages'
 import { MediaBlock } from '../../blocks/MediaBlock'
 // import { ReusableContent } from '../../blocks/ReusableContent'
 import { hero } from '../../fields/hero'
@@ -88,6 +88,8 @@ export const Pages: CollectionConfig = {
                 MediaBlock,
                 Archive,
                 ContentMedia,
+                CallToActionWithImage,
+                DoubleImagesBlock,
                 // CardGrid,
                 // Banner,
                 // BlogContent,
@@ -99,8 +101,6 @@ export const Pages: CollectionConfig = {
                 // Accordion,
                 // ContentGrid,
                 // Form,
-                FormBlock,
-                ContentBlock,
                 // HoverHighlights,
                 // LinkGrid,
                 // MediaContent,
