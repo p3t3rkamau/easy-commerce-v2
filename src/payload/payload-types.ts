@@ -957,17 +957,20 @@ export interface Post {
 }
 export interface User {
   id: string;
+  title?: string | null;
   name?: string | null;
   photo?: string | Media | null;
-  roles?: ('admin' | 'customer')[] | null;
+  roles?: ('admin' | 'customer' | 'editor' | 'manager')[] | null;
   purchases?: (string | Product)[] | null;
-  stripeCustomerID?: string | null;
+  recentlyViewed?: (string | Product)[] | null;
+  DeliveryLocation?: (string | DeliveryLocation)[] | null;
   cart?: {
     items?: CartItems;
     createdOn?: string | null;
     lastModified?: string | null;
   };
   skipSync?: boolean | null;
+  role?: ('customer' | 'editor' | 'manager' | 'admin') | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -979,15 +982,28 @@ export interface User {
   lockUntil?: string | null;
   password: string | null;
 }
+export interface DeliveryLocation {
+  id: string;
+  title?: string | null;
+  address: string;
+  AdditionalInformation: string;
+  region: string;
+  googlepin?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
 export interface AttributesCollection {
   id: string;
+  title?: string | null;
   Attribute_Name: string;
   Attribute_Property?:
     | {
-        label: string | null;
-        type?: ('text' | 'color' | 'number') | null;
-        colour?: string | null;
-        Number?: number | null;
+        label: string;
+        type?: ('text' | 'color' | 'number' | 'brand') | null;
+        Value?: string | null;
+        colourValue?: string | null;
+        NumberValue?: number | null;
+        media?: string | Media | null;
         price?: number | null;
         id?: string | null;
       }[]
@@ -997,6 +1013,7 @@ export interface AttributesCollection {
 }
 export interface Review {
   id: string;
+  title?: string | null;
   user?: (string | null) | User;
   name?: string | null;
   message?: string | null;
@@ -1008,7 +1025,7 @@ export interface Order {
   id: string;
   orderedBy?: (string | null) | User;
   stripePaymentIntentID?: string | null;
-  DeliveryLocation?: (string | null) | Form;
+  DeliveryLocation?: (string | null) | DeliveryLocation;
   mpesaTransactionRef?: string | null;
   total: number;
   items?:
@@ -1022,6 +1039,144 @@ export interface Order {
         id?: string | null;
       }[]
     | null;
+  updatedAt: string;
+  createdAt: string;
+}
+export interface Video {
+  id: string;
+  updatedAt: string;
+  createdAt: string;
+}
+export interface SiteMedia {
+  id: string;
+  title: string;
+  media?: string | Media | null;
+  HeroSmallImages?:
+    | {
+        media: string | Media;
+        id?: string | null;
+      }[]
+    | null;
+  FlipingImages?:
+    | {
+        media: string | Media;
+        id?: string | null;
+      }[]
+    | null;
+  FaqImages?:
+    | {
+        media: string | Media;
+        id?: string | null;
+      }[]
+    | null;
+  ForInquiriesImages?:
+    | {
+        media: string | Media;
+        id?: string | null;
+      }[]
+    | null;
+  SelfDriveImages?:
+    | {
+        media: string | Media;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+export interface Comment {
+  id: string;
+  user?: (string | null) | User;
+  populatedUser?: {
+    id?: string | null;
+    name?: string | null;
+  };
+  doc?: (string | null) | Post;
+  comment?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+export interface Alert {
+  id: string;
+  name?: string | null;
+  placement: 'global' | 'documents';
+  documents?:
+    | {
+        relationTo: 'pages';
+        value: string | Page;
+      }[]
+    | null;
+  backgroundColor?: ('matchTheme' | 'green' | 'blue' | 'red' | 'purple') | null;
+  content: {
+    [k: string]: unknown;
+  }[];
+  links?:
+    | {
+        link: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?: {
+            relationTo: 'pages';
+            value: string | Page;
+          } | null;
+          url?: string | null;
+          label: string;
+          icon?: string | Media | null;
+          appearance?: ('default' | 'primary' | 'secondary') | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+export interface Headercategory {
+  id: string;
+  Category: string;
+  Subcategory?: SubCategory;
+  updatedAt: string;
+  createdAt: string;
+}
+export interface LiveChat {
+  id: string;
+  alt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+export interface EmailBulkySm {
+  id: string;
+  alt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+export interface Search {
+  id: string;
+  title?: string | null;
+  priority?: number | null;
+  doc: {
+    relationTo: 'products';
+    value: string | Product;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+export interface Redirect {
+  id: string;
+  from: string;
+  to?: {
+    type?: ('reference' | 'custom') | null;
+    reference?:
+      | ({
+          relationTo: 'pages';
+          value: string | Page;
+        } | null)
+      | ({
+          relationTo: 'products';
+          value: string | Product;
+        } | null);
+    url?: string | null;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -1157,154 +1312,6 @@ export interface Form {
         id?: string | null;
       }[]
     | null;
-  updatedAt: string;
-  createdAt: string;
-}
-export interface Video {
-  id: string;
-  updatedAt: string;
-  createdAt: string;
-}
-export interface SiteMedia {
-  id: string;
-  title: string;
-  media?: string | Media | null;
-  HeroSmallImages?:
-    | {
-        media: string | Media;
-        id?: string | null;
-      }[]
-    | null;
-  FlipingImages?:
-    | {
-        media: string | Media;
-        id?: string | null;
-      }[]
-    | null;
-  FaqImages?:
-    | {
-        media: string | Media;
-        id?: string | null;
-      }[]
-    | null;
-  ForInquiriesImages?:
-    | {
-        media: string | Media;
-        id?: string | null;
-      }[]
-    | null;
-  SelfDriveImages?:
-    | {
-        media: string | Media;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
-}
-export interface Comment {
-  id: string;
-  user?: (string | null) | User;
-  populatedUser?: {
-    id?: string | null;
-    name?: string | null;
-  };
-  doc?: (string | null) | Post;
-  comment?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-export interface Alert {
-  id: string;
-  name?: string | null;
-  placement: 'global' | 'documents';
-  documents?:
-    | {
-        relationTo: 'pages';
-        value: string | Page;
-      }[]
-    | null;
-  backgroundColor?: ('matchTheme' | 'green' | 'blue' | 'red' | 'purple') | null;
-  content: {
-    [k: string]: unknown;
-  }[];
-  links?:
-    | {
-        link: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?: {
-            relationTo: 'pages';
-            value: string | Page;
-          } | null;
-          url?: string | null;
-          label: string;
-          icon?: string | Media | null;
-          appearance?: ('default' | 'primary' | 'secondary') | null;
-        };
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
-}
-export interface Headercategory {
-  id: string;
-  Category: string;
-  Subcategory?: SubCategory;
-  updatedAt: string;
-  createdAt: string;
-}
-export interface DeliveryLocation {
-  id: string;
-  address: string;
-  city: string;
-  state: string;
-  country: string;
-  zipCode: string;
-  updatedAt: string;
-  createdAt: string;
-}
-export interface LiveChat {
-  id: string;
-  alt?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-export interface EmailBulkySm {
-  id: string;
-  alt?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-export interface Search {
-  id: string;
-  title?: string | null;
-  priority?: number | null;
-  doc: {
-    relationTo: 'products';
-    value: string | Product;
-  };
-  updatedAt: string;
-  createdAt: string;
-}
-export interface Redirect {
-  id: string;
-  from: string;
-  to?: {
-    type?: ('reference' | 'custom') | null;
-    reference?:
-      | ({
-          relationTo: 'pages';
-          value: string | Page;
-        } | null)
-      | ({
-          relationTo: 'products';
-          value: string | Product;
-        } | null);
-    url?: string | null;
-  };
   updatedAt: string;
   createdAt: string;
 }

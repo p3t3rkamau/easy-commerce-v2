@@ -47,27 +47,19 @@ export const Orders: CollectionConfig = {
     },
     {
       name: 'DeliveryLocation',
-      label: 'DeliveryLocation',
+      label: 'Delivery Location',
       type: 'relationship',
-      relationTo: 'forms',
+      relationTo: 'deliveryLocations',
       admin: {
         position: 'sidebar',
       },
     },
-    // {
-    //   name: 'DeliverLocation',
-    //   label: 'Delivery Location',
-    //   type: 'relationship',
-    //   relationTo: 'deliveryLocations',
-    //   admin: {
-    //     position: 'sidebar',
-    //   },
-    // },
     {
       name: 'mpesaTransactionRef',
       type: 'text',
       admin: {
         position: 'sidebar',
+        readOnly: true,
       },
     },
     {

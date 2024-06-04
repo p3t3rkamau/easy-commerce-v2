@@ -28,6 +28,7 @@
     "@mux/mux-player-react": "^2.4.0",
     "@mux/mux-uploader-react": "^1.0.0-beta.15",
     "@nouance/payload-better-fields-plugin": "^1.4.1",
+    "@nouance/payload-simple-rbac": "^0.2.0",
     "@payloadcms/bundler-webpack": "^1.0.0",
     "@payloadcms/db-mongodb": "^1.0.0",
     "@payloadcms/plugin-cloud": "^2.0.0",

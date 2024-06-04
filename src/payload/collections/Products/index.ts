@@ -145,6 +145,7 @@ const Products: CollectionConfig = {
                           ...data,
                           ...siblingData,
                         }
+                        // @ts-expect-error
                         data.discountedPrice = calculateDiscountedPrice({ data: updatedData })
                       },
                     ],
@@ -155,6 +156,7 @@ const Products: CollectionConfig = {
                           ...data,
                           ...siblingData,
                         }
+                        // @ts-expect-error
                         data.discountedPrice = calculateDiscountedPrice({ data: updatedData })
                       },
                     ],

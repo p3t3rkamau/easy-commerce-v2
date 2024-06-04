@@ -1561,6 +1561,7 @@ union Product_Layout = Cta | Content | MediaBlock | Archive
 
 type AttributesCollection {
   id: String
+  title: String
   Attribute_Name: String!
   Attribute_Property: [AttributesCollection_Attribute_Property!]
   updatedAt: DateTime
@@ -1570,8 +1571,10 @@ type AttributesCollection {
 type AttributesCollection_Attribute_Property {
   label: String
   type: AttributesCollection_Attribute_Property_type
-  colour: String
-  Number: Float
+  Value: String
+  colourValue: String
+  NumberValue: Float
+  media(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType, where: AttributesCollection_Attribute_Property_Media_where): Media
   price: Float
   id: String
 }
@@ -1580,6 +1583,201 @@ enum AttributesCollection_Attribute_Property_type {
   text
   color
   number
+  brand
+}
+
+input AttributesCollection_Attribute_Property_Media_where {
+  alt: AttributesCollection_Attribute_Property_Media_alt_operator
+  imagekit__fileId: AttributesCollection_Attribute_Property_Media_imagekit__fileId_operator
+  imagekit__thumbnailUrl: AttributesCollection_Attribute_Property_Media_imagekit__thumbnailUrl_operator
+  imagekit__url: AttributesCollection_Attribute_Property_Media_imagekit__url_operator
+  updatedAt: AttributesCollection_Attribute_Property_Media_updatedAt_operator
+  createdAt: AttributesCollection_Attribute_Property_Media_createdAt_operator
+  url: AttributesCollection_Attribute_Property_Media_url_operator
+  filename: AttributesCollection_Attribute_Property_Media_filename_operator
+  mimeType: AttributesCollection_Attribute_Property_Media_mimeType_operator
+  filesize: AttributesCollection_Attribute_Property_Media_filesize_operator
+  width: AttributesCollection_Attribute_Property_Media_width_operator
+  height: AttributesCollection_Attribute_Property_Media_height_operator
+  id: AttributesCollection_Attribute_Property_Media_id_operator
+  AND: [AttributesCollection_Attribute_Property_Media_where_and]
+  OR: [AttributesCollection_Attribute_Property_Media_where_or]
+}
+
+input AttributesCollection_Attribute_Property_Media_alt_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input AttributesCollection_Attribute_Property_Media_imagekit__fileId_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input AttributesCollection_Attribute_Property_Media_imagekit__thumbnailUrl_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input AttributesCollection_Attribute_Property_Media_imagekit__url_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input AttributesCollection_Attribute_Property_Media_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input AttributesCollection_Attribute_Property_Media_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input AttributesCollection_Attribute_Property_Media_url_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input AttributesCollection_Attribute_Property_Media_filename_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input AttributesCollection_Attribute_Property_Media_mimeType_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input AttributesCollection_Attribute_Property_Media_filesize_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input AttributesCollection_Attribute_Property_Media_width_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input AttributesCollection_Attribute_Property_Media_height_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input AttributesCollection_Attribute_Property_Media_id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input AttributesCollection_Attribute_Property_Media_where_and {
+  alt: AttributesCollection_Attribute_Property_Media_alt_operator
+  imagekit__fileId: AttributesCollection_Attribute_Property_Media_imagekit__fileId_operator
+  imagekit__thumbnailUrl: AttributesCollection_Attribute_Property_Media_imagekit__thumbnailUrl_operator
+  imagekit__url: AttributesCollection_Attribute_Property_Media_imagekit__url_operator
+  updatedAt: AttributesCollection_Attribute_Property_Media_updatedAt_operator
+  createdAt: AttributesCollection_Attribute_Property_Media_createdAt_operator
+  url: AttributesCollection_Attribute_Property_Media_url_operator
+  filename: AttributesCollection_Attribute_Property_Media_filename_operator
+  mimeType: AttributesCollection_Attribute_Property_Media_mimeType_operator
+  filesize: AttributesCollection_Attribute_Property_Media_filesize_operator
+  width: AttributesCollection_Attribute_Property_Media_width_operator
+  height: AttributesCollection_Attribute_Property_Media_height_operator
+  id: AttributesCollection_Attribute_Property_Media_id_operator
+  AND: [AttributesCollection_Attribute_Property_Media_where_and]
+  OR: [AttributesCollection_Attribute_Property_Media_where_or]
+}
+
+input AttributesCollection_Attribute_Property_Media_where_or {
+  alt: AttributesCollection_Attribute_Property_Media_alt_operator
+  imagekit__fileId: AttributesCollection_Attribute_Property_Media_imagekit__fileId_operator
+  imagekit__thumbnailUrl: AttributesCollection_Attribute_Property_Media_imagekit__thumbnailUrl_operator
+  imagekit__url: AttributesCollection_Attribute_Property_Media_imagekit__url_operator
+  updatedAt: AttributesCollection_Attribute_Property_Media_updatedAt_operator
+  createdAt: AttributesCollection_Attribute_Property_Media_createdAt_operator
+  url: AttributesCollection_Attribute_Property_Media_url_operator
+  filename: AttributesCollection_Attribute_Property_Media_filename_operator
+  mimeType: AttributesCollection_Attribute_Property_Media_mimeType_operator
+  filesize: AttributesCollection_Attribute_Property_Media_filesize_operator
+  width: AttributesCollection_Attribute_Property_Media_width_operator
+  height: AttributesCollection_Attribute_Property_Media_height_operator
+  id: AttributesCollection_Attribute_Property_Media_id_operator
+  AND: [AttributesCollection_Attribute_Property_Media_where_and]
+  OR: [AttributesCollection_Attribute_Property_Media_where_or]
 }
 
 type Product_OtherImages {
@@ -2051,6 +2249,7 @@ enum Product_volumeAndWeight {
 
 type Review {
   id: String
+  title: String
   user(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): User
   name: String
   message: String
@@ -2061,13 +2260,16 @@ type Review {
 
 type User {
   id: String
+  title: String
   name: String
   photo(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType, where: User_Photo_where): Media
   roles: [User_roles!]
   purchases(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Product!]
-  stripeCustomerID: String
+  recentlyViewed(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Product!]
+  DeliveryLocation(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [DeliveryLocation!]
   cart: User_Cart
   skipSync: Boolean
+  role: User_role
   updatedAt: DateTime
   createdAt: DateTime
   email: EmailAddress!
@@ -2277,6 +2479,19 @@ input User_Photo_where_or {
 enum User_roles {
   admin
   customer
+  editor
+  manager
+}
+
+type DeliveryLocation {
+  id: String
+  title: String
+  address: String!
+  AdditionalInformation: String!
+  region: String!
+  googlepin: String
+  updatedAt: DateTime
+  createdAt: DateTime
 }
 
 type User_Cart {
@@ -2289,6 +2504,13 @@ type CartItems {
   product(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): Product
   quantity: Float
   id: String
+}
+
+enum User_role {
+  customer
+  editor
+  manager
+  admin
 }
 
 """
@@ -11004,164 +11226,12 @@ type Order {
   id: String
   orderedBy(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): User
   stripePaymentIntentID: String
-  DeliveryLocation(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): Form
+  DeliveryLocation(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): DeliveryLocation
   mpesaTransactionRef: String
   total: Float!
   items: [Order_Items!]
   updatedAt: DateTime
   createdAt: DateTime
-}
-
-type Form {
-  id: String
-  title: String!
-  fields: [Form_Fields!]
-  submitButtonLabel: String
-  confirmationType: Form_confirmationType
-  confirmationMessage(depth: Int): JSON
-  redirect: Form_Redirect
-  emails: [Form_Emails!]
-  updatedAt: DateTime
-  createdAt: DateTime
-}
-
-union Form_Fields = Checkbox | Country | Email | Message | Number | Select | State | Text | Textarea
-
-type Checkbox {
-  name: String!
-  label: String
-  width: Float
-  required: Boolean
-  defaultValue: Boolean
-  id: String
-  blockName: String
-  blockType: String
-}
-
-type Country {
-  name: String!
-  label: String
-  width: Float
-  required: Boolean
-  id: String
-  blockName: String
-  blockType: String
-}
-
-type Email {
-  name: String!
-  label: String
-  width: Float
-  required: Boolean
-  id: String
-  blockName: String
-  blockType: String
-}
-
-type Message {
-  message(depth: Int): JSON
-  id: String
-  blockName: String
-  blockType: String
-}
-
-type Number {
-  name: String!
-  label: String
-  width: Float
-  defaultValue: Float
-  required: Boolean
-  id: String
-  blockName: String
-  blockType: String
-}
-
-type Select {
-  name: String!
-  label: String
-  width: Float
-  defaultValue: String
-  options: [Select_Options!]
-  required: Boolean
-  id: String
-  blockName: String
-  blockType: String
-}
-
-type Select_Options {
-  label: String
-  value: String
-  id: String
-}
-
-type State {
-  name: String!
-  label: String
-  width: Float
-  required: Boolean
-  id: String
-  blockName: String
-  blockType: String
-}
-
-type Text {
-  name: String!
-  label: String
-  width: Float
-  defaultValue: String
-  required: Boolean
-  id: String
-  blockName: String
-  blockType: String
-}
-
-type Textarea {
-  name: String!
-  label: String
-  width: Float
-  defaultValue: String
-  required: Boolean
-  id: String
-  blockName: String
-  blockType: String
-}
-
-enum Form_confirmationType {
-  message
-  redirect
-}
-
-type Form_Redirect {
-  type: Form_Redirect_type
-  reference(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): Form_Redirect_Reference_Relationship
-  url: String
-}
-
-enum Form_Redirect_type {
-  reference
-  custom
-}
-
-type Form_Redirect_Reference_Relationship {
-  relationTo: Form_Redirect_Reference_RelationTo
-  value: Form_Redirect_Reference
-}
-
-enum Form_Redirect_Reference_RelationTo {
-  pages
-}
-
-union Form_Redirect_Reference = Page
-
-type Form_Emails {
-  emailTo: String
-  cc: String
-  bcc: String
-  replyTo: String
-  emailFrom: String
-  subject: String
-  message(depth: Int): JSON
-  id: String
 }
 
 type Order_Items {
@@ -12954,23 +13024,37 @@ type Users {
 }
 
 input User_where {
+  title: User_title_operator
   name: User_name_operator
   photo: User_photo_operator
   roles: User_roles_operator
   purchases: User_purchases_operator
-  stripeCustomerID: User_stripeCustomerID_operator
+  recentlyViewed: User_recentlyViewed_operator
+  DeliveryLocation: User_DeliveryLocation_operator
   cart__items__product: User_cart__items__product_operator
   cart__items__quantity: User_cart__items__quantity_operator
   cart__items__id: User_cart__items__id_operator
   cart__createdOn: User_cart__createdOn_operator
   cart__lastModified: User_cart__lastModified_operator
   skipSync: User_skipSync_operator
+  role: User_role_operator
   updatedAt: User_updatedAt_operator
   createdAt: User_createdAt_operator
   email: User_email_operator
   id: User_id_operator
   AND: [User_where_and]
   OR: [User_where_or]
+}
+
+input User_title_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
 }
 
 input User_name_operator {
@@ -13002,6 +13086,8 @@ input User_roles_operator {
 enum User_roles_Input {
   admin
   customer
+  editor
+  manager
 }
 
 input User_purchases_operator {
@@ -13013,14 +13099,21 @@ input User_purchases_operator {
   exists: Boolean
 }
 
-input User_stripeCustomerID_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
+input User_recentlyViewed_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input User_DeliveryLocation_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
   exists: Boolean
 }
 
@@ -13082,6 +13175,22 @@ input User_skipSync_operator {
   exists: Boolean
 }
 
+input User_role_operator {
+  equals: User_role_Input
+  not_equals: User_role_Input
+  in: [User_role_Input]
+  not_in: [User_role_Input]
+  all: [User_role_Input]
+  exists: Boolean
+}
+
+enum User_role_Input {
+  customer
+  editor
+  manager
+  admin
+}
+
 input User_updatedAt_operator {
   equals: DateTime
   not_equals: DateTime
@@ -13126,17 +13235,20 @@ input User_id_operator {
 }
 
 input User_where_and {
+  title: User_title_operator
   name: User_name_operator
   photo: User_photo_operator
   roles: User_roles_operator
   purchases: User_purchases_operator
-  stripeCustomerID: User_stripeCustomerID_operator
+  recentlyViewed: User_recentlyViewed_operator
+  DeliveryLocation: User_DeliveryLocation_operator
   cart__items__product: User_cart__items__product_operator
   cart__items__quantity: User_cart__items__quantity_operator
   cart__items__id: User_cart__items__id_operator
   cart__createdOn: User_cart__createdOn_operator
   cart__lastModified: User_cart__lastModified_operator
   skipSync: User_skipSync_operator
+  role: User_role_operator
   updatedAt: User_updatedAt_operator
   createdAt: User_createdAt_operator
   email: User_email_operator
@@ -13146,17 +13258,20 @@ input User_where_and {
 }
 
 input User_where_or {
+  title: User_title_operator
   name: User_name_operator
   photo: User_photo_operator
   roles: User_roles_operator
   purchases: User_purchases_operator
-  stripeCustomerID: User_stripeCustomerID_operator
+  recentlyViewed: User_recentlyViewed_operator
+  DeliveryLocation: User_DeliveryLocation_operator
   cart__items__product: User_cart__items__product_operator
   cart__items__quantity: User_cart__items__quantity_operator
   cart__items__id: User_cart__items__id_operator
   cart__createdOn: User_cart__createdOn_operator
   cart__lastModified: User_cart__lastModified_operator
   skipSync: User_skipSync_operator
+  role: User_role_operator
   updatedAt: User_updatedAt_operator
   createdAt: User_createdAt_operator
   email: User_email_operator
@@ -13175,17 +13290,43 @@ type usersDocAccess {
 }
 
 type UsersDocAccessFields {
+  title: UsersDocAccessFields_title
   name: UsersDocAccessFields_name
   photo: UsersDocAccessFields_photo
   roles: UsersDocAccessFields_roles
   purchases: UsersDocAccessFields_purchases
-  stripeCustomerID: UsersDocAccessFields_stripeCustomerID
+  recentlyViewed: UsersDocAccessFields_recentlyViewed
+  DeliveryLocation: UsersDocAccessFields_DeliveryLocation
   cart: UsersDocAccessFields_cart
   skipSync: UsersDocAccessFields_skipSync
+  role: UsersDocAccessFields_role
   updatedAt: UsersDocAccessFields_updatedAt
   createdAt: UsersDocAccessFields_createdAt
   email: UsersDocAccessFields_email
   password: UsersDocAccessFields_password
+}
+
+type UsersDocAccessFields_title {
+  create: UsersDocAccessFields_title_Create
+  read: UsersDocAccessFields_title_Read
+  update: UsersDocAccessFields_title_Update
+  delete: UsersDocAccessFields_title_Delete
+}
+
+type UsersDocAccessFields_title_Create {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_title_Read {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_title_Update {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_title_Delete {
+  permission: Boolean!
 }
 
 type UsersDocAccessFields_name {
@@ -13280,26 +13421,49 @@ type UsersDocAccessFields_purchases_Delete {
   permission: Boolean!
 }
 
-type UsersDocAccessFields_stripeCustomerID {
-  create: UsersDocAccessFields_stripeCustomerID_Create
-  read: UsersDocAccessFields_stripeCustomerID_Read
-  update: UsersDocAccessFields_stripeCustomerID_Update
-  delete: UsersDocAccessFields_stripeCustomerID_Delete
+type UsersDocAccessFields_recentlyViewed {
+  create: UsersDocAccessFields_recentlyViewed_Create
+  read: UsersDocAccessFields_recentlyViewed_Read
+  update: UsersDocAccessFields_recentlyViewed_Update
+  delete: UsersDocAccessFields_recentlyViewed_Delete
 }
 
-type UsersDocAccessFields_stripeCustomerID_Create {
+type UsersDocAccessFields_recentlyViewed_Create {
   permission: Boolean!
 }
 
-type UsersDocAccessFields_stripeCustomerID_Read {
+type UsersDocAccessFields_recentlyViewed_Read {
   permission: Boolean!
 }
 
-type UsersDocAccessFields_stripeCustomerID_Update {
+type UsersDocAccessFields_recentlyViewed_Update {
   permission: Boolean!
 }
 
-type UsersDocAccessFields_stripeCustomerID_Delete {
+type UsersDocAccessFields_recentlyViewed_Delete {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_DeliveryLocation {
+  create: UsersDocAccessFields_DeliveryLocation_Create
+  read: UsersDocAccessFields_DeliveryLocation_Read
+  update: UsersDocAccessFields_DeliveryLocation_Update
+  delete: UsersDocAccessFields_DeliveryLocation_Delete
+}
+
+type UsersDocAccessFields_DeliveryLocation_Create {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_DeliveryLocation_Read {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_DeliveryLocation_Update {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_DeliveryLocation_Delete {
   permission: Boolean!
 }
 
@@ -13501,6 +13665,29 @@ type UsersDocAccessFields_skipSync_Delete {
   permission: Boolean!
 }
 
+type UsersDocAccessFields_role {
+  create: UsersDocAccessFields_role_Create
+  read: UsersDocAccessFields_role_Read
+  update: UsersDocAccessFields_role_Update
+  delete: UsersDocAccessFields_role_Delete
+}
+
+type UsersDocAccessFields_role_Create {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_role_Read {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_role_Update {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_role_Delete {
+  permission: Boolean!
+}
+
 type UsersDocAccessFields_updatedAt {
   create: UsersDocAccessFields_updatedAt_Create
   read: UsersDocAccessFields_updatedAt_Read
@@ -13640,6 +13827,7 @@ type Reviews {
 }
 
 input Review_where {
+  title: Review_title_operator
   user: Review_user_operator
   name: Review_name_operator
   message: Review_message_operator
@@ -13649,6 +13837,17 @@ input Review_where {
   id: Review_id_operator
   AND: [Review_where_and]
   OR: [Review_where_or]
+}
+
+input Review_title_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
 }
 
 input Review_user_operator {
@@ -13733,6 +13932,7 @@ input Review_id_operator {
 }
 
 input Review_where_and {
+  title: Review_title_operator
   user: Review_user_operator
   name: Review_name_operator
   message: Review_message_operator
@@ -13745,6 +13945,7 @@ input Review_where_and {
 }
 
 input Review_where_or {
+  title: Review_title_operator
   user: Review_user_operator
   name: Review_name_operator
   message: Review_message_operator
@@ -13765,12 +13966,36 @@ type ReviewsDocAccess {
 }
 
 type ReviewsDocAccessFields {
+  title: ReviewsDocAccessFields_title
   user: ReviewsDocAccessFields_user
   name: ReviewsDocAccessFields_name
   message: ReviewsDocAccessFields_message
   rating: ReviewsDocAccessFields_rating
   updatedAt: ReviewsDocAccessFields_updatedAt
   createdAt: ReviewsDocAccessFields_createdAt
+}
+
+type ReviewsDocAccessFields_title {
+  create: ReviewsDocAccessFields_title_Create
+  read: ReviewsDocAccessFields_title_Read
+  update: ReviewsDocAccessFields_title_Update
+  delete: ReviewsDocAccessFields_title_Delete
+}
+
+type ReviewsDocAccessFields_title_Create {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_title_Read {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_title_Update {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_title_Delete {
+  permission: Boolean!
 }
 
 type ReviewsDocAccessFields_user {
@@ -20085,11 +20310,14 @@ type AttributesCollections {
 }
 
 input AttributesCollection_where {
+  title: AttributesCollection_title_operator
   Attribute_Name: AttributesCollection_Attribute_Name_operator
   Attribute_Property__label: AttributesCollection_Attribute_Property__label_operator
   Attribute_Property__type: AttributesCollection_Attribute_Property__type_operator
-  Attribute_Property__colour: AttributesCollection_Attribute_Property__colour_operator
-  Attribute_Property__Number: AttributesCollection_Attribute_Property__Number_operator
+  Attribute_Property__Value: AttributesCollection_Attribute_Property__Value_operator
+  Attribute_Property__colourValue: AttributesCollection_Attribute_Property__colourValue_operator
+  Attribute_Property__NumberValue: AttributesCollection_Attribute_Property__NumberValue_operator
+  Attribute_Property__media: AttributesCollection_Attribute_Property__media_operator
   Attribute_Property__price: AttributesCollection_Attribute_Property__price_operator
   Attribute_Property__id: AttributesCollection_Attribute_Property__id_operator
   updatedAt: AttributesCollection_updatedAt_operator
@@ -20097,6 +20325,17 @@ input AttributesCollection_where {
   id: AttributesCollection_id_operator
   AND: [AttributesCollection_where_and]
   OR: [AttributesCollection_where_or]
+}
+
+input AttributesCollection_title_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
 }
 
 input AttributesCollection_Attribute_Name_operator {
@@ -20132,9 +20371,10 @@ enum AttributesCollection_Attribute_Property__type_Input {
   text
   color
   number
+  brand
 }
 
-input AttributesCollection_Attribute_Property__colour_operator {
+input AttributesCollection_Attribute_Property__Value_operator {
   equals: String
   not_equals: String
   like: String
@@ -20144,13 +20384,28 @@ input AttributesCollection_Attribute_Property__colour_operator {
   all: [String]
 }
 
-input AttributesCollection_Attribute_Property__Number_operator {
+input AttributesCollection_Attribute_Property__colourValue_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input AttributesCollection_Attribute_Property__NumberValue_operator {
   equals: Float
   not_equals: Float
   greater_than_equal: Float
   greater_than: Float
   less_than_equal: Float
   less_than: Float
+}
+
+input AttributesCollection_Attribute_Property__media_operator {
+  equals: String
+  not_equals: String
 }
 
 input AttributesCollection_Attribute_Property__price_operator {
@@ -20208,11 +20463,14 @@ input AttributesCollection_id_operator {
 }
 
 input AttributesCollection_where_and {
+  title: AttributesCollection_title_operator
   Attribute_Name: AttributesCollection_Attribute_Name_operator
   Attribute_Property__label: AttributesCollection_Attribute_Property__label_operator
   Attribute_Property__type: AttributesCollection_Attribute_Property__type_operator
-  Attribute_Property__colour: AttributesCollection_Attribute_Property__colour_operator
-  Attribute_Property__Number: AttributesCollection_Attribute_Property__Number_operator
+  Attribute_Property__Value: AttributesCollection_Attribute_Property__Value_operator
+  Attribute_Property__colourValue: AttributesCollection_Attribute_Property__colourValue_operator
+  Attribute_Property__NumberValue: AttributesCollection_Attribute_Property__NumberValue_operator
+  Attribute_Property__media: AttributesCollection_Attribute_Property__media_operator
   Attribute_Property__price: AttributesCollection_Attribute_Property__price_operator
   Attribute_Property__id: AttributesCollection_Attribute_Property__id_operator
   updatedAt: AttributesCollection_updatedAt_operator
@@ -20223,11 +20481,14 @@ input AttributesCollection_where_and {
 }
 
 input AttributesCollection_where_or {
+  title: AttributesCollection_title_operator
   Attribute_Name: AttributesCollection_Attribute_Name_operator
   Attribute_Property__label: AttributesCollection_Attribute_Property__label_operator
   Attribute_Property__type: AttributesCollection_Attribute_Property__type_operator
-  Attribute_Property__colour: AttributesCollection_Attribute_Property__colour_operator
-  Attribute_Property__Number: AttributesCollection_Attribute_Property__Number_operator
+  Attribute_Property__Value: AttributesCollection_Attribute_Property__Value_operator
+  Attribute_Property__colourValue: AttributesCollection_Attribute_Property__colourValue_operator
+  Attribute_Property__NumberValue: AttributesCollection_Attribute_Property__NumberValue_operator
+  Attribute_Property__media: AttributesCollection_Attribute_Property__media_operator
   Attribute_Property__price: AttributesCollection_Attribute_Property__price_operator
   Attribute_Property__id: AttributesCollection_Attribute_Property__id_operator
   updatedAt: AttributesCollection_updatedAt_operator
@@ -20246,10 +20507,34 @@ type attributesCollectionDocAccess {
 }
 
 type AttributesCollectionDocAccessFields {
+  title: AttributesCollectionDocAccessFields_title
   Attribute_Name: AttributesCollectionDocAccessFields_Attribute_Name
   Attribute_Property: AttributesCollectionDocAccessFields_Attribute_Property
   updatedAt: AttributesCollectionDocAccessFields_updatedAt
   createdAt: AttributesCollectionDocAccessFields_createdAt
+}
+
+type AttributesCollectionDocAccessFields_title {
+  create: AttributesCollectionDocAccessFields_title_Create
+  read: AttributesCollectionDocAccessFields_title_Read
+  update: AttributesCollectionDocAccessFields_title_Update
+  delete: AttributesCollectionDocAccessFields_title_Delete
+}
+
+type AttributesCollectionDocAccessFields_title_Create {
+  permission: Boolean!
+}
+
+type AttributesCollectionDocAccessFields_title_Read {
+  permission: Boolean!
+}
+
+type AttributesCollectionDocAccessFields_title_Update {
+  permission: Boolean!
+}
+
+type AttributesCollectionDocAccessFields_title_Delete {
+  permission: Boolean!
 }
 
 type AttributesCollectionDocAccessFields_Attribute_Name {
@@ -20302,8 +20587,10 @@ type AttributesCollectionDocAccessFields_Attribute_Property_Delete {
 type AttributesCollectionDocAccessFields_Attribute_Property_Fields {
   label: AttributesCollectionDocAccessFields_Attribute_Property_label
   type: AttributesCollectionDocAccessFields_Attribute_Property_type
-  colour: AttributesCollectionDocAccessFields_Attribute_Property_colour
-  Number: AttributesCollectionDocAccessFields_Attribute_Property_Number
+  Value: AttributesCollectionDocAccessFields_Attribute_Property_Value
+  colourValue: AttributesCollectionDocAccessFields_Attribute_Property_colourValue
+  NumberValue: AttributesCollectionDocAccessFields_Attribute_Property_NumberValue
+  media: AttributesCollectionDocAccessFields_Attribute_Property_media
   price: AttributesCollectionDocAccessFields_Attribute_Property_price
   id: AttributesCollectionDocAccessFields_Attribute_Property_id
 }
@@ -20354,49 +20641,95 @@ type AttributesCollectionDocAccessFields_Attribute_Property_type_Delete {
   permission: Boolean!
 }
 
-type AttributesCollectionDocAccessFields_Attribute_Property_colour {
-  create: AttributesCollectionDocAccessFields_Attribute_Property_colour_Create
-  read: AttributesCollectionDocAccessFields_Attribute_Property_colour_Read
-  update: AttributesCollectionDocAccessFields_Attribute_Property_colour_Update
-  delete: AttributesCollectionDocAccessFields_Attribute_Property_colour_Delete
+type AttributesCollectionDocAccessFields_Attribute_Property_Value {
+  create: AttributesCollectionDocAccessFields_Attribute_Property_Value_Create
+  read: AttributesCollectionDocAccessFields_Attribute_Property_Value_Read
+  update: AttributesCollectionDocAccessFields_Attribute_Property_Value_Update
+  delete: AttributesCollectionDocAccessFields_Attribute_Property_Value_Delete
 }
 
-type AttributesCollectionDocAccessFields_Attribute_Property_colour_Create {
+type AttributesCollectionDocAccessFields_Attribute_Property_Value_Create {
   permission: Boolean!
 }
 
-type AttributesCollectionDocAccessFields_Attribute_Property_colour_Read {
+type AttributesCollectionDocAccessFields_Attribute_Property_Value_Read {
   permission: Boolean!
 }
 
-type AttributesCollectionDocAccessFields_Attribute_Property_colour_Update {
+type AttributesCollectionDocAccessFields_Attribute_Property_Value_Update {
   permission: Boolean!
 }
 
-type AttributesCollectionDocAccessFields_Attribute_Property_colour_Delete {
+type AttributesCollectionDocAccessFields_Attribute_Property_Value_Delete {
   permission: Boolean!
 }
 
-type AttributesCollectionDocAccessFields_Attribute_Property_Number {
-  create: AttributesCollectionDocAccessFields_Attribute_Property_Number_Create
-  read: AttributesCollectionDocAccessFields_Attribute_Property_Number_Read
-  update: AttributesCollectionDocAccessFields_Attribute_Property_Number_Update
-  delete: AttributesCollectionDocAccessFields_Attribute_Property_Number_Delete
+type AttributesCollectionDocAccessFields_Attribute_Property_colourValue {
+  create: AttributesCollectionDocAccessFields_Attribute_Property_colourValue_Create
+  read: AttributesCollectionDocAccessFields_Attribute_Property_colourValue_Read
+  update: AttributesCollectionDocAccessFields_Attribute_Property_colourValue_Update
+  delete: AttributesCollectionDocAccessFields_Attribute_Property_colourValue_Delete
 }
 
-type AttributesCollectionDocAccessFields_Attribute_Property_Number_Create {
+type AttributesCollectionDocAccessFields_Attribute_Property_colourValue_Create {
   permission: Boolean!
 }
 
-type AttributesCollectionDocAccessFields_Attribute_Property_Number_Read {
+type AttributesCollectionDocAccessFields_Attribute_Property_colourValue_Read {
   permission: Boolean!
 }
 
-type AttributesCollectionDocAccessFields_Attribute_Property_Number_Update {
+type AttributesCollectionDocAccessFields_Attribute_Property_colourValue_Update {
   permission: Boolean!
 }
 
-type AttributesCollectionDocAccessFields_Attribute_Property_Number_Delete {
+type AttributesCollectionDocAccessFields_Attribute_Property_colourValue_Delete {
+  permission: Boolean!
+}
+
+type AttributesCollectionDocAccessFields_Attribute_Property_NumberValue {
+  create: AttributesCollectionDocAccessFields_Attribute_Property_NumberValue_Create
+  read: AttributesCollectionDocAccessFields_Attribute_Property_NumberValue_Read
+  update: AttributesCollectionDocAccessFields_Attribute_Property_NumberValue_Update
+  delete: AttributesCollectionDocAccessFields_Attribute_Property_NumberValue_Delete
+}
+
+type AttributesCollectionDocAccessFields_Attribute_Property_NumberValue_Create {
+  permission: Boolean!
+}
+
+type AttributesCollectionDocAccessFields_Attribute_Property_NumberValue_Read {
+  permission: Boolean!
+}
+
+type AttributesCollectionDocAccessFields_Attribute_Property_NumberValue_Update {
+  permission: Boolean!
+}
+
+type AttributesCollectionDocAccessFields_Attribute_Property_NumberValue_Delete {
+  permission: Boolean!
+}
+
+type AttributesCollectionDocAccessFields_Attribute_Property_media {
+  create: AttributesCollectionDocAccessFields_Attribute_Property_media_Create
+  read: AttributesCollectionDocAccessFields_Attribute_Property_media_Read
+  update: AttributesCollectionDocAccessFields_Attribute_Property_media_Update
+  delete: AttributesCollectionDocAccessFields_Attribute_Property_media_Delete
+}
+
+type AttributesCollectionDocAccessFields_Attribute_Property_media_Create {
+  permission: Boolean!
+}
+
+type AttributesCollectionDocAccessFields_Attribute_Property_media_Read {
+  permission: Boolean!
+}
+
+type AttributesCollectionDocAccessFields_Attribute_Property_media_Update {
+  permission: Boolean!
+}
+
+type AttributesCollectionDocAccessFields_Attribute_Property_media_Delete {
   permission: Boolean!
 }
 
@@ -20512,17 +20845,6 @@ type AttributesCollectionDeleteDocAccess {
   where: JSONObject
 }
 
-type DeliveryLocation {
-  id: String
-  address: String!
-  city: String!
-  state: String!
-  country: String!
-  zipCode: String!
-  updatedAt: DateTime
-  createdAt: DateTime
-}
-
 type DeliveryLocations {
   docs: [DeliveryLocation]
   hasNextPage: Boolean
@@ -20538,16 +20860,27 @@ type DeliveryLocations {
 }
 
 input DeliveryLocation_where {
+  title: DeliveryLocation_title_operator
   address: DeliveryLocation_address_operator
-  city: DeliveryLocation_city_operator
-  state: DeliveryLocation_state_operator
-  country: DeliveryLocation_country_operator
-  zipCode: DeliveryLocation_zipCode_operator
+  AdditionalInformation: DeliveryLocation_AdditionalInformation_operator
+  region: DeliveryLocation_region_operator
+  googlepin: DeliveryLocation_googlepin_operator
   updatedAt: DeliveryLocation_updatedAt_operator
   createdAt: DeliveryLocation_createdAt_operator
   id: DeliveryLocation_id_operator
   AND: [DeliveryLocation_where_and]
   OR: [DeliveryLocation_where_or]
+}
+
+input DeliveryLocation_title_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
 }
 
 input DeliveryLocation_address_operator {
@@ -20560,7 +20893,7 @@ input DeliveryLocation_address_operator {
   all: [String]
 }
 
-input DeliveryLocation_city_operator {
+input DeliveryLocation_AdditionalInformation_operator {
   equals: String
   not_equals: String
   like: String
@@ -20570,7 +20903,7 @@ input DeliveryLocation_city_operator {
   all: [String]
 }
 
-input DeliveryLocation_state_operator {
+input DeliveryLocation_region_operator {
   equals: String
   not_equals: String
   like: String
@@ -20580,7 +20913,7 @@ input DeliveryLocation_state_operator {
   all: [String]
 }
 
-input DeliveryLocation_country_operator {
+input DeliveryLocation_googlepin_operator {
   equals: String
   not_equals: String
   like: String
@@ -20588,16 +20921,7 @@ input DeliveryLocation_country_operator {
   in: [String]
   not_in: [String]
   all: [String]
-}
-
-input DeliveryLocation_zipCode_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
+  exists: Boolean
 }
 
 input DeliveryLocation_updatedAt_operator {
@@ -20634,11 +20958,11 @@ input DeliveryLocation_id_operator {
 }
 
 input DeliveryLocation_where_and {
+  title: DeliveryLocation_title_operator
   address: DeliveryLocation_address_operator
-  city: DeliveryLocation_city_operator
-  state: DeliveryLocation_state_operator
-  country: DeliveryLocation_country_operator
-  zipCode: DeliveryLocation_zipCode_operator
+  AdditionalInformation: DeliveryLocation_AdditionalInformation_operator
+  region: DeliveryLocation_region_operator
+  googlepin: DeliveryLocation_googlepin_operator
   updatedAt: DeliveryLocation_updatedAt_operator
   createdAt: DeliveryLocation_createdAt_operator
   id: DeliveryLocation_id_operator
@@ -20647,11 +20971,11 @@ input DeliveryLocation_where_and {
 }
 
 input DeliveryLocation_where_or {
+  title: DeliveryLocation_title_operator
   address: DeliveryLocation_address_operator
-  city: DeliveryLocation_city_operator
-  state: DeliveryLocation_state_operator
-  country: DeliveryLocation_country_operator
-  zipCode: DeliveryLocation_zipCode_operator
+  AdditionalInformation: DeliveryLocation_AdditionalInformation_operator
+  region: DeliveryLocation_region_operator
+  googlepin: DeliveryLocation_googlepin_operator
   updatedAt: DeliveryLocation_updatedAt_operator
   createdAt: DeliveryLocation_createdAt_operator
   id: DeliveryLocation_id_operator
@@ -20668,13 +20992,36 @@ type deliveryLocationsDocAccess {
 }
 
 type DeliveryLocationsDocAccessFields {
+  title: DeliveryLocationsDocAccessFields_title
   address: DeliveryLocationsDocAccessFields_address
-  city: DeliveryLocationsDocAccessFields_city
-  state: DeliveryLocationsDocAccessFields_state
-  country: DeliveryLocationsDocAccessFields_country
-  zipCode: DeliveryLocationsDocAccessFields_zipCode
+  AdditionalInformation: DeliveryLocationsDocAccessFields_AdditionalInformation
+  region: DeliveryLocationsDocAccessFields_region
+  googlepin: DeliveryLocationsDocAccessFields_googlepin
   updatedAt: DeliveryLocationsDocAccessFields_updatedAt
   createdAt: DeliveryLocationsDocAccessFields_createdAt
+}
+
+type DeliveryLocationsDocAccessFields_title {
+  create: DeliveryLocationsDocAccessFields_title_Create
+  read: DeliveryLocationsDocAccessFields_title_Read
+  update: DeliveryLocationsDocAccessFields_title_Update
+  delete: DeliveryLocationsDocAccessFields_title_Delete
+}
+
+type DeliveryLocationsDocAccessFields_title_Create {
+  permission: Boolean!
+}
+
+type DeliveryLocationsDocAccessFields_title_Read {
+  permission: Boolean!
+}
+
+type DeliveryLocationsDocAccessFields_title_Update {
+  permission: Boolean!
+}
+
+type DeliveryLocationsDocAccessFields_title_Delete {
+  permission: Boolean!
 }
 
 type DeliveryLocationsDocAccessFields_address {
@@ -20700,95 +21047,72 @@ type DeliveryLocationsDocAccessFields_address_Delete {
   permission: Boolean!
 }
 
-type DeliveryLocationsDocAccessFields_city {
-  create: DeliveryLocationsDocAccessFields_city_Create
-  read: DeliveryLocationsDocAccessFields_city_Read
-  update: DeliveryLocationsDocAccessFields_city_Update
-  delete: DeliveryLocationsDocAccessFields_city_Delete
+type DeliveryLocationsDocAccessFields_AdditionalInformation {
+  create: DeliveryLocationsDocAccessFields_AdditionalInformation_Create
+  read: DeliveryLocationsDocAccessFields_AdditionalInformation_Read
+  update: DeliveryLocationsDocAccessFields_AdditionalInformation_Update
+  delete: DeliveryLocationsDocAccessFields_AdditionalInformation_Delete
 }
 
-type DeliveryLocationsDocAccessFields_city_Create {
+type DeliveryLocationsDocAccessFields_AdditionalInformation_Create {
   permission: Boolean!
 }
 
-type DeliveryLocationsDocAccessFields_city_Read {
+type DeliveryLocationsDocAccessFields_AdditionalInformation_Read {
   permission: Boolean!
 }
 
-type DeliveryLocationsDocAccessFields_city_Update {
+type DeliveryLocationsDocAccessFields_AdditionalInformation_Update {
   permission: Boolean!
 }
 
-type DeliveryLocationsDocAccessFields_city_Delete {
+type DeliveryLocationsDocAccessFields_AdditionalInformation_Delete {
   permission: Boolean!
 }
 
-type DeliveryLocationsDocAccessFields_state {
-  create: DeliveryLocationsDocAccessFields_state_Create
-  read: DeliveryLocationsDocAccessFields_state_Read
-  update: DeliveryLocationsDocAccessFields_state_Update
-  delete: DeliveryLocationsDocAccessFields_state_Delete
+type DeliveryLocationsDocAccessFields_region {
+  create: DeliveryLocationsDocAccessFields_region_Create
+  read: DeliveryLocationsDocAccessFields_region_Read
+  update: DeliveryLocationsDocAccessFields_region_Update
+  delete: DeliveryLocationsDocAccessFields_region_Delete
 }
 
-type DeliveryLocationsDocAccessFields_state_Create {
+type DeliveryLocationsDocAccessFields_region_Create {
   permission: Boolean!
 }
 
-type DeliveryLocationsDocAccessFields_state_Read {
+type DeliveryLocationsDocAccessFields_region_Read {
   permission: Boolean!
 }
 
-type DeliveryLocationsDocAccessFields_state_Update {
+type DeliveryLocationsDocAccessFields_region_Update {
   permission: Boolean!
 }
 
-type DeliveryLocationsDocAccessFields_state_Delete {
+type DeliveryLocationsDocAccessFields_region_Delete {
   permission: Boolean!
 }
 
-type DeliveryLocationsDocAccessFields_country {
-  create: DeliveryLocationsDocAccessFields_country_Create
-  read: DeliveryLocationsDocAccessFields_country_Read
-  update: DeliveryLocationsDocAccessFields_country_Update
-  delete: DeliveryLocationsDocAccessFields_country_Delete
+type DeliveryLocationsDocAccessFields_googlepin {
+  create: DeliveryLocationsDocAccessFields_googlepin_Create
+  read: DeliveryLocationsDocAccessFields_googlepin_Read
+  update: DeliveryLocationsDocAccessFields_googlepin_Update
+  delete: DeliveryLocationsDocAccessFields_googlepin_Delete
 }
 
-type DeliveryLocationsDocAccessFields_country_Create {
+type DeliveryLocationsDocAccessFields_googlepin_Create {
   permission: Boolean!
 }
 
-type DeliveryLocationsDocAccessFields_country_Read {
+type DeliveryLocationsDocAccessFields_googlepin_Read {
   permission: Boolean!
 }
 
-type DeliveryLocationsDocAccessFields_country_Update {
+type DeliveryLocationsDocAccessFields_googlepin_Update {
   permission: Boolean!
 }
 
-type DeliveryLocationsDocAccessFields_country_Delete {
-  permission: Boolean!
-}
-
-type DeliveryLocationsDocAccessFields_zipCode {
-  create: DeliveryLocationsDocAccessFields_zipCode_Create
-  read: DeliveryLocationsDocAccessFields_zipCode_Read
-  update: DeliveryLocationsDocAccessFields_zipCode_Update
-  delete: DeliveryLocationsDocAccessFields_zipCode_Delete
-}
-
-type DeliveryLocationsDocAccessFields_zipCode_Create {
-  permission: Boolean!
-}
-
-type DeliveryLocationsDocAccessFields_zipCode_Read {
-  permission: Boolean!
-}
-
-type DeliveryLocationsDocAccessFields_zipCode_Update {
-  permission: Boolean!
-}
-
-type DeliveryLocationsDocAccessFields_zipCode_Delete {
+type DeliveryLocationsDocAccessFields_googlepin_Delete {
   permission: Boolean!
 }
 
@@ -21911,6 +22235,158 @@ type RedirectsUpdateDocAccess {
 type RedirectsDeleteDocAccess {
   permission: Boolean!
   where: JSONObject
+}
+
+type Form {
+  id: String
+  title: String!
+  fields: [Form_Fields!]
+  submitButtonLabel: String
+  confirmationType: Form_confirmationType
+  confirmationMessage(depth: Int): JSON
+  redirect: Form_Redirect
+  emails: [Form_Emails!]
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+union Form_Fields = Checkbox | Country | Email | Message | Number | Select | State | Text | Textarea
+
+type Checkbox {
+  name: String!
+  label: String
+  width: Float
+  required: Boolean
+  defaultValue: Boolean
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type Country {
+  name: String!
+  label: String
+  width: Float
+  required: Boolean
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type Email {
+  name: String!
+  label: String
+  width: Float
+  required: Boolean
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type Message {
+  message(depth: Int): JSON
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type Number {
+  name: String!
+  label: String
+  width: Float
+  defaultValue: Float
+  required: Boolean
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type Select {
+  name: String!
+  label: String
+  width: Float
+  defaultValue: String
+  options: [Select_Options!]
+  required: Boolean
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type Select_Options {
+  label: String
+  value: String
+  id: String
+}
+
+type State {
+  name: String!
+  label: String
+  width: Float
+  required: Boolean
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type Text {
+  name: String!
+  label: String
+  width: Float
+  defaultValue: String
+  required: Boolean
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type Textarea {
+  name: String!
+  label: String
+  width: Float
+  defaultValue: String
+  required: Boolean
+  id: String
+  blockName: String
+  blockType: String
+}
+
+enum Form_confirmationType {
+  message
+  redirect
+}
+
+type Form_Redirect {
+  type: Form_Redirect_type
+  reference(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): Form_Redirect_Reference_Relationship
+  url: String
+}
+
+enum Form_Redirect_type {
+  reference
+  custom
+}
+
+type Form_Redirect_Reference_Relationship {
+  relationTo: Form_Redirect_Reference_RelationTo
+  value: Form_Redirect_Reference
+}
+
+enum Form_Redirect_Reference_RelationTo {
+  pages
+}
+
+union Form_Redirect_Reference = Page
+
+type Form_Emails {
+  emailTo: String
+  cc: String
+  bcc: String
+  replyTo: String
+  emailFrom: String
+  subject: String
+  message(depth: Int): JSON
+  id: String
 }
 
 type Forms {
@@ -29988,17 +30464,43 @@ type usersAccess {
 }
 
 type UsersFields {
+  title: UsersFields_title
   name: UsersFields_name
   photo: UsersFields_photo
   roles: UsersFields_roles
   purchases: UsersFields_purchases
-  stripeCustomerID: UsersFields_stripeCustomerID
+  recentlyViewed: UsersFields_recentlyViewed
+  DeliveryLocation: UsersFields_DeliveryLocation
   cart: UsersFields_cart
   skipSync: UsersFields_skipSync
+  role: UsersFields_role
   updatedAt: UsersFields_updatedAt
   createdAt: UsersFields_createdAt
   email: UsersFields_email
   password: UsersFields_password
+}
+
+type UsersFields_title {
+  create: UsersFields_title_Create
+  read: UsersFields_title_Read
+  update: UsersFields_title_Update
+  delete: UsersFields_title_Delete
+}
+
+type UsersFields_title_Create {
+  permission: Boolean!
+}
+
+type UsersFields_title_Read {
+  permission: Boolean!
+}
+
+type UsersFields_title_Update {
+  permission: Boolean!
+}
+
+type UsersFields_title_Delete {
+  permission: Boolean!
 }
 
 type UsersFields_name {
@@ -30093,26 +30595,49 @@ type UsersFields_purchases_Delete {
   permission: Boolean!
 }
 
-type UsersFields_stripeCustomerID {
-  create: UsersFields_stripeCustomerID_Create
-  read: UsersFields_stripeCustomerID_Read
-  update: UsersFields_stripeCustomerID_Update
-  delete: UsersFields_stripeCustomerID_Delete
+type UsersFields_recentlyViewed {
+  create: UsersFields_recentlyViewed_Create
+  read: UsersFields_recentlyViewed_Read
+  update: UsersFields_recentlyViewed_Update
+  delete: UsersFields_recentlyViewed_Delete
 }
 
-type UsersFields_stripeCustomerID_Create {
+type UsersFields_recentlyViewed_Create {
   permission: Boolean!
 }
 
-type UsersFields_stripeCustomerID_Read {
+type UsersFields_recentlyViewed_Read {
   permission: Boolean!
 }
 
-type UsersFields_stripeCustomerID_Update {
+type UsersFields_recentlyViewed_Update {
   permission: Boolean!
 }
 
-type UsersFields_stripeCustomerID_Delete {
+type UsersFields_recentlyViewed_Delete {
+  permission: Boolean!
+}
+
+type UsersFields_DeliveryLocation {
+  create: UsersFields_DeliveryLocation_Create
+  read: UsersFields_DeliveryLocation_Read
+  update: UsersFields_DeliveryLocation_Update
+  delete: UsersFields_DeliveryLocation_Delete
+}
+
+type UsersFields_DeliveryLocation_Create {
+  permission: Boolean!
+}
+
+type UsersFields_DeliveryLocation_Read {
+  permission: Boolean!
+}
+
+type UsersFields_DeliveryLocation_Update {
+  permission: Boolean!
+}
+
+type UsersFields_DeliveryLocation_Delete {
   permission: Boolean!
 }
 
@@ -30314,6 +30839,29 @@ type UsersFields_skipSync_Delete {
   permission: Boolean!
 }
 
+type UsersFields_role {
+  create: UsersFields_role_Create
+  read: UsersFields_role_Read
+  update: UsersFields_role_Update
+  delete: UsersFields_role_Delete
+}
+
+type UsersFields_role_Create {
+  permission: Boolean!
+}
+
+type UsersFields_role_Read {
+  permission: Boolean!
+}
+
+type UsersFields_role_Update {
+  permission: Boolean!
+}
+
+type UsersFields_role_Delete {
+  permission: Boolean!
+}
+
 type UsersFields_updatedAt {
   create: UsersFields_updatedAt_Create
   read: UsersFields_updatedAt_Read
@@ -30440,12 +30988,36 @@ type ReviewsAccess {
 }
 
 type ReviewsFields {
+  title: ReviewsFields_title
   user: ReviewsFields_user
   name: ReviewsFields_name
   message: ReviewsFields_message
   rating: ReviewsFields_rating
   updatedAt: ReviewsFields_updatedAt
   createdAt: ReviewsFields_createdAt
+}
+
+type ReviewsFields_title {
+  create: ReviewsFields_title_Create
+  read: ReviewsFields_title_Read
+  update: ReviewsFields_title_Update
+  delete: ReviewsFields_title_Delete
+}
+
+type ReviewsFields_title_Create {
+  permission: Boolean!
+}
+
+type ReviewsFields_title_Read {
+  permission: Boolean!
+}
+
+type ReviewsFields_title_Update {
+  permission: Boolean!
+}
+
+type ReviewsFields_title_Delete {
+  permission: Boolean!
 }
 
 type ReviewsFields_user {
@@ -32854,10 +33426,34 @@ type attributesCollectionAccess {
 }
 
 type AttributesCollectionFields {
+  title: AttributesCollectionFields_title
   Attribute_Name: AttributesCollectionFields_Attribute_Name
   Attribute_Property: AttributesCollectionFields_Attribute_Property
   updatedAt: AttributesCollectionFields_updatedAt
   createdAt: AttributesCollectionFields_createdAt
+}
+
+type AttributesCollectionFields_title {
+  create: AttributesCollectionFields_title_Create
+  read: AttributesCollectionFields_title_Read
+  update: AttributesCollectionFields_title_Update
+  delete: AttributesCollectionFields_title_Delete
+}
+
+type AttributesCollectionFields_title_Create {
+  permission: Boolean!
+}
+
+type AttributesCollectionFields_title_Read {
+  permission: Boolean!
+}
+
+type AttributesCollectionFields_title_Update {
+  permission: Boolean!
+}
+
+type AttributesCollectionFields_title_Delete {
+  permission: Boolean!
 }
 
 type AttributesCollectionFields_Attribute_Name {
@@ -32910,8 +33506,10 @@ type AttributesCollectionFields_Attribute_Property_Delete {
 type AttributesCollectionFields_Attribute_Property_Fields {
   label: AttributesCollectionFields_Attribute_Property_label
   type: AttributesCollectionFields_Attribute_Property_type
-  colour: AttributesCollectionFields_Attribute_Property_colour
-  Number: AttributesCollectionFields_Attribute_Property_Number
+  Value: AttributesCollectionFields_Attribute_Property_Value
+  colourValue: AttributesCollectionFields_Attribute_Property_colourValue
+  NumberValue: AttributesCollectionFields_Attribute_Property_NumberValue
+  media: AttributesCollectionFields_Attribute_Property_media
   price: AttributesCollectionFields_Attribute_Property_price
   id: AttributesCollectionFields_Attribute_Property_id
 }
@@ -32962,49 +33560,95 @@ type AttributesCollectionFields_Attribute_Property_type_Delete {
   permission: Boolean!
 }
 
-type AttributesCollectionFields_Attribute_Property_colour {
-  create: AttributesCollectionFields_Attribute_Property_colour_Create
-  read: AttributesCollectionFields_Attribute_Property_colour_Read
-  update: AttributesCollectionFields_Attribute_Property_colour_Update
-  delete: AttributesCollectionFields_Attribute_Property_colour_Delete
+type AttributesCollectionFields_Attribute_Property_Value {
+  create: AttributesCollectionFields_Attribute_Property_Value_Create
+  read: AttributesCollectionFields_Attribute_Property_Value_Read
+  update: AttributesCollectionFields_Attribute_Property_Value_Update
+  delete: AttributesCollectionFields_Attribute_Property_Value_Delete
 }
 
-type AttributesCollectionFields_Attribute_Property_colour_Create {
+type AttributesCollectionFields_Attribute_Property_Value_Create {
   permission: Boolean!
 }
 
-type AttributesCollectionFields_Attribute_Property_colour_Read {
+type AttributesCollectionFields_Attribute_Property_Value_Read {
   permission: Boolean!
 }
 
-type AttributesCollectionFields_Attribute_Property_colour_Update {
+type AttributesCollectionFields_Attribute_Property_Value_Update {
   permission: Boolean!
 }
 
-type AttributesCollectionFields_Attribute_Property_colour_Delete {
+type AttributesCollectionFields_Attribute_Property_Value_Delete {
   permission: Boolean!
 }
 
-type AttributesCollectionFields_Attribute_Property_Number {
-  create: AttributesCollectionFields_Attribute_Property_Number_Create
-  read: AttributesCollectionFields_Attribute_Property_Number_Read
-  update: AttributesCollectionFields_Attribute_Property_Number_Update
-  delete: AttributesCollectionFields_Attribute_Property_Number_Delete
+type AttributesCollectionFields_Attribute_Property_colourValue {
+  create: AttributesCollectionFields_Attribute_Property_colourValue_Create
+  read: AttributesCollectionFields_Attribute_Property_colourValue_Read
+  update: AttributesCollectionFields_Attribute_Property_colourValue_Update
+  delete: AttributesCollectionFields_Attribute_Property_colourValue_Delete
 }
 
-type AttributesCollectionFields_Attribute_Property_Number_Create {
+type AttributesCollectionFields_Attribute_Property_colourValue_Create {
   permission: Boolean!
 }
 
-type AttributesCollectionFields_Attribute_Property_Number_Read {
+type AttributesCollectionFields_Attribute_Property_colourValue_Read {
   permission: Boolean!
 }
 
-type AttributesCollectionFields_Attribute_Property_Number_Update {
+type AttributesCollectionFields_Attribute_Property_colourValue_Update {
   permission: Boolean!
 }
 
-type AttributesCollectionFields_Attribute_Property_Number_Delete {
+type AttributesCollectionFields_Attribute_Property_colourValue_Delete {
+  permission: Boolean!
+}
+
+type AttributesCollectionFields_Attribute_Property_NumberValue {
+  create: AttributesCollectionFields_Attribute_Property_NumberValue_Create
+  read: AttributesCollectionFields_Attribute_Property_NumberValue_Read
+  update: AttributesCollectionFields_Attribute_Property_NumberValue_Update
+  delete: AttributesCollectionFields_Attribute_Property_NumberValue_Delete
+}
+
+type AttributesCollectionFields_Attribute_Property_NumberValue_Create {
+  permission: Boolean!
+}
+
+type AttributesCollectionFields_Attribute_Property_NumberValue_Read {
+  permission: Boolean!
+}
+
+type AttributesCollectionFields_Attribute_Property_NumberValue_Update {
+  permission: Boolean!
+}
+
+type AttributesCollectionFields_Attribute_Property_NumberValue_Delete {
+  permission: Boolean!
+}
+
+type AttributesCollectionFields_Attribute_Property_media {
+  create: AttributesCollectionFields_Attribute_Property_media_Create
+  read: AttributesCollectionFields_Attribute_Property_media_Read
+  update: AttributesCollectionFields_Attribute_Property_media_Update
+  delete: AttributesCollectionFields_Attribute_Property_media_Delete
+}
+
+type AttributesCollectionFields_Attribute_Property_media_Create {
+  permission: Boolean!
+}
+
+type AttributesCollectionFields_Attribute_Property_media_Read {
+  permission: Boolean!
+}
+
+type AttributesCollectionFields_Attribute_Property_media_Update {
+  permission: Boolean!
+}
+
+type AttributesCollectionFields_Attribute_Property_media_Delete {
   permission: Boolean!
 }
 
@@ -33129,13 +33773,36 @@ type deliveryLocationsAccess {
 }
 
 type DeliveryLocationsFields {
+  title: DeliveryLocationsFields_title
   address: DeliveryLocationsFields_address
-  city: DeliveryLocationsFields_city
-  state: DeliveryLocationsFields_state
-  country: DeliveryLocationsFields_country
-  zipCode: DeliveryLocationsFields_zipCode
+  AdditionalInformation: DeliveryLocationsFields_AdditionalInformation
+  region: DeliveryLocationsFields_region
+  googlepin: DeliveryLocationsFields_googlepin
   updatedAt: DeliveryLocationsFields_updatedAt
   createdAt: DeliveryLocationsFields_createdAt
+}
+
+type DeliveryLocationsFields_title {
+  create: DeliveryLocationsFields_title_Create
+  read: DeliveryLocationsFields_title_Read
+  update: DeliveryLocationsFields_title_Update
+  delete: DeliveryLocationsFields_title_Delete
+}
+
+type DeliveryLocationsFields_title_Create {
+  permission: Boolean!
+}
+
+type DeliveryLocationsFields_title_Read {
+  permission: Boolean!
+}
+
+type DeliveryLocationsFields_title_Update {
+  permission: Boolean!
+}
+
+type DeliveryLocationsFields_title_Delete {
+  permission: Boolean!
 }
 
 type DeliveryLocationsFields_address {
@@ -33161,95 +33828,72 @@ type DeliveryLocationsFields_address_Delete {
   permission: Boolean!
 }
 
-type DeliveryLocationsFields_city {
-  create: DeliveryLocationsFields_city_Create
-  read: DeliveryLocationsFields_city_Read
-  update: DeliveryLocationsFields_city_Update
-  delete: DeliveryLocationsFields_city_Delete
+type DeliveryLocationsFields_AdditionalInformation {
+  create: DeliveryLocationsFields_AdditionalInformation_Create
+  read: DeliveryLocationsFields_AdditionalInformation_Read
+  update: DeliveryLocationsFields_AdditionalInformation_Update
+  delete: DeliveryLocationsFields_AdditionalInformation_Delete
 }
 
-type DeliveryLocationsFields_city_Create {
+type DeliveryLocationsFields_AdditionalInformation_Create {
   permission: Boolean!
 }
 
-type DeliveryLocationsFields_city_Read {
+type DeliveryLocationsFields_AdditionalInformation_Read {
   permission: Boolean!
 }
 
-type DeliveryLocationsFields_city_Update {
+type DeliveryLocationsFields_AdditionalInformation_Update {
   permission: Boolean!
 }
 
-type DeliveryLocationsFields_city_Delete {
+type DeliveryLocationsFields_AdditionalInformation_Delete {
   permission: Boolean!
 }
 
-type DeliveryLocationsFields_state {
-  create: DeliveryLocationsFields_state_Create
-  read: DeliveryLocationsFields_state_Read
-  update: DeliveryLocationsFields_state_Update
-  delete: DeliveryLocationsFields_state_Delete
+type DeliveryLocationsFields_region {
+  create: DeliveryLocationsFields_region_Create
+  read: DeliveryLocationsFields_region_Read
+  update: DeliveryLocationsFields_region_Update
+  delete: DeliveryLocationsFields_region_Delete
 }
 
-type DeliveryLocationsFields_state_Create {
+type DeliveryLocationsFields_region_Create {
   permission: Boolean!
 }
 
-type DeliveryLocationsFields_state_Read {
+type DeliveryLocationsFields_region_Read {
   permission: Boolean!
 }
 
-type DeliveryLocationsFields_state_Update {
+type DeliveryLocationsFields_region_Update {
   permission: Boolean!
 }
 
-type DeliveryLocationsFields_state_Delete {
+type DeliveryLocationsFields_region_Delete {
   permission: Boolean!
 }
 
-type DeliveryLocationsFields_country {
-  create: DeliveryLocationsFields_country_Create
-  read: DeliveryLocationsFields_country_Read
-  update: DeliveryLocationsFields_country_Update
-  delete: DeliveryLocationsFields_country_Delete
+type DeliveryLocationsFields_googlepin {
+  create: DeliveryLocationsFields_googlepin_Create
+  read: DeliveryLocationsFields_googlepin_Read
+  update: DeliveryLocationsFields_googlepin_Update
+  delete: DeliveryLocationsFields_googlepin_Delete
 }
 
-type DeliveryLocationsFields_country_Create {
+type DeliveryLocationsFields_googlepin_Create {
   permission: Boolean!
 }
 
-type DeliveryLocationsFields_country_Read {
+type DeliveryLocationsFields_googlepin_Read {
   permission: Boolean!
 }
 
-type DeliveryLocationsFields_country_Update {
+type DeliveryLocationsFields_googlepin_Update {
   permission: Boolean!
 }
 
-type DeliveryLocationsFields_country_Delete {
-  permission: Boolean!
-}
-
-type DeliveryLocationsFields_zipCode {
-  create: DeliveryLocationsFields_zipCode_Create
-  read: DeliveryLocationsFields_zipCode_Read
-  update: DeliveryLocationsFields_zipCode_Update
-  delete: DeliveryLocationsFields_zipCode_Delete
-}
-
-type DeliveryLocationsFields_zipCode_Create {
-  permission: Boolean!
-}
-
-type DeliveryLocationsFields_zipCode_Read {
-  permission: Boolean!
-}
-
-type DeliveryLocationsFields_zipCode_Update {
-  permission: Boolean!
-}
-
-type DeliveryLocationsFields_zipCode_Delete {
+type DeliveryLocationsFields_googlepin_Delete {
   permission: Boolean!
 }
 
@@ -37979,13 +38623,16 @@ input mutationCategoryUpdate_BreadcrumbsInput {
 }
 
 input mutationUserInput {
+  title: String
   name: String
   photo: String
   roles: [User_roles_MutationInput]
   purchases: [String]
-  stripeCustomerID: String
+  recentlyViewed: [String]
+  DeliveryLocation: [String]
   cart: mutationUser_CartInput
   skipSync: Boolean
+  role: User_role_MutationInput
   updatedAt: String
   createdAt: String
   email: String!
@@ -38001,6 +38648,8 @@ input mutationUserInput {
 enum User_roles_MutationInput {
   admin
   customer
+  editor
+  manager
 }
 
 input mutationUser_CartInput {
@@ -38015,14 +38664,24 @@ input mutationUser_Cart_ItemsInput {
   id: String
 }
 
+enum User_role_MutationInput {
+  customer
+  editor
+  manager
+  admin
+}
+
 input mutationUserUpdateInput {
+  title: String
   name: String
   photo: String
   roles: [UserUpdate_roles_MutationInput]
   purchases: [String]
-  stripeCustomerID: String
+  recentlyViewed: [String]
+  DeliveryLocation: [String]
   cart: mutationUserUpdate_CartInput
   skipSync: Boolean
+  role: UserUpdate_role_MutationInput
   updatedAt: String
   createdAt: String
   email: String
@@ -38038,6 +38697,8 @@ input mutationUserUpdateInput {
 enum UserUpdate_roles_MutationInput {
   admin
   customer
+  editor
+  manager
 }
 
 input mutationUserUpdate_CartInput {
@@ -38050,6 +38711,13 @@ input mutationUserUpdate_Cart_ItemsInput {
   product: String
   quantity: Float
   id: String
+}
+
+enum UserUpdate_role_MutationInput {
+  customer
+  editor
+  manager
+  admin
 }
 
 type usersRefreshedUser {
@@ -38075,6 +38743,7 @@ type usersResetPassword {
 }
 
 input mutationReviewInput {
+  title: String
   user: String
   name: String
   message: String
@@ -38084,6 +38753,7 @@ input mutationReviewInput {
 }
 
 input mutationReviewUpdateInput {
+  title: String
   user: String
   name: String
   message: String
@@ -38505,6 +39175,7 @@ input mutationHeadercategoryUpdate_Subcategory_AttributeInput {
 }
 
 input mutationAttributesCollectionInput {
+  title: String
   Attribute_Name: String!
   Attribute_Property: [mutationAttributesCollection_Attribute_PropertyInput]
   updatedAt: String
@@ -38512,10 +39183,12 @@ input mutationAttributesCollectionInput {
 }
 
 input mutationAttributesCollection_Attribute_PropertyInput {
-  label: String
+  label: String!
   type: AttributesCollection_Attribute_Property_type_MutationInput
-  colour: String
-  Number: Float
+  Value: String
+  colourValue: String
+  NumberValue: Float
+  media: String
   price: Float
   id: String
 }
@@ -38524,9 +39197,11 @@ enum AttributesCollection_Attribute_Property_type_MutationInput {
   text
   color
   number
+  brand
 }
 
 input mutationAttributesCollectionUpdateInput {
+  title: String
   Attribute_Name: String
   Attribute_Property: [mutationAttributesCollectionUpdate_Attribute_PropertyInput]
   updatedAt: String
@@ -38534,10 +39209,12 @@ input mutationAttributesCollectionUpdateInput {
 }
 
 input mutationAttributesCollectionUpdate_Attribute_PropertyInput {
-  label: String
+  label: String!
   type: AttributesCollectionUpdate_Attribute_Property_type_MutationInput
-  colour: String
-  Number: Float
+  Value: String
+  colourValue: String
+  NumberValue: Float
+  media: String
   price: Float
   id: String
 }
@@ -38546,24 +39223,25 @@ enum AttributesCollectionUpdate_Attribute_Property_type_MutationInput {
   text
   color
   number
+  brand
 }
 
 input mutationDeliveryLocationInput {
+  title: String
   address: String!
-  city: String!
-  state: String!
-  country: String!
-  zipCode: String!
+  AdditionalInformation: String!
+  region: String!
+  googlepin: String
   updatedAt: String
   createdAt: String
 }
 
 input mutationDeliveryLocationUpdateInput {
+  title: String
   address: String
-  city: String
-  state: String
-  country: String
-  zipCode: String
+  AdditionalInformation: String
+  region: String
+  googlepin: String
   updatedAt: String
   createdAt: String
 }

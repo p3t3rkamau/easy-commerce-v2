@@ -67,6 +67,7 @@ const AttributeCollection: CollectionConfig = {
                     { label: 'Text', value: 'text' },
                     { label: 'Color', value: 'color' },
                     { label: 'Number', value: 'number' },
+                    { label: 'Brand', value: 'brand' },
                   ],
                 },
                 {
@@ -94,6 +95,17 @@ const AttributeCollection: CollectionConfig = {
                     condition: (_, siblingData) => siblingData.type === 'number',
                   },
                 },
+                {
+                  type: 'upload',
+                  name: 'media',
+                  relationTo: 'media',
+                  required: true,
+                  admin: {
+                    readOnly: false,
+                    hidden: false,
+                    condition: (_, siblingData) => siblingData.type === 'brand',
+                  },
+                },
                 ...NumberField(
                   {
                     name: 'price',
@@ -102,6 +114,7 @@ const AttributeCollection: CollectionConfig = {
                     admin: {
                       readOnly: false,
                       hidden: false,
+                      condition: (_, siblingData) => siblingData.type !== 'brand',
                     },
                   },
                   {

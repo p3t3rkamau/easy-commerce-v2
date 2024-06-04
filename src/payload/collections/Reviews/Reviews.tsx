@@ -3,13 +3,29 @@ import type { CollectionConfig } from 'payload/types'
 const Reviews: CollectionConfig = {
   slug: 'Reviews',
   admin: {
-    useAsTitle: 'Reviews',
+    useAsTitle: 'title',
     group: 'Admin',
   },
   access: {
     read: () => true,
   },
   fields: [
+    {
+      name: 'title',
+      type: 'text',
+      admin: {
+        readOnly: true,
+      },
+      hooks: {
+        beforeChange: [
+          ({ data }) => {
+            if (data.name && data.rating) {
+              data.title = `${data.name} - Rating: ${data.rating}`
+            }
+          },
+        ],
+      },
+    },
     {
       name: 'user',
       type: 'relationship',

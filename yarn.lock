@@ -2587,6 +2587,11 @@
     slugify "^1.6.6"
     validate-color "^2.2.4"
 
+"@nouance/payload-simple-rbac@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.npmjs.org/@nouance/payload-simple-rbac/-/payload-simple-rbac-0.2.0.tgz"
+  integrity sha512-gcEnkbBllNEEIySKGBz2aW9GFMal9Lu91NIk3r9pje2TQbjYiktQYGrQpSpuczlLFxNVOC3zk8ubjM0+nerStg==
+
 "@one-ini/wasm@0.1.1":
   version "0.1.1"
   resolved "https://registry.npmjs.org/@one-ini/wasm/-/wasm-0.1.1.tgz"

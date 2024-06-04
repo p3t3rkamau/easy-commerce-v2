@@ -1,9 +1,9 @@
 import type { CollectionConfig } from 'payload/types'
 
-export const DeliveryLocations: CollectionConfig = {
+const DeliveryLocations: CollectionConfig = {
   slug: 'deliveryLocations',
   admin: {
-    useAsTitle: 'address',
+    useAsTitle: 'title',
     group: 'Admin',
   },
   access: {
@@ -11,30 +11,48 @@ export const DeliveryLocations: CollectionConfig = {
   },
   fields: [
     {
+      name: 'title',
+      type: 'text',
+      admin: {
+        readOnly: true,
+      },
+      hooks: {
+        beforeChange: [
+          ({ data }) => {
+            if (data.address && data.region && data.googlepin) {
+              data.title = `${data.address}, ${data.city}, ${data.state}`
+            }
+          },
+        ],
+      },
+    },
+    {
       name: 'address',
       type: 'text',
       required: true,
+      admin: {
+        description: 'Eg Nairobi',
+      },
     },
     {
-      name: 'city',
+      name: 'AdditionalInformation',
       type: 'text',
       required: true,
     },
     {
-      name: 'state',
+      name: 'region',
       type: 'text',
       required: true,
+      admin: {
+        description: 'Eg Buruburu',
+      },
     },
     {
-      name: 'country',
+      name: 'googlepin',
       type: 'text',
-      required: true,
     },
-    {
-      name: 'zipCode',
-      type: 'text',
-      required: true,
-    },
-    // Add any other fields related to delivery locations
   ],
 }
+
+export default DeliveryLocations
+// TODO: add handle for matatu or delivery by rider
