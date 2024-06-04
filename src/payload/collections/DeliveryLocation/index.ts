@@ -15,6 +15,7 @@ const DeliveryLocations: CollectionConfig = {
       type: 'text',
       admin: {
         readOnly: true,
+        hidden: true,
       },
       hooks: {
         beforeChange: [
@@ -36,7 +37,7 @@ const DeliveryLocations: CollectionConfig = {
     },
     {
       name: 'AdditionalInformation',
-      type: 'text',
+      type: 'textarea',
       required: true,
     },
     {

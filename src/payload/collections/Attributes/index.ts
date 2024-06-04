@@ -16,6 +16,7 @@ const AttributeCollection: CollectionConfig = {
       type: 'text',
       admin: {
         readOnly: true,
+        hidden: true,
       },
       hooks: {
         beforeChange: [
@@ -95,6 +96,15 @@ const AttributeCollection: CollectionConfig = {
                     condition: (_, siblingData) => siblingData.type === 'number',
                   },
                 },
+
+                {
+                  name: 'Value',
+                  type: 'text',
+                  required: true,
+                  admin: {
+                    condition: (_, siblingData) => siblingData.type === 'brand',
+                  },
+                },
                 {
                   type: 'upload',
                   name: 'media',
@@ -106,6 +116,7 @@ const AttributeCollection: CollectionConfig = {
                     condition: (_, siblingData) => siblingData.type === 'brand',
                   },
                 },
+
                 ...NumberField(
                   {
                     name: 'price',

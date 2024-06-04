@@ -20898,9 +20898,6 @@ input DeliveryLocation_AdditionalInformation_operator {
   not_equals: String
   like: String
   contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
 }
 
 input DeliveryLocation_region_operator {
