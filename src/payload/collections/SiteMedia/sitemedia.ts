@@ -4,6 +4,7 @@ const SiteMedia: CollectionConfig = {
   slug: 'SiteMedia',
   admin: {
     useAsTitle: 'title',
+    group: 'Customize',
   },
   access: {
     read: () => true,

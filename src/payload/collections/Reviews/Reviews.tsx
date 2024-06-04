@@ -4,6 +4,7 @@ const Reviews: CollectionConfig = {
   slug: 'Reviews',
   admin: {
     useAsTitle: 'Reviews',
+    group: 'Admin',
   },
   access: {
     read: () => true,

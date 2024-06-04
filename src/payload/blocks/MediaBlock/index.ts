@@ -5,7 +5,7 @@ import richText from '../../fields/richText'
 
 export const MediaBlock: Block = {
   slug: 'mediaBlock',
-  imageURL: 'https://ik.imagekit.io/6cga8hi9z/JaeTravels/Home__7__kvlok_U-Y.png',
+  imageURL: 'https://ik.imagekit.io/6cga8hi9z/All_Products/Home__4__IyiEqFhTs.png',
   fields: [
     invertBackground,
     {

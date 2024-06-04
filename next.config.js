@@ -12,6 +12,21 @@ const nextConfig = {
     domains: ['localhost', process.env.NEXT_PUBLIC_SERVER_URL, 'ik.imagekit.io'],
   },
   redirects,
+
+  // Integrate the sitemap route into your Next.js project
+  async rewrites() {
+    return [
+      {
+        source: '/sitemap.xml',
+        destination: '/api/sitemap',
+      },
+      {
+        source: '/robots.txt',
+        destination: '/api/robots',
+      },
+    ]
+  },
+
   async headers() {
     const headers = []
 

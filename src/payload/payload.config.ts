@@ -22,13 +22,14 @@ import AttributeCollection from './collections/Attributes'
 import Categories from './collections/Categories'
 import Comments from './collections/Comments'
 import { DeliveryLocations } from './collections/DeliveryLocation'
+import { EMailSms } from './collections/Email & Sms'
 import HeaderCategories from './collections/HeaderCategories'
+import { LiveChats } from './collections/LiveChats/LiveChats'
 import { Media } from './collections/Media'
 import { Orders } from './collections/Orders'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
 import Products from './collections/Products'
-import { Projects } from './collections/Projects'
 // import { QuestionSets } from './collections/QuestionSets'
 import Reviews from './collections/Reviews/Reviews'
 import SiteMedia from './collections/SiteMedia/sitemedia'
@@ -87,7 +88,6 @@ export default buildConfig({
             // [path.resolve(__dirname, 'plugins/payload-mux/hooks')]: mockModulePath,
             stripe: mockModulePath,
             express: mockModulePath,
-            '@': path.resolve(__dirname),
           },
         },
         module: {
@@ -121,12 +121,13 @@ export default buildConfig({
     Reviews,
     SiteMedia,
     Comments,
-    Projects,
     Posts,
     Alerts,
     HeaderCategories,
     AttributeCollection,
     DeliveryLocations,
+    LiveChats,
+    EMailSms,
     // CaseStudies,
     // QuestionSets,
     // ReusableContent,
@@ -266,7 +267,7 @@ export default buildConfig({
     formBuilder({
       formOverrides: {
         admin: {
-          group: 'Content',
+          group: 'Admin',
         },
       },
       formSubmissionOverrides: {

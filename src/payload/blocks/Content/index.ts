@@ -44,8 +44,7 @@ const columnFields: Field[] = [
 
 export const Content: Block = {
   slug: 'content',
-  imageURL:
-    'https://static.semrush.com/blog/uploads/media/f8/d5/f8d5a4a17cee232e584e27fd05e0b149/ST45PwLjS_d1MCT3CgMkJb8Br15jtnSLNLyxAg6ZhmKq9F_XJAHLQ25dOK6sWvMklysrZRMLZJMqG76z3RlBJ_BHlzv2Fk5EBtzl3leNpQJuC8bpKmV9_LUWwkxwbtVurx0aHrG7uEzxjFWdCzsH-C0.png',
+  imageURL: 'https://ik.imagekit.io/6cga8hi9z/All_Products/Home__3__f5W5IqanH.png',
   fields: [
     invertBackground,
     {

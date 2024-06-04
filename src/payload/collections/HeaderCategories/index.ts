@@ -4,6 +4,7 @@ const HeaderCategories: CollectionConfig = {
   slug: 'headercategories',
   admin: {
     useAsTitle: 'Header Categories',
+    group: 'Customize',
   },
   access: {
     read: () => true,

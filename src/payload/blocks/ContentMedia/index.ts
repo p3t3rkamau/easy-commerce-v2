@@ -29,5 +29,5 @@ export const ContentMedia: Block = {
     },
   ],
   slug: 'contentMedia',
-  imageURL: 'https://ik.imagekit.io/6cga8hi9z/JaeTravels/Home__1__hBXn91u0N.png',
+  imageURL: 'https://ik.imagekit.io/6cga8hi9z/All_Products/Home__2__ZUcStG3Qk.png',
 }

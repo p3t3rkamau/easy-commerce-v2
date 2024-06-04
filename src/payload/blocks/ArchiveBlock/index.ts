@@ -2,6 +2,7 @@ import type { Block } from 'payload/types'
 
 export const Archive: Block = {
   slug: 'archive',
+  imageURL: 'https://ik.imagekit.io/6cga8hi9z/All_Products/Home__6__NTAVFsRpy.png',
   labels: {
     singular: 'Archive',
     plural: 'Archives',

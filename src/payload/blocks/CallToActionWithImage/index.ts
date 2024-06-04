@@ -6,7 +6,7 @@ import richText from '../../fields/richText'
 
 export const CallToActionWithImage: Block = {
   slug: 'CtaWithImage',
-  imageURL: 'https://i.pinimg.com/564x/f0/0f/02/f00f0218aa011a510797817b82e336e8.jpg',
+  imageURL: 'https://ik.imagekit.io/6cga8hi9z/All_Products/Home__5__CcTNKLTm5.png',
   labels: {
     singular: 'CTA with Image',
     plural: 'CTA with Image',

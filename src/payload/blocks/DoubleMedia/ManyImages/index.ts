@@ -5,7 +5,7 @@ import ManyImages from '../index'
 
 export const DoubleImagesBlock: Block = {
   slug: 'DoubleMediaContent',
-  imageURL: 'https://ik.imagekit.io/6cga8hi9z/JaeTravels/Home__6__wLyP8Cwnv.png',
+  imageURL: 'https://ik.imagekit.io/6cga8hi9z/All_Products/Home__7__K9T_Z8nMp.png',
   fields: [
     blockFields({
       name: 'mediaContentFields',

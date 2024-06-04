@@ -1,3 +1,4 @@
+import { NumberField } from '@nouance/payload-better-fields-plugin'
 import type { CollectionConfig } from 'payload/types'
 
 import { admins } from '../../access/admins'
@@ -7,10 +8,21 @@ import { Content } from '../../blocks/Content'
 import { MediaBlock } from '../../blocks/MediaBlock'
 import { slugField } from '../../fields/slug'
 import { populateArchiveBlock } from '../../hooks/populateArchiveBlock'
-// import Attributes from '../Attributes/attributes'
 import { beforeProductChange } from './hooks/beforeChange'
 import { deleteProductFromCarts } from './hooks/deleteProductFromCarts'
 import { revalidateProduct } from './hooks/revalidateProduct'
+
+const calculateDiscountedPrice = ({
+  data,
+}: {
+  data: { price: number; discount: number }
+}): number => {
+  const { price, discount } = data
+  if (typeof price === 'number' && typeof discount === 'number') {
+    return price - (price * discount) / 100
+  }
+  return price
+}
 
 const Products: CollectionConfig = {
   slug: 'products',
@@ -81,19 +93,89 @@ const Products: CollectionConfig = {
           label: 'Product Details',
           fields: [
             {
-              name: 'price',
-              label: 'Price',
-              type: 'number',
-              required: true,
-              admin: {
-                readOnly: false,
-                hidden: false,
-              },
+              type: 'row',
+              fields: [
+                ...NumberField(
+                  {
+                    name: 'price',
+                    label: 'Price',
+                    type: 'number',
+                    required: true,
+                    admin: {
+                      readOnly: false,
+                      hidden: false,
+                    },
+                  },
+                  {
+                    prefix: 'Ksh ',
+                    thousandSeparator: ',',
+                    decimalScale: 2,
+                    fixedDecimalScale: true,
+                  },
+                ),
+                ...NumberField(
+                  {
+                    name: 'discount',
+                    label: 'Discount',
+                    type: 'number',
+                    admin: {
+                      readOnly: false,
+                      hidden: false,
+                    },
+                  },
+                  {
+                    suffix: ' %',
+                    thousandSeparator: ',',
+                    decimalScale: 2,
+                    fixedDecimalScale: true,
+                  },
+                ),
+                {
+                  name: 'discountedPrice',
+                  label: 'Discounted Price',
+                  type: 'number',
+                  admin: {
+                    readOnly: true, // Make this field read-only to prevent manual edits
+                  },
+                  hooks: {
+                    beforeValidate: [
+                      ({ data, siblingData }) => {
+                        // Use siblingData for real-time updates
+                        const updatedData = {
+                          ...data,
+                          ...siblingData,
+                        }
+                        data.discountedPrice = calculateDiscountedPrice({ data: updatedData })
+                      },
+                    ],
+                    beforeChange: [
+                      ({ data, siblingData }) => {
+                        // Use siblingData for real-time updates
+                        const updatedData = {
+                          ...data,
+                          ...siblingData,
+                        }
+                        data.discountedPrice = calculateDiscountedPrice({ data: updatedData })
+                      },
+                    ],
+                  },
+                },
+              ],
             },
           ],
         },
       ],
     },
+    {
+      name: 'ProductsAttributes',
+      type: 'relationship',
+      relationTo: 'attributesCollection',
+      hasMany: true,
+      admin: {
+        position: 'sidebar',
+      },
+    },
+
     {
       name: 'categories',
       type: 'relationship',

@@ -1,57 +1,117 @@
+import { ColourTextField, NumberField } from '@nouance/payload-better-fields-plugin'
 import type { CollectionConfig } from 'payload/types'
 
 const AttributeCollection: CollectionConfig = {
-  slug: 'attributes Collection',
+  slug: 'attributesCollection',
   admin: {
-    useAsTitle: 'Attributes_Field',
+    useAsTitle: 'title',
+    group: 'Admin',
   },
   access: {
     read: () => true,
   },
   fields: [
     {
+      name: 'title',
+      type: 'text',
+      admin: {
+        readOnly: true,
+      },
+      hooks: {
+        beforeChange: [
+          ({ data }) => {
+            if (data.Attribute_Name) {
+              data.title = `${data.Attribute_Name}`
+              if (data.Attribute_Property && data.Attribute_Property.length > 0) {
+                const properties = data.Attribute_Property.map(prop => prop.label).join(', ')
+                data.title += ` (${properties})`
+              }
+            }
+          },
+        ],
+      },
+    },
+    {
       name: 'Attribute_Name',
       type: 'text',
       required: true,
-      label: 'Attributes_Name',
+      label: 'Attribute Name',
     },
     {
-      type: 'row', // required
+      type: 'row',
       fields: [
         {
-          name: 'Attribute_Property', // required
-          type: 'array', // required
-          label: 'Attribute_Property',
+          name: 'Attribute_Property',
+          type: 'array',
+          label: 'Attribute Property',
           minRows: 1,
           maxRows: 15000,
-          interfaceName: 'Attribute_Properties', // optional
           labels: {
-            singular: 'AttributeProperty',
-            plural: 'AttributeProperties',
+            singular: 'Attribute Property',
+            plural: 'Attribute Properties',
           },
           fields: [
             {
-              name: 'label',
-              type: 'text',
-              required: true,
-              admin: {
-                width: '33%',
-              },
-            },
-            {
-              name: 'value',
-              type: 'text',
-              required: true,
-              admin: {
-                width: '33%',
-              },
-            },
-            {
-              name: 'Price',
-              type: 'number',
-              admin: {
-                width: '33%',
-              },
+              type: 'row',
+              fields: [
+                {
+                  name: 'label',
+                  type: 'text',
+                  required: true,
+                },
+                {
+                  name: 'type',
+                  type: 'select',
+                  label: 'Value Type',
+                  options: [
+                    { label: 'Text', value: 'text' },
+                    { label: 'Color', value: 'color' },
+                    { label: 'Number', value: 'number' },
+                  ],
+                },
+                {
+                  name: 'Value',
+                  type: 'text',
+                  required: true,
+                  admin: {
+                    condition: (_, siblingData) => siblingData.type === 'text',
+                  },
+                },
+                ...ColourTextField({
+                  name: 'colourValue',
+                  required: true,
+                  admin: {
+                    condition: (_, siblingData) => siblingData.type === 'color',
+                  },
+                }),
+                {
+                  name: 'NumberValue',
+                  type: 'number',
+                  required: true,
+                  admin: {
+                    readOnly: false,
+                    hidden: false,
+                    condition: (_, siblingData) => siblingData.type === 'number',
+                  },
+                },
+                ...NumberField(
+                  {
+                    name: 'price',
+                    label: 'Price',
+                    type: 'number',
+                    admin: {
+                      readOnly: false,
+                      hidden: false,
+                    },
+                  },
+                  {
+                    prefix: 'Ksh ',
+                    thousandSeparator: ',',
+                    decimalScale: 2,
+                    fixedDecimalScale: true,
+                  },
+                ),
+              ],
             },
           ],
         },

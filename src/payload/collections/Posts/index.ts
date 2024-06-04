@@ -32,6 +32,7 @@ export const Posts: CollectionConfig = {
       )}&secret=${process.env.PAYLOAD_PUBLIC_DRAFT_SECRET}`
     },
     useAsTitle: 'title',
+    group: 'Content',
   },
   fields: [
     {

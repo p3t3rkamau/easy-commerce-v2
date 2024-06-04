@@ -37,11 +37,6 @@ type Query {
   docAccessComment(id: String!): commentsDocAccess
   versionComment(id: String, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType): CommentVersion
   versionsComments(where: versionsComment_where, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType, limit: Int, page: Int, sort: String): versionsComments
-  Project(id: String!, draft: Boolean, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType): Project
-  Projects(draft: Boolean, where: Project_where, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType, limit: Int, page: Int, sort: String): Projects
-  docAccessProject(id: String!): projectsDocAccess
-  versionProject(id: String, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType): ProjectVersion
-  versionsProjects(where: versionsProject_where, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType, limit: Int, page: Int, sort: String): versionsProjects
   Post(id: String!, draft: Boolean, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType): Post
   Posts(draft: Boolean, where: Post_where, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType, limit: Int, page: Int, sort: String): Posts
   docAccessPost(id: String!): postsDocAccess
@@ -59,6 +54,12 @@ type Query {
   DeliveryLocation(id: String!, draft: Boolean, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType): DeliveryLocation
   DeliveryLocations(draft: Boolean, where: DeliveryLocation_where, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType, limit: Int, page: Int, sort: String): DeliveryLocations
   docAccessDeliveryLocation(id: String!): deliveryLocationsDocAccess
+  LiveChat(id: String!, draft: Boolean, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType): LiveChat
+  LiveChats(draft: Boolean, where: LiveChat_where, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType, limit: Int, page: Int, sort: String): LiveChats
+  docAccessLiveChat(id: String!): LiveChatsDocAccess
+  EmailBulkySm(id: String!, draft: Boolean, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType): EmailBulkySm
+  EmailBulkySms(draft: Boolean, where: EmailBulkySm_where, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType, limit: Int, page: Int, sort: String): EmailBulkySms
+  docAccessEmailBulkySm(id: String!): EmailBulkySmsDocAccess
   Search(id: String!, draft: Boolean, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType): Search
   Searches(draft: Boolean, where: Search_where, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType, limit: Int, page: Int, sort: String): Searches
   docAccessSearch(id: String!): searchDocAccess
@@ -583,7 +584,7 @@ input Page_Hero_Media_where_or {
   OR: [Page_Hero_Media_where_or]
 }
 
-union Page_Layout = Cta | Content | MediaBlock | Archive | ContentMedia | CtaWithImage | DoubleMediaContent
+union Page_Layout = Cta | Content | MediaBlock | Archive | ContentMedia | CtaWithImage | DoubleMediaContent | ProductsSlider | Recommended | LastViewed | FlashSales | EventArchive | DealsArchive
 
 type Cta {
   invertBackground: Boolean
@@ -1534,6 +1535,9 @@ type Product {
   publishedOn: DateTime
   layout: [Product_Layout!]
   price: Float
+  discount: Float
+  discountedPrice: Float
+  ProductsAttributes(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [AttributesCollection!]
   categories(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Category!]
   relatedProducts(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Product!]
   slug: String
@@ -1554,6 +1558,29 @@ type Product {
 }
 
 union Product_Layout = Cta | Content | MediaBlock | Archive
+
+type AttributesCollection {
+  id: String
+  Attribute_Name: String!
+  Attribute_Property: [AttributesCollection_Attribute_Property!]
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type AttributesCollection_Attribute_Property {
+  label: String
+  type: AttributesCollection_Attribute_Property_type
+  colour: String
+  Number: Float
+  price: Float
+  id: String
+}
+
+enum AttributesCollection_Attribute_Property_type {
+  text
+  color
+  number
+}
 
 type Product_OtherImages {
   media(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType, where: Product_OtherImages_Media_where): Media
@@ -4235,6 +4262,48 @@ input DoubleMediaContent_MediaContentFields_MoreImages_Images_FourImages_Media_w
   id: DoubleMediaContent_MediaContentFields_MoreImages_Images_FourImages_Media_id_operator
   AND: [DoubleMediaContent_MediaContentFields_MoreImages_Images_FourImages_Media_where_and]
   OR: [DoubleMediaContent_MediaContentFields_MoreImages_Images_FourImages_Media_where_or]
+}
+
+type ProductsSlider {
+  selectedDocs(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Product!]
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type Recommended {
+  selectedDocs(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Product!]
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type LastViewed {
+  selectedDocs(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Product!]
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type FlashSales {
+  selectedDocs(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Product!]
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type EventArchive {
+  selectedDocs(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Product!]
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type DealsArchive {
+  selectedDocs(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Product!]
+  id: String
+  blockName: String
+  blockType: String
 }
 
 type Page_SlidingImages {
@@ -6963,7 +7032,7 @@ input PageVersion_Version_Hero_Media_where_or {
   OR: [PageVersion_Version_Hero_Media_where_or]
 }
 
-union PageVersion_Version_Layout = Cta | Content | MediaBlock | Archive | ContentMedia | CtaWithImage | DoubleMediaContent
+union PageVersion_Version_Layout = Cta | Content | MediaBlock | Archive | ContentMedia | CtaWithImage | DoubleMediaContent | ProductsSlider | Recommended | LastViewed | FlashSales | EventArchive | DealsArchive
 
 type PageVersion_Version_SlidingImages {
   media(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType, where: PageVersion_Version_SlidingImages_Media_where): Media
@@ -8141,6 +8210,9 @@ input Product_where {
   title: Product_title_operator
   publishedOn: Product_publishedOn_operator
   price: Product_price_operator
+  discount: Product_discount_operator
+  discountedPrice: Product_discountedPrice_operator
+  ProductsAttributes: Product_ProductsAttributes_operator
   categories: Product_categories_operator
   relatedProducts: Product_relatedProducts_operator
   slug: Product_slug_operator
@@ -8194,6 +8266,35 @@ input Product_price_operator {
   greater_than: Float
   less_than_equal: Float
   less_than: Float
+}
+
+input Product_discount_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Product_discountedPrice_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Product_ProductsAttributes_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
 }
 
 input Product_categories_operator {
@@ -8661,6 +8762,9 @@ input Product_where_and {
   title: Product_title_operator
   publishedOn: Product_publishedOn_operator
   price: Product_price_operator
+  discount: Product_discount_operator
+  discountedPrice: Product_discountedPrice_operator
+  ProductsAttributes: Product_ProductsAttributes_operator
   categories: Product_categories_operator
   relatedProducts: Product_relatedProducts_operator
   slug: Product_slug_operator
@@ -8690,6 +8794,9 @@ input Product_where_or {
   title: Product_title_operator
   publishedOn: Product_publishedOn_operator
   price: Product_price_operator
+  discount: Product_discount_operator
+  discountedPrice: Product_discountedPrice_operator
+  ProductsAttributes: Product_ProductsAttributes_operator
   categories: Product_categories_operator
   relatedProducts: Product_relatedProducts_operator
   slug: Product_slug_operator
@@ -8729,6 +8836,9 @@ type ProductsDocAccessFields {
   publishedOn: ProductsDocAccessFields_publishedOn
   layout: ProductsDocAccessFields_layout
   price: ProductsDocAccessFields_price
+  discount: ProductsDocAccessFields_discount
+  discountedPrice: ProductsDocAccessFields_discountedPrice
+  ProductsAttributes: ProductsDocAccessFields_ProductsAttributes
   categories: ProductsDocAccessFields_categories
   relatedProducts: ProductsDocAccessFields_relatedProducts
   slug: ProductsDocAccessFields_slug
@@ -8837,6 +8947,75 @@ type ProductsDocAccessFields_price_Update {
 }
 
 type ProductsDocAccessFields_price_Delete {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_discount {
+  create: ProductsDocAccessFields_discount_Create
+  read: ProductsDocAccessFields_discount_Read
+  update: ProductsDocAccessFields_discount_Update
+  delete: ProductsDocAccessFields_discount_Delete
+}
+
+type ProductsDocAccessFields_discount_Create {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_discount_Read {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_discount_Update {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_discount_Delete {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_discountedPrice {
+  create: ProductsDocAccessFields_discountedPrice_Create
+  read: ProductsDocAccessFields_discountedPrice_Read
+  update: ProductsDocAccessFields_discountedPrice_Update
+  delete: ProductsDocAccessFields_discountedPrice_Delete
+}
+
+type ProductsDocAccessFields_discountedPrice_Create {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_discountedPrice_Read {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_discountedPrice_Update {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_discountedPrice_Delete {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_ProductsAttributes {
+  create: ProductsDocAccessFields_ProductsAttributes_Create
+  read: ProductsDocAccessFields_ProductsAttributes_Read
+  update: ProductsDocAccessFields_ProductsAttributes_Update
+  delete: ProductsDocAccessFields_ProductsAttributes_Delete
+}
+
+type ProductsDocAccessFields_ProductsAttributes_Create {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_ProductsAttributes_Read {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_ProductsAttributes_Update {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_ProductsAttributes_Delete {
   permission: Boolean!
 }
 
@@ -9446,6 +9625,9 @@ type ProductVersion_Version {
   publishedOn: DateTime
   layout: [ProductVersion_Version_Layout!]
   price: Float
+  discount: Float
+  discountedPrice: Float
+  ProductsAttributes(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [AttributesCollection!]
   categories(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Category!]
   relatedProducts(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Product!]
   slug: String
@@ -10158,6 +10340,9 @@ input versionsProduct_where {
   version__title: versionsProduct_version__title_operator
   version__publishedOn: versionsProduct_version__publishedOn_operator
   version__price: versionsProduct_version__price_operator
+  version__discount: versionsProduct_version__discount_operator
+  version__discountedPrice: versionsProduct_version__discountedPrice_operator
+  version__ProductsAttributes: versionsProduct_version__ProductsAttributes_operator
   version__categories: versionsProduct_version__categories_operator
   version__relatedProducts: versionsProduct_version__relatedProducts_operator
   version__slug: versionsProduct_version__slug_operator
@@ -10223,6 +10408,35 @@ input versionsProduct_version__price_operator {
   greater_than: Float
   less_than_equal: Float
   less_than: Float
+}
+
+input versionsProduct_version__discount_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input versionsProduct_version__discountedPrice_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input versionsProduct_version__ProductsAttributes_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
 }
 
 input versionsProduct_version__categories_operator {
@@ -10719,6 +10933,9 @@ input versionsProduct_where_and {
   version__title: versionsProduct_version__title_operator
   version__publishedOn: versionsProduct_version__publishedOn_operator
   version__price: versionsProduct_version__price_operator
+  version__discount: versionsProduct_version__discount_operator
+  version__discountedPrice: versionsProduct_version__discountedPrice_operator
+  version__ProductsAttributes: versionsProduct_version__ProductsAttributes_operator
   version__categories: versionsProduct_version__categories_operator
   version__relatedProducts: versionsProduct_version__relatedProducts_operator
   version__slug: versionsProduct_version__slug_operator
@@ -10752,6 +10969,9 @@ input versionsProduct_where_or {
   version__title: versionsProduct_version__title_operator
   version__publishedOn: versionsProduct_version__publishedOn_operator
   version__price: versionsProduct_version__price_operator
+  version__discount: versionsProduct_version__discount_operator
+  version__discountedPrice: versionsProduct_version__discountedPrice_operator
+  version__ProductsAttributes: versionsProduct_version__ProductsAttributes_operator
   version__categories: versionsProduct_version__categories_operator
   version__relatedProducts: versionsProduct_version__relatedProducts_operator
   version__slug: versionsProduct_version__slug_operator
@@ -16281,1176 +16501,6 @@ input versionsComment_where_or {
   OR: [versionsComment_where_or]
 }
 
-type Project {
-  id: String
-  title: String
-  categories(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Category!]
-  publishedDate: DateTime
-  hero: Project_Hero
-  layout: [Project_Layout!]!
-  relatedProjects(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Project!]
-  slug: String
-  updatedAt: DateTime
-  createdAt: DateTime
-  _status: Project__status
-}
-
-type Project_Hero {
-  richText(depth: Int): JSON
-  media(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType, where: Project_Hero_Media_where): Media
-}
-
-input Project_Hero_Media_where {
-  alt: Project_Hero_Media_alt_operator
-  imagekit__fileId: Project_Hero_Media_imagekit__fileId_operator
-  imagekit__thumbnailUrl: Project_Hero_Media_imagekit__thumbnailUrl_operator
-  imagekit__url: Project_Hero_Media_imagekit__url_operator
-  updatedAt: Project_Hero_Media_updatedAt_operator
-  createdAt: Project_Hero_Media_createdAt_operator
-  url: Project_Hero_Media_url_operator
-  filename: Project_Hero_Media_filename_operator
-  mimeType: Project_Hero_Media_mimeType_operator
-  filesize: Project_Hero_Media_filesize_operator
-  width: Project_Hero_Media_width_operator
-  height: Project_Hero_Media_height_operator
-  id: Project_Hero_Media_id_operator
-  AND: [Project_Hero_Media_where_and]
-  OR: [Project_Hero_Media_where_or]
-}
-
-input Project_Hero_Media_alt_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input Project_Hero_Media_imagekit__fileId_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input Project_Hero_Media_imagekit__thumbnailUrl_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input Project_Hero_Media_imagekit__url_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input Project_Hero_Media_updatedAt_operator {
-  equals: DateTime
-  not_equals: DateTime
-  greater_than_equal: DateTime
-  greater_than: DateTime
-  less_than_equal: DateTime
-  less_than: DateTime
-  like: DateTime
-  exists: Boolean
-}
-
-input Project_Hero_Media_createdAt_operator {
-  equals: DateTime
-  not_equals: DateTime
-  greater_than_equal: DateTime
-  greater_than: DateTime
-  less_than_equal: DateTime
-  less_than: DateTime
-  like: DateTime
-  exists: Boolean
-}
-
-input Project_Hero_Media_url_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input Project_Hero_Media_filename_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input Project_Hero_Media_mimeType_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input Project_Hero_Media_filesize_operator {
-  equals: Float
-  not_equals: Float
-  greater_than_equal: Float
-  greater_than: Float
-  less_than_equal: Float
-  less_than: Float
-  exists: Boolean
-}
-
-input Project_Hero_Media_width_operator {
-  equals: Float
-  not_equals: Float
-  greater_than_equal: Float
-  greater_than: Float
-  less_than_equal: Float
-  less_than: Float
-  exists: Boolean
-}
-
-input Project_Hero_Media_height_operator {
-  equals: Float
-  not_equals: Float
-  greater_than_equal: Float
-  greater_than: Float
-  less_than_equal: Float
-  less_than: Float
-  exists: Boolean
-}
-
-input Project_Hero_Media_id_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input Project_Hero_Media_where_and {
-  alt: Project_Hero_Media_alt_operator
-  imagekit__fileId: Project_Hero_Media_imagekit__fileId_operator
-  imagekit__thumbnailUrl: Project_Hero_Media_imagekit__thumbnailUrl_operator
-  imagekit__url: Project_Hero_Media_imagekit__url_operator
-  updatedAt: Project_Hero_Media_updatedAt_operator
-  createdAt: Project_Hero_Media_createdAt_operator
-  url: Project_Hero_Media_url_operator
-  filename: Project_Hero_Media_filename_operator
-  mimeType: Project_Hero_Media_mimeType_operator
-  filesize: Project_Hero_Media_filesize_operator
-  width: Project_Hero_Media_width_operator
-  height: Project_Hero_Media_height_operator
-  id: Project_Hero_Media_id_operator
-  AND: [Project_Hero_Media_where_and]
-  OR: [Project_Hero_Media_where_or]
-}
-
-input Project_Hero_Media_where_or {
-  alt: Project_Hero_Media_alt_operator
-  imagekit__fileId: Project_Hero_Media_imagekit__fileId_operator
-  imagekit__thumbnailUrl: Project_Hero_Media_imagekit__thumbnailUrl_operator
-  imagekit__url: Project_Hero_Media_imagekit__url_operator
-  updatedAt: Project_Hero_Media_updatedAt_operator
-  createdAt: Project_Hero_Media_createdAt_operator
-  url: Project_Hero_Media_url_operator
-  filename: Project_Hero_Media_filename_operator
-  mimeType: Project_Hero_Media_mimeType_operator
-  filesize: Project_Hero_Media_filesize_operator
-  width: Project_Hero_Media_width_operator
-  height: Project_Hero_Media_height_operator
-  id: Project_Hero_Media_id_operator
-  AND: [Project_Hero_Media_where_and]
-  OR: [Project_Hero_Media_where_or]
-}
-
-union Project_Layout = Cta | Content | ContentMedia | MediaBlock | Archive
-
-enum Project__status {
-  draft
-  published
-}
-
-type Projects {
-  docs: [Project]
-  hasNextPage: Boolean
-  hasPrevPage: Boolean
-  limit: Int
-  nextPage: Int
-  offset: Int
-  page: Int
-  pagingCounter: Int
-  prevPage: Int
-  totalDocs: Int
-  totalPages: Int
-}
-
-input Project_where {
-  title: Project_title_operator
-  categories: Project_categories_operator
-  publishedDate: Project_publishedDate_operator
-  hero__richText: Project_hero__richText_operator
-  hero__media: Project_hero__media_operator
-  relatedProjects: Project_relatedProjects_operator
-  slug: Project_slug_operator
-  updatedAt: Project_updatedAt_operator
-  createdAt: Project_createdAt_operator
-  _status: Project__status_operator
-  id: Project_id_operator
-  AND: [Project_where_and]
-  OR: [Project_where_or]
-}
-
-input Project_title_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-}
-
-input Project_categories_operator {
-  equals: JSON
-  not_equals: JSON
-  in: [JSON]
-  not_in: [JSON]
-  all: [JSON]
-  exists: Boolean
-}
-
-input Project_publishedDate_operator {
-  equals: DateTime
-  not_equals: DateTime
-  greater_than_equal: DateTime
-  greater_than: DateTime
-  less_than_equal: DateTime
-  less_than: DateTime
-  like: DateTime
-  exists: Boolean
-}
-
-input Project_hero__richText_operator {
-  equals: JSON
-  not_equals: JSON
-  like: JSON
-  contains: JSON
-}
-
-input Project_hero__media_operator {
-  equals: String
-  not_equals: String
-  exists: Boolean
-}
-
-input Project_relatedProjects_operator {
-  equals: JSON
-  not_equals: JSON
-  in: [JSON]
-  not_in: [JSON]
-  all: [JSON]
-  exists: Boolean
-}
-
-input Project_slug_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input Project_updatedAt_operator {
-  equals: DateTime
-  not_equals: DateTime
-  greater_than_equal: DateTime
-  greater_than: DateTime
-  less_than_equal: DateTime
-  less_than: DateTime
-  like: DateTime
-  exists: Boolean
-}
-
-input Project_createdAt_operator {
-  equals: DateTime
-  not_equals: DateTime
-  greater_than_equal: DateTime
-  greater_than: DateTime
-  less_than_equal: DateTime
-  less_than: DateTime
-  like: DateTime
-  exists: Boolean
-}
-
-input Project__status_operator {
-  equals: Project__status_Input
-  not_equals: Project__status_Input
-  in: [Project__status_Input]
-  not_in: [Project__status_Input]
-  all: [Project__status_Input]
-  exists: Boolean
-}
-
-enum Project__status_Input {
-  draft
-  published
-}
-
-input Project_id_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input Project_where_and {
-  title: Project_title_operator
-  categories: Project_categories_operator
-  publishedDate: Project_publishedDate_operator
-  hero__richText: Project_hero__richText_operator
-  hero__media: Project_hero__media_operator
-  relatedProjects: Project_relatedProjects_operator
-  slug: Project_slug_operator
-  updatedAt: Project_updatedAt_operator
-  createdAt: Project_createdAt_operator
-  _status: Project__status_operator
-  id: Project_id_operator
-  AND: [Project_where_and]
-  OR: [Project_where_or]
-}
-
-input Project_where_or {
-  title: Project_title_operator
-  categories: Project_categories_operator
-  publishedDate: Project_publishedDate_operator
-  hero__richText: Project_hero__richText_operator
-  hero__media: Project_hero__media_operator
-  relatedProjects: Project_relatedProjects_operator
-  slug: Project_slug_operator
-  updatedAt: Project_updatedAt_operator
-  createdAt: Project_createdAt_operator
-  _status: Project__status_operator
-  id: Project_id_operator
-  AND: [Project_where_and]
-  OR: [Project_where_or]
-}
-
-type projectsDocAccess {
-  fields: ProjectsDocAccessFields
-  create: ProjectsCreateDocAccess
-  read: ProjectsReadDocAccess
-  update: ProjectsUpdateDocAccess
-  delete: ProjectsDeleteDocAccess
-  readVersions: ProjectsReadVersionsDocAccess
-}
-
-type ProjectsDocAccessFields {
-  title: ProjectsDocAccessFields_title
-  categories: ProjectsDocAccessFields_categories
-  publishedDate: ProjectsDocAccessFields_publishedDate
-  hero: ProjectsDocAccessFields_hero
-  layout: ProjectsDocAccessFields_layout
-  relatedProjects: ProjectsDocAccessFields_relatedProjects
-  slug: ProjectsDocAccessFields_slug
-  updatedAt: ProjectsDocAccessFields_updatedAt
-  createdAt: ProjectsDocAccessFields_createdAt
-  _status: ProjectsDocAccessFields__status
-}
-
-type ProjectsDocAccessFields_title {
-  create: ProjectsDocAccessFields_title_Create
-  read: ProjectsDocAccessFields_title_Read
-  update: ProjectsDocAccessFields_title_Update
-  delete: ProjectsDocAccessFields_title_Delete
-}
-
-type ProjectsDocAccessFields_title_Create {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_title_Read {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_title_Update {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_title_Delete {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_categories {
-  create: ProjectsDocAccessFields_categories_Create
-  read: ProjectsDocAccessFields_categories_Read
-  update: ProjectsDocAccessFields_categories_Update
-  delete: ProjectsDocAccessFields_categories_Delete
-}
-
-type ProjectsDocAccessFields_categories_Create {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_categories_Read {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_categories_Update {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_categories_Delete {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_publishedDate {
-  create: ProjectsDocAccessFields_publishedDate_Create
-  read: ProjectsDocAccessFields_publishedDate_Read
-  update: ProjectsDocAccessFields_publishedDate_Update
-  delete: ProjectsDocAccessFields_publishedDate_Delete
-}
-
-type ProjectsDocAccessFields_publishedDate_Create {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_publishedDate_Read {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_publishedDate_Update {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_publishedDate_Delete {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_hero {
-  create: ProjectsDocAccessFields_hero_Create
-  read: ProjectsDocAccessFields_hero_Read
-  update: ProjectsDocAccessFields_hero_Update
-  delete: ProjectsDocAccessFields_hero_Delete
-  fields: ProjectsDocAccessFields_hero_Fields
-}
-
-type ProjectsDocAccessFields_hero_Create {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_hero_Read {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_hero_Update {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_hero_Delete {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_hero_Fields {
-  richText: ProjectsDocAccessFields_hero_richText
-  media: ProjectsDocAccessFields_hero_media
-}
-
-type ProjectsDocAccessFields_hero_richText {
-  create: ProjectsDocAccessFields_hero_richText_Create
-  read: ProjectsDocAccessFields_hero_richText_Read
-  update: ProjectsDocAccessFields_hero_richText_Update
-  delete: ProjectsDocAccessFields_hero_richText_Delete
-}
-
-type ProjectsDocAccessFields_hero_richText_Create {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_hero_richText_Read {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_hero_richText_Update {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_hero_richText_Delete {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_hero_media {
-  create: ProjectsDocAccessFields_hero_media_Create
-  read: ProjectsDocAccessFields_hero_media_Read
-  update: ProjectsDocAccessFields_hero_media_Update
-  delete: ProjectsDocAccessFields_hero_media_Delete
-}
-
-type ProjectsDocAccessFields_hero_media_Create {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_hero_media_Read {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_hero_media_Update {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_hero_media_Delete {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_layout {
-  create: ProjectsDocAccessFields_layout_Create
-  read: ProjectsDocAccessFields_layout_Read
-  update: ProjectsDocAccessFields_layout_Update
-  delete: ProjectsDocAccessFields_layout_Delete
-}
-
-type ProjectsDocAccessFields_layout_Create {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_layout_Read {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_layout_Update {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_layout_Delete {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_relatedProjects {
-  create: ProjectsDocAccessFields_relatedProjects_Create
-  read: ProjectsDocAccessFields_relatedProjects_Read
-  update: ProjectsDocAccessFields_relatedProjects_Update
-  delete: ProjectsDocAccessFields_relatedProjects_Delete
-}
-
-type ProjectsDocAccessFields_relatedProjects_Create {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_relatedProjects_Read {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_relatedProjects_Update {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_relatedProjects_Delete {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_slug {
-  create: ProjectsDocAccessFields_slug_Create
-  read: ProjectsDocAccessFields_slug_Read
-  update: ProjectsDocAccessFields_slug_Update
-  delete: ProjectsDocAccessFields_slug_Delete
-}
-
-type ProjectsDocAccessFields_slug_Create {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_slug_Read {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_slug_Update {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_slug_Delete {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_updatedAt {
-  create: ProjectsDocAccessFields_updatedAt_Create
-  read: ProjectsDocAccessFields_updatedAt_Read
-  update: ProjectsDocAccessFields_updatedAt_Update
-  delete: ProjectsDocAccessFields_updatedAt_Delete
-}
-
-type ProjectsDocAccessFields_updatedAt_Create {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_updatedAt_Read {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_updatedAt_Update {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_updatedAt_Delete {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_createdAt {
-  create: ProjectsDocAccessFields_createdAt_Create
-  read: ProjectsDocAccessFields_createdAt_Read
-  update: ProjectsDocAccessFields_createdAt_Update
-  delete: ProjectsDocAccessFields_createdAt_Delete
-}
-
-type ProjectsDocAccessFields_createdAt_Create {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_createdAt_Read {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_createdAt_Update {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields_createdAt_Delete {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields__status {
-  create: ProjectsDocAccessFields__status_Create
-  read: ProjectsDocAccessFields__status_Read
-  update: ProjectsDocAccessFields__status_Update
-  delete: ProjectsDocAccessFields__status_Delete
-}
-
-type ProjectsDocAccessFields__status_Create {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields__status_Read {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields__status_Update {
-  permission: Boolean!
-}
-
-type ProjectsDocAccessFields__status_Delete {
-  permission: Boolean!
-}
-
-type ProjectsCreateDocAccess {
-  permission: Boolean!
-  where: JSONObject
-}
-
-type ProjectsReadDocAccess {
-  permission: Boolean!
-  where: JSONObject
-}
-
-type ProjectsUpdateDocAccess {
-  permission: Boolean!
-  where: JSONObject
-}
-
-type ProjectsDeleteDocAccess {
-  permission: Boolean!
-  where: JSONObject
-}
-
-type ProjectsReadVersionsDocAccess {
-  permission: Boolean!
-  where: JSONObject
-}
-
-type ProjectVersion {
-  parent(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): Project
-  version: ProjectVersion_Version
-  createdAt: DateTime
-  updatedAt: DateTime
-  latest: Boolean
-  id: String
-}
-
-type ProjectVersion_Version {
-  title: String
-  categories(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Category!]
-  publishedDate: DateTime
-  hero: ProjectVersion_Version_Hero
-  layout: [ProjectVersion_Version_Layout!]!
-  relatedProjects(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Project!]
-  slug: String
-  updatedAt: DateTime
-  createdAt: DateTime
-  _status: ProjectVersion_Version__status
-}
-
-type ProjectVersion_Version_Hero {
-  richText(depth: Int): JSON
-  media(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType, where: ProjectVersion_Version_Hero_Media_where): Media
-}
-
-input ProjectVersion_Version_Hero_Media_where {
-  alt: ProjectVersion_Version_Hero_Media_alt_operator
-  imagekit__fileId: ProjectVersion_Version_Hero_Media_imagekit__fileId_operator
-  imagekit__thumbnailUrl: ProjectVersion_Version_Hero_Media_imagekit__thumbnailUrl_operator
-  imagekit__url: ProjectVersion_Version_Hero_Media_imagekit__url_operator
-  updatedAt: ProjectVersion_Version_Hero_Media_updatedAt_operator
-  createdAt: ProjectVersion_Version_Hero_Media_createdAt_operator
-  url: ProjectVersion_Version_Hero_Media_url_operator
-  filename: ProjectVersion_Version_Hero_Media_filename_operator
-  mimeType: ProjectVersion_Version_Hero_Media_mimeType_operator
-  filesize: ProjectVersion_Version_Hero_Media_filesize_operator
-  width: ProjectVersion_Version_Hero_Media_width_operator
-  height: ProjectVersion_Version_Hero_Media_height_operator
-  id: ProjectVersion_Version_Hero_Media_id_operator
-  AND: [ProjectVersion_Version_Hero_Media_where_and]
-  OR: [ProjectVersion_Version_Hero_Media_where_or]
-}
-
-input ProjectVersion_Version_Hero_Media_alt_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input ProjectVersion_Version_Hero_Media_imagekit__fileId_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input ProjectVersion_Version_Hero_Media_imagekit__thumbnailUrl_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input ProjectVersion_Version_Hero_Media_imagekit__url_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input ProjectVersion_Version_Hero_Media_updatedAt_operator {
-  equals: DateTime
-  not_equals: DateTime
-  greater_than_equal: DateTime
-  greater_than: DateTime
-  less_than_equal: DateTime
-  less_than: DateTime
-  like: DateTime
-  exists: Boolean
-}
-
-input ProjectVersion_Version_Hero_Media_createdAt_operator {
-  equals: DateTime
-  not_equals: DateTime
-  greater_than_equal: DateTime
-  greater_than: DateTime
-  less_than_equal: DateTime
-  less_than: DateTime
-  like: DateTime
-  exists: Boolean
-}
-
-input ProjectVersion_Version_Hero_Media_url_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input ProjectVersion_Version_Hero_Media_filename_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input ProjectVersion_Version_Hero_Media_mimeType_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input ProjectVersion_Version_Hero_Media_filesize_operator {
-  equals: Float
-  not_equals: Float
-  greater_than_equal: Float
-  greater_than: Float
-  less_than_equal: Float
-  less_than: Float
-  exists: Boolean
-}
-
-input ProjectVersion_Version_Hero_Media_width_operator {
-  equals: Float
-  not_equals: Float
-  greater_than_equal: Float
-  greater_than: Float
-  less_than_equal: Float
-  less_than: Float
-  exists: Boolean
-}
-
-input ProjectVersion_Version_Hero_Media_height_operator {
-  equals: Float
-  not_equals: Float
-  greater_than_equal: Float
-  greater_than: Float
-  less_than_equal: Float
-  less_than: Float
-  exists: Boolean
-}
-
-input ProjectVersion_Version_Hero_Media_id_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input ProjectVersion_Version_Hero_Media_where_and {
-  alt: ProjectVersion_Version_Hero_Media_alt_operator
-  imagekit__fileId: ProjectVersion_Version_Hero_Media_imagekit__fileId_operator
-  imagekit__thumbnailUrl: ProjectVersion_Version_Hero_Media_imagekit__thumbnailUrl_operator
-  imagekit__url: ProjectVersion_Version_Hero_Media_imagekit__url_operator
-  updatedAt: ProjectVersion_Version_Hero_Media_updatedAt_operator
-  createdAt: ProjectVersion_Version_Hero_Media_createdAt_operator
-  url: ProjectVersion_Version_Hero_Media_url_operator
-  filename: ProjectVersion_Version_Hero_Media_filename_operator
-  mimeType: ProjectVersion_Version_Hero_Media_mimeType_operator
-  filesize: ProjectVersion_Version_Hero_Media_filesize_operator
-  width: ProjectVersion_Version_Hero_Media_width_operator
-  height: ProjectVersion_Version_Hero_Media_height_operator
-  id: ProjectVersion_Version_Hero_Media_id_operator
-  AND: [ProjectVersion_Version_Hero_Media_where_and]
-  OR: [ProjectVersion_Version_Hero_Media_where_or]
-}
-
-input ProjectVersion_Version_Hero_Media_where_or {
-  alt: ProjectVersion_Version_Hero_Media_alt_operator
-  imagekit__fileId: ProjectVersion_Version_Hero_Media_imagekit__fileId_operator
-  imagekit__thumbnailUrl: ProjectVersion_Version_Hero_Media_imagekit__thumbnailUrl_operator
-  imagekit__url: ProjectVersion_Version_Hero_Media_imagekit__url_operator
-  updatedAt: ProjectVersion_Version_Hero_Media_updatedAt_operator
-  createdAt: ProjectVersion_Version_Hero_Media_createdAt_operator
-  url: ProjectVersion_Version_Hero_Media_url_operator
-  filename: ProjectVersion_Version_Hero_Media_filename_operator
-  mimeType: ProjectVersion_Version_Hero_Media_mimeType_operator
-  filesize: ProjectVersion_Version_Hero_Media_filesize_operator
-  width: ProjectVersion_Version_Hero_Media_width_operator
-  height: ProjectVersion_Version_Hero_Media_height_operator
-  id: ProjectVersion_Version_Hero_Media_id_operator
-  AND: [ProjectVersion_Version_Hero_Media_where_and]
-  OR: [ProjectVersion_Version_Hero_Media_where_or]
-}
-
-union ProjectVersion_Version_Layout = Cta | Content | ContentMedia | MediaBlock | Archive
-
-enum ProjectVersion_Version__status {
-  draft
-  published
-}
-
-type versionsProjects {
-  docs: [ProjectVersion]
-  hasNextPage: Boolean
-  hasPrevPage: Boolean
-  limit: Int
-  nextPage: Int
-  offset: Int
-  page: Int
-  pagingCounter: Int
-  prevPage: Int
-  totalDocs: Int
-  totalPages: Int
-}
-
-input versionsProject_where {
-  parent: versionsProject_parent_operator
-  version__title: versionsProject_version__title_operator
-  version__categories: versionsProject_version__categories_operator
-  version__publishedDate: versionsProject_version__publishedDate_operator
-  version__hero__richText: versionsProject_version__hero__richText_operator
-  version__hero__media: versionsProject_version__hero__media_operator
-  version__relatedProjects: versionsProject_version__relatedProjects_operator
-  version__slug: versionsProject_version__slug_operator
-  version__updatedAt: versionsProject_version__updatedAt_operator
-  version__createdAt: versionsProject_version__createdAt_operator
-  version___status: versionsProject_version___status_operator
-  createdAt: versionsProject_createdAt_operator
-  updatedAt: versionsProject_updatedAt_operator
-  latest: versionsProject_latest_operator
-  id: versionsProject_id_operator
-  AND: [versionsProject_where_and]
-  OR: [versionsProject_where_or]
-}
-
-input versionsProject_parent_operator {
-  equals: JSON
-  not_equals: JSON
-  in: [JSON]
-  not_in: [JSON]
-  all: [JSON]
-  exists: Boolean
-}
-
-input versionsProject_version__title_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-}
-
-input versionsProject_version__categories_operator {
-  equals: JSON
-  not_equals: JSON
-  in: [JSON]
-  not_in: [JSON]
-  all: [JSON]
-  exists: Boolean
-}
-
-input versionsProject_version__publishedDate_operator {
-  equals: DateTime
-  not_equals: DateTime
-  greater_than_equal: DateTime
-  greater_than: DateTime
-  less_than_equal: DateTime
-  less_than: DateTime
-  like: DateTime
-  exists: Boolean
-}
-
-input versionsProject_version__hero__richText_operator {
-  equals: JSON
-  not_equals: JSON
-  like: JSON
-  contains: JSON
-}
-
-input versionsProject_version__hero__media_operator {
-  equals: String
-  not_equals: String
-  exists: Boolean
-}
-
-input versionsProject_version__relatedProjects_operator {
-  equals: JSON
-  not_equals: JSON
-  in: [JSON]
-  not_in: [JSON]
-  all: [JSON]
-  exists: Boolean
-}
-
-input versionsProject_version__slug_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input versionsProject_version__updatedAt_operator {
-  equals: DateTime
-  not_equals: DateTime
-  greater_than_equal: DateTime
-  greater_than: DateTime
-  less_than_equal: DateTime
-  less_than: DateTime
-  like: DateTime
-  exists: Boolean
-}
-
-input versionsProject_version__createdAt_operator {
-  equals: DateTime
-  not_equals: DateTime
-  greater_than_equal: DateTime
-  greater_than: DateTime
-  less_than_equal: DateTime
-  less_than: DateTime
-  like: DateTime
-  exists: Boolean
-}
-
-input versionsProject_version___status_operator {
-  equals: versionsProject_version___status_Input
-  not_equals: versionsProject_version___status_Input
-  in: [versionsProject_version___status_Input]
-  not_in: [versionsProject_version___status_Input]
-  all: [versionsProject_version___status_Input]
-  exists: Boolean
-}
-
-enum versionsProject_version___status_Input {
-  draft
-  published
-}
-
-input versionsProject_createdAt_operator {
-  equals: DateTime
-  not_equals: DateTime
-  greater_than_equal: DateTime
-  greater_than: DateTime
-  less_than_equal: DateTime
-  less_than: DateTime
-  like: DateTime
-  exists: Boolean
-}
-
-input versionsProject_updatedAt_operator {
-  equals: DateTime
-  not_equals: DateTime
-  greater_than_equal: DateTime
-  greater_than: DateTime
-  less_than_equal: DateTime
-  less_than: DateTime
-  like: DateTime
-  exists: Boolean
-}
-
-input versionsProject_latest_operator {
-  equals: Boolean
-  not_equals: Boolean
-  exists: Boolean
-}
-
-input versionsProject_id_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input versionsProject_where_and {
-  parent: versionsProject_parent_operator
-  version__title: versionsProject_version__title_operator
-  version__categories: versionsProject_version__categories_operator
-  version__publishedDate: versionsProject_version__publishedDate_operator
-  version__hero__richText: versionsProject_version__hero__richText_operator
-  version__hero__media: versionsProject_version__hero__media_operator
-  version__relatedProjects: versionsProject_version__relatedProjects_operator
-  version__slug: versionsProject_version__slug_operator
-  version__updatedAt: versionsProject_version__updatedAt_operator
-  version__createdAt: versionsProject_version__createdAt_operator
-  version___status: versionsProject_version___status_operator
-  createdAt: versionsProject_createdAt_operator
-  updatedAt: versionsProject_updatedAt_operator
-  latest: versionsProject_latest_operator
-  id: versionsProject_id_operator
-  AND: [versionsProject_where_and]
-  OR: [versionsProject_where_or]
-}
-
-input versionsProject_where_or {
-  parent: versionsProject_parent_operator
-  version__title: versionsProject_version__title_operator
-  version__categories: versionsProject_version__categories_operator
-  version__publishedDate: versionsProject_version__publishedDate_operator
-  version__hero__richText: versionsProject_version__hero__richText_operator
-  version__hero__media: versionsProject_version__hero__media_operator
-  version__relatedProjects: versionsProject_version__relatedProjects_operator
-  version__slug: versionsProject_version__slug_operator
-  version__updatedAt: versionsProject_version__updatedAt_operator
-  version__createdAt: versionsProject_version__createdAt_operator
-  version___status: versionsProject_version___status_operator
-  createdAt: versionsProject_createdAt_operator
-  updatedAt: versionsProject_updatedAt_operator
-  latest: versionsProject_latest_operator
-  id: versionsProject_id_operator
-  AND: [versionsProject_where_and]
-  OR: [versionsProject_where_or]
-}
-
 type Posts {
   docs: [Post]
   hasNextPage: Boolean
@@ -21020,21 +20070,6 @@ type HeadercategoriesDeleteDocAccess {
   where: JSONObject
 }
 
-type AttributesCollection {
-  id: String
-  Attribute_Name: String!
-  Attribute_Property: [Attribute_Properties!]
-  updatedAt: DateTime
-  createdAt: DateTime
-}
-
-type Attribute_Properties {
-  label: String
-  value: String
-  Price: Float
-  id: String
-}
-
 type AttributesCollections {
   docs: [AttributesCollection]
   hasNextPage: Boolean
@@ -21052,8 +20087,10 @@ type AttributesCollections {
 input AttributesCollection_where {
   Attribute_Name: AttributesCollection_Attribute_Name_operator
   Attribute_Property__label: AttributesCollection_Attribute_Property__label_operator
-  Attribute_Property__value: AttributesCollection_Attribute_Property__value_operator
-  Attribute_Property__Price: AttributesCollection_Attribute_Property__Price_operator
+  Attribute_Property__type: AttributesCollection_Attribute_Property__type_operator
+  Attribute_Property__colour: AttributesCollection_Attribute_Property__colour_operator
+  Attribute_Property__Number: AttributesCollection_Attribute_Property__Number_operator
+  Attribute_Property__price: AttributesCollection_Attribute_Property__price_operator
   Attribute_Property__id: AttributesCollection_Attribute_Property__id_operator
   updatedAt: AttributesCollection_updatedAt_operator
   createdAt: AttributesCollection_createdAt_operator
@@ -21082,7 +20119,22 @@ input AttributesCollection_Attribute_Property__label_operator {
   all: [String]
 }
 
-input AttributesCollection_Attribute_Property__value_operator {
+input AttributesCollection_Attribute_Property__type_operator {
+  equals: AttributesCollection_Attribute_Property__type_Input
+  not_equals: AttributesCollection_Attribute_Property__type_Input
+  in: [AttributesCollection_Attribute_Property__type_Input]
+  not_in: [AttributesCollection_Attribute_Property__type_Input]
+  all: [AttributesCollection_Attribute_Property__type_Input]
+  exists: Boolean
+}
+
+enum AttributesCollection_Attribute_Property__type_Input {
+  text
+  color
+  number
+}
+
+input AttributesCollection_Attribute_Property__colour_operator {
   equals: String
   not_equals: String
   like: String
@@ -21092,7 +20144,16 @@ input AttributesCollection_Attribute_Property__value_operator {
   all: [String]
 }
 
-input AttributesCollection_Attribute_Property__Price_operator {
+input AttributesCollection_Attribute_Property__Number_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+}
+
+input AttributesCollection_Attribute_Property__price_operator {
   equals: Float
   not_equals: Float
   greater_than_equal: Float
@@ -21149,8 +20210,10 @@ input AttributesCollection_id_operator {
 input AttributesCollection_where_and {
   Attribute_Name: AttributesCollection_Attribute_Name_operator
   Attribute_Property__label: AttributesCollection_Attribute_Property__label_operator
-  Attribute_Property__value: AttributesCollection_Attribute_Property__value_operator
-  Attribute_Property__Price: AttributesCollection_Attribute_Property__Price_operator
+  Attribute_Property__type: AttributesCollection_Attribute_Property__type_operator
+  Attribute_Property__colour: AttributesCollection_Attribute_Property__colour_operator
+  Attribute_Property__Number: AttributesCollection_Attribute_Property__Number_operator
+  Attribute_Property__price: AttributesCollection_Attribute_Property__price_operator
   Attribute_Property__id: AttributesCollection_Attribute_Property__id_operator
   updatedAt: AttributesCollection_updatedAt_operator
   createdAt: AttributesCollection_createdAt_operator
@@ -21162,8 +20225,10 @@ input AttributesCollection_where_and {
 input AttributesCollection_where_or {
   Attribute_Name: AttributesCollection_Attribute_Name_operator
   Attribute_Property__label: AttributesCollection_Attribute_Property__label_operator
-  Attribute_Property__value: AttributesCollection_Attribute_Property__value_operator
-  Attribute_Property__Price: AttributesCollection_Attribute_Property__Price_operator
+  Attribute_Property__type: AttributesCollection_Attribute_Property__type_operator
+  Attribute_Property__colour: AttributesCollection_Attribute_Property__colour_operator
+  Attribute_Property__Number: AttributesCollection_Attribute_Property__Number_operator
+  Attribute_Property__price: AttributesCollection_Attribute_Property__price_operator
   Attribute_Property__id: AttributesCollection_Attribute_Property__id_operator
   updatedAt: AttributesCollection_updatedAt_operator
   createdAt: AttributesCollection_createdAt_operator
@@ -21236,8 +20301,10 @@ type AttributesCollectionDocAccessFields_Attribute_Property_Delete {
 
 type AttributesCollectionDocAccessFields_Attribute_Property_Fields {
   label: AttributesCollectionDocAccessFields_Attribute_Property_label
-  value: AttributesCollectionDocAccessFields_Attribute_Property_value
-  Price: AttributesCollectionDocAccessFields_Attribute_Property_Price
+  type: AttributesCollectionDocAccessFields_Attribute_Property_type
+  colour: AttributesCollectionDocAccessFields_Attribute_Property_colour
+  Number: AttributesCollectionDocAccessFields_Attribute_Property_Number
+  price: AttributesCollectionDocAccessFields_Attribute_Property_price
   id: AttributesCollectionDocAccessFields_Attribute_Property_id
 }
 
@@ -21264,49 +20331,95 @@ type AttributesCollectionDocAccessFields_Attribute_Property_label_Delete {
   permission: Boolean!
 }
 
-type AttributesCollectionDocAccessFields_Attribute_Property_value {
-  create: AttributesCollectionDocAccessFields_Attribute_Property_value_Create
-  read: AttributesCollectionDocAccessFields_Attribute_Property_value_Read
-  update: AttributesCollectionDocAccessFields_Attribute_Property_value_Update
-  delete: AttributesCollectionDocAccessFields_Attribute_Property_value_Delete
+type AttributesCollectionDocAccessFields_Attribute_Property_type {
+  create: AttributesCollectionDocAccessFields_Attribute_Property_type_Create
+  read: AttributesCollectionDocAccessFields_Attribute_Property_type_Read
+  update: AttributesCollectionDocAccessFields_Attribute_Property_type_Update
+  delete: AttributesCollectionDocAccessFields_Attribute_Property_type_Delete
 }
 
-type AttributesCollectionDocAccessFields_Attribute_Property_value_Create {
+type AttributesCollectionDocAccessFields_Attribute_Property_type_Create {
   permission: Boolean!
 }
 
-type AttributesCollectionDocAccessFields_Attribute_Property_value_Read {
+type AttributesCollectionDocAccessFields_Attribute_Property_type_Read {
   permission: Boolean!
 }
 
-type AttributesCollectionDocAccessFields_Attribute_Property_value_Update {
+type AttributesCollectionDocAccessFields_Attribute_Property_type_Update {
   permission: Boolean!
 }
 
-type AttributesCollectionDocAccessFields_Attribute_Property_value_Delete {
+type AttributesCollectionDocAccessFields_Attribute_Property_type_Delete {
   permission: Boolean!
 }
 
-type AttributesCollectionDocAccessFields_Attribute_Property_Price {
-  create: AttributesCollectionDocAccessFields_Attribute_Property_Price_Create
-  read: AttributesCollectionDocAccessFields_Attribute_Property_Price_Read
-  update: AttributesCollectionDocAccessFields_Attribute_Property_Price_Update
-  delete: AttributesCollectionDocAccessFields_Attribute_Property_Price_Delete
+type AttributesCollectionDocAccessFields_Attribute_Property_colour {
+  create: AttributesCollectionDocAccessFields_Attribute_Property_colour_Create
+  read: AttributesCollectionDocAccessFields_Attribute_Property_colour_Read
+  update: AttributesCollectionDocAccessFields_Attribute_Property_colour_Update
+  delete: AttributesCollectionDocAccessFields_Attribute_Property_colour_Delete
 }
 
-type AttributesCollectionDocAccessFields_Attribute_Property_Price_Create {
+type AttributesCollectionDocAccessFields_Attribute_Property_colour_Create {
   permission: Boolean!
 }
 
-type AttributesCollectionDocAccessFields_Attribute_Property_Price_Read {
+type AttributesCollectionDocAccessFields_Attribute_Property_colour_Read {
   permission: Boolean!
 }
 
-type AttributesCollectionDocAccessFields_Attribute_Property_Price_Update {
+type AttributesCollectionDocAccessFields_Attribute_Property_colour_Update {
   permission: Boolean!
 }
 
-type AttributesCollectionDocAccessFields_Attribute_Property_Price_Delete {
+type AttributesCollectionDocAccessFields_Attribute_Property_colour_Delete {
+  permission: Boolean!
+}
+
+type AttributesCollectionDocAccessFields_Attribute_Property_Number {
+  create: AttributesCollectionDocAccessFields_Attribute_Property_Number_Create
+  read: AttributesCollectionDocAccessFields_Attribute_Property_Number_Read
+  update: AttributesCollectionDocAccessFields_Attribute_Property_Number_Update
+  delete: AttributesCollectionDocAccessFields_Attribute_Property_Number_Delete
+}
+
+type AttributesCollectionDocAccessFields_Attribute_Property_Number_Create {
+  permission: Boolean!
+}
+
+type AttributesCollectionDocAccessFields_Attribute_Property_Number_Read {
+  permission: Boolean!
+}
+
+type AttributesCollectionDocAccessFields_Attribute_Property_Number_Update {
+  permission: Boolean!
+}
+
+type AttributesCollectionDocAccessFields_Attribute_Property_Number_Delete {
+  permission: Boolean!
+}
+
+type AttributesCollectionDocAccessFields_Attribute_Property_price {
+  create: AttributesCollectionDocAccessFields_Attribute_Property_price_Create
+  read: AttributesCollectionDocAccessFields_Attribute_Property_price_Read
+  update: AttributesCollectionDocAccessFields_Attribute_Property_price_Update
+  delete: AttributesCollectionDocAccessFields_Attribute_Property_price_Delete
+}
+
+type AttributesCollectionDocAccessFields_Attribute_Property_price_Create {
+  permission: Boolean!
+}
+
+type AttributesCollectionDocAccessFields_Attribute_Property_price_Read {
+  permission: Boolean!
+}
+
+type AttributesCollectionDocAccessFields_Attribute_Property_price_Update {
+  permission: Boolean!
+}
+
+type AttributesCollectionDocAccessFields_Attribute_Property_price_Delete {
   permission: Boolean!
 }
 
@@ -21741,6 +20854,396 @@ type DeliveryLocationsUpdateDocAccess {
 }
 
 type DeliveryLocationsDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type LiveChat {
+  id: String
+  alt: String
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type LiveChats {
+  docs: [LiveChat]
+  hasNextPage: Boolean
+  hasPrevPage: Boolean
+  limit: Int
+  nextPage: Int
+  offset: Int
+  page: Int
+  pagingCounter: Int
+  prevPage: Int
+  totalDocs: Int
+  totalPages: Int
+}
+
+input LiveChat_where {
+  alt: LiveChat_alt_operator
+  updatedAt: LiveChat_updatedAt_operator
+  createdAt: LiveChat_createdAt_operator
+  id: LiveChat_id_operator
+  AND: [LiveChat_where_and]
+  OR: [LiveChat_where_or]
+}
+
+input LiveChat_alt_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input LiveChat_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input LiveChat_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input LiveChat_id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input LiveChat_where_and {
+  alt: LiveChat_alt_operator
+  updatedAt: LiveChat_updatedAt_operator
+  createdAt: LiveChat_createdAt_operator
+  id: LiveChat_id_operator
+  AND: [LiveChat_where_and]
+  OR: [LiveChat_where_or]
+}
+
+input LiveChat_where_or {
+  alt: LiveChat_alt_operator
+  updatedAt: LiveChat_updatedAt_operator
+  createdAt: LiveChat_createdAt_operator
+  id: LiveChat_id_operator
+  AND: [LiveChat_where_and]
+  OR: [LiveChat_where_or]
+}
+
+type LiveChatsDocAccess {
+  fields: LiveChatsDocAccessFields
+  create: LiveChatsCreateDocAccess
+  read: LiveChatsReadDocAccess
+  update: LiveChatsUpdateDocAccess
+  delete: LiveChatsDeleteDocAccess
+}
+
+type LiveChatsDocAccessFields {
+  alt: LiveChatsDocAccessFields_alt
+  updatedAt: LiveChatsDocAccessFields_updatedAt
+  createdAt: LiveChatsDocAccessFields_createdAt
+}
+
+type LiveChatsDocAccessFields_alt {
+  create: LiveChatsDocAccessFields_alt_Create
+  read: LiveChatsDocAccessFields_alt_Read
+  update: LiveChatsDocAccessFields_alt_Update
+  delete: LiveChatsDocAccessFields_alt_Delete
+}
+
+type LiveChatsDocAccessFields_alt_Create {
+  permission: Boolean!
+}
+
+type LiveChatsDocAccessFields_alt_Read {
+  permission: Boolean!
+}
+
+type LiveChatsDocAccessFields_alt_Update {
+  permission: Boolean!
+}
+
+type LiveChatsDocAccessFields_alt_Delete {
+  permission: Boolean!
+}
+
+type LiveChatsDocAccessFields_updatedAt {
+  create: LiveChatsDocAccessFields_updatedAt_Create
+  read: LiveChatsDocAccessFields_updatedAt_Read
+  update: LiveChatsDocAccessFields_updatedAt_Update
+  delete: LiveChatsDocAccessFields_updatedAt_Delete
+}
+
+type LiveChatsDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type LiveChatsDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type LiveChatsDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type LiveChatsDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type LiveChatsDocAccessFields_createdAt {
+  create: LiveChatsDocAccessFields_createdAt_Create
+  read: LiveChatsDocAccessFields_createdAt_Read
+  update: LiveChatsDocAccessFields_createdAt_Update
+  delete: LiveChatsDocAccessFields_createdAt_Delete
+}
+
+type LiveChatsDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type LiveChatsDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type LiveChatsDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type LiveChatsDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type LiveChatsCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type LiveChatsReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type LiveChatsUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type LiveChatsDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type EmailBulkySm {
+  id: String
+  alt: String
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type EmailBulkySms {
+  docs: [EmailBulkySm]
+  hasNextPage: Boolean
+  hasPrevPage: Boolean
+  limit: Int
+  nextPage: Int
+  offset: Int
+  page: Int
+  pagingCounter: Int
+  prevPage: Int
+  totalDocs: Int
+  totalPages: Int
+}
+
+input EmailBulkySm_where {
+  alt: EmailBulkySm_alt_operator
+  updatedAt: EmailBulkySm_updatedAt_operator
+  createdAt: EmailBulkySm_createdAt_operator
+  id: EmailBulkySm_id_operator
+  AND: [EmailBulkySm_where_and]
+  OR: [EmailBulkySm_where_or]
+}
+
+input EmailBulkySm_alt_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input EmailBulkySm_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input EmailBulkySm_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input EmailBulkySm_id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input EmailBulkySm_where_and {
+  alt: EmailBulkySm_alt_operator
+  updatedAt: EmailBulkySm_updatedAt_operator
+  createdAt: EmailBulkySm_createdAt_operator
+  id: EmailBulkySm_id_operator
+  AND: [EmailBulkySm_where_and]
+  OR: [EmailBulkySm_where_or]
+}
+
+input EmailBulkySm_where_or {
+  alt: EmailBulkySm_alt_operator
+  updatedAt: EmailBulkySm_updatedAt_operator
+  createdAt: EmailBulkySm_createdAt_operator
+  id: EmailBulkySm_id_operator
+  AND: [EmailBulkySm_where_and]
+  OR: [EmailBulkySm_where_or]
+}
+
+type EmailBulkySmsDocAccess {
+  fields: EmailBulkySmsDocAccessFields
+  create: EmailBulkySmsCreateDocAccess
+  read: EmailBulkySmsReadDocAccess
+  update: EmailBulkySmsUpdateDocAccess
+  delete: EmailBulkySmsDeleteDocAccess
+}
+
+type EmailBulkySmsDocAccessFields {
+  alt: EmailBulkySmsDocAccessFields_alt
+  updatedAt: EmailBulkySmsDocAccessFields_updatedAt
+  createdAt: EmailBulkySmsDocAccessFields_createdAt
+}
+
+type EmailBulkySmsDocAccessFields_alt {
+  create: EmailBulkySmsDocAccessFields_alt_Create
+  read: EmailBulkySmsDocAccessFields_alt_Read
+  update: EmailBulkySmsDocAccessFields_alt_Update
+  delete: EmailBulkySmsDocAccessFields_alt_Delete
+}
+
+type EmailBulkySmsDocAccessFields_alt_Create {
+  permission: Boolean!
+}
+
+type EmailBulkySmsDocAccessFields_alt_Read {
+  permission: Boolean!
+}
+
+type EmailBulkySmsDocAccessFields_alt_Update {
+  permission: Boolean!
+}
+
+type EmailBulkySmsDocAccessFields_alt_Delete {
+  permission: Boolean!
+}
+
+type EmailBulkySmsDocAccessFields_updatedAt {
+  create: EmailBulkySmsDocAccessFields_updatedAt_Create
+  read: EmailBulkySmsDocAccessFields_updatedAt_Read
+  update: EmailBulkySmsDocAccessFields_updatedAt_Update
+  delete: EmailBulkySmsDocAccessFields_updatedAt_Delete
+}
+
+type EmailBulkySmsDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type EmailBulkySmsDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type EmailBulkySmsDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type EmailBulkySmsDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type EmailBulkySmsDocAccessFields_createdAt {
+  create: EmailBulkySmsDocAccessFields_createdAt_Create
+  read: EmailBulkySmsDocAccessFields_createdAt_Read
+  update: EmailBulkySmsDocAccessFields_createdAt_Update
+  delete: EmailBulkySmsDocAccessFields_createdAt_Delete
+}
+
+type EmailBulkySmsDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type EmailBulkySmsDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type EmailBulkySmsDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type EmailBulkySmsDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type EmailBulkySmsCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type EmailBulkySmsReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type EmailBulkySmsUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type EmailBulkySmsDeleteDocAccess {
   permission: Boolean!
   where: JSONObject
 }
@@ -27423,12 +26926,13 @@ type Access {
   Reviews: ReviewsAccess
   SiteMedia: SiteMediaAccess
   comments: commentsAccess
-  projects: projectsAccess
   posts: postsAccess
   alerts: alertsAccess
   headercategories: headercategoriesAccess
   attributesCollection: attributesCollectionAccess
   deliveryLocations: deliveryLocationsAccess
+  LiveChats: LiveChatsAccess
+  EmailBulkySms: EmailBulkySmsAccess
   search: searchAccess
   redirects: redirectsAccess
   forms: formsAccess
@@ -28603,6 +28107,9 @@ type ProductsFields {
   publishedOn: ProductsFields_publishedOn
   layout: ProductsFields_layout
   price: ProductsFields_price
+  discount: ProductsFields_discount
+  discountedPrice: ProductsFields_discountedPrice
+  ProductsAttributes: ProductsFields_ProductsAttributes
   categories: ProductsFields_categories
   relatedProducts: ProductsFields_relatedProducts
   slug: ProductsFields_slug
@@ -28711,6 +28218,75 @@ type ProductsFields_price_Update {
 }
 
 type ProductsFields_price_Delete {
+  permission: Boolean!
+}
+
+type ProductsFields_discount {
+  create: ProductsFields_discount_Create
+  read: ProductsFields_discount_Read
+  update: ProductsFields_discount_Update
+  delete: ProductsFields_discount_Delete
+}
+
+type ProductsFields_discount_Create {
+  permission: Boolean!
+}
+
+type ProductsFields_discount_Read {
+  permission: Boolean!
+}
+
+type ProductsFields_discount_Update {
+  permission: Boolean!
+}
+
+type ProductsFields_discount_Delete {
+  permission: Boolean!
+}
+
+type ProductsFields_discountedPrice {
+  create: ProductsFields_discountedPrice_Create
+  read: ProductsFields_discountedPrice_Read
+  update: ProductsFields_discountedPrice_Update
+  delete: ProductsFields_discountedPrice_Delete
+}
+
+type ProductsFields_discountedPrice_Create {
+  permission: Boolean!
+}
+
+type ProductsFields_discountedPrice_Read {
+  permission: Boolean!
+}
+
+type ProductsFields_discountedPrice_Update {
+  permission: Boolean!
+}
+
+type ProductsFields_discountedPrice_Delete {
+  permission: Boolean!
+}
+
+type ProductsFields_ProductsAttributes {
+  create: ProductsFields_ProductsAttributes_Create
+  read: ProductsFields_ProductsAttributes_Read
+  update: ProductsFields_ProductsAttributes_Update
+  delete: ProductsFields_ProductsAttributes_Delete
+}
+
+type ProductsFields_ProductsAttributes_Create {
+  permission: Boolean!
+}
+
+type ProductsFields_ProductsAttributes_Read {
+  permission: Boolean!
+}
+
+type ProductsFields_ProductsAttributes_Update {
+  permission: Boolean!
+}
+
+type ProductsFields_ProductsAttributes_Delete {
   permission: Boolean!
 }
 
@@ -31794,335 +31370,6 @@ type CommentsReadVersionsAccess {
   where: JSONObject
 }
 
-type projectsAccess {
-  fields: ProjectsFields
-  create: ProjectsCreateAccess
-  read: ProjectsReadAccess
-  update: ProjectsUpdateAccess
-  delete: ProjectsDeleteAccess
-  readVersions: ProjectsReadVersionsAccess
-}
-
-type ProjectsFields {
-  title: ProjectsFields_title
-  categories: ProjectsFields_categories
-  publishedDate: ProjectsFields_publishedDate
-  hero: ProjectsFields_hero
-  layout: ProjectsFields_layout
-  relatedProjects: ProjectsFields_relatedProjects
-  slug: ProjectsFields_slug
-  updatedAt: ProjectsFields_updatedAt
-  createdAt: ProjectsFields_createdAt
-  _status: ProjectsFields__status
-}
-
-type ProjectsFields_title {
-  create: ProjectsFields_title_Create
-  read: ProjectsFields_title_Read
-  update: ProjectsFields_title_Update
-  delete: ProjectsFields_title_Delete
-}
-
-type ProjectsFields_title_Create {
-  permission: Boolean!
-}
-
-type ProjectsFields_title_Read {
-  permission: Boolean!
-}
-
-type ProjectsFields_title_Update {
-  permission: Boolean!
-}
-
-type ProjectsFields_title_Delete {
-  permission: Boolean!
-}
-
-type ProjectsFields_categories {
-  create: ProjectsFields_categories_Create
-  read: ProjectsFields_categories_Read
-  update: ProjectsFields_categories_Update
-  delete: ProjectsFields_categories_Delete
-}
-
-type ProjectsFields_categories_Create {
-  permission: Boolean!
-}
-
-type ProjectsFields_categories_Read {
-  permission: Boolean!
-}
-
-type ProjectsFields_categories_Update {
-  permission: Boolean!
-}
-
-type ProjectsFields_categories_Delete {
-  permission: Boolean!
-}
-
-type ProjectsFields_publishedDate {
-  create: ProjectsFields_publishedDate_Create
-  read: ProjectsFields_publishedDate_Read
-  update: ProjectsFields_publishedDate_Update
-  delete: ProjectsFields_publishedDate_Delete
-}
-
-type ProjectsFields_publishedDate_Create {
-  permission: Boolean!
-}
-
-type ProjectsFields_publishedDate_Read {
-  permission: Boolean!
-}
-
-type ProjectsFields_publishedDate_Update {
-  permission: Boolean!
-}
-
-type ProjectsFields_publishedDate_Delete {
-  permission: Boolean!
-}
-
-type ProjectsFields_hero {
-  create: ProjectsFields_hero_Create
-  read: ProjectsFields_hero_Read
-  update: ProjectsFields_hero_Update
-  delete: ProjectsFields_hero_Delete
-  fields: ProjectsFields_hero_Fields
-}
-
-type ProjectsFields_hero_Create {
-  permission: Boolean!
-}
-
-type ProjectsFields_hero_Read {
-  permission: Boolean!
-}
-
-type ProjectsFields_hero_Update {
-  permission: Boolean!
-}
-
-type ProjectsFields_hero_Delete {
-  permission: Boolean!
-}
-
-type ProjectsFields_hero_Fields {
-  richText: ProjectsFields_hero_richText
-  media: ProjectsFields_hero_media
-}
-
-type ProjectsFields_hero_richText {
-  create: ProjectsFields_hero_richText_Create
-  read: ProjectsFields_hero_richText_Read
-  update: ProjectsFields_hero_richText_Update
-  delete: ProjectsFields_hero_richText_Delete
-}
-
-type ProjectsFields_hero_richText_Create {
-  permission: Boolean!
-}
-
-type ProjectsFields_hero_richText_Read {
-  permission: Boolean!
-}
-
-type ProjectsFields_hero_richText_Update {
-  permission: Boolean!
-}
-
-type ProjectsFields_hero_richText_Delete {
-  permission: Boolean!
-}
-
-type ProjectsFields_hero_media {
-  create: ProjectsFields_hero_media_Create
-  read: ProjectsFields_hero_media_Read
-  update: ProjectsFields_hero_media_Update
-  delete: ProjectsFields_hero_media_Delete
-}
-
-type ProjectsFields_hero_media_Create {
-  permission: Boolean!
-}
-
-type ProjectsFields_hero_media_Read {
-  permission: Boolean!
-}
-
-type ProjectsFields_hero_media_Update {
-  permission: Boolean!
-}
-
-type ProjectsFields_hero_media_Delete {
-  permission: Boolean!
-}
-
-type ProjectsFields_layout {
-  create: ProjectsFields_layout_Create
-  read: ProjectsFields_layout_Read
-  update: ProjectsFields_layout_Update
-  delete: ProjectsFields_layout_Delete
-}
-
-type ProjectsFields_layout_Create {
-  permission: Boolean!
-}
-
-type ProjectsFields_layout_Read {
-  permission: Boolean!
-}
-
-type ProjectsFields_layout_Update {
-  permission: Boolean!
-}
-
-type ProjectsFields_layout_Delete {
-  permission: Boolean!
-}
-
-type ProjectsFields_relatedProjects {
-  create: ProjectsFields_relatedProjects_Create
-  read: ProjectsFields_relatedProjects_Read
-  update: ProjectsFields_relatedProjects_Update
-  delete: ProjectsFields_relatedProjects_Delete
-}
-
-type ProjectsFields_relatedProjects_Create {
-  permission: Boolean!
-}
-
-type ProjectsFields_relatedProjects_Read {
-  permission: Boolean!
-}
-
-type ProjectsFields_relatedProjects_Update {
-  permission: Boolean!
-}
-
-type ProjectsFields_relatedProjects_Delete {
-  permission: Boolean!
-}
-
-type ProjectsFields_slug {
-  create: ProjectsFields_slug_Create
-  read: ProjectsFields_slug_Read
-  update: ProjectsFields_slug_Update
-  delete: ProjectsFields_slug_Delete
-}
-
-type ProjectsFields_slug_Create {
-  permission: Boolean!
-}
-
-type ProjectsFields_slug_Read {
-  permission: Boolean!
-}
-
-type ProjectsFields_slug_Update {
-  permission: Boolean!
-}
-
-type ProjectsFields_slug_Delete {
-  permission: Boolean!
-}
-
-type ProjectsFields_updatedAt {
-  create: ProjectsFields_updatedAt_Create
-  read: ProjectsFields_updatedAt_Read
-  update: ProjectsFields_updatedAt_Update
-  delete: ProjectsFields_updatedAt_Delete
-}
-
-type ProjectsFields_updatedAt_Create {
-  permission: Boolean!
-}
-
-type ProjectsFields_updatedAt_Read {
-  permission: Boolean!
-}
-
-type ProjectsFields_updatedAt_Update {
-  permission: Boolean!
-}
-
-type ProjectsFields_updatedAt_Delete {
-  permission: Boolean!
-}
-
-type ProjectsFields_createdAt {
-  create: ProjectsFields_createdAt_Create
-  read: ProjectsFields_createdAt_Read
-  update: ProjectsFields_createdAt_Update
-  delete: ProjectsFields_createdAt_Delete
-}
-
-type ProjectsFields_createdAt_Create {
-  permission: Boolean!
-}
-
-type ProjectsFields_createdAt_Read {
-  permission: Boolean!
-}
-
-type ProjectsFields_createdAt_Update {
-  permission: Boolean!
-}
-
-type ProjectsFields_createdAt_Delete {
-  permission: Boolean!
-}
-
-type ProjectsFields__status {
-  create: ProjectsFields__status_Create
-  read: ProjectsFields__status_Read
-  update: ProjectsFields__status_Update
-  delete: ProjectsFields__status_Delete
-}
-
-type ProjectsFields__status_Create {
-  permission: Boolean!
-}
-
-type ProjectsFields__status_Read {
-  permission: Boolean!
-}
-
-type ProjectsFields__status_Update {
-  permission: Boolean!
-}
-
-type ProjectsFields__status_Delete {
-  permission: Boolean!
-}
-
-type ProjectsCreateAccess {
-  permission: Boolean!
-  where: JSONObject
-}
-
-type ProjectsReadAccess {
-  permission: Boolean!
-  where: JSONObject
-}
-
-type ProjectsUpdateAccess {
-  permission: Boolean!
-  where: JSONObject
-}
-
-type ProjectsDeleteAccess {
-  permission: Boolean!
-  where: JSONObject
-}
-
-type ProjectsReadVersionsAccess {
-  permission: Boolean!
-  where: JSONObject
-}
-
 type postsAccess {
   fields: PostsFields
   create: PostsCreateAccess
@@ -33662,8 +32909,10 @@ type AttributesCollectionFields_Attribute_Property_Delete {
 
 type AttributesCollectionFields_Attribute_Property_Fields {
   label: AttributesCollectionFields_Attribute_Property_label
-  value: AttributesCollectionFields_Attribute_Property_value
-  Price: AttributesCollectionFields_Attribute_Property_Price
+  type: AttributesCollectionFields_Attribute_Property_type
+  colour: AttributesCollectionFields_Attribute_Property_colour
+  Number: AttributesCollectionFields_Attribute_Property_Number
+  price: AttributesCollectionFields_Attribute_Property_price
   id: AttributesCollectionFields_Attribute_Property_id
 }
 
@@ -33690,49 +32939,95 @@ type AttributesCollectionFields_Attribute_Property_label_Delete {
   permission: Boolean!
 }
 
-type AttributesCollectionFields_Attribute_Property_value {
-  create: AttributesCollectionFields_Attribute_Property_value_Create
-  read: AttributesCollectionFields_Attribute_Property_value_Read
-  update: AttributesCollectionFields_Attribute_Property_value_Update
-  delete: AttributesCollectionFields_Attribute_Property_value_Delete
+type AttributesCollectionFields_Attribute_Property_type {
+  create: AttributesCollectionFields_Attribute_Property_type_Create
+  read: AttributesCollectionFields_Attribute_Property_type_Read
+  update: AttributesCollectionFields_Attribute_Property_type_Update
+  delete: AttributesCollectionFields_Attribute_Property_type_Delete
 }
 
-type AttributesCollectionFields_Attribute_Property_value_Create {
+type AttributesCollectionFields_Attribute_Property_type_Create {
   permission: Boolean!
 }
 
-type AttributesCollectionFields_Attribute_Property_value_Read {
+type AttributesCollectionFields_Attribute_Property_type_Read {
   permission: Boolean!
 }
 
-type AttributesCollectionFields_Attribute_Property_value_Update {
+type AttributesCollectionFields_Attribute_Property_type_Update {
   permission: Boolean!
 }
 
-type AttributesCollectionFields_Attribute_Property_value_Delete {
+type AttributesCollectionFields_Attribute_Property_type_Delete {
   permission: Boolean!
 }
 
-type AttributesCollectionFields_Attribute_Property_Price {
-  create: AttributesCollectionFields_Attribute_Property_Price_Create
-  read: AttributesCollectionFields_Attribute_Property_Price_Read
-  update: AttributesCollectionFields_Attribute_Property_Price_Update
-  delete: AttributesCollectionFields_Attribute_Property_Price_Delete
+type AttributesCollectionFields_Attribute_Property_colour {
+  create: AttributesCollectionFields_Attribute_Property_colour_Create
+  read: AttributesCollectionFields_Attribute_Property_colour_Read
+  update: AttributesCollectionFields_Attribute_Property_colour_Update
+  delete: AttributesCollectionFields_Attribute_Property_colour_Delete
 }
 
-type AttributesCollectionFields_Attribute_Property_Price_Create {
+type AttributesCollectionFields_Attribute_Property_colour_Create {
   permission: Boolean!
 }
 
-type AttributesCollectionFields_Attribute_Property_Price_Read {
+type AttributesCollectionFields_Attribute_Property_colour_Read {
   permission: Boolean!
 }
 
-type AttributesCollectionFields_Attribute_Property_Price_Update {
+type AttributesCollectionFields_Attribute_Property_colour_Update {
   permission: Boolean!
 }
 
-type AttributesCollectionFields_Attribute_Property_Price_Delete {
+type AttributesCollectionFields_Attribute_Property_colour_Delete {
+  permission: Boolean!
+}
+
+type AttributesCollectionFields_Attribute_Property_Number {
+  create: AttributesCollectionFields_Attribute_Property_Number_Create
+  read: AttributesCollectionFields_Attribute_Property_Number_Read
+  update: AttributesCollectionFields_Attribute_Property_Number_Update
+  delete: AttributesCollectionFields_Attribute_Property_Number_Delete
+}
+
+type AttributesCollectionFields_Attribute_Property_Number_Create {
+  permission: Boolean!
+}
+
+type AttributesCollectionFields_Attribute_Property_Number_Read {
+  permission: Boolean!
+}
+
+type AttributesCollectionFields_Attribute_Property_Number_Update {
+  permission: Boolean!
+}
+
+type AttributesCollectionFields_Attribute_Property_Number_Delete {
+  permission: Boolean!
+}
+
+type AttributesCollectionFields_Attribute_Property_price {
+  create: AttributesCollectionFields_Attribute_Property_price_Create
+  read: AttributesCollectionFields_Attribute_Property_price_Read
+  update: AttributesCollectionFields_Attribute_Property_price_Update
+  delete: AttributesCollectionFields_Attribute_Property_price_Delete
+}
+
+type AttributesCollectionFields_Attribute_Property_price_Create {
+  permission: Boolean!
+}
+
+type AttributesCollectionFields_Attribute_Property_price_Read {
+  permission: Boolean!
+}
+
+type AttributesCollectionFields_Attribute_Property_price_Update {
+  permission: Boolean!
+}
+
+type AttributesCollectionFields_Attribute_Property_price_Delete {
   permission: Boolean!
 }
 
@@ -34020,6 +33315,212 @@ type DeliveryLocationsUpdateAccess {
 }
 
 type DeliveryLocationsDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type LiveChatsAccess {
+  fields: LiveChatsFields
+  create: LiveChatsCreateAccess
+  read: LiveChatsReadAccess
+  update: LiveChatsUpdateAccess
+  delete: LiveChatsDeleteAccess
+}
+
+type LiveChatsFields {
+  alt: LiveChatsFields_alt
+  updatedAt: LiveChatsFields_updatedAt
+  createdAt: LiveChatsFields_createdAt
+}
+
+type LiveChatsFields_alt {
+  create: LiveChatsFields_alt_Create
+  read: LiveChatsFields_alt_Read
+  update: LiveChatsFields_alt_Update
+  delete: LiveChatsFields_alt_Delete
+}
+
+type LiveChatsFields_alt_Create {
+  permission: Boolean!
+}
+
+type LiveChatsFields_alt_Read {
+  permission: Boolean!
+}
+
+type LiveChatsFields_alt_Update {
+  permission: Boolean!
+}
+
+type LiveChatsFields_alt_Delete {
+  permission: Boolean!
+}
+
+type LiveChatsFields_updatedAt {
+  create: LiveChatsFields_updatedAt_Create
+  read: LiveChatsFields_updatedAt_Read
+  update: LiveChatsFields_updatedAt_Update
+  delete: LiveChatsFields_updatedAt_Delete
+}
+
+type LiveChatsFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type LiveChatsFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type LiveChatsFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type LiveChatsFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type LiveChatsFields_createdAt {
+  create: LiveChatsFields_createdAt_Create
+  read: LiveChatsFields_createdAt_Read
+  update: LiveChatsFields_createdAt_Update
+  delete: LiveChatsFields_createdAt_Delete
+}
+
+type LiveChatsFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type LiveChatsFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type LiveChatsFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type LiveChatsFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type LiveChatsCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type LiveChatsReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type LiveChatsUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type LiveChatsDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type EmailBulkySmsAccess {
+  fields: EmailBulkySmsFields
+  create: EmailBulkySmsCreateAccess
+  read: EmailBulkySmsReadAccess
+  update: EmailBulkySmsUpdateAccess
+  delete: EmailBulkySmsDeleteAccess
+}
+
+type EmailBulkySmsFields {
+  alt: EmailBulkySmsFields_alt
+  updatedAt: EmailBulkySmsFields_updatedAt
+  createdAt: EmailBulkySmsFields_createdAt
+}
+
+type EmailBulkySmsFields_alt {
+  create: EmailBulkySmsFields_alt_Create
+  read: EmailBulkySmsFields_alt_Read
+  update: EmailBulkySmsFields_alt_Update
+  delete: EmailBulkySmsFields_alt_Delete
+}
+
+type EmailBulkySmsFields_alt_Create {
+  permission: Boolean!
+}
+
+type EmailBulkySmsFields_alt_Read {
+  permission: Boolean!
+}
+
+type EmailBulkySmsFields_alt_Update {
+  permission: Boolean!
+}
+
+type EmailBulkySmsFields_alt_Delete {
+  permission: Boolean!
+}
+
+type EmailBulkySmsFields_updatedAt {
+  create: EmailBulkySmsFields_updatedAt_Create
+  read: EmailBulkySmsFields_updatedAt_Read
+  update: EmailBulkySmsFields_updatedAt_Update
+  delete: EmailBulkySmsFields_updatedAt_Delete
+}
+
+type EmailBulkySmsFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type EmailBulkySmsFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type EmailBulkySmsFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type EmailBulkySmsFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type EmailBulkySmsFields_createdAt {
+  create: EmailBulkySmsFields_createdAt_Create
+  read: EmailBulkySmsFields_createdAt_Read
+  update: EmailBulkySmsFields_createdAt_Update
+  delete: EmailBulkySmsFields_createdAt_Delete
+}
+
+type EmailBulkySmsFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type EmailBulkySmsFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type EmailBulkySmsFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type EmailBulkySmsFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type EmailBulkySmsCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type EmailBulkySmsReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type EmailBulkySmsUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type EmailBulkySmsDeleteAccess {
   permission: Boolean!
   where: JSONObject
 }
@@ -37476,10 +36977,6 @@ type Mutation {
   updateComment(id: String!, autosave: Boolean, data: mutationCommentUpdateInput!, draft: Boolean, locale: LocaleInputType): Comment
   deleteComment(id: String!): Comment
   restoreVersionComment(id: String): Comment
-  createProject(data: mutationProjectInput!, draft: Boolean, locale: LocaleInputType): Project
-  updateProject(id: String!, autosave: Boolean, data: mutationProjectUpdateInput!, draft: Boolean, locale: LocaleInputType): Project
-  deleteProject(id: String!): Project
-  restoreVersionProject(id: String): Project
   createPost(data: mutationPostInput!, draft: Boolean, locale: LocaleInputType): Post
   updatePost(id: String!, autosave: Boolean, data: mutationPostUpdateInput!, draft: Boolean, locale: LocaleInputType): Post
   deletePost(id: String!): Post
@@ -37496,6 +36993,12 @@ type Mutation {
   createDeliveryLocation(data: mutationDeliveryLocationInput!, draft: Boolean, locale: LocaleInputType): DeliveryLocation
   updateDeliveryLocation(id: String!, autosave: Boolean, data: mutationDeliveryLocationUpdateInput!, draft: Boolean, locale: LocaleInputType): DeliveryLocation
   deleteDeliveryLocation(id: String!): DeliveryLocation
+  createLiveChat(data: mutationLiveChatInput!, draft: Boolean, locale: LocaleInputType): LiveChat
+  updateLiveChat(id: String!, autosave: Boolean, data: mutationLiveChatUpdateInput!, draft: Boolean, locale: LocaleInputType): LiveChat
+  deleteLiveChat(id: String!): LiveChat
+  createEmailBulkySm(data: mutationEmailBulkySmInput!, draft: Boolean, locale: LocaleInputType): EmailBulkySm
+  updateEmailBulkySm(id: String!, autosave: Boolean, data: mutationEmailBulkySmUpdateInput!, draft: Boolean, locale: LocaleInputType): EmailBulkySm
+  deleteEmailBulkySm(id: String!): EmailBulkySm
   createSearch(data: mutationSearchInput!, draft: Boolean, locale: LocaleInputType): Search
   updateSearch(id: String!, autosave: Boolean, data: mutationSearchUpdateInput!, draft: Boolean, locale: LocaleInputType): Search
   deleteSearch(id: String!): Search
@@ -37736,6 +37239,9 @@ input mutationProductInput {
   publishedOn: String
   layout: JSON
   price: Float!
+  discount: Float
+  discountedPrice: Float
+  ProductsAttributes: [String]
   categories: [String]
   relatedProducts: [String]
   slug: String
@@ -38044,6 +37550,9 @@ input mutationProductUpdateInput {
   publishedOn: String
   layout: JSON
   price: Float
+  discount: Float
+  discountedPrice: Float
+  ProductsAttributes: [String]
   categories: [String]
   relatedProducts: [String]
   slug: String
@@ -38697,52 +38206,6 @@ enum CommentUpdate__status_MutationInput {
   published
 }
 
-input mutationProjectInput {
-  title: String!
-  categories: [String]
-  publishedDate: String
-  hero: mutationProject_HeroInput!
-  layout: JSON
-  relatedProjects: [String]
-  slug: String
-  updatedAt: String
-  createdAt: String
-  _status: Project__status_MutationInput
-}
-
-input mutationProject_HeroInput {
-  richText: JSON!
-  media: String
-}
-
-enum Project__status_MutationInput {
-  draft
-  published
-}
-
-input mutationProjectUpdateInput {
-  title: String
-  categories: [String]
-  publishedDate: String
-  hero: mutationProjectUpdate_HeroInput!
-  layout: JSON
-  relatedProjects: [String]
-  slug: String
-  updatedAt: String
-  createdAt: String
-  _status: ProjectUpdate__status_MutationInput
-}
-
-input mutationProjectUpdate_HeroInput {
-  richText: JSON!
-  media: String
-}
-
-enum ProjectUpdate__status_MutationInput {
-  draft
-  published
-}
-
 input mutationPostInput {
   title: String!
   categories: [String]
@@ -39049,10 +38512,18 @@ input mutationAttributesCollectionInput {
 }
 
 input mutationAttributesCollection_Attribute_PropertyInput {
-  label: String!
-  value: String!
-  Price: Float
+  label: String
+  type: AttributesCollection_Attribute_Property_type_MutationInput
+  colour: String
+  Number: Float
+  price: Float
   id: String
+}
+
+enum AttributesCollection_Attribute_Property_type_MutationInput {
+  text
+  color
+  number
 }
 
 input mutationAttributesCollectionUpdateInput {
@@ -39063,10 +38534,18 @@ input mutationAttributesCollectionUpdateInput {
 }
 
 input mutationAttributesCollectionUpdate_Attribute_PropertyInput {
-  label: String!
-  value: String!
-  Price: Float
+  label: String
+  type: AttributesCollectionUpdate_Attribute_Property_type_MutationInput
+  colour: String
+  Number: Float
+  price: Float
   id: String
+}
+
+enum AttributesCollectionUpdate_Attribute_Property_type_MutationInput {
+  text
+  color
+  number
 }
 
 input mutationDeliveryLocationInput {
@@ -39085,6 +38564,30 @@ input mutationDeliveryLocationUpdateInput {
   state: String
   country: String
   zipCode: String
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationLiveChatInput {
+  alt: String
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationLiveChatUpdateInput {
+  alt: String
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationEmailBulkySmInput {
+  alt: String
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationEmailBulkySmUpdateInput {
+  alt: String
   updatedAt: String
   createdAt: String
 }

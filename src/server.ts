@@ -8,7 +8,7 @@ import nodemailerSendgrid from 'nodemailer-sendgrid'
 import path from 'path'
 import payload from 'payload'
 
-// import { seed } from './payload/seed'
+import generateSitemap from '../genarateSitemap'
 
 dotenv.config({
   path: path.resolve(__dirname, '../.env'),
@@ -31,7 +31,7 @@ const start = async (): Promise<void> => {
     secret: process.env.PAYLOAD_SECRET || '',
     express: app,
     email: {
-      fromName: 'Payload CMS',
+      fromName: 'EasyBake Supplies Limited',
       fromAddress: 'petercubolt@gmail.com',
       ...sendgridConfig,
     },
@@ -61,6 +61,26 @@ const start = async (): Promise<void> => {
   })
 
   const nextHandler = nextApp.getRequestHandler()
+  app.get('/sitemap.xml', async (req, res) => {
+    try {
+      const sitemap = await generateSitemap() // Generate the sitemap
+      res.setHeader('Content-Type', 'application/xml')
+      res.send(sitemap) // Use send instead of write/end for simplicity
+    } catch (error: unknown) {
+      console.error('Error generating sitemap:', error)
+      res.status(500).send('Internal Server Error')
+    }
+  })
+  app.get('/robots.txt', (req, res) => {
+    const robotsTxt = `
+      User-agent: *
+      Disallow: /admin/
+      
+      Sitemap: ${process.env.NEXT_PUBLIC_SERVER_URL}/sitemap.xml
+    `
+    res.setHeader('Content-Type', 'text/plain')
+    res.send(robotsTxt)
+  })
 
   app.use((req, res) => nextHandler(req, res))
 

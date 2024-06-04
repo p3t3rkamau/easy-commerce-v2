@@ -9,8 +9,14 @@ import { CallToActionWithImage } from '../../blocks/CallToActionWithImage'
 // import { CaseStudyCards } from '../../blocks/CaseStudyCards'
 import { Content } from '../../blocks/Content'
 import { ContentMedia } from '../../blocks/ContentMedia'
+import { DealsArchive } from '../../blocks/DealsArchive'
 import { DoubleImagesBlock } from '../../blocks/DoubleMedia/ManyImages'
+import { EventArchive } from '../../blocks/EventArchive'
+import { FlashSales } from '../../blocks/FlashSales'
+import { LastViewed } from '../../blocks/LastViewed'
 import { MediaBlock } from '../../blocks/MediaBlock'
+import { Recommeded } from '../../blocks/Recommended'
+import { ProductsSlider } from '../../blocks/SliderArchive'
 // import { ReusableContent } from '../../blocks/ReusableContent'
 import { hero } from '../../fields/hero'
 import link from '../../fields/link'
@@ -28,6 +34,7 @@ export const Pages: CollectionConfig = {
         `${process.env.PAYLOAD_PUBLIC_SERVER_URL}/${doc.slug !== 'home' ? doc.slug : ''}`,
       )}&secret=${process.env.PAYLOAD_PUBLIC_DRAFT_SECRET}`
     },
+    group: 'Content',
   },
   hooks: {
     afterChange: [revalidatePage],
@@ -90,6 +97,12 @@ export const Pages: CollectionConfig = {
                 ContentMedia,
                 CallToActionWithImage,
                 DoubleImagesBlock,
+                ProductsSlider,
+                Recommeded,
+                LastViewed,
+                FlashSales,
+                EventArchive,
+                DealsArchive,
                 // CardGrid,
                 // Banner,
                 // BlogContent,
