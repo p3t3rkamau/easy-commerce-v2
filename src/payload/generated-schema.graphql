@@ -56,7 +56,7 @@ type Query {
   docAccessDeliveryLocation(id: String!): deliveryLocationsDocAccess
   LiveChat(id: String!, draft: Boolean, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType): LiveChat
   LiveChats(draft: Boolean, where: LiveChat_where, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType, limit: Int, page: Int, sort: String): LiveChats
-  docAccessLiveChat(id: String!): LiveChatsDocAccess
+  docAccessLiveChat(id: String!): live_chatsDocAccess
   EmailBulkySm(id: String!, draft: Boolean, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType): EmailBulkySm
   EmailBulkySms(draft: Boolean, where: EmailBulkySm_where, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType, limit: Int, page: Int, sort: String): EmailBulkySms
   docAccessEmailBulkySm(id: String!): EmailBulkySmsDocAccess
@@ -2490,6 +2490,7 @@ type DeliveryLocation {
   AdditionalInformation: String!
   region: String!
   googlepin: String
+  price: Float
   updatedAt: DateTime
   createdAt: DateTime
 }
@@ -11228,6 +11229,7 @@ type Order {
   stripePaymentIntentID: String
   DeliveryLocation(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): DeliveryLocation
   mpesaTransactionRef: String
+  GenerateReceiptButton: String
   total: Float!
   items: [Order_Items!]
   updatedAt: DateTime
@@ -11263,6 +11265,7 @@ input Order_where {
   stripePaymentIntentID: Order_stripePaymentIntentID_operator
   DeliveryLocation: Order_DeliveryLocation_operator
   mpesaTransactionRef: Order_mpesaTransactionRef_operator
+  GenerateReceiptButton: Order_GenerateReceiptButton_operator
   total: Order_total_operator
   items__product: Order_items__product_operator
   items__price: Order_items__price_operator
@@ -11318,6 +11321,17 @@ input Order_mpesaTransactionRef_operator {
   exists: Boolean
 }
 
+input Order_GenerateReceiptButton_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
 input Order_total_operator {
   equals: Float
   not_equals: Float
@@ -11363,6 +11377,7 @@ input Order_items__colorId_operator {
   in: [String]
   not_in: [String]
   all: [String]
+  exists: Boolean
 }
 
 input Order_items__size_operator {
@@ -11373,6 +11388,7 @@ input Order_items__size_operator {
   in: [String]
   not_in: [String]
   all: [String]
+  exists: Boolean
 }
 
 input Order_items__volumeOrHeight_operator {
@@ -11383,6 +11399,7 @@ input Order_items__volumeOrHeight_operator {
   in: [String]
   not_in: [String]
   all: [String]
+  exists: Boolean
 }
 
 input Order_items__id_operator {
@@ -11434,6 +11451,7 @@ input Order_where_and {
   stripePaymentIntentID: Order_stripePaymentIntentID_operator
   DeliveryLocation: Order_DeliveryLocation_operator
   mpesaTransactionRef: Order_mpesaTransactionRef_operator
+  GenerateReceiptButton: Order_GenerateReceiptButton_operator
   total: Order_total_operator
   items__product: Order_items__product_operator
   items__price: Order_items__price_operator
@@ -11454,6 +11472,7 @@ input Order_where_or {
   stripePaymentIntentID: Order_stripePaymentIntentID_operator
   DeliveryLocation: Order_DeliveryLocation_operator
   mpesaTransactionRef: Order_mpesaTransactionRef_operator
+  GenerateReceiptButton: Order_GenerateReceiptButton_operator
   total: Order_total_operator
   items__product: Order_items__product_operator
   items__price: Order_items__price_operator
@@ -11482,6 +11501,7 @@ type OrdersDocAccessFields {
   stripePaymentIntentID: OrdersDocAccessFields_stripePaymentIntentID
   DeliveryLocation: OrdersDocAccessFields_DeliveryLocation
   mpesaTransactionRef: OrdersDocAccessFields_mpesaTransactionRef
+  GenerateReceiptButton: OrdersDocAccessFields_GenerateReceiptButton
   total: OrdersDocAccessFields_total
   items: OrdersDocAccessFields_items
   updatedAt: OrdersDocAccessFields_updatedAt
@@ -11577,6 +11597,29 @@ type OrdersDocAccessFields_mpesaTransactionRef_Update {
 }
 
 type OrdersDocAccessFields_mpesaTransactionRef_Delete {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_GenerateReceiptButton {
+  create: OrdersDocAccessFields_GenerateReceiptButton_Create
+  read: OrdersDocAccessFields_GenerateReceiptButton_Read
+  update: OrdersDocAccessFields_GenerateReceiptButton_Update
+  delete: OrdersDocAccessFields_GenerateReceiptButton_Delete
+}
+
+type OrdersDocAccessFields_GenerateReceiptButton_Create {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_GenerateReceiptButton_Read {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_GenerateReceiptButton_Update {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_GenerateReceiptButton_Delete {
   permission: Boolean!
 }
 
@@ -20865,6 +20908,7 @@ input DeliveryLocation_where {
   AdditionalInformation: DeliveryLocation_AdditionalInformation_operator
   region: DeliveryLocation_region_operator
   googlepin: DeliveryLocation_googlepin_operator
+  price: DeliveryLocation_price_operator
   updatedAt: DeliveryLocation_updatedAt_operator
   createdAt: DeliveryLocation_createdAt_operator
   id: DeliveryLocation_id_operator
@@ -20921,6 +20965,16 @@ input DeliveryLocation_googlepin_operator {
   exists: Boolean
 }
 
+input DeliveryLocation_price_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
 input DeliveryLocation_updatedAt_operator {
   equals: DateTime
   not_equals: DateTime
@@ -20960,6 +21014,7 @@ input DeliveryLocation_where_and {
   AdditionalInformation: DeliveryLocation_AdditionalInformation_operator
   region: DeliveryLocation_region_operator
   googlepin: DeliveryLocation_googlepin_operator
+  price: DeliveryLocation_price_operator
   updatedAt: DeliveryLocation_updatedAt_operator
   createdAt: DeliveryLocation_createdAt_operator
   id: DeliveryLocation_id_operator
@@ -20973,6 +21028,7 @@ input DeliveryLocation_where_or {
   AdditionalInformation: DeliveryLocation_AdditionalInformation_operator
   region: DeliveryLocation_region_operator
   googlepin: DeliveryLocation_googlepin_operator
+  price: DeliveryLocation_price_operator
   updatedAt: DeliveryLocation_updatedAt_operator
   createdAt: DeliveryLocation_createdAt_operator
   id: DeliveryLocation_id_operator
@@ -20994,6 +21050,7 @@ type DeliveryLocationsDocAccessFields {
   AdditionalInformation: DeliveryLocationsDocAccessFields_AdditionalInformation
   region: DeliveryLocationsDocAccessFields_region
   googlepin: DeliveryLocationsDocAccessFields_googlepin
+  price: DeliveryLocationsDocAccessFields_price
   updatedAt: DeliveryLocationsDocAccessFields_updatedAt
   createdAt: DeliveryLocationsDocAccessFields_createdAt
 }
@@ -21113,6 +21170,29 @@ type DeliveryLocationsDocAccessFields_googlepin_Delete {
   permission: Boolean!
 }
 
+type DeliveryLocationsDocAccessFields_price {
+  create: DeliveryLocationsDocAccessFields_price_Create
+  read: DeliveryLocationsDocAccessFields_price_Read
+  update: DeliveryLocationsDocAccessFields_price_Update
+  delete: DeliveryLocationsDocAccessFields_price_Delete
+}
+
+type DeliveryLocationsDocAccessFields_price_Create {
+  permission: Boolean!
+}
+
+type DeliveryLocationsDocAccessFields_price_Read {
+  permission: Boolean!
+}
+
+type DeliveryLocationsDocAccessFields_price_Update {
+  permission: Boolean!
+}
+
+type DeliveryLocationsDocAccessFields_price_Delete {
+  permission: Boolean!
+}
+
 type DeliveryLocationsDocAccessFields_updatedAt {
   create: DeliveryLocationsDocAccessFields_updatedAt_Create
   read: DeliveryLocationsDocAccessFields_updatedAt_Read
@@ -21181,7 +21261,9 @@ type DeliveryLocationsDeleteDocAccess {
 
 type LiveChat {
   id: String
-  alt: String
+  Customer: String
+  Agent: String
+  Aiagent: String
   updatedAt: DateTime
   createdAt: DateTime
 }
@@ -21201,7 +21283,9 @@ type LiveChats {
 }
 
 input LiveChat_where {
-  alt: LiveChat_alt_operator
+  Customer: LiveChat_Customer_operator
+  Agent: LiveChat_Agent_operator
+  Aiagent: LiveChat_Aiagent_operator
   updatedAt: LiveChat_updatedAt_operator
   createdAt: LiveChat_createdAt_operator
   id: LiveChat_id_operator
@@ -21209,7 +21293,29 @@ input LiveChat_where {
   OR: [LiveChat_where_or]
 }
 
-input LiveChat_alt_operator {
+input LiveChat_Customer_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input LiveChat_Agent_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input LiveChat_Aiagent_operator {
   equals: String
   not_equals: String
   like: String
@@ -21254,7 +21360,9 @@ input LiveChat_id_operator {
 }
 
 input LiveChat_where_and {
-  alt: LiveChat_alt_operator
+  Customer: LiveChat_Customer_operator
+  Agent: LiveChat_Agent_operator
+  Aiagent: LiveChat_Aiagent_operator
   updatedAt: LiveChat_updatedAt_operator
   createdAt: LiveChat_createdAt_operator
   id: LiveChat_id_operator
@@ -21263,7 +21371,9 @@ input LiveChat_where_and {
 }
 
 input LiveChat_where_or {
-  alt: LiveChat_alt_operator
+  Customer: LiveChat_Customer_operator
+  Agent: LiveChat_Agent_operator
+  Aiagent: LiveChat_Aiagent_operator
   updatedAt: LiveChat_updatedAt_operator
   createdAt: LiveChat_createdAt_operator
   id: LiveChat_id_operator
@@ -21271,7 +21381,7 @@ input LiveChat_where_or {
   OR: [LiveChat_where_or]
 }
 
-type LiveChatsDocAccess {
+type live_chatsDocAccess {
   fields: LiveChatsDocAccessFields
   create: LiveChatsCreateDocAccess
   read: LiveChatsReadDocAccess
@@ -21280,31 +21390,79 @@ type LiveChatsDocAccess {
 }
 
 type LiveChatsDocAccessFields {
-  alt: LiveChatsDocAccessFields_alt
+  Customer: LiveChatsDocAccessFields_Customer
+  Agent: LiveChatsDocAccessFields_Agent
+  Aiagent: LiveChatsDocAccessFields_Aiagent
   updatedAt: LiveChatsDocAccessFields_updatedAt
   createdAt: LiveChatsDocAccessFields_createdAt
 }
 
-type LiveChatsDocAccessFields_alt {
-  create: LiveChatsDocAccessFields_alt_Create
-  read: LiveChatsDocAccessFields_alt_Read
-  update: LiveChatsDocAccessFields_alt_Update
-  delete: LiveChatsDocAccessFields_alt_Delete
+type LiveChatsDocAccessFields_Customer {
+  create: LiveChatsDocAccessFields_Customer_Create
+  read: LiveChatsDocAccessFields_Customer_Read
+  update: LiveChatsDocAccessFields_Customer_Update
+  delete: LiveChatsDocAccessFields_Customer_Delete
 }
 
-type LiveChatsDocAccessFields_alt_Create {
+type LiveChatsDocAccessFields_Customer_Create {
   permission: Boolean!
 }
 
-type LiveChatsDocAccessFields_alt_Read {
+type LiveChatsDocAccessFields_Customer_Read {
   permission: Boolean!
 }
 
-type LiveChatsDocAccessFields_alt_Update {
+type LiveChatsDocAccessFields_Customer_Update {
   permission: Boolean!
 }
 
-type LiveChatsDocAccessFields_alt_Delete {
+type LiveChatsDocAccessFields_Customer_Delete {
+  permission: Boolean!
+}
+
+type LiveChatsDocAccessFields_Agent {
+  create: LiveChatsDocAccessFields_Agent_Create
+  read: LiveChatsDocAccessFields_Agent_Read
+  update: LiveChatsDocAccessFields_Agent_Update
+  delete: LiveChatsDocAccessFields_Agent_Delete
+}
+
+type LiveChatsDocAccessFields_Agent_Create {
+  permission: Boolean!
+}
+
+type LiveChatsDocAccessFields_Agent_Read {
+  permission: Boolean!
+}
+
+type LiveChatsDocAccessFields_Agent_Update {
+  permission: Boolean!
+}
+
+type LiveChatsDocAccessFields_Agent_Delete {
+  permission: Boolean!
+}
+
+type LiveChatsDocAccessFields_Aiagent {
+  create: LiveChatsDocAccessFields_Aiagent_Create
+  read: LiveChatsDocAccessFields_Aiagent_Read
+  update: LiveChatsDocAccessFields_Aiagent_Update
+  delete: LiveChatsDocAccessFields_Aiagent_Delete
+}
+
+type LiveChatsDocAccessFields_Aiagent_Create {
+  permission: Boolean!
+}
+
+type LiveChatsDocAccessFields_Aiagent_Read {
+  permission: Boolean!
+}
+
+type LiveChatsDocAccessFields_Aiagent_Update {
+  permission: Boolean!
+}
+
+type LiveChatsDocAccessFields_Aiagent_Delete {
   permission: Boolean!
 }
 
@@ -27404,7 +27562,7 @@ type Access {
   headercategories: headercategoriesAccess
   attributesCollection: attributesCollectionAccess
   deliveryLocations: deliveryLocationsAccess
-  LiveChats: LiveChatsAccess
+  live_chats: live_chatsAccess
   EmailBulkySms: EmailBulkySmsAccess
   search: searchAccess
   redirects: redirectsAccess
@@ -29368,6 +29526,7 @@ type OrdersFields {
   stripePaymentIntentID: OrdersFields_stripePaymentIntentID
   DeliveryLocation: OrdersFields_DeliveryLocation
   mpesaTransactionRef: OrdersFields_mpesaTransactionRef
+  GenerateReceiptButton: OrdersFields_GenerateReceiptButton
   total: OrdersFields_total
   items: OrdersFields_items
   updatedAt: OrdersFields_updatedAt
@@ -29463,6 +29622,29 @@ type OrdersFields_mpesaTransactionRef_Update {
 }
 
 type OrdersFields_mpesaTransactionRef_Delete {
+  permission: Boolean!
+}
+
+type OrdersFields_GenerateReceiptButton {
+  create: OrdersFields_GenerateReceiptButton_Create
+  read: OrdersFields_GenerateReceiptButton_Read
+  update: OrdersFields_GenerateReceiptButton_Update
+  delete: OrdersFields_GenerateReceiptButton_Delete
+}
+
+type OrdersFields_GenerateReceiptButton_Create {
+  permission: Boolean!
+}
+
+type OrdersFields_GenerateReceiptButton_Read {
+  permission: Boolean!
+}
+
+type OrdersFields_GenerateReceiptButton_Update {
+  permission: Boolean!
+}
+
+type OrdersFields_GenerateReceiptButton_Delete {
   permission: Boolean!
 }
 
@@ -33775,6 +33957,7 @@ type DeliveryLocationsFields {
   AdditionalInformation: DeliveryLocationsFields_AdditionalInformation
   region: DeliveryLocationsFields_region
   googlepin: DeliveryLocationsFields_googlepin
+  price: DeliveryLocationsFields_price
   updatedAt: DeliveryLocationsFields_updatedAt
   createdAt: DeliveryLocationsFields_createdAt
 }
@@ -33894,6 +34077,29 @@ type DeliveryLocationsFields_googlepin_Delete {
   permission: Boolean!
 }
 
+type DeliveryLocationsFields_price {
+  create: DeliveryLocationsFields_price_Create
+  read: DeliveryLocationsFields_price_Read
+  update: DeliveryLocationsFields_price_Update
+  delete: DeliveryLocationsFields_price_Delete
+}
+
+type DeliveryLocationsFields_price_Create {
+  permission: Boolean!
+}
+
+type DeliveryLocationsFields_price_Read {
+  permission: Boolean!
+}
+
+type DeliveryLocationsFields_price_Update {
+  permission: Boolean!
+}
+
+type DeliveryLocationsFields_price_Delete {
+  permission: Boolean!
+}
+
 type DeliveryLocationsFields_updatedAt {
   create: DeliveryLocationsFields_updatedAt_Create
   read: DeliveryLocationsFields_updatedAt_Read
@@ -33960,7 +34166,7 @@ type DeliveryLocationsDeleteAccess {
   where: JSONObject
 }
 
-type LiveChatsAccess {
+type live_chatsAccess {
   fields: LiveChatsFields
   create: LiveChatsCreateAccess
   read: LiveChatsReadAccess
@@ -33969,31 +34175,79 @@ type LiveChatsAccess {
 }
 
 type LiveChatsFields {
-  alt: LiveChatsFields_alt
+  Customer: LiveChatsFields_Customer
+  Agent: LiveChatsFields_Agent
+  Aiagent: LiveChatsFields_Aiagent
   updatedAt: LiveChatsFields_updatedAt
   createdAt: LiveChatsFields_createdAt
 }
 
-type LiveChatsFields_alt {
-  create: LiveChatsFields_alt_Create
-  read: LiveChatsFields_alt_Read
-  update: LiveChatsFields_alt_Update
-  delete: LiveChatsFields_alt_Delete
+type LiveChatsFields_Customer {
+  create: LiveChatsFields_Customer_Create
+  read: LiveChatsFields_Customer_Read
+  update: LiveChatsFields_Customer_Update
+  delete: LiveChatsFields_Customer_Delete
 }
 
-type LiveChatsFields_alt_Create {
+type LiveChatsFields_Customer_Create {
   permission: Boolean!
 }
 
-type LiveChatsFields_alt_Read {
+type LiveChatsFields_Customer_Read {
   permission: Boolean!
 }
 
-type LiveChatsFields_alt_Update {
+type LiveChatsFields_Customer_Update {
   permission: Boolean!
 }
 
-type LiveChatsFields_alt_Delete {
+type LiveChatsFields_Customer_Delete {
+  permission: Boolean!
+}
+
+type LiveChatsFields_Agent {
+  create: LiveChatsFields_Agent_Create
+  read: LiveChatsFields_Agent_Read
+  update: LiveChatsFields_Agent_Update
+  delete: LiveChatsFields_Agent_Delete
+}
+
+type LiveChatsFields_Agent_Create {
+  permission: Boolean!
+}
+
+type LiveChatsFields_Agent_Read {
+  permission: Boolean!
+}
+
+type LiveChatsFields_Agent_Update {
+  permission: Boolean!
+}
+
+type LiveChatsFields_Agent_Delete {
+  permission: Boolean!
+}
+
+type LiveChatsFields_Aiagent {
+  create: LiveChatsFields_Aiagent_Create
+  read: LiveChatsFields_Aiagent_Read
+  update: LiveChatsFields_Aiagent_Update
+  delete: LiveChatsFields_Aiagent_Delete
+}
+
+type LiveChatsFields_Aiagent_Create {
+  permission: Boolean!
+}
+
+type LiveChatsFields_Aiagent_Read {
+  permission: Boolean!
+}
+
+type LiveChatsFields_Aiagent_Update {
+  permission: Boolean!
+}
+
+type LiveChatsFields_Aiagent_Delete {
   permission: Boolean!
 }
 
@@ -38502,6 +38756,7 @@ input mutationOrderInput {
   stripePaymentIntentID: String
   DeliveryLocation: String
   mpesaTransactionRef: String
+  GenerateReceiptButton: String
   total: Float!
   items: [mutationOrder_ItemsInput]
   updatedAt: String
@@ -38512,9 +38767,9 @@ input mutationOrder_ItemsInput {
   product: String
   price: Float
   quantity: Float
-  colorId: String!
-  size: String!
-  volumeOrHeight: String!
+  colorId: String
+  size: String
+  volumeOrHeight: String
   id: String
 }
 
@@ -38523,6 +38778,7 @@ input mutationOrderUpdateInput {
   stripePaymentIntentID: String
   DeliveryLocation: String
   mpesaTransactionRef: String
+  GenerateReceiptButton: String
   total: Float
   items: [mutationOrderUpdate_ItemsInput]
   updatedAt: String
@@ -38533,9 +38789,9 @@ input mutationOrderUpdate_ItemsInput {
   product: String
   price: Float
   quantity: Float
-  colorId: String!
-  size: String!
-  volumeOrHeight: String!
+  colorId: String
+  size: String
+  volumeOrHeight: String
   id: String
 }
 
@@ -39229,6 +39485,7 @@ input mutationDeliveryLocationInput {
   AdditionalInformation: String!
   region: String!
   googlepin: String
+  price: Float
   updatedAt: String
   createdAt: String
 }
@@ -39239,18 +39496,23 @@ input mutationDeliveryLocationUpdateInput {
   AdditionalInformation: String
   region: String
   googlepin: String
+  price: Float
   updatedAt: String
   createdAt: String
 }
 
 input mutationLiveChatInput {
-  alt: String
+  Customer: String
+  Agent: String
+  Aiagent: String
   updatedAt: String
   createdAt: String
 }
 
 input mutationLiveChatUpdateInput {
-  alt: String
+  Customer: String
+  Agent: String
+  Aiagent: String
   updatedAt: String
   createdAt: String
 }

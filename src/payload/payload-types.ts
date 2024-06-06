@@ -47,7 +47,7 @@ export interface Config {
     headercategories: Headercategory;
     attributesCollection: AttributesCollection;
     deliveryLocations: DeliveryLocation;
-    LiveChats: LiveChat;
+    'live-chats': LiveChat;
     EmailBulkySms: EmailBulkySm;
     search: Search;
     redirects: Redirect;
@@ -989,6 +989,7 @@ export interface DeliveryLocation {
   AdditionalInformation: string;
   region: string;
   googlepin?: string | null;
+  price?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1027,15 +1028,16 @@ export interface Order {
   stripePaymentIntentID?: string | null;
   DeliveryLocation?: (string | null) | DeliveryLocation;
   mpesaTransactionRef?: string | null;
+  GenerateReceiptButton?: string | null;
   total: number;
   items?:
     | {
         product: string | Product;
         price?: number | null;
         quantity?: number | null;
-        colorId: string;
-        size: string;
-        volumeOrHeight: string;
+        colorId?: string | null;
+        size?: string | null;
+        volumeOrHeight?: string | null;
         id?: string | null;
       }[]
     | null;
@@ -1140,7 +1142,9 @@ export interface Headercategory {
 }
 export interface LiveChat {
   id: string;
-  alt?: string | null;
+  Customer?: string | null;
+  Agent?: string | null;
+  Aiagent?: string | null;
   updatedAt: string;
   createdAt: string;
 }

@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload/types'
 
 import { admins } from '../../access/admins'
 import { adminsOrLoggedIn } from '../../access/adminsOrLoggedIn'
+import CustomOrderReceiptButton from '../../components/Receipt/ReceiptButton'
 import { adminsOrOrderedBy } from './access/adminsOrOrderedBy'
 import { clearUserCart } from './hooks/clearUserCart'
 // import { initiateMpesaPayment } from './hooks/initiateMpesaPayment'
@@ -63,6 +64,17 @@ export const Orders: CollectionConfig = {
       },
     },
     {
+      name: 'GenerateReceiptButton', // Custom field name for the button
+      type: 'text', // Using text type as a placeholder for the button
+      admin: {
+        readOnly: true,
+        position: 'sidebar',
+        components: {
+          Field: CustomOrderReceiptButton, // Using the custom button component
+        },
+      },
+    },
+    {
       name: 'total',
       type: 'number',
       required: true,
@@ -92,19 +104,16 @@ export const Orders: CollectionConfig = {
           name: 'colorId',
           label: 'Color Id',
           type: 'text',
-          required: true,
         },
         {
           name: 'size',
           label: 'Size',
           type: 'text',
-          required: true,
         },
         {
           name: 'volumeOrHeight',
           label: 'Volume or Height',
           type: 'text',
-          required: true,
         },
       ],
     },

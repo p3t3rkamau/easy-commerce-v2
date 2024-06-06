@@ -1,3 +1,4 @@
+import { NumberField } from '@nouance/payload-better-fields-plugin'
 import type { CollectionConfig } from 'payload/types'
 
 const DeliveryLocations: CollectionConfig = {
@@ -52,6 +53,24 @@ const DeliveryLocations: CollectionConfig = {
       name: 'googlepin',
       type: 'text',
     },
+    ...NumberField(
+      {
+        name: 'price',
+        label: 'Price',
+        type: 'number',
+        admin: {
+          readOnly: false,
+          hidden: false,
+          condition: (_, siblingData) => siblingData.type !== 'brand',
+        },
+      },
+      {
+        prefix: 'Ksh ',
+        thousandSeparator: ',',
+        decimalScale: 2,
+        fixedDecimalScale: true,
+      },
+    ),
   ],
 }
 

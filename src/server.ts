@@ -60,17 +60,6 @@ const start = async (): Promise<void> => {
     dev: process.env.NODE_ENV !== 'production',
   })
 
-  const nextHandler = nextApp.getRequestHandler()
-  app.get('/sitemap.xml', async (req, res) => {
-    try {
-      const sitemap = await generateSitemap() // Generate the sitemap
-      res.setHeader('Content-Type', 'application/xml')
-      res.send(sitemap) // Use send instead of write/end for simplicity
-    } catch (error: unknown) {
-      console.error('Error generating sitemap:', error)
-      res.status(500).send('Internal Server Error')
-    }
-  })
   app.get('/robots.txt', (req, res) => {
     const robotsTxt = `
       User-agent: *
@@ -83,6 +72,18 @@ const start = async (): Promise<void> => {
   })
 
   app.use((req, res) => nextHandler(req, res))
+
+  const nextHandler = nextApp.getRequestHandler()
+  app.get('/sitemap.xml', async (req, res) => {
+    try {
+      const sitemap = await generateSitemap() // Generate the sitemap
+      res.setHeader('Content-Type', 'application/xml')
+      res.send(sitemap) // Use send instead of write/end for simplicity
+    } catch (error: unknown) {
+      console.error('Error generating sitemap:', error)
+      res.status(500).send('Internal Server Error')
+    }
+  })
 
   await nextApp.prepare()
 
