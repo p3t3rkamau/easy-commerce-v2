@@ -263,6 +263,11 @@ export interface Page {
         blockType: 'DoubleMediaContent';
       }
     | {
+        Heading: string;
+        BackgroundColor: string;
+        TextColor: string;
+        NewTag?: boolean | null;
+        CustomTag?: string | null;
         selectedDocs?: (string | Product)[] | null;
         id?: string | null;
         blockName?: string | null;
@@ -281,18 +286,27 @@ export interface Page {
         blockType: 'last-viewed';
       }
     | {
+        Heading: string;
+        BackgroundColor: string;
+        TextColor: string;
         selectedDocs?: (string | Product)[] | null;
         id?: string | null;
         blockName?: string | null;
         blockType: 'flash-sales';
       }
     | {
+        Heading: string;
+        BackgroundColor: string;
+        TextColor: string;
         selectedDocs?: (string | Product)[] | null;
         id?: string | null;
         blockName?: string | null;
         blockType: 'Event-Archive';
       }
     | {
+        Heading: string;
+        BackgroundColor: string;
+        TextColor: string;
         selectedDocs?: (string | Product)[] | null;
         id?: string | null;
         blockName?: string | null;
@@ -361,6 +375,12 @@ export interface Category {
   id: string;
   title: string;
   media?: string | Media | null;
+  reference?: {
+    relationTo: 'products';
+    value: string | Product;
+  } | null;
+  CustomUrl?: string | null;
+  subCategories?: (string | Category)[] | null;
   parent?: (string | null) | Category;
   breadcrumbs?:
     | {
@@ -1145,12 +1165,16 @@ export interface LiveChat {
   Customer?: string | null;
   Agent?: string | null;
   Aiagent?: string | null;
+  EmailCustomer?: string | null;
+  EmailAgent?: string | null;
   updatedAt: string;
   createdAt: string;
 }
 export interface EmailBulkySm {
   id: string;
-  alt?: string | null;
+  CustomerEmail?: string | null;
+  AgentEmail?: string | null;
+  AiAgentEmail?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1389,6 +1413,8 @@ export interface Footer {
   id: string;
   copyright?: string | null;
   Categories: (string | Category)[];
+  topbrands: (string | Category)[];
+  informatin: (string | Category)[];
   navItems?:
     | {
         link: {

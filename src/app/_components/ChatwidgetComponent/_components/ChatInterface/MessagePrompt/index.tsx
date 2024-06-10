@@ -1,16 +1,19 @@
 import React from 'react'
+import { FaArrowRight } from 'react-icons/fa6'
 
-import './index.module.scss'
+import classes from './index.module.scss'
 const MessagePrompt = () => {
   return (
     <div>
-      <div className="container">
-        <div className="message">
+      <div className={classes.container}>
+        <div className={classes.message}>
           <span>Send us a message</span>
           <span>We typically reply in under 5 minutes</span>
         </div>
-        <div className="arrowContainer">
-          <span className="arrow">&#8594;</span>
+        <div className={classes.arrowContainer}>
+          <span className={classes.arrow}>
+            <FaArrowRight />
+          </span>
         </div>
       </div>
     </div>
@@ -18,3 +21,4 @@ const MessagePrompt = () => {
 }
 
 export default MessagePrompt
+//TODO: change the icon to come from react icons

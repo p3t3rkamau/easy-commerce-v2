@@ -60,6 +60,10 @@ const start = async (): Promise<void> => {
     dev: process.env.NODE_ENV !== 'production',
   })
 
+  app.get('/test', (req, res) => {
+    res.send('All Systems Operational')
+  })
+
   app.get('/robots.txt', (req, res) => {
     const robotsTxt = `
       User-agent: *

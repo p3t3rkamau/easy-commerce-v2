@@ -1310,6 +1310,9 @@ type Category {
   id: String
   title: String!
   media(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType, where: Category_Media_where): Media
+  reference(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): Category_Reference_Relationship
+  CustomUrl: String
+  subCategories(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Category!]
   parent(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): Category
   breadcrumbs: [Category_Breadcrumbs!]
   updatedAt: DateTime
@@ -1510,24 +1513,16 @@ input Category_Media_where_or {
   OR: [Category_Media_where_or]
 }
 
-type Category_Breadcrumbs {
-  doc(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): Category
-  url: String
-  label: String
-  id: String
+type Category_Reference_Relationship {
+  relationTo: Category_Reference_RelationTo
+  value: Category_Reference
 }
 
-type Archive_SelectedDocs_Relationship {
-  relationTo: Archive_SelectedDocs_RelationTo
-  value: Archive_SelectedDocs
-}
-
-enum Archive_SelectedDocs_RelationTo {
+enum Category_Reference_RelationTo {
   products
-  posts
 }
 
-union Archive_SelectedDocs = Product | Post
+union Category_Reference = Product
 
 type Product {
   id: String
@@ -2737,6 +2732,25 @@ enum Product__status {
   draft
   published
 }
+
+type Category_Breadcrumbs {
+  doc(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): Category
+  url: String
+  label: String
+  id: String
+}
+
+type Archive_SelectedDocs_Relationship {
+  relationTo: Archive_SelectedDocs_RelationTo
+  value: Archive_SelectedDocs
+}
+
+enum Archive_SelectedDocs_RelationTo {
+  products
+  posts
+}
+
+union Archive_SelectedDocs = Product | Post
 
 type Post {
   id: String
@@ -4488,6 +4502,11 @@ input DoubleMediaContent_MediaContentFields_MoreImages_Images_FourImages_Media_w
 }
 
 type ProductsSlider {
+  Heading: String
+  BackgroundColor: String
+  TextColor: String
+  NewTag: Boolean
+  CustomTag: String
   selectedDocs(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Product!]
   id: String
   blockName: String
@@ -4509,6 +4528,9 @@ type LastViewed {
 }
 
 type FlashSales {
+  Heading: String
+  BackgroundColor: String
+  TextColor: String
   selectedDocs(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Product!]
   id: String
   blockName: String
@@ -4516,6 +4538,9 @@ type FlashSales {
 }
 
 type EventArchive {
+  Heading: String
+  BackgroundColor: String
+  TextColor: String
   selectedDocs(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Product!]
   id: String
   blockName: String
@@ -4523,6 +4548,9 @@ type EventArchive {
 }
 
 type DealsArchive {
+  Heading: String
+  BackgroundColor: String
+  TextColor: String
   selectedDocs(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Product!]
   id: String
   blockName: String
@@ -12635,6 +12663,9 @@ type Categories {
 input Category_where {
   title: Category_title_operator
   media: Category_media_operator
+  reference: Category_reference_Relation
+  CustomUrl: Category_CustomUrl_operator
+  subCategories: Category_subCategories_operator
   parent: Category_parent_operator
   breadcrumbs__doc: Category_breadcrumbs__doc_operator
   breadcrumbs__url: Category_breadcrumbs__url_operator
@@ -12660,6 +12691,35 @@ input Category_title_operator {
 input Category_media_operator {
   equals: String
   not_equals: String
+  exists: Boolean
+}
+
+input Category_reference_Relation {
+  relationTo: Category_reference_Relation_RelationTo
+  value: JSON
+}
+
+enum Category_reference_Relation_RelationTo {
+  products
+}
+
+input Category_CustomUrl_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Category_subCategories_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
   exists: Boolean
 }
 
@@ -12750,6 +12810,9 @@ input Category_id_operator {
 input Category_where_and {
   title: Category_title_operator
   media: Category_media_operator
+  reference: Category_reference_Relation
+  CustomUrl: Category_CustomUrl_operator
+  subCategories: Category_subCategories_operator
   parent: Category_parent_operator
   breadcrumbs__doc: Category_breadcrumbs__doc_operator
   breadcrumbs__url: Category_breadcrumbs__url_operator
@@ -12765,6 +12828,9 @@ input Category_where_and {
 input Category_where_or {
   title: Category_title_operator
   media: Category_media_operator
+  reference: Category_reference_Relation
+  CustomUrl: Category_CustomUrl_operator
+  subCategories: Category_subCategories_operator
   parent: Category_parent_operator
   breadcrumbs__doc: Category_breadcrumbs__doc_operator
   breadcrumbs__url: Category_breadcrumbs__url_operator
@@ -12788,6 +12854,9 @@ type categoriesDocAccess {
 type CategoriesDocAccessFields {
   title: CategoriesDocAccessFields_title
   media: CategoriesDocAccessFields_media
+  reference: CategoriesDocAccessFields_reference
+  CustomUrl: CategoriesDocAccessFields_CustomUrl
+  subCategories: CategoriesDocAccessFields_subCategories
   parent: CategoriesDocAccessFields_parent
   breadcrumbs: CategoriesDocAccessFields_breadcrumbs
   updatedAt: CategoriesDocAccessFields_updatedAt
@@ -12837,6 +12906,75 @@ type CategoriesDocAccessFields_media_Update {
 }
 
 type CategoriesDocAccessFields_media_Delete {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_reference {
+  create: CategoriesDocAccessFields_reference_Create
+  read: CategoriesDocAccessFields_reference_Read
+  update: CategoriesDocAccessFields_reference_Update
+  delete: CategoriesDocAccessFields_reference_Delete
+}
+
+type CategoriesDocAccessFields_reference_Create {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_reference_Read {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_reference_Update {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_reference_Delete {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_CustomUrl {
+  create: CategoriesDocAccessFields_CustomUrl_Create
+  read: CategoriesDocAccessFields_CustomUrl_Read
+  update: CategoriesDocAccessFields_CustomUrl_Update
+  delete: CategoriesDocAccessFields_CustomUrl_Delete
+}
+
+type CategoriesDocAccessFields_CustomUrl_Create {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_CustomUrl_Read {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_CustomUrl_Update {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_CustomUrl_Delete {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_subCategories {
+  create: CategoriesDocAccessFields_subCategories_Create
+  read: CategoriesDocAccessFields_subCategories_Read
+  update: CategoriesDocAccessFields_subCategories_Update
+  delete: CategoriesDocAccessFields_subCategories_Delete
+}
+
+type CategoriesDocAccessFields_subCategories_Create {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_subCategories_Read {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_subCategories_Update {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_subCategories_Delete {
   permission: Boolean!
 }
 
@@ -21264,6 +21402,8 @@ type LiveChat {
   Customer: String
   Agent: String
   Aiagent: String
+  EmailCustomer: String
+  EmailAgent: String
   updatedAt: DateTime
   createdAt: DateTime
 }
@@ -21286,6 +21426,8 @@ input LiveChat_where {
   Customer: LiveChat_Customer_operator
   Agent: LiveChat_Agent_operator
   Aiagent: LiveChat_Aiagent_operator
+  EmailCustomer: LiveChat_EmailCustomer_operator
+  EmailAgent: LiveChat_EmailAgent_operator
   updatedAt: LiveChat_updatedAt_operator
   createdAt: LiveChat_createdAt_operator
   id: LiveChat_id_operator
@@ -21316,6 +21458,28 @@ input LiveChat_Agent_operator {
 }
 
 input LiveChat_Aiagent_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input LiveChat_EmailCustomer_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input LiveChat_EmailAgent_operator {
   equals: String
   not_equals: String
   like: String
@@ -21363,6 +21527,8 @@ input LiveChat_where_and {
   Customer: LiveChat_Customer_operator
   Agent: LiveChat_Agent_operator
   Aiagent: LiveChat_Aiagent_operator
+  EmailCustomer: LiveChat_EmailCustomer_operator
+  EmailAgent: LiveChat_EmailAgent_operator
   updatedAt: LiveChat_updatedAt_operator
   createdAt: LiveChat_createdAt_operator
   id: LiveChat_id_operator
@@ -21374,6 +21540,8 @@ input LiveChat_where_or {
   Customer: LiveChat_Customer_operator
   Agent: LiveChat_Agent_operator
   Aiagent: LiveChat_Aiagent_operator
+  EmailCustomer: LiveChat_EmailCustomer_operator
+  EmailAgent: LiveChat_EmailAgent_operator
   updatedAt: LiveChat_updatedAt_operator
   createdAt: LiveChat_createdAt_operator
   id: LiveChat_id_operator
@@ -21393,6 +21561,8 @@ type LiveChatsDocAccessFields {
   Customer: LiveChatsDocAccessFields_Customer
   Agent: LiveChatsDocAccessFields_Agent
   Aiagent: LiveChatsDocAccessFields_Aiagent
+  EmailCustomer: LiveChatsDocAccessFields_EmailCustomer
+  EmailAgent: LiveChatsDocAccessFields_EmailAgent
   updatedAt: LiveChatsDocAccessFields_updatedAt
   createdAt: LiveChatsDocAccessFields_createdAt
 }
@@ -21466,6 +21636,52 @@ type LiveChatsDocAccessFields_Aiagent_Delete {
   permission: Boolean!
 }
 
+type LiveChatsDocAccessFields_EmailCustomer {
+  create: LiveChatsDocAccessFields_EmailCustomer_Create
+  read: LiveChatsDocAccessFields_EmailCustomer_Read
+  update: LiveChatsDocAccessFields_EmailCustomer_Update
+  delete: LiveChatsDocAccessFields_EmailCustomer_Delete
+}
+
+type LiveChatsDocAccessFields_EmailCustomer_Create {
+  permission: Boolean!
+}
+
+type LiveChatsDocAccessFields_EmailCustomer_Read {
+  permission: Boolean!
+}
+
+type LiveChatsDocAccessFields_EmailCustomer_Update {
+  permission: Boolean!
+}
+
+type LiveChatsDocAccessFields_EmailCustomer_Delete {
+  permission: Boolean!
+}
+
+type LiveChatsDocAccessFields_EmailAgent {
+  create: LiveChatsDocAccessFields_EmailAgent_Create
+  read: LiveChatsDocAccessFields_EmailAgent_Read
+  update: LiveChatsDocAccessFields_EmailAgent_Update
+  delete: LiveChatsDocAccessFields_EmailAgent_Delete
+}
+
+type LiveChatsDocAccessFields_EmailAgent_Create {
+  permission: Boolean!
+}
+
+type LiveChatsDocAccessFields_EmailAgent_Read {
+  permission: Boolean!
+}
+
+type LiveChatsDocAccessFields_EmailAgent_Update {
+  permission: Boolean!
+}
+
+type LiveChatsDocAccessFields_EmailAgent_Delete {
+  permission: Boolean!
+}
+
 type LiveChatsDocAccessFields_updatedAt {
   create: LiveChatsDocAccessFields_updatedAt_Create
   read: LiveChatsDocAccessFields_updatedAt_Read
@@ -21534,7 +21750,9 @@ type LiveChatsDeleteDocAccess {
 
 type EmailBulkySm {
   id: String
-  alt: String
+  CustomerEmail: String
+  AgentEmail: String
+  AiAgentEmail: String
   updatedAt: DateTime
   createdAt: DateTime
 }
@@ -21554,7 +21772,9 @@ type EmailBulkySms {
 }
 
 input EmailBulkySm_where {
-  alt: EmailBulkySm_alt_operator
+  CustomerEmail: EmailBulkySm_CustomerEmail_operator
+  AgentEmail: EmailBulkySm_AgentEmail_operator
+  AiAgentEmail: EmailBulkySm_AiAgentEmail_operator
   updatedAt: EmailBulkySm_updatedAt_operator
   createdAt: EmailBulkySm_createdAt_operator
   id: EmailBulkySm_id_operator
@@ -21562,7 +21782,29 @@ input EmailBulkySm_where {
   OR: [EmailBulkySm_where_or]
 }
 
-input EmailBulkySm_alt_operator {
+input EmailBulkySm_CustomerEmail_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input EmailBulkySm_AgentEmail_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input EmailBulkySm_AiAgentEmail_operator {
   equals: String
   not_equals: String
   like: String
@@ -21607,7 +21849,9 @@ input EmailBulkySm_id_operator {
 }
 
 input EmailBulkySm_where_and {
-  alt: EmailBulkySm_alt_operator
+  CustomerEmail: EmailBulkySm_CustomerEmail_operator
+  AgentEmail: EmailBulkySm_AgentEmail_operator
+  AiAgentEmail: EmailBulkySm_AiAgentEmail_operator
   updatedAt: EmailBulkySm_updatedAt_operator
   createdAt: EmailBulkySm_createdAt_operator
   id: EmailBulkySm_id_operator
@@ -21616,7 +21860,9 @@ input EmailBulkySm_where_and {
 }
 
 input EmailBulkySm_where_or {
-  alt: EmailBulkySm_alt_operator
+  CustomerEmail: EmailBulkySm_CustomerEmail_operator
+  AgentEmail: EmailBulkySm_AgentEmail_operator
+  AiAgentEmail: EmailBulkySm_AiAgentEmail_operator
   updatedAt: EmailBulkySm_updatedAt_operator
   createdAt: EmailBulkySm_createdAt_operator
   id: EmailBulkySm_id_operator
@@ -21633,31 +21879,79 @@ type EmailBulkySmsDocAccess {
 }
 
 type EmailBulkySmsDocAccessFields {
-  alt: EmailBulkySmsDocAccessFields_alt
+  CustomerEmail: EmailBulkySmsDocAccessFields_CustomerEmail
+  AgentEmail: EmailBulkySmsDocAccessFields_AgentEmail
+  AiAgentEmail: EmailBulkySmsDocAccessFields_AiAgentEmail
   updatedAt: EmailBulkySmsDocAccessFields_updatedAt
   createdAt: EmailBulkySmsDocAccessFields_createdAt
 }
 
-type EmailBulkySmsDocAccessFields_alt {
-  create: EmailBulkySmsDocAccessFields_alt_Create
-  read: EmailBulkySmsDocAccessFields_alt_Read
-  update: EmailBulkySmsDocAccessFields_alt_Update
-  delete: EmailBulkySmsDocAccessFields_alt_Delete
+type EmailBulkySmsDocAccessFields_CustomerEmail {
+  create: EmailBulkySmsDocAccessFields_CustomerEmail_Create
+  read: EmailBulkySmsDocAccessFields_CustomerEmail_Read
+  update: EmailBulkySmsDocAccessFields_CustomerEmail_Update
+  delete: EmailBulkySmsDocAccessFields_CustomerEmail_Delete
 }
 
-type EmailBulkySmsDocAccessFields_alt_Create {
+type EmailBulkySmsDocAccessFields_CustomerEmail_Create {
   permission: Boolean!
 }
 
-type EmailBulkySmsDocAccessFields_alt_Read {
+type EmailBulkySmsDocAccessFields_CustomerEmail_Read {
   permission: Boolean!
 }
 
-type EmailBulkySmsDocAccessFields_alt_Update {
+type EmailBulkySmsDocAccessFields_CustomerEmail_Update {
   permission: Boolean!
 }
 
-type EmailBulkySmsDocAccessFields_alt_Delete {
+type EmailBulkySmsDocAccessFields_CustomerEmail_Delete {
+  permission: Boolean!
+}
+
+type EmailBulkySmsDocAccessFields_AgentEmail {
+  create: EmailBulkySmsDocAccessFields_AgentEmail_Create
+  read: EmailBulkySmsDocAccessFields_AgentEmail_Read
+  update: EmailBulkySmsDocAccessFields_AgentEmail_Update
+  delete: EmailBulkySmsDocAccessFields_AgentEmail_Delete
+}
+
+type EmailBulkySmsDocAccessFields_AgentEmail_Create {
+  permission: Boolean!
+}
+
+type EmailBulkySmsDocAccessFields_AgentEmail_Read {
+  permission: Boolean!
+}
+
+type EmailBulkySmsDocAccessFields_AgentEmail_Update {
+  permission: Boolean!
+}
+
+type EmailBulkySmsDocAccessFields_AgentEmail_Delete {
+  permission: Boolean!
+}
+
+type EmailBulkySmsDocAccessFields_AiAgentEmail {
+  create: EmailBulkySmsDocAccessFields_AiAgentEmail_Create
+  read: EmailBulkySmsDocAccessFields_AiAgentEmail_Read
+  update: EmailBulkySmsDocAccessFields_AiAgentEmail_Update
+  delete: EmailBulkySmsDocAccessFields_AiAgentEmail_Delete
+}
+
+type EmailBulkySmsDocAccessFields_AiAgentEmail_Create {
+  permission: Boolean!
+}
+
+type EmailBulkySmsDocAccessFields_AiAgentEmail_Read {
+  permission: Boolean!
+}
+
+type EmailBulkySmsDocAccessFields_AiAgentEmail_Update {
+  permission: Boolean!
+}
+
+type EmailBulkySmsDocAccessFields_AiAgentEmail_Delete {
   permission: Boolean!
 }
 
@@ -24577,6 +24871,8 @@ type HeaderUpdateDocAccess {
 type Footer {
   copyright: String
   Categories(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Category!]!
+  topbrands(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Category!]!
+  informatin(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Category!]!
   navItems: [Footer_NavItems!]
   updatedAt: DateTime
   createdAt: DateTime
@@ -24815,6 +25111,8 @@ type footerDocAccess {
 type FooterDocAccessFields {
   copyright: FooterDocAccessFields_copyright
   Categories: FooterDocAccessFields_Categories
+  topbrands: FooterDocAccessFields_topbrands
+  informatin: FooterDocAccessFields_informatin
   navItems: FooterDocAccessFields_navItems
   updatedAt: FooterDocAccessFields_updatedAt
   createdAt: FooterDocAccessFields_createdAt
@@ -24863,6 +25161,52 @@ type FooterDocAccessFields_Categories_Update {
 }
 
 type FooterDocAccessFields_Categories_Delete {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_topbrands {
+  create: FooterDocAccessFields_topbrands_Create
+  read: FooterDocAccessFields_topbrands_Read
+  update: FooterDocAccessFields_topbrands_Update
+  delete: FooterDocAccessFields_topbrands_Delete
+}
+
+type FooterDocAccessFields_topbrands_Create {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_topbrands_Read {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_topbrands_Update {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_topbrands_Delete {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_informatin {
+  create: FooterDocAccessFields_informatin_Create
+  read: FooterDocAccessFields_informatin_Read
+  update: FooterDocAccessFields_informatin_Update
+  delete: FooterDocAccessFields_informatin_Delete
+}
+
+type FooterDocAccessFields_informatin_Create {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_informatin_Read {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_informatin_Update {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_informatin_Delete {
   permission: Boolean!
 }
 
@@ -30369,6 +30713,9 @@ type categoriesAccess {
 type CategoriesFields {
   title: CategoriesFields_title
   media: CategoriesFields_media
+  reference: CategoriesFields_reference
+  CustomUrl: CategoriesFields_CustomUrl
+  subCategories: CategoriesFields_subCategories
   parent: CategoriesFields_parent
   breadcrumbs: CategoriesFields_breadcrumbs
   updatedAt: CategoriesFields_updatedAt
@@ -30418,6 +30765,75 @@ type CategoriesFields_media_Update {
 }
 
 type CategoriesFields_media_Delete {
+  permission: Boolean!
+}
+
+type CategoriesFields_reference {
+  create: CategoriesFields_reference_Create
+  read: CategoriesFields_reference_Read
+  update: CategoriesFields_reference_Update
+  delete: CategoriesFields_reference_Delete
+}
+
+type CategoriesFields_reference_Create {
+  permission: Boolean!
+}
+
+type CategoriesFields_reference_Read {
+  permission: Boolean!
+}
+
+type CategoriesFields_reference_Update {
+  permission: Boolean!
+}
+
+type CategoriesFields_reference_Delete {
+  permission: Boolean!
+}
+
+type CategoriesFields_CustomUrl {
+  create: CategoriesFields_CustomUrl_Create
+  read: CategoriesFields_CustomUrl_Read
+  update: CategoriesFields_CustomUrl_Update
+  delete: CategoriesFields_CustomUrl_Delete
+}
+
+type CategoriesFields_CustomUrl_Create {
+  permission: Boolean!
+}
+
+type CategoriesFields_CustomUrl_Read {
+  permission: Boolean!
+}
+
+type CategoriesFields_CustomUrl_Update {
+  permission: Boolean!
+}
+
+type CategoriesFields_CustomUrl_Delete {
+  permission: Boolean!
+}
+
+type CategoriesFields_subCategories {
+  create: CategoriesFields_subCategories_Create
+  read: CategoriesFields_subCategories_Read
+  update: CategoriesFields_subCategories_Update
+  delete: CategoriesFields_subCategories_Delete
+}
+
+type CategoriesFields_subCategories_Create {
+  permission: Boolean!
+}
+
+type CategoriesFields_subCategories_Read {
+  permission: Boolean!
+}
+
+type CategoriesFields_subCategories_Update {
+  permission: Boolean!
+}
+
+type CategoriesFields_subCategories_Delete {
   permission: Boolean!
 }
 
@@ -34178,6 +34594,8 @@ type LiveChatsFields {
   Customer: LiveChatsFields_Customer
   Agent: LiveChatsFields_Agent
   Aiagent: LiveChatsFields_Aiagent
+  EmailCustomer: LiveChatsFields_EmailCustomer
+  EmailAgent: LiveChatsFields_EmailAgent
   updatedAt: LiveChatsFields_updatedAt
   createdAt: LiveChatsFields_createdAt
 }
@@ -34248,6 +34666,52 @@ type LiveChatsFields_Aiagent_Update {
 }
 
 type LiveChatsFields_Aiagent_Delete {
+  permission: Boolean!
+}
+
+type LiveChatsFields_EmailCustomer {
+  create: LiveChatsFields_EmailCustomer_Create
+  read: LiveChatsFields_EmailCustomer_Read
+  update: LiveChatsFields_EmailCustomer_Update
+  delete: LiveChatsFields_EmailCustomer_Delete
+}
+
+type LiveChatsFields_EmailCustomer_Create {
+  permission: Boolean!
+}
+
+type LiveChatsFields_EmailCustomer_Read {
+  permission: Boolean!
+}
+
+type LiveChatsFields_EmailCustomer_Update {
+  permission: Boolean!
+}
+
+type LiveChatsFields_EmailCustomer_Delete {
+  permission: Boolean!
+}
+
+type LiveChatsFields_EmailAgent {
+  create: LiveChatsFields_EmailAgent_Create
+  read: LiveChatsFields_EmailAgent_Read
+  update: LiveChatsFields_EmailAgent_Update
+  delete: LiveChatsFields_EmailAgent_Delete
+}
+
+type LiveChatsFields_EmailAgent_Create {
+  permission: Boolean!
+}
+
+type LiveChatsFields_EmailAgent_Read {
+  permission: Boolean!
+}
+
+type LiveChatsFields_EmailAgent_Update {
+  permission: Boolean!
+}
+
+type LiveChatsFields_EmailAgent_Delete {
   permission: Boolean!
 }
 
@@ -34326,31 +34790,79 @@ type EmailBulkySmsAccess {
 }
 
 type EmailBulkySmsFields {
-  alt: EmailBulkySmsFields_alt
+  CustomerEmail: EmailBulkySmsFields_CustomerEmail
+  AgentEmail: EmailBulkySmsFields_AgentEmail
+  AiAgentEmail: EmailBulkySmsFields_AiAgentEmail
   updatedAt: EmailBulkySmsFields_updatedAt
   createdAt: EmailBulkySmsFields_createdAt
 }
 
-type EmailBulkySmsFields_alt {
-  create: EmailBulkySmsFields_alt_Create
-  read: EmailBulkySmsFields_alt_Read
-  update: EmailBulkySmsFields_alt_Update
-  delete: EmailBulkySmsFields_alt_Delete
+type EmailBulkySmsFields_CustomerEmail {
+  create: EmailBulkySmsFields_CustomerEmail_Create
+  read: EmailBulkySmsFields_CustomerEmail_Read
+  update: EmailBulkySmsFields_CustomerEmail_Update
+  delete: EmailBulkySmsFields_CustomerEmail_Delete
 }
 
-type EmailBulkySmsFields_alt_Create {
+type EmailBulkySmsFields_CustomerEmail_Create {
   permission: Boolean!
 }
 
-type EmailBulkySmsFields_alt_Read {
+type EmailBulkySmsFields_CustomerEmail_Read {
   permission: Boolean!
 }
 
-type EmailBulkySmsFields_alt_Update {
+type EmailBulkySmsFields_CustomerEmail_Update {
   permission: Boolean!
 }
 
-type EmailBulkySmsFields_alt_Delete {
+type EmailBulkySmsFields_CustomerEmail_Delete {
+  permission: Boolean!
+}
+
+type EmailBulkySmsFields_AgentEmail {
+  create: EmailBulkySmsFields_AgentEmail_Create
+  read: EmailBulkySmsFields_AgentEmail_Read
+  update: EmailBulkySmsFields_AgentEmail_Update
+  delete: EmailBulkySmsFields_AgentEmail_Delete
+}
+
+type EmailBulkySmsFields_AgentEmail_Create {
+  permission: Boolean!
+}
+
+type EmailBulkySmsFields_AgentEmail_Read {
+  permission: Boolean!
+}
+
+type EmailBulkySmsFields_AgentEmail_Update {
+  permission: Boolean!
+}
+
+type EmailBulkySmsFields_AgentEmail_Delete {
+  permission: Boolean!
+}
+
+type EmailBulkySmsFields_AiAgentEmail {
+  create: EmailBulkySmsFields_AiAgentEmail_Create
+  read: EmailBulkySmsFields_AiAgentEmail_Read
+  update: EmailBulkySmsFields_AiAgentEmail_Update
+  delete: EmailBulkySmsFields_AiAgentEmail_Delete
+}
+
+type EmailBulkySmsFields_AiAgentEmail_Create {
+  permission: Boolean!
+}
+
+type EmailBulkySmsFields_AiAgentEmail_Read {
+  permission: Boolean!
+}
+
+type EmailBulkySmsFields_AiAgentEmail_Update {
+  permission: Boolean!
+}
+
+type EmailBulkySmsFields_AiAgentEmail_Delete {
   permission: Boolean!
 }
 
@@ -36062,6 +36574,8 @@ type footerAccess {
 type FooterFields {
   copyright: FooterFields_copyright
   Categories: FooterFields_Categories
+  topbrands: FooterFields_topbrands
+  informatin: FooterFields_informatin
   navItems: FooterFields_navItems
   updatedAt: FooterFields_updatedAt
   createdAt: FooterFields_createdAt
@@ -36110,6 +36624,52 @@ type FooterFields_Categories_Update {
 }
 
 type FooterFields_Categories_Delete {
+  permission: Boolean!
+}
+
+type FooterFields_topbrands {
+  create: FooterFields_topbrands_Create
+  read: FooterFields_topbrands_Read
+  update: FooterFields_topbrands_Update
+  delete: FooterFields_topbrands_Delete
+}
+
+type FooterFields_topbrands_Create {
+  permission: Boolean!
+}
+
+type FooterFields_topbrands_Read {
+  permission: Boolean!
+}
+
+type FooterFields_topbrands_Update {
+  permission: Boolean!
+}
+
+type FooterFields_topbrands_Delete {
+  permission: Boolean!
+}
+
+type FooterFields_informatin {
+  create: FooterFields_informatin_Create
+  read: FooterFields_informatin_Read
+  update: FooterFields_informatin_Update
+  delete: FooterFields_informatin_Delete
+}
+
+type FooterFields_informatin_Create {
+  permission: Boolean!
+}
+
+type FooterFields_informatin_Read {
+  permission: Boolean!
+}
+
+type FooterFields_informatin_Update {
+  permission: Boolean!
+}
+
+type FooterFields_informatin_Delete {
   permission: Boolean!
 }
 
@@ -38846,10 +39406,22 @@ input mutationVideoUpdateInput {
 input mutationCategoryInput {
   title: String!
   media: String
+  reference: Category_ReferenceRelationshipInput
+  CustomUrl: String
+  subCategories: [String]
   parent: String
   breadcrumbs: [mutationCategory_BreadcrumbsInput]
   updatedAt: String
   createdAt: String
+}
+
+input Category_ReferenceRelationshipInput {
+  relationTo: Category_ReferenceRelationshipInputRelationTo
+  value: JSON
+}
+
+enum Category_ReferenceRelationshipInputRelationTo {
+  products
 }
 
 input mutationCategory_BreadcrumbsInput {
@@ -38862,10 +39434,22 @@ input mutationCategory_BreadcrumbsInput {
 input mutationCategoryUpdateInput {
   title: String
   media: String
+  reference: CategoryUpdate_ReferenceRelationshipInput
+  CustomUrl: String
+  subCategories: [String]
   parent: String
   breadcrumbs: [mutationCategoryUpdate_BreadcrumbsInput]
   updatedAt: String
   createdAt: String
+}
+
+input CategoryUpdate_ReferenceRelationshipInput {
+  relationTo: CategoryUpdate_ReferenceRelationshipInputRelationTo
+  value: JSON
+}
+
+enum CategoryUpdate_ReferenceRelationshipInputRelationTo {
+  products
 }
 
 input mutationCategoryUpdate_BreadcrumbsInput {
@@ -39505,6 +40089,8 @@ input mutationLiveChatInput {
   Customer: String
   Agent: String
   Aiagent: String
+  EmailCustomer: String
+  EmailAgent: String
   updatedAt: String
   createdAt: String
 }
@@ -39513,18 +40099,24 @@ input mutationLiveChatUpdateInput {
   Customer: String
   Agent: String
   Aiagent: String
+  EmailCustomer: String
+  EmailAgent: String
   updatedAt: String
   createdAt: String
 }
 
 input mutationEmailBulkySmInput {
-  alt: String
+  CustomerEmail: String
+  AgentEmail: String
+  AiAgentEmail: String
   updatedAt: String
   createdAt: String
 }
 
 input mutationEmailBulkySmUpdateInput {
-  alt: String
+  CustomerEmail: String
+  AgentEmail: String
+  AiAgentEmail: String
   updatedAt: String
   createdAt: String
 }
@@ -39783,6 +40375,8 @@ enum Header_NavItems_Link_ReferenceRelationshipInputRelationTo {
 input mutationFooterInput {
   copyright: String
   Categories: [String]
+  topbrands: [String]
+  informatin: [String]
   navItems: [mutationFooter_NavItemsInput]
   updatedAt: String
   createdAt: String

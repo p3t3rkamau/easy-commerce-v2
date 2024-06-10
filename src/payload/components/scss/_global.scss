@@ -66,41 +66,41 @@ a {
   color: unset;
 }
 
-input,
-select {
-  font-family: inherit;
-  color: inherit;
-  font-size: inherit;
-  &:focus {
-    background-color: transparent;
-  }
-}
+// input,
+// select {
+//   font-family: inherit;
+//   color: inherit;
+//   font-size: inherit;
+//   &:focus {
+//     background-color: transparent;
+//   }
+// }
 
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-textarea:-webkit-autofill,
-textarea:-webkit-autofill:hover,
-textarea:-webkit-autofill:focus,
-select:-webkit-autofill,
-select:-webkit-autofill:hover,
-select:-webkit-autofill:focus {
-  // border: 1px solid green;
-  // -webkit-text-fill-color: green;
-  -webkit-box-shadow: 0 0 0px 1000px transparent inset;
-  box-shadow: 0 0 0px 1000px transparent inset;
-  transition: background-color 5000s ease-in-out 0s;
-}
+// input:-webkit-autofill,
+// input:-webkit-autofill:hover,
+// input:-webkit-autofill:focus,
+// textarea:-webkit-autofill,
+// textarea:-webkit-autofill:hover,
+// textarea:-webkit-autofill:focus,
+// select:-webkit-autofill,
+// select:-webkit-autofill:hover,
+// select:-webkit-autofill:focus {
+//   // border: 1px solid green;
+//   // -webkit-text-fill-color: green;
+//   -webkit-box-shadow: 0 0 0px 1000px transparent inset;
+//   box-shadow: 0 0 0px 1000px transparent inset;
+//   transition: background-color 5000s ease-in-out 0s;
+// }
 
-::placeholder {
-  color: #b9b9b9;
-}
+// ::placeholder {
+//   color: #b9b9b9;
+// }
 
-input[type=file], /* FF, IE7+, chrome (except button) */
-input[type=file]::-webkit-file-upload-button {
-  /* chromes and blink button */
-  cursor: pointer;
-}
+// input[type=file], /* FF, IE7+, chrome (except button) */
+// input[type=file]::-webkit-file-upload-button {
+//   /* chromes and blink button */
+//   cursor: pointer;
+// }
 
 //general styles
 // body {

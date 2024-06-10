@@ -3,6 +3,7 @@
 .container {
   display: flex;
   flex-direction: column;
+  z-index: 100;
   position: relative;
   height: 500px;
   width: 350px;
@@ -13,7 +14,7 @@
   position: fixed;
   bottom: 90px;
   right: 30px;
-  margin: 0 0 0 10px;
+  margin: 0 0 0 5px;
   scroll-behavior: smooth;
   @include small-break{
     width: 100%;

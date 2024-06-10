@@ -1,0 +1,111 @@
+@use '../../_css/common.scss' as *;
+@import '../../_css/type.scss';
+
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: scroll;
+}
+
+.flex::-webkit-scrollbar {
+  display: none;
+}
+
+
+.pagination {
+  @extend %label;
+  display: flex;
+  align-items: center;
+  gap: 150px;
+}
+
+.button {
+  all: unset;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  padding: calc(var(--base) / 2);
+  color: var(--color-elevation-500);
+  border: 1px solid var(--theme-elevation-200);
+  border-radius: 50%;
+
+  &:disabled {
+    cursor: not-allowed;
+    color: var(--theme-elevation-200);
+    border-color: var(--theme-elevation-150);
+    border-radius: 50%;
+  }
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  &:hover{
+    scale: 1.1;
+    transition: .2s ease;
+  }
+}
+
+.pageRange {
+
+  // border: 1px solid black;
+  @include small-break {
+    display: none;
+    gap: 200px;
+  }
+}
+
+.ButtonContainer {
+  // border: 1px solid black;
+  z-index: 20;
+  @include small-break{
+    display: none;
+  }
+}
+
+.container {
+  position: relative;
+}
+
+.btn1 {
+  left: -50px;
+  position: absolute;
+  top: 45%;
+
+  @include small-break {
+    left: -20px;
+  }
+}
+
+.btn2 {
+  right: -50px;
+  position: absolute;
+  top: 45%;
+
+  @include small-break {
+    right: -20px;
+  }
+}
+
+.headerContainer{
+  background-color: rgb(90, 17, 124);
+  color: white;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0 10px;
+}
+.seeAll{
+ 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  
+}
+.arrow{
+  padding: 0 10px;
+  font-size: 18px;
+  font-weight: 700;
+}

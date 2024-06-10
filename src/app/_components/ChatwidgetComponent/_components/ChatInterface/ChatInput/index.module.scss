@@ -1,7 +1,7 @@
 .container{
   border: 1px solid rgb(201, 195, 195);
   position: relative;
-  margin: 10px;
+  margin: 20px 0 ;
   border-radius: 10px;
 }
 .search input{
@@ -42,6 +42,7 @@
 .mostsearched ul {
   display: flex;
   flex-wrap: wrap;
+  width: 100%;
   align-items: flex-start;
   justify-content: flex-start;
 }

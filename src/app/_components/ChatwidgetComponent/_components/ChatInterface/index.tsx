@@ -1,9 +1,15 @@
 import React from 'react'
 
+import ArchiveBlock from './Archive'
 import BottomNavBar from './BottomNavBar'
+import ChatInput from './ChatInput'
+import DocsInput from './DocsInput'
 import HeaderInterface from './HeaderInterface'
 import HeroComponent from './HeroComponent'
 import HeroContent from './HeroContents'
+import MessagePrompt from './MessagePrompt'
+import NoMessage from './NoMessege'
+import SearchBar from './Search/searchBar'
 import StatusBar from './StatusBar'
 import TopNavBar from './TopNavbar'
 
@@ -19,6 +25,10 @@ interface ChatInterfaceProps {
 }
 
 const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
+  function onsearch(query: string): void {
+    throw new Error('Function not implemented.')
+  }
+
   return (
     <div className={styles.container}>
       {/* <HeaderInterface onClose={onClose} /> */}
@@ -29,6 +39,12 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
           <HeroContent />
           <StatusBar status="All Systems Operational" updatedAt="May 28, 10:59 UTC" />
           {/* <StatusBar status="Systems Down" updatedAt="May 28, 11:15 UTC" /> */}
+          <MessagePrompt />
+          <SearchBar onSearch={onsearch} />
+          <ArchiveBlock />
+          <ChatInput onSearch={onsearch} />
+          <NoMessage />
+          <DocsInput onSearch={onsearch} />
         </div>
       </div>
       <BottomNavBar />

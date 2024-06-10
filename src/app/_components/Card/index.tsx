@@ -27,13 +27,17 @@ export const Card: React.FC<{
     <Link href={`/products/${doc.slug}`}>
       <div className={classes.card}>
         <div className={classes.mediaWrapper}>
+          <div className={classes.discount}>
+            <span>-23%</span>
+          </div>
           <Media imgClassName={classes.image} resource={doc.meta?.image} />
         </div>
 
         <div className={classes.content}>
-          <h4 className={classes.title}>{titleToUse}</h4>
+          <span className={classes.title}>{titleToUse}</span>
           <div className={classes.price}>
             <Price product={doc} />
+            <div className={classes.discountedPrize}>Ksh180</div>
           </div>
           <AddToCartButton product={doc} />
         </div>

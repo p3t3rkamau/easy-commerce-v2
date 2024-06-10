@@ -61,8 +61,8 @@ export const Image: React.FC<MediaProps> = props => {
         }
       }}
       fill={fill}
-      width={!fill ? width : undefined}
-      height={!fill ? height : undefined}
+      width={!fill ? width || 800 : undefined}
+      height={!fill ? height || 800 : undefined}
       sizes={sizes}
       priority={priority}
     />

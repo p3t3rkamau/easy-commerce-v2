@@ -20,7 +20,12 @@ import { generateMeta } from '../../_utilities/generateMeta'
 // If you are not using Payload Cloud then this line can be removed, see `../../../README.md#cache`
 export const dynamic = 'force-dynamic'
 
-import { TableDemo } from '../../../app/_components/Shadcn-ui/table'
+import { EventArchive } from '../../../app/_blocks/EventArchive'
+import FlashDeals from '../../../app/_blocks/FlashDeals'
+import { LastViewed } from '../../../app/_blocks/LastViewed'
+import Recommended from '../../../app/_blocks/Recommended'
+import SliderArchiveBlock from '../../../app/_blocks/SliderArchiveBlock'
+import TopArchiveDeals from '../../../app/_blocks/TopDealsArchive'
 import Categories from '../../_components/Categories'
 import ExpandableFloatingActionButton from '../../_components/ChatwidgetComponent/_components/FloatingAction/ExpandableFloatingActionButton'
 
@@ -66,29 +71,25 @@ export default async function Page({ params: { slug = 'home' } }) {
 
   return (
     <React.Fragment>
-      {slug === 'home' ? (
-        <section>
-          <Hero {...hero} />
-          {/* <HomeCarousel /> */}
+      <section>
+        <Hero {...hero} />
+        {/* <HomeCarousel /> */}
 
-          <Gutter className={classes.home}>
-            <Categories categories={categories} />
-            <Blocks
-              blocks={layout}
-              disableTopPadding={!hero || hero?.type === 'none' || hero?.type === 'lowImpact'}
-            />
-            <ExpandableFloatingActionButton />
-          </Gutter>
-        </section>
-      ) : (
-        <>
-          <Hero {...hero} />
+        <Gutter className={classes.home}>
+          <Categories categories={categories} />
+          <SliderArchiveBlock />
+          <EventArchive />
+          <TopArchiveDeals />
+          <Recommended />
+          <LastViewed />
+          <FlashDeals />
           <Blocks
             blocks={layout}
             disableTopPadding={!hero || hero?.type === 'none' || hero?.type === 'lowImpact'}
           />
-        </>
-      )}
+          <ExpandableFloatingActionButton />
+        </Gutter>
+      </section>
     </React.Fragment>
   )
 }

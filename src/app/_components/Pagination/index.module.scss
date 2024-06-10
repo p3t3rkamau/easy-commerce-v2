@@ -16,6 +16,7 @@
   padding: calc(var(--base) / 2);
   color: var(--color-elevation-500);
   border: 1px solid var(--theme-elevation-200);
+  border-radius: 50%;
 
   &:disabled {
     cursor: not-allowed;
@@ -27,6 +28,10 @@
 .icon {
   width: calc(var(--base) / 2);
   height: calc(var(--base) / 2);
+  &:hover{
+    scale: 1.1;
+    transition: .2s ease;
+  }
 }
 .pageRange{
   // border: 1px solid black;

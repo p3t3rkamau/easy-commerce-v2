@@ -1,3 +1,4 @@
+import { ColourTextField } from '@nouance/payload-better-fields-plugin'
 import type { Block } from 'payload/types'
 
 export const ProductsSlider: Block = {
@@ -8,6 +9,42 @@ export const ProductsSlider: Block = {
     plural: 'Products Sliders',
   },
   fields: [
+    {
+      name: 'Heading',
+      type: 'text',
+      required: true,
+    },
+    {
+      type: 'row',
+      fields: [
+        ...ColourTextField({
+          name: 'BackgroundColor',
+          required: true,
+        }),
+
+        ...ColourTextField({
+          name: 'TextColor',
+          required: true,
+        }),
+      ],
+    },
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'NewTag',
+          type: 'checkbox',
+        },
+        {
+          name: 'CustomTag',
+          type: 'text',
+          admin: {
+            description: 'maximum of 5 letters',
+          },
+        },
+      ],
+    },
+
     {
       type: 'relationship',
       name: 'selectedDocs',
