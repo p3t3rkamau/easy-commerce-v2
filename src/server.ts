@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import express from 'express'
 import next from 'next'
 import nextBuild from 'next/dist/build'
+import NodeCache from 'node-cache'
 import nodemailerSendgrid from 'nodemailer-sendgrid'
 import path from 'path'
 import payload from 'payload'
@@ -15,8 +16,10 @@ dotenv.config({
 })
 
 const app = express()
+const cache = new NodeCache()
 const PORT = process.env.PORT || 3002
 app.use(cors())
+app.use(express.json())
 
 const sendGridAPIKey = process.env.SENDGRID_API_KEY
 
@@ -97,9 +100,8 @@ const start = async (): Promise<void> => {
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const searchMongoDB = async (searchQuery: string) => {
+const searchMongoDB = async searchQuery => {
   try {
-    // Define the request body with the specified type
     const requestBody = {
       collection: 'products',
       database: 'test',
@@ -108,10 +110,7 @@ const searchMongoDB = async (searchQuery: string) => {
       projection: { title: 1 },
     }
 
-    // Use Axios to send a request to MongoDB
-    const response = await axios.post<{
-      data: { SearchProducts: { docs: unknown[] } }
-    }>(process.env.API_LINK, requestBody, {
+    const response = await axios.post(process.env.API_LINK, requestBody, {
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Request-Headers': '*',
@@ -119,30 +118,33 @@ const searchMongoDB = async (searchQuery: string) => {
       },
     })
 
-    const searchResults = response.data || []
-    payload.logger.info(`SearchApi connected successfully`)
-
-    // Log the results to the console
-    console.log('Search Results:', searchResults)
+    const searchResults = response.data.documents || []
+    return searchResults
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      console.error('Error searching products:', error.message)
-    } else {
-      console.error('Unknown error:', 'The error is not an instance of Error')
-    }
+    console.error('Error searching products:', error)
+    throw error
   }
 }
 
-app.post('/api/search', express.json(), async (req, res) => {
+app.post('/api/search', async (req, res) => {
   const { query } = req.body
 
   try {
+    const cachedResults = cache.get(query)
+    if (cachedResults) {
+      return res.json({ success: true, results: cachedResults })
+    }
+
     const results = await searchMongoDB(query)
-    res.json({ success: true, results })
+    cache.set(query, results, 3600) // Cache for 1 hour
+
+    return res.json({ success: true, results })
   } catch (error: unknown) {
-    res
-      .status(500)
-      .json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' })
+    if (!res.headersSent) {
+      res.status(500).json({ success: false, error: error })
+    } else {
+      console.error('Headers already sent, cannot respond with error:', error)
+    }
   }
 })
 

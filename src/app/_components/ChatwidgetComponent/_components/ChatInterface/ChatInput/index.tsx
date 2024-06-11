@@ -1,26 +1,41 @@
 import React, { useState } from 'react'
-import { FaSearch } from 'react-icons/fa'
-import { MdCloseFullscreen } from 'react-icons/md'
-
-import { Media } from '../../../../Media'
+import axios from 'axios'
 
 import classes from './index.module.scss'
 
-interface SearchBarProps {
-  onSearch: (query: string) => void
-}
-
-const ChatInput: React.FC<SearchBarProps> = ({ onSearch }) => {
+const ChatInput = () => {
   const [query, setQuery] = useState('')
+  const [selectedAPI, setSelectedAPI] = useState('chatbot') // Default API
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = e => {
     setQuery(e.target.value)
   }
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyPress = async e => {
     if (e.key === 'Enter') {
-      onSearch(query)
+      await sendMessage(query)
+      setQuery('')
     }
+  }
+
+  const sendMessage = async message => {
+    try {
+      let response
+      if (selectedAPI === 'chatbot') {
+        response = await axios.post('/api/chatbot', { message })
+      } else if (selectedAPI === 'openai') {
+        response = await axios.post('/api/openai', { prompt: message })
+      } else if (selectedAPI === 'whatsapp') {
+        response = await axios.post('/api/whatsapp', { message })
+      }
+      console.log('Response:', response.data)
+    } catch (error) {
+      console.error('Error sending message:', error)
+    }
+  }
+
+  const handleAPIChange = api => {
+    setSelectedAPI(api)
   }
 
   return (
@@ -40,14 +55,21 @@ const ChatInput: React.FC<SearchBarProps> = ({ onSearch }) => {
       <div>
         <div className={classes.mostsearched}>
           <ul>
-            <li>Am Interested In Your Products</li>
-            <li>Hello</li>
-            <li>What is the price for... </li>
-            <li>Where are You Located</li>
-            <li>I want to make an order</li>
+            <li onClick={() => setQuery('I am interested in your products')}>
+              I am interested in your products
+            </li>
+            <li onClick={() => setQuery('Hello')}>Hello</li>
+            <li onClick={() => setQuery('What is the price for...')}>What is the price for...</li>
+            <li onClick={() => setQuery('Where are you located?')}>Where are you located?</li>
+            <li onClick={() => setQuery('I want to make an order')}>I want to make an order</li>
           </ul>
         </div>
       </div>
+      {/* <div className={classes.apiSelector}>
+        <button onClick={() => handleAPIChange('chatbot')}>Chatbot</button>
+        <button onClick={() => handleAPIChange('openai')}>OpenAI</button>
+        <button onClick={() => handleAPIChange('whatsapp')}>WhatsApp</button>
+      </div> */}
     </div>
   )
 }

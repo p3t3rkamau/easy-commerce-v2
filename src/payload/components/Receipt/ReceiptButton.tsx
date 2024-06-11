@@ -37,6 +37,20 @@ const CustomOrderReceiptButton = ({ order }) => {
         {isGenerating ? 'Generating...' : error ? 'Error' : 'Generate Receipt'}
       </button>
       {error && <p style={{ color: 'red', marginTop: '5px' }}>{error}</p>}
+      <button
+        style={{
+          backgroundColor: '#952a96',
+          color: 'white',
+          padding: '10px 20px',
+          border: 'none',
+          borderRadius: '5px',
+          cursor: 'pointer',
+          outline: 'none',
+          margin: '0 20px',
+        }}
+      >
+        Share{' '}
+      </button>
     </div>
   )
 }

@@ -293,6 +293,15 @@ export default buildConfig({
             delete: 'admin',
           },
         },
+        {
+          slug: Orders.slug,
+          permissions: {
+            read: 'publishedOnly',
+            create: 'manager',
+            update: 'manager',
+            delete: 'admin',
+          },
+        },
       ],
     }),
     // warding(

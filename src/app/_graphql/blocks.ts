@@ -121,3 +121,92 @@ export const DOUBLE_MEDIA_CONTENT = `
     }
   }
 `
+export const PRODUCTS_SLIDER_BLOCK = `
+...on ProductsSlider {
+  blockType
+  Heading
+  BackgroundColor
+  TextColor
+  NewTag
+  selectedDocs {
+    id
+    slug
+    title
+    price
+   
+  }
+      
+}
+`
+export const DEALS_ARCHIVE_BLOCK = `
+...on ProductsSlider {
+  blockType
+  Heading
+  BackgroundColor
+  TextColor
+  selectedDocs {
+    id
+    slug
+    title
+    price
+  }  
+}
+`
+export const EVENT_ARCHIVE_BLOCK = `
+...on ProductsSlider {
+  blockType
+  Heading
+  BackgroundColor
+  TextColor
+  selectedDocs {
+    id
+    slug
+    title
+    price
+  }  
+}
+`
+export const FLASHSALES_ARCHIVE_BLOCK = `
+...on ProductsSlider {
+  blockType
+  Heading
+  BackgroundColor
+  TextColor
+  selectedDocs {
+    id
+    slug
+    title
+    price
+  }  
+}
+`
+
+export const LASTSALES_ARCHIVE_BLOCK = `
+...on ProductsSlider {
+  blockType
+  Heading
+  BackgroundColor
+  TextColor
+  selectedDocs {
+    id
+    slug
+    title
+    price
+  }  
+}
+`
+
+export const RECOMMENDED_ARCHIVE_BLOCK = `
+...on ProductsSlider {
+  blockType
+  Heading
+  BackgroundColor
+  TextColor
+  selectedDocs {
+    id
+    slug
+    title
+    price
+  }  
+}
+`

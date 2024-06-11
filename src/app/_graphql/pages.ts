@@ -1,4 +1,10 @@
-import { ARCHIVE_BLOCK, CALL_TO_ACTION, CONTENT, MEDIA_BLOCK } from './blocks'
+import {
+  ARCHIVE_BLOCK,
+  CALL_TO_ACTION,
+  CONTENT,
+  MEDIA_BLOCK,
+  PRODUCTS_SLIDER_BLOCK,
+} from './blocks'
 // import { FORM_FIELDS } from './form'
 import { LINK_FIELDS } from './link'
 import { MEDIA } from './media'
@@ -34,6 +40,7 @@ export const PAGE = `
           ${CONTENT}
           ${MEDIA_BLOCK}
           ${ARCHIVE_BLOCK}
+          ${PRODUCTS_SLIDER_BLOCK}
         }
         ${META}
         Accordion{

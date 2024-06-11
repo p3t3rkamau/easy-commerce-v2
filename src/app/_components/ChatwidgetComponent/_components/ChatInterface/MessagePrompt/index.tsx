@@ -2,12 +2,17 @@ import React from 'react'
 import { FaArrowRight } from 'react-icons/fa6'
 
 import classes from './index.module.scss'
-const MessagePrompt = () => {
+
+interface MessagePromptProps {
+  setActiveView: (view: string) => void
+}
+
+const MessagePrompt: React.FC<MessagePromptProps> = ({ setActiveView }) => {
   return (
     <div>
-      <div className={classes.container}>
+      <div className={classes.container} onClick={() => setActiveView('messages')}>
         <div className={classes.message}>
-          <span>Send us a message</span>
+          <span className={classes.send}>Send us a message</span>
           <span>We typically reply in under 5 minutes</span>
         </div>
         <div className={classes.arrowContainer}>
@@ -21,4 +26,3 @@ const MessagePrompt = () => {
 }
 
 export default MessagePrompt
-//TODO: change the icon to come from react icons

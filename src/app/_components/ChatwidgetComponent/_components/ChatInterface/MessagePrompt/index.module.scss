@@ -8,6 +8,7 @@
     cursor: pointer;
     border-radius: 5px;
     margin: 8px 0;
+   
 }
 .message{
     display: flex;
@@ -17,4 +18,9 @@
 .arrow{
     font-size: 18px;
     font-weight: 600;
+}
+.send{
+    font-weight: 600;
+    font-size: 16px;
+    color: #952a96;
 }

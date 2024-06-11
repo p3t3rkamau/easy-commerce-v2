@@ -1,0 +1,92 @@
+@import '../../../../../_css/common.scss';
+
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.today {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  color: rgb(180, 161, 161);
+  font-size: 14px;
+  margin-bottom: 20px;
+
+  .line {
+    flex: 1;
+    height: 1px;
+    background-color: rgb(128, 113, 113);
+    margin: 0 10px;
+  }
+}
+
+.messageContainer {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.botResponse,
+.userResponse {
+  max-width: 70%;
+  padding: 10px;
+  border-radius: 10px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.botResponse {
+  background-color: rgb(109, 23, 109);
+  color: white;
+  align-self: flex-start;
+  border-radius: 10px 10px 10px 0;
+  margin-right: auto;
+}
+
+.userResponse {
+  background-color: rgb(58, 49, 49);
+  color: white;
+  align-self: flex-end;
+  border-radius: 10px 10px 0 10px;
+  margin-left: auto;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.botImageContainer,
+.userImageContainer {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.botImageContainer {
+  align-self: flex-start;
+  margin-right: auto;
+}
+
+.userImageContainer {
+  align-self: flex-end;
+  margin-left: auto;
+}
+
+.image {
+  max-width: 200px;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid rgb(230, 219, 219);
+}
+
+.timeStamp {
+  font-size: 8px;
+  color: rgb(216, 38, 38);
+  align-self: flex-end;
+  margin-top: 5px;
+}

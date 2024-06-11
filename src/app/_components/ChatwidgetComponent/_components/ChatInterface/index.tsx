@@ -1,10 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-import ArchiveBlock from './Archive'
 import BottomNavBar from './BottomNavBar'
+import ChatBlock from './ChatBlock'
 import ChatInput from './ChatInput'
 import DocsInput from './DocsInput'
-import HeaderInterface from './HeaderInterface'
 import HeroComponent from './HeroComponent'
 import HeroContent from './HeroContents'
 import MessagePrompt from './MessagePrompt'
@@ -25,29 +24,48 @@ interface ChatInterfaceProps {
 }
 
 const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
-  function onsearch(query: string): void {
-    throw new Error('Function not implemented.')
+  const [activeView, setActiveView] = useState('home')
+
+  const onSearch = (query: string) => {
+    // Implement search logic here
+    console.log('Search query:', query)
+  }
+
+  const renderActiveView = () => {
+    switch (activeView) {
+      case 'home':
+        return (
+          <>
+            <HeroComponent />
+            <HeroContent />
+            <StatusBar />
+            <MessagePrompt setActiveView={setActiveView} />
+            <SearchBar />
+          </>
+        )
+      case 'messages':
+        return (
+          <>
+            {/* <ArchiveBlock /> */}
+            <ChatBlock />
+            {/* <NoMessage /> */}
+            <ChatInput />
+          </>
+        )
+      case 'help':
+        return <DocsInput onSearch={onSearch} />
+      default:
+        return null
+    }
   }
 
   return (
     <div className={styles.container}>
-      {/* <HeaderInterface onClose={onClose} /> */}
       <TopNavBar onClose={onClose} />
       <div className={styles.messageContainer}>
-        <div className={styles.searchBar}>
-          <HeroComponent />
-          <HeroContent />
-          <StatusBar status="All Systems Operational" updatedAt="May 28, 10:59 UTC" />
-          {/* <StatusBar status="Systems Down" updatedAt="May 28, 11:15 UTC" /> */}
-          <MessagePrompt />
-          <SearchBar onSearch={onsearch} />
-          <ArchiveBlock />
-          <ChatInput onSearch={onsearch} />
-          <NoMessage />
-          <DocsInput onSearch={onsearch} />
-        </div>
+        <div className={styles.searchBar}>{renderActiveView()}</div>
       </div>
-      <BottomNavBar />
+      <BottomNavBar setActiveView={setActiveView} />
     </div>
   )
 }

@@ -24,7 +24,6 @@ import { EventArchive } from '../../../app/_blocks/EventArchive'
 import FlashDeals from '../../../app/_blocks/FlashDeals'
 import { LastViewed } from '../../../app/_blocks/LastViewed'
 import Recommended from '../../../app/_blocks/Recommended'
-import SliderArchiveBlock from '../../../app/_blocks/SliderArchiveBlock'
 import TopArchiveDeals from '../../../app/_blocks/TopDealsArchive'
 import Categories from '../../_components/Categories'
 import ExpandableFloatingActionButton from '../../_components/ChatwidgetComponent/_components/FloatingAction/ExpandableFloatingActionButton'
@@ -77,7 +76,6 @@ export default async function Page({ params: { slug = 'home' } }) {
 
         <Gutter className={classes.home}>
           <Categories categories={categories} />
-          <SliderArchiveBlock />
           <EventArchive />
           <TopArchiveDeals />
           <Recommended />

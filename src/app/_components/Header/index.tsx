@@ -7,6 +7,7 @@ import Link from 'next/link'
 
 import { Header } from '../../../payload/payload-types'
 import { fetchHeader } from '../../_api/fetchGlobals'
+import SearchBar from '../ChatwidgetComponent/_components/ChatInterface/Search/searchBar'
 import SearchResults from '../SearchBar/SearchResults'
 import HeaderComponent from './HeaderComponent'
 
@@ -22,7 +23,7 @@ export async function Header() {
   return (
     <>
       <HeaderComponent header={header} />
-      {/* <SearchResults /> */}
+      {/* <SearchBar /> */}
     </>
   )
 }

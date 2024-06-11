@@ -1,22 +1,28 @@
 import React from 'react'
 
-import ProductCard from '../../_components/ChatwidgetComponent/_components/ChatInterface/ProductCard'
-import { Chevron } from '../../_components/Chevron'
+import { Page, Product } from '../../../payload/payload-types'
+import SliderArchive from './Slider'
 
 import classes from './index.module.scss'
-export const SliderArchiveBlock: React.FC<{
-  page: number
-  totalPages: number
-  onClick: (page: number) => void
-  className?: string
-}> = props => {
-  const { page, totalPages, onClick, className } = props
-  const hasNextPage = page < totalPages
-  const hasPrevPage = page > 1
+
+type ProductSliderBlock = Extract<Page['layout'][number], { blockType: 'products-slider' }>
+
+const SliderArchiveBlock: React.FC<ProductSliderBlock & { className?: string }> = props => {
+  const { Heading, BackgroundColor, TextColor, NewTag, selectedDocs, className, id } = props
+  function isProduct(doc: string | Product): doc is Product {
+    return typeof doc === 'object' && 'id' in doc
+  }
+  // Use type guard to filter out invalid docs
+  const validDocs = selectedDocs?.map(doc => doc).filter(isProduct) || []
+
   return (
-    <div className={classes.container}>
+    <div
+      id={id}
+      className={`${classes.container} ${className}`}
+      style={{ backgroundColor: BackgroundColor, color: TextColor }}
+    >
       <div className={classes.headerContainer}>
-        <div>New Arrivals</div>
+        <div>{Heading}</div>
         <div className={classes.seeAll}>
           <div>See All </div>
           <div>
@@ -24,46 +30,7 @@ export const SliderArchiveBlock: React.FC<{
           </div>
         </div>
       </div>
-      <div className={classes.ButtonContainer}>
-        <div className={classes.btn1}>
-          <button
-            // type="button"
-            className={classes.button}
-            // disabled={!hasPrevPage}
-            // onClick={() => {
-            //   onClick(page - 1)
-            // }}
-          >
-            <Chevron rotate={90} className={classes.icon} />
-          </button>
-        </div>
-      </div>
-      <div>
-        <div className={classes.flex}>
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-        </div>
-      </div>
-      <div className={classes.ButtonContainer}>
-        <div className={classes.btn2}>
-          <button
-            // type="button"
-            className={classes.button}
-            // disabled={!hasNextPage}
-            // onClick={() => {
-            //   onClick(page + 1)
-            // }}
-          >
-            <Chevron rotate={-90} className={classes.icon} />
-          </button>
-        </div>
-      </div>
+      <SliderArchive selectedDocs={validDocs} />
     </div>
   )
 }

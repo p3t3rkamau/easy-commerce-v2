@@ -1,15 +1,37 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { CgDanger } from 'react-icons/cg'
 import { RiVerifiedBadgeFill } from 'react-icons/ri'
 
 import styles from './index.module.scss'
 
 interface StatusBarProps {
-  status: string
-  updatedAt: string
+  initialStatus?: string
+  initialUpdatedAt?: string
 }
 
-const StatusBar: React.FC<StatusBarProps> = ({ status, updatedAt }) => {
+const StatusBar: React.FC<StatusBarProps> = ({ initialStatus, initialUpdatedAt }) => {
+  const [status, setStatus] = useState(initialStatus || 'Loading...')
+  const [updatedAt, setUpdatedAt] = useState(initialUpdatedAt || new Date().toLocaleString())
+
+  useEffect(() => {
+    const fetchStatus = async () => {
+      try {
+        const response = await fetch('/test')
+        const data = await response.text()
+        setStatus(data)
+        setUpdatedAt(new Date().toLocaleString())
+      } catch (error) {
+        console.error('Error fetching status:', error)
+        setStatus('Error fetching status')
+      }
+    }
+
+    fetchStatus()
+
+    const interval = setInterval(fetchStatus, 60000) // Fetch status every minute
+    return () => clearInterval(interval) // Cleanup interval on unmount
+  }, [])
+
   return (
     <div className={styles.container}>
       <div className={styles.statusFlex}>
