@@ -584,7 +584,7 @@ input Page_Hero_Media_where_or {
   OR: [Page_Hero_Media_where_or]
 }
 
-union Page_Layout = Cta | Content | MediaBlock | Archive | ContentMedia | CtaWithImage | DoubleMediaContent | ProductsSlider | Recommended | LastViewed | FlashSales | EventArchive | DealsArchive
+union Page_Layout = Cta | Content | MediaBlock | Archive | ContentMedia | CtaWithImage | DoubleMediaContent | ProductsSlider | Recommended | LastViewed | FlashSales | EventArchive | DealsArchive | TopDealsGrid
 
 type Cta {
   invertBackground: Boolean
@@ -1532,6 +1532,7 @@ type Product {
   price: Float
   discount: Float
   discountedPrice: Float
+  FlashSalesItems: Float
   ProductsAttributes(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [AttributesCollection!]
   categories(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Category!]
   relatedProducts(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Product!]
@@ -4532,9 +4533,22 @@ type FlashSales {
   BackgroundColor: String
   TextColor: String
   selectedDocs(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Product!]
+  StartNow: Boolean
+  Schedule: Boolean
+  CustomReschedule: Boolean
+  StartNowBtn: String
+  Timer: String
+  ScheduleTime: FlashSales_ScheduleTime
+  CustomSchedule: DateTime
   id: String
   blockName: String
   blockType: String
+}
+
+enum FlashSales_ScheduleTime {
+  _1h
+  _2h
+  _3h
 }
 
 type EventArchive {
@@ -4548,6 +4562,16 @@ type EventArchive {
 }
 
 type DealsArchive {
+  Heading: String
+  BackgroundColor: String
+  TextColor: String
+  selectedDocs(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Product!]
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type TopDealsGrid {
   Heading: String
   BackgroundColor: String
   TextColor: String
@@ -7283,7 +7307,7 @@ input PageVersion_Version_Hero_Media_where_or {
   OR: [PageVersion_Version_Hero_Media_where_or]
 }
 
-union PageVersion_Version_Layout = Cta | Content | MediaBlock | Archive | ContentMedia | CtaWithImage | DoubleMediaContent | ProductsSlider | Recommended | LastViewed | FlashSales | EventArchive | DealsArchive
+union PageVersion_Version_Layout = Cta | Content | MediaBlock | Archive | ContentMedia | CtaWithImage | DoubleMediaContent | ProductsSlider | Recommended | LastViewed | FlashSales | EventArchive | DealsArchive | TopDealsGrid
 
 type PageVersion_Version_SlidingImages {
   media(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType, where: PageVersion_Version_SlidingImages_Media_where): Media
@@ -8463,6 +8487,7 @@ input Product_where {
   price: Product_price_operator
   discount: Product_discount_operator
   discountedPrice: Product_discountedPrice_operator
+  FlashSalesItems: Product_FlashSalesItems_operator
   ProductsAttributes: Product_ProductsAttributes_operator
   categories: Product_categories_operator
   relatedProducts: Product_relatedProducts_operator
@@ -8530,6 +8555,16 @@ input Product_discount_operator {
 }
 
 input Product_discountedPrice_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Product_FlashSalesItems_operator {
   equals: Float
   not_equals: Float
   greater_than_equal: Float
@@ -9015,6 +9050,7 @@ input Product_where_and {
   price: Product_price_operator
   discount: Product_discount_operator
   discountedPrice: Product_discountedPrice_operator
+  FlashSalesItems: Product_FlashSalesItems_operator
   ProductsAttributes: Product_ProductsAttributes_operator
   categories: Product_categories_operator
   relatedProducts: Product_relatedProducts_operator
@@ -9047,6 +9083,7 @@ input Product_where_or {
   price: Product_price_operator
   discount: Product_discount_operator
   discountedPrice: Product_discountedPrice_operator
+  FlashSalesItems: Product_FlashSalesItems_operator
   ProductsAttributes: Product_ProductsAttributes_operator
   categories: Product_categories_operator
   relatedProducts: Product_relatedProducts_operator
@@ -9089,6 +9126,7 @@ type ProductsDocAccessFields {
   price: ProductsDocAccessFields_price
   discount: ProductsDocAccessFields_discount
   discountedPrice: ProductsDocAccessFields_discountedPrice
+  FlashSalesItems: ProductsDocAccessFields_FlashSalesItems
   ProductsAttributes: ProductsDocAccessFields_ProductsAttributes
   categories: ProductsDocAccessFields_categories
   relatedProducts: ProductsDocAccessFields_relatedProducts
@@ -9244,6 +9282,29 @@ type ProductsDocAccessFields_discountedPrice_Update {
 }
 
 type ProductsDocAccessFields_discountedPrice_Delete {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_FlashSalesItems {
+  create: ProductsDocAccessFields_FlashSalesItems_Create
+  read: ProductsDocAccessFields_FlashSalesItems_Read
+  update: ProductsDocAccessFields_FlashSalesItems_Update
+  delete: ProductsDocAccessFields_FlashSalesItems_Delete
+}
+
+type ProductsDocAccessFields_FlashSalesItems_Create {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_FlashSalesItems_Read {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_FlashSalesItems_Update {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_FlashSalesItems_Delete {
   permission: Boolean!
 }
 
@@ -9878,6 +9939,7 @@ type ProductVersion_Version {
   price: Float
   discount: Float
   discountedPrice: Float
+  FlashSalesItems: Float
   ProductsAttributes(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [AttributesCollection!]
   categories(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Category!]
   relatedProducts(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Product!]
@@ -10593,6 +10655,7 @@ input versionsProduct_where {
   version__price: versionsProduct_version__price_operator
   version__discount: versionsProduct_version__discount_operator
   version__discountedPrice: versionsProduct_version__discountedPrice_operator
+  version__FlashSalesItems: versionsProduct_version__FlashSalesItems_operator
   version__ProductsAttributes: versionsProduct_version__ProductsAttributes_operator
   version__categories: versionsProduct_version__categories_operator
   version__relatedProducts: versionsProduct_version__relatedProducts_operator
@@ -10672,6 +10735,16 @@ input versionsProduct_version__discount_operator {
 }
 
 input versionsProduct_version__discountedPrice_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input versionsProduct_version__FlashSalesItems_operator {
   equals: Float
   not_equals: Float
   greater_than_equal: Float
@@ -11186,6 +11259,7 @@ input versionsProduct_where_and {
   version__price: versionsProduct_version__price_operator
   version__discount: versionsProduct_version__discount_operator
   version__discountedPrice: versionsProduct_version__discountedPrice_operator
+  version__FlashSalesItems: versionsProduct_version__FlashSalesItems_operator
   version__ProductsAttributes: versionsProduct_version__ProductsAttributes_operator
   version__categories: versionsProduct_version__categories_operator
   version__relatedProducts: versionsProduct_version__relatedProducts_operator
@@ -11222,6 +11296,7 @@ input versionsProduct_where_or {
   version__price: versionsProduct_version__price_operator
   version__discount: versionsProduct_version__discount_operator
   version__discountedPrice: versionsProduct_version__discountedPrice_operator
+  version__FlashSalesItems: versionsProduct_version__FlashSalesItems_operator
   version__ProductsAttributes: versionsProduct_version__ProductsAttributes_operator
   version__categories: versionsProduct_version__categories_operator
   version__relatedProducts: versionsProduct_version__relatedProducts_operator
@@ -24872,7 +24947,7 @@ type Footer {
   copyright: String
   Categories(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Category!]!
   topbrands(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Category!]!
-  informatin(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Category!]!
+  information(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Category!]!
   navItems: [Footer_NavItems!]
   updatedAt: DateTime
   createdAt: DateTime
@@ -25112,7 +25187,7 @@ type FooterDocAccessFields {
   copyright: FooterDocAccessFields_copyright
   Categories: FooterDocAccessFields_Categories
   topbrands: FooterDocAccessFields_topbrands
-  informatin: FooterDocAccessFields_informatin
+  information: FooterDocAccessFields_information
   navItems: FooterDocAccessFields_navItems
   updatedAt: FooterDocAccessFields_updatedAt
   createdAt: FooterDocAccessFields_createdAt
@@ -25187,26 +25262,26 @@ type FooterDocAccessFields_topbrands_Delete {
   permission: Boolean!
 }
 
-type FooterDocAccessFields_informatin {
-  create: FooterDocAccessFields_informatin_Create
-  read: FooterDocAccessFields_informatin_Read
-  update: FooterDocAccessFields_informatin_Update
-  delete: FooterDocAccessFields_informatin_Delete
+type FooterDocAccessFields_information {
+  create: FooterDocAccessFields_information_Create
+  read: FooterDocAccessFields_information_Read
+  update: FooterDocAccessFields_information_Update
+  delete: FooterDocAccessFields_information_Delete
 }
 
-type FooterDocAccessFields_informatin_Create {
+type FooterDocAccessFields_information_Create {
   permission: Boolean!
 }
 
-type FooterDocAccessFields_informatin_Read {
+type FooterDocAccessFields_information_Read {
   permission: Boolean!
 }
 
-type FooterDocAccessFields_informatin_Update {
+type FooterDocAccessFields_information_Update {
   permission: Boolean!
 }
 
-type FooterDocAccessFields_informatin_Delete {
+type FooterDocAccessFields_information_Delete {
   permission: Boolean!
 }
 
@@ -29084,6 +29159,7 @@ type ProductsFields {
   price: ProductsFields_price
   discount: ProductsFields_discount
   discountedPrice: ProductsFields_discountedPrice
+  FlashSalesItems: ProductsFields_FlashSalesItems
   ProductsAttributes: ProductsFields_ProductsAttributes
   categories: ProductsFields_categories
   relatedProducts: ProductsFields_relatedProducts
@@ -29239,6 +29315,29 @@ type ProductsFields_discountedPrice_Update {
 }
 
 type ProductsFields_discountedPrice_Delete {
+  permission: Boolean!
+}
+
+type ProductsFields_FlashSalesItems {
+  create: ProductsFields_FlashSalesItems_Create
+  read: ProductsFields_FlashSalesItems_Read
+  update: ProductsFields_FlashSalesItems_Update
+  delete: ProductsFields_FlashSalesItems_Delete
+}
+
+type ProductsFields_FlashSalesItems_Create {
+  permission: Boolean!
+}
+
+type ProductsFields_FlashSalesItems_Read {
+  permission: Boolean!
+}
+
+type ProductsFields_FlashSalesItems_Update {
+  permission: Boolean!
+}
+
+type ProductsFields_FlashSalesItems_Delete {
   permission: Boolean!
 }
 
@@ -36575,7 +36674,7 @@ type FooterFields {
   copyright: FooterFields_copyright
   Categories: FooterFields_Categories
   topbrands: FooterFields_topbrands
-  informatin: FooterFields_informatin
+  information: FooterFields_information
   navItems: FooterFields_navItems
   updatedAt: FooterFields_updatedAt
   createdAt: FooterFields_createdAt
@@ -36650,26 +36749,26 @@ type FooterFields_topbrands_Delete {
   permission: Boolean!
 }
 
-type FooterFields_informatin {
-  create: FooterFields_informatin_Create
-  read: FooterFields_informatin_Read
-  update: FooterFields_informatin_Update
-  delete: FooterFields_informatin_Delete
+type FooterFields_information {
+  create: FooterFields_information_Create
+  read: FooterFields_information_Read
+  update: FooterFields_information_Update
+  delete: FooterFields_information_Delete
 }
 
-type FooterFields_informatin_Create {
+type FooterFields_information_Create {
   permission: Boolean!
 }
 
-type FooterFields_informatin_Read {
+type FooterFields_information_Read {
   permission: Boolean!
 }
 
-type FooterFields_informatin_Update {
+type FooterFields_information_Update {
   permission: Boolean!
 }
 
-type FooterFields_informatin_Delete {
+type FooterFields_information_Delete {
   permission: Boolean!
 }
 
@@ -38696,6 +38795,7 @@ input mutationProductInput {
   price: Float!
   discount: Float
   discountedPrice: Float
+  FlashSalesItems: Float
   ProductsAttributes: [String]
   categories: [String]
   relatedProducts: [String]
@@ -39007,6 +39107,7 @@ input mutationProductUpdateInput {
   price: Float
   discount: Float
   discountedPrice: Float
+  FlashSalesItems: Float
   ProductsAttributes: [String]
   categories: [String]
   relatedProducts: [String]
@@ -40376,7 +40477,7 @@ input mutationFooterInput {
   copyright: String
   Categories: [String]
   topbrands: [String]
-  informatin: [String]
+  information: [String]
   navItems: [mutationFooter_NavItemsInput]
   updatedAt: String
   createdAt: String

@@ -3,6 +3,8 @@
 .pageRange {
   display: flex;
   align-items: center;
+  font-size: 14px;
+  color: rgb(71, 66, 66);
   
   @include small-break {
     font-size: 15px;

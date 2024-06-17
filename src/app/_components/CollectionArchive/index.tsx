@@ -122,7 +122,7 @@ export const CollectionArchive: React.FC<Props> = props => {
         hasHydrated.current = true
 
         const { docs } = json as { docs: Product[] }
-        console.log('json', docs)
+        // console.log('json', docs)
 
         if (docs && Array.isArray(docs)) {
           setResults(json)
@@ -148,7 +148,7 @@ export const CollectionArchive: React.FC<Props> = props => {
   return (
     <div className={[classes.collectionArchive, className].filter(Boolean).join(' ')}>
       <div ref={scrollRef} className={classes.scrollRef} />
-      {!isLoading && error && <div>{error}</div>}
+      {!isLoading && error && <div className={classes.error}>{error}</div>}
       <Fragment>
         {showPageRange !== false && (
           <div className={classes.pageRange}>

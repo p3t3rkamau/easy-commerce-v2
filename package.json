@@ -1,5 +1,5 @@
 {
-  "name": "@EasyBake",
+  "name": "EasyBake",
   "description": "Easy bake ecommerce Website",
   "version": "1.0.0",
   "main": "dist/server.js",

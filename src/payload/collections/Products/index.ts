@@ -169,6 +169,13 @@ const Products: CollectionConfig = {
       ],
     },
     {
+      name: 'FlashSalesItems',
+      type: 'number',
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
       name: 'ProductsAttributes',
       type: 'relationship',
       relationTo: 'attributesCollection',

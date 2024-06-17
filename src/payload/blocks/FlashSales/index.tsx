@@ -2,22 +2,31 @@ import { ColourTextField } from '@nouance/payload-better-fields-plugin'
 import { Block, FieldHook } from 'payload/types'
 
 const calculateTimer: FieldHook = ({ data }) => {
-  if (data.StartNow) {
-    const now = new Date()
-    const endTime = new Date(data.StartNowBtn) // Assuming StartNowBtn contains the end time of the flash sale
+  console.log('Data received in calculateTimer:', data)
 
-    const timeDiff = endTime.getTime() - now.getTime()
-    if (timeDiff <= 0) return '00:00:00'
-
-    const hours = Math.floor(timeDiff / (1000 * 60 * 60))
-    const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60))
-    const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000)
-
-    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(
-      seconds,
-    ).padStart(2, '0')}`
+  if (!data.StartNow) {
+    console.log('StartNow is not set.')
+    return ''
   }
-  return ''
+
+  const now = new Date()
+  const endTime = new Date(data.StartNowBtn)
+
+  if (isNaN(endTime.getTime())) {
+    console.error('Invalid end time:', data.StartNowBtn)
+    return 'Invalid date'
+  }
+
+  const timeDiff = endTime.getTime() - now.getTime()
+  if (timeDiff <= 0) return '00:00:00'
+
+  const hours = Math.floor(timeDiff / (1000 * 60 * 60))
+  const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60))
+  const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000)
+
+  return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(
+    seconds,
+  ).padStart(2, '0')}`
 }
 
 export const FlashSales: Block = {
@@ -40,7 +49,6 @@ export const FlashSales: Block = {
           name: 'BackgroundColor',
           required: true,
         }),
-
         ...ColourTextField({
           name: 'TextColor',
           required: true,
@@ -88,18 +96,36 @@ export const FlashSales: Block = {
           name: 'StartNowBtn',
           type: 'text',
           admin: {
-            description: 'Flash sale will start immediately after saving.',
+            readOnly: true,
           },
         },
         {
           name: 'Timer',
           type: 'text',
           admin: {
-            description: 'This will show the countdown timer in the format of HH:MM:SS.',
+            description: 'Flash sale will start immediately after saving.',
             readOnly: true,
           },
           hooks: {
-            beforeValidate: [calculateTimer],
+            beforeChange: [
+              ({ data, value }) => {
+                console.log('Data before change in Timer:', data)
+                if (data.StartNow) {
+                  const timer = calculateTimer({
+                    data,
+                    collection: undefined,
+                    context: undefined,
+                    field: undefined,
+                    global: undefined,
+                    req: undefined,
+                    siblingData: undefined,
+                  })
+                  console.log('Calculated timer:', timer)
+                  return timer || value // Ensure we return the existing value if no timer is calculated
+                }
+                return value // Return existing value when StartNow is false
+              },
+            ],
           },
         },
       ],
@@ -118,7 +144,6 @@ export const FlashSales: Block = {
             { label: '1 hour', value: '1h' },
             { label: '2 hours', value: '2h' },
             { label: '3 hours', value: '3h' },
-            // add more options as needed
           ],
           admin: {
             description: 'Select the duration for the scheduled flash sale.',

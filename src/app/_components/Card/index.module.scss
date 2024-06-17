@@ -10,7 +10,8 @@
   cursor: pointer;
   margin: 5px 5px;
   padding: 5px;
-  min-width: 200px;
+  max-width: 210px;
+  min-width: 160px;
   min-height: 100px;
 
 }
@@ -86,6 +87,7 @@
 .leader {
   @extend %label;
   display: flex;
+  gap: var(--base);
 
 }
 

@@ -1,5 +1,6 @@
 'use client'
-import React, { Fragment, useState } from 'react'
+
+import React from 'react'
 import Link from 'next/link'
 
 import { Product } from '../../../payload/payload-types'
@@ -16,10 +17,17 @@ export const Card: React.FC<{
   hideImagesOnMobile?: boolean
   title?: string
   Price?: number | null
+  discount?: number | null
+  discountedPrice?: number | null
   relationTo?: 'products'
   doc?: Product
 }> = props => {
-  const { showCategories, title: titleFromProps, doc } = props
+  const { showCategories, title: titleFromProps, doc, discount, discountedPrice } = props
+  console.log(discount, discountedPrice)
+
+  if (!doc) {
+    return null
+  }
 
   const titleToUse = titleFromProps || doc.title
 
@@ -28,7 +36,7 @@ export const Card: React.FC<{
       <div className={classes.card}>
         <div className={classes.mediaWrapper}>
           <div className={classes.discount}>
-            <span>-23%</span>
+            <span>{doc.discount}%</span>
           </div>
           <Media imgClassName={classes.image} resource={doc.meta?.image} />
         </div>
@@ -37,7 +45,7 @@ export const Card: React.FC<{
           <span className={classes.title}>{titleToUse}</span>
           <div className={classes.price}>
             <Price product={doc} />
-            <div className={classes.discountedPrize}>Ksh180</div>
+            <div className={classes.discountedPrize}>{doc.discountedPrice}</div>
           </div>
           <AddToCartButton product={doc} />
         </div>

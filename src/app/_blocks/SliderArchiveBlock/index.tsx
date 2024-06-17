@@ -1,6 +1,8 @@
-import React from 'react'
+'use client'
+import React, { useState } from 'react'
 
 import { Page, Product } from '../../../payload/payload-types'
+import { Chevron } from '../../_components/Chevron'
 import SliderArchive from './Slider'
 
 import classes from './index.module.scss'
@@ -9,19 +11,50 @@ type ProductSliderBlock = Extract<Page['layout'][number], { blockType: 'products
 
 const SliderArchiveBlock: React.FC<ProductSliderBlock & { className?: string }> = props => {
   const { Heading, BackgroundColor, TextColor, NewTag, selectedDocs, className, id } = props
-  function isProduct(doc: string | Product): doc is Product {
+  // console.log('SliderArchiveBlock Props:', props)
+
+  // Type guard function to check if a doc is a Product
+  function isProduct(doc: any): doc is Product {
     return typeof doc === 'object' && 'id' in doc
   }
-  // Use type guard to filter out invalid docs
-  const validDocs = selectedDocs?.map(doc => doc).filter(isProduct) || []
+
+  // Filter out invalid docs using the type guard
+  const validDocs = selectedDocs?.filter(isProduct) || []
+
+  // Pagination state
+  const [page, setPage] = useState(1)
+  const itemsPerPage = 5 // Number of items to show per page
+  const totalPages = Math.ceil(validDocs.length / itemsPerPage)
+
+  // Event handlers for next and previous buttons
+  const handleNext = () => {
+    if (page < totalPages) {
+      setPage(page + 1)
+    }
+  }
+
+  const handlePrev = () => {
+    if (page > 1) {
+      setPage(page - 1)
+    }
+  }
+
+  // Get the items for the current page
+  const startIndex = (page - 1) * itemsPerPage
+  const endIndex = startIndex + itemsPerPage
+  const itemsToShow = validDocs.slice(startIndex, endIndex)
+
+  // Log the validDocs to verify
+  // console.log('Valid Products:', validDocs)
+  // console.log('Items to Show:', itemsToShow)
+  // console.log('Current Page:', page, 'Total Pages:', totalPages)
 
   return (
-    <div
-      id={id}
-      className={`${classes.container} ${className}`}
-      style={{ backgroundColor: BackgroundColor, color: TextColor }}
-    >
-      <div className={classes.headerContainer}>
+    <div>
+      <div
+        className={`${classes.headerContainer} ${className}`}
+        style={{ backgroundColor: BackgroundColor, color: TextColor }}
+      >
         <div>{Heading}</div>
         <div className={classes.seeAll}>
           <div>See All </div>
@@ -30,7 +63,29 @@ const SliderArchiveBlock: React.FC<ProductSliderBlock & { className?: string }> 
           </div>
         </div>
       </div>
-      <SliderArchive selectedDocs={validDocs} />
+      <div className={classes.sliderFlex}>
+        <div className={classes.ButtonContainer}>
+          <button
+            className={`${classes.button1} ${classes.button} ${className}`}
+            onClick={handlePrev}
+            disabled={page === 1}
+          >
+            <Chevron rotate={90} className={classes.icon} />
+          </button>
+        </div>
+        <div className={classes.flex}>
+          <SliderArchive selectedDocs={itemsToShow} />
+        </div>
+        <div className={classes.ButtonContainer}>
+          <button
+            className={`${classes.button2} ${classes.button} ${className}`}
+            onClick={handleNext}
+            disabled={page === totalPages}
+          >
+            <Chevron rotate={-90} className={classes.icon} />
+          </button>
+        </div>
+      </div>
     </div>
   )
 }

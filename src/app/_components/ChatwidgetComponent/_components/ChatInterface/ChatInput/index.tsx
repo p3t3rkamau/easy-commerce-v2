@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { FaSearch } from 'react-icons/fa'
+import { IoMdSend } from 'react-icons/io'
 import axios from 'axios'
 
 import classes from './index.module.scss'
@@ -50,6 +52,7 @@ const ChatInput = () => {
             onChange={handleInputChange}
             onKeyPress={handleKeyPress}
           />
+          <span className={classes.searchIcon}>{<IoMdSend />}</span>
         </div>
       </div>
       <div>
@@ -58,9 +61,6 @@ const ChatInput = () => {
             <li onClick={() => setQuery('I am interested in your products')}>
               I am interested in your products
             </li>
-            <li onClick={() => setQuery('Hello')}>Hello</li>
-            <li onClick={() => setQuery('What is the price for...')}>What is the price for...</li>
-            <li onClick={() => setQuery('Where are you located?')}>Where are you located?</li>
             <li onClick={() => setQuery('I want to make an order')}>I want to make an order</li>
           </ul>
         </div>

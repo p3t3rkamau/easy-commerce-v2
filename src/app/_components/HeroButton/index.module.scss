@@ -5,6 +5,7 @@
   height: 85vh;
   /* Full viewport height */
   width: 100%;
+  z-index: 200;
   padding: 5px;
   animation: fadeInUp 1s ease-in-out;
 
@@ -38,7 +39,7 @@
 
 
       .title {
-        color: orangered;
+        color: #952a96;
         font-family: cursive;
         font-size: 50px;
         font-weight: 800;
@@ -58,8 +59,7 @@
 
       .btn {
         display: inline-block;
-        padding: 0.75rem 1.5rem;
-        background-color: #ff5733;
+        
         /* Change as needed */
         color: white;
         text-decoration: none;
@@ -76,7 +76,7 @@
       button {
         padding: 15px 30px;
 
-        background-color: #ff5733;
+        background-color: #952a96;
         color: white;
         outline: none;
         animation: fadeInUp 1s ease-in-out;

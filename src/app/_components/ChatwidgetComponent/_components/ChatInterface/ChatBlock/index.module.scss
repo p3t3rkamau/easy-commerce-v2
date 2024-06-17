@@ -4,7 +4,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 10px;
 }
 
 .today {
@@ -27,7 +27,7 @@
 .messageContainer {
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px;
+  margin-bottom: 16px;
 }
 
 .botResponse,
@@ -38,7 +38,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px;
+  // margin-bottom: 10px;
 }
 
 .botResponse {
@@ -63,7 +63,7 @@
   display: flex;
   align-items: center;
   position: relative;
-  margin-bottom: 10px;
+  // margin-bottom: 10px;
 }
 
 .botImageContainer {
@@ -86,7 +86,17 @@
 
 .timeStamp {
   font-size: 8px;
-  color: rgb(216, 38, 38);
+  color: rgb(211, 199, 199);
   align-self: flex-end;
-  margin-top: 5px;
+  position: absolute;
+  right: 8px;
+  bottom: -5px;
+  font-size: 8px;
+}
+.timeStamps{
+  position: absolute;
+  right: 8px;
+  bottom: -5px;
+  font-size: 8px;
+  color: rgb(58, 54, 54);
 }

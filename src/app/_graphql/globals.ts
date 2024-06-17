@@ -20,6 +20,12 @@ export const FOOTER = `
     Categories{
       title
     }
+    topbrands{
+      title
+    }
+    information{
+     title
+    }
     navItems {
       link ${LINK_FIELDS({ disableAppearance: true })}
 		}

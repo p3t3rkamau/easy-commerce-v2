@@ -5,6 +5,7 @@ import { CATEGORIES } from '../_graphql/categories'
 // import { FORM_FIELDS } from '../_graphql/form'
 import { ORDERS } from '../_graphql/orders'
 import { PAGES } from '../_graphql/pages'
+import { POSTS } from '../_graphql/posts'
 import { PRODUCTS } from '../_graphql/products'
 import { GRAPHQL_API_URL } from './shared'
 import { payloadToken } from './token'
@@ -13,6 +14,10 @@ const queryMap = {
   pages: {
     query: PAGES,
     key: 'Pages',
+  },
+  posts: {
+    query: POSTS,
+    key: 'Posts',
   },
   products: {
     query: PRODUCTS,

@@ -20,7 +20,6 @@ export const CONTENT = `
   invertBackground
   columns {
     size
-    richText
     enableLink
     link ${LINK_FIELDS()}
   }
@@ -133,13 +132,14 @@ export const PRODUCTS_SLIDER_BLOCK = `
     slug
     title
     price
+    ${META}
    
   }
       
 }
 `
 export const DEALS_ARCHIVE_BLOCK = `
-...on ProductsSlider {
+...on DealsArchive {
   blockType
   Heading
   BackgroundColor
@@ -149,40 +149,13 @@ export const DEALS_ARCHIVE_BLOCK = `
     slug
     title
     price
-  }  
-}
-`
-export const EVENT_ARCHIVE_BLOCK = `
-...on ProductsSlider {
-  blockType
-  Heading
-  BackgroundColor
-  TextColor
-  selectedDocs {
-    id
-    slug
-    title
-    price
-  }  
-}
-`
-export const FLASHSALES_ARCHIVE_BLOCK = `
-...on ProductsSlider {
-  blockType
-  Heading
-  BackgroundColor
-  TextColor
-  selectedDocs {
-    id
-    slug
-    title
-    price
-  }  
+    ${META}
+  }
 }
 `
 
-export const LASTSALES_ARCHIVE_BLOCK = `
-...on ProductsSlider {
+export const EVENT_ARCHIVE_BLOCK = `
+...on EventArchive {
   blockType
   Heading
   BackgroundColor
@@ -192,12 +165,55 @@ export const LASTSALES_ARCHIVE_BLOCK = `
     slug
     title
     price
-  }  
+    ${META}
+  }
+}
+`
+
+export const FLASHSALES_ARCHIVE_BLOCK = `
+...on FlashSales {
+  blockType
+  Heading
+  BackgroundColor
+  TextColor
+  selectedDocs {
+    id
+    slug
+    title
+    price
+    ${META}
+  }
+}
+`
+
+export const LAST_VIEWED_ARCHIVE_BLOCK = `
+...on LastViewed {
+  blockType
+  selectedDocs {
+    id
+    slug
+    title
+    price
+    ${META}
+  }
 }
 `
 
 export const RECOMMENDED_ARCHIVE_BLOCK = `
-...on ProductsSlider {
+...on Recommended {
+  blockType
+  selectedDocs {
+    id
+    slug
+    title
+    price
+    ${META}
+  }
+}
+`
+
+export const GRIDLAYOUT_ARCHIVE_BLOCK = `
+...on TopDealsGrid {
   blockType
   Heading
   BackgroundColor
@@ -207,6 +223,7 @@ export const RECOMMENDED_ARCHIVE_BLOCK = `
     slug
     title
     price
-  }  
+    ${META}
+  }
 }
 `

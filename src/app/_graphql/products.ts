@@ -30,6 +30,8 @@ export const PRODUCT = `
         colors 
         volumeAndWeight
         OutOfStock
+        discount
+        discountedPrice
         OtherImages {
           media {
             imagekit {

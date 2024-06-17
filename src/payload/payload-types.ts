@@ -290,6 +290,13 @@ export interface Page {
         BackgroundColor: string;
         TextColor: string;
         selectedDocs?: (string | Product)[] | null;
+        StartNow?: boolean | null;
+        Schedule?: boolean | null;
+        CustomReschedule?: boolean | null;
+        StartNowBtn?: string | null;
+        Timer?: string | null;
+        ScheduleTime?: ('1h' | '2h' | '3h') | null;
+        CustomSchedule?: string | null;
         id?: string | null;
         blockName?: string | null;
         blockType: 'flash-sales';
@@ -311,6 +318,15 @@ export interface Page {
         id?: string | null;
         blockName?: string | null;
         blockType: 'Deals-archive';
+      }
+    | {
+        Heading: string;
+        BackgroundColor: string;
+        TextColor: string;
+        selectedDocs?: (string | Product)[] | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'TopDealsGrid';
       }
   )[];
   SlidingImages?:
@@ -503,6 +519,7 @@ export interface Product {
   price: number;
   discount?: number | null;
   discountedPrice?: number | null;
+  FlashSalesItems?: number | null;
   ProductsAttributes?: (string | AttributesCollection)[] | null;
   categories?: (string | Category)[] | null;
   relatedProducts: (string | Product)[];
@@ -1414,7 +1431,7 @@ export interface Footer {
   copyright?: string | null;
   Categories: (string | Category)[];
   topbrands: (string | Category)[];
-  informatin: (string | Category)[];
+  information: (string | Category)[];
   navItems?:
     | {
         link: {

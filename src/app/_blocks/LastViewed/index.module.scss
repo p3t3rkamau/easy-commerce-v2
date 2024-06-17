@@ -3,11 +3,24 @@
 
 .flex {
   display: flex;
-  align-items: center;
-  justify-content: flex-start;
+  align-items: flex-start;
+  justify-content: space-between;
   overflow: scroll;
+  transition: 2s ease;
+}
+.ButtonContainer{
+  position: relative;
 }
 
+.sliderArchive {
+  display: flex;
+  overflow-x: scroll;
+}
+.sliderFlex{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 .flex::-webkit-scrollbar {
   display: none;
 }
@@ -20,10 +33,32 @@
   gap: 150px;
 }
 
-.button {
+.button2 {
   all: unset;
   cursor: pointer;
-  position: relative;
+  right: -50px;
+  top: 60%;
+  position: absolute;
+  display: flex;
+  padding: calc(var(--base) / 2);
+  color: var(--color-elevation-500);
+  border: 1px solid var(--theme-elevation-200);
+  border-radius: 50%;
+
+  &:disabled {
+    cursor: not-allowed;
+    color: var(--theme-elevation-200);
+    border-color: var(--theme-elevation-150);
+    border-radius: 50%;
+  }
+}
+
+.button1 {
+  all: unset;
+  cursor: pointer;
+  left: -50px;
+  top: 60%;
+  position: absolute;
   display: flex;
   padding: calc(var(--base) / 2);
   color: var(--color-elevation-500);
@@ -70,7 +105,7 @@
 
 .btn1 {
   left: -50px;
-  position: absolute;
+  position: relative;
   top: 45%;
 
   @include small-break {
@@ -80,7 +115,7 @@
 
 .btn2 {
   right: -50px;
-  position: absolute;
+  position: relative;
   top: 45%;
 
   @include small-break {
@@ -88,10 +123,9 @@
   }
 }
 
-
 .headerContainer{
-  background-color: rgb(26, 16, 31);
-  color: white;
+  // background-color: rgb(90, 17, 124);
+  // color: white;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -110,3 +144,42 @@
   font-size: 18px;
   font-weight: 700;
 }
+
+// .container {
+//   overflow: hidden;
+//   position: relative;
+// }
+
+// .headerContainer {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   margin-bottom: 10px;
+// }
+
+// .ButtonContainer {
+//   position: absolute;
+//   top: 50%;
+//   transform: translateY(-50%);
+//   display: flex;
+//   justify-content: space-between;
+//   width: 100%;
+// }
+
+// .flex {
+//   display: flex;
+//   transition: transform 0.5s ease-in-out;
+// }
+
+// .card {
+//   flex: 0 0 25%; // Adjust based on products per page
+//   box-sizing: border-box;
+//   padding: 10px;
+// }
+
+// .button {
+//   background: none;
+//   border: none;
+//   cursor: pointer;
+//   padding: 10px;
+// }

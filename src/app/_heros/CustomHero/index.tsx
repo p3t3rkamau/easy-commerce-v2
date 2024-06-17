@@ -3,6 +3,7 @@ import NextImage, { StaticImageData } from 'next/image'
 
 import { Media as MediaType, Page } from '../../../payload/payload-types'
 import { Gutter } from '../../_components/Gutter'
+import ContentSlider from '../../_components/HeroButton'
 import { CMSLink } from '../../_components/Link'
 import { Media as MediaComponent } from '../../_components/Media'
 import RichText from '../../_components/RichText'
@@ -24,6 +25,9 @@ export const CustomHero: React.FC<Page['hero']> = ({ richText, media, links }) =
             className={classes.heroImage}
           />
         )}
+        <div className={classes.buttonContent}>
+          <ContentSlider />
+        </div>
 
         {/* <div className={classes.heroTextBox}>
           <RichText content={richText} />

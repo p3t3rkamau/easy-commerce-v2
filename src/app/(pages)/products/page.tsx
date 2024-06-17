@@ -7,6 +7,8 @@ import { fetchDocs } from '../../_api/fetchDocs'
 import { Blocks } from '../../_components/Blocks'
 import { Gutter } from '../../_components/Gutter'
 import { HR } from '../../_components/HR'
+import SortAndFilter from '../../_components/SortComponent'
+import BudgetFilter from './BudgetFilter'
 import Filters from './Filters'
 
 import classes from './index.module.scss'
@@ -31,9 +33,16 @@ const Products = async () => {
 
   return (
     <div className={classes.container}>
-      <Gutter className={classes.products}>
-        <Filters categories={categories} />
-        <Blocks blocks={page?.layout} disableTopPadding={true} />
+      <Gutter className={classes.MainContainer}>
+        <div className={classes.products}>
+          <div className={classes.filtersFlex}>
+            <Filters categories={categories} />
+          </div>
+          <div>
+            <SortAndFilter />
+            <Blocks blocks={page?.layout} disableTopPadding={true} />
+          </div>
+        </div>
       </Gutter>
       <HR />
     </div>

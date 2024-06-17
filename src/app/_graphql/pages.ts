@@ -2,8 +2,14 @@ import {
   ARCHIVE_BLOCK,
   CALL_TO_ACTION,
   CONTENT,
+  DEALS_ARCHIVE_BLOCK,
+  EVENT_ARCHIVE_BLOCK,
+  FLASHSALES_ARCHIVE_BLOCK,
+  GRIDLAYOUT_ARCHIVE_BLOCK,
+  LAST_VIEWED_ARCHIVE_BLOCK,
   MEDIA_BLOCK,
   PRODUCTS_SLIDER_BLOCK,
+  RECOMMENDED_ARCHIVE_BLOCK,
 } from './blocks'
 // import { FORM_FIELDS } from './form'
 import { LINK_FIELDS } from './link'
@@ -41,6 +47,13 @@ export const PAGE = `
           ${MEDIA_BLOCK}
           ${ARCHIVE_BLOCK}
           ${PRODUCTS_SLIDER_BLOCK}
+          ${DEALS_ARCHIVE_BLOCK}
+          ${EVENT_ARCHIVE_BLOCK}
+          ${FLASHSALES_ARCHIVE_BLOCK}
+          ${LAST_VIEWED_ARCHIVE_BLOCK}
+          ${RECOMMENDED_ARCHIVE_BLOCK}
+          ${GRIDLAYOUT_ARCHIVE_BLOCK}
+         
         }
         ${META}
         Accordion{

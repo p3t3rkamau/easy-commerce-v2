@@ -1,0 +1,49 @@
+@use '../../_css/queries.scss' as *;
+
+$spacer-h: calc(var(--block-padding) / 2);
+
+.callToAction {
+  padding-left: $spacer-h;
+  padding-right: $spacer-h;
+  position: relative;
+  background-color: #263137;
+  color: white;
+  border: 1px solid wheat;
+  border-radius: 8px;
+}
+
+.Image{
+  max-width: 100px;
+
+}
+
+.wrap {
+  display: flex;
+  gap: $spacer-h;
+  align-items: center;
+
+  @include mid-break {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.content {
+  flex-grow: 1;
+}
+
+.linkGroup {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  flex-shrink: 0;
+
+  > * {
+    margin-bottom: calc(var(--base) / 2);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}

@@ -22,7 +22,7 @@ const ChatBlock = () => {
 
       <div className={classes.messageContainer}>
         <div className={classes.userResponse}>
-          <span>Hello, I am a user.</span>
+          <span>Hello, I am a user.how are you </span>
           <span className={classes.timeStamp}>9:24AM</span>
         </div>
       </div>
@@ -30,14 +30,14 @@ const ChatBlock = () => {
       <div className={classes.messageContainer}>
         <div className={classes.botImageContainer}>
           <Media resource="" imgClassName={classes.image} />
-          <span className={classes.timeStamp}>9:24AM</span>
+          <span className={classes.timeStamps}>9:24AM</span>
         </div>
       </div>
 
       <div className={classes.messageContainer}>
         <div className={classes.userImageContainer}>
           <Media resource="" imgClassName={classes.image} />
-          <span className={classes.timeStamp}>9:24AM</span>
+          <span className={classes.timeStamps}>9:24AM</span>
         </div>
       </div>
     </div>

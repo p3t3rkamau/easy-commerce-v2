@@ -4,7 +4,9 @@ import { Jost } from 'next/font/google'
 
 import { AdminBar } from './_components/AdminBar'
 import { Footer } from './_components/Footer'
-import { Header } from './_components/Header'
+import { Header } from './_components/Headercopy'
+import SalesTopBar from './_components/SalesTopBar'
+import TopBar from './_components/Topbar'
 // import { HomeCarousel } from './_components/HomeCarousel/HomeCarousel'
 import { Providers } from './_providers'
 import { InitTheme } from './_providers/Theme/InitTheme'
@@ -28,9 +30,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </head>
       <body className={jost.variable}>
         <Providers>
+          <TopBar />
           <AdminBar />
           {/* @ts-expect-error */}
           <Header />
+          <SalesTopBar />
           <main className="main">{children}</main>
           {/* @ts-expect-error */}
           <Footer />
@@ -44,7 +48,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SERVER_URL || 'https://payloadcms.com'),
   twitter: {
     card: 'summary_large_image',
-    creator: '@payloadcms',
+    creator: '@EasybakeSupplies',
   },
   openGraph: mergeOpenGraph(),
 }

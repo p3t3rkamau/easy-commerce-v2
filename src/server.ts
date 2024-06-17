@@ -107,7 +107,12 @@ const searchMongoDB = async searchQuery => {
       database: 'test',
       dataSource: 'Cluster0',
       filter: { title: { $regex: searchQuery, $options: 'i' } },
-      projection: { title: 1 },
+      projection: {
+        title: 1,
+        slug: 1,
+        price: 1,
+        meta: 1,
+      },
     }
 
     const response = await axios.post(process.env.API_LINK, requestBody, {

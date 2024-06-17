@@ -4,9 +4,18 @@ import { admins } from '../../access/admins'
 import { adminsOrPublished } from '../../access/adminsOrPublished'
 import { Archive } from '../../blocks/ArchiveBlock'
 import { CallToAction } from '../../blocks/CallToAction'
+import { CallToActionWithImage } from '../../blocks/CallToActionWithImage'
 import { Content } from '../../blocks/Content'
 import { ContentMedia } from '../../blocks/ContentMedia'
+import { DealsArchive } from '../../blocks/DealsArchive'
+import { DoubleImagesBlock } from '../../blocks/DoubleMedia/ManyImages'
+import { EventArchive } from '../../blocks/EventArchive'
+import { FlashSales } from '../../blocks/FlashSales'
+import { LastViewed } from '../../blocks/LastViewed'
 import { MediaBlock } from '../../blocks/MediaBlock'
+import { Recommeded } from '../../blocks/Recommended'
+import { ProductsSlider } from '../../blocks/SliderArchive'
+import { TopDealsGrid } from '../../blocks/TopDealsGridArchive'
 import { hero } from '../../fields/hero'
 import { slugField } from '../../fields/slug'
 import { populateArchiveBlock } from '../../hooks/populateArchiveBlock'
@@ -113,7 +122,22 @@ export const Posts: CollectionConfig = {
           fields: [
             {
               name: 'layout',
-              blocks: [CallToAction, Content, MediaBlock, Archive, ContentMedia],
+              blocks: [
+                CallToAction,
+                Content,
+                MediaBlock,
+                Archive,
+                ContentMedia,
+                CallToActionWithImage,
+                DoubleImagesBlock,
+                ProductsSlider,
+                Recommeded,
+                LastViewed,
+                FlashSales,
+                EventArchive,
+                DealsArchive,
+                TopDealsGrid,
+              ],
               required: true,
               type: 'blocks',
             },

@@ -43,7 +43,7 @@ export const Footer: GlobalConfig = {
       },
     },
     {
-      name: 'informatin',
+      name: 'information',
       label: 'Information',
       type: 'relationship',
       relationTo: 'categories',

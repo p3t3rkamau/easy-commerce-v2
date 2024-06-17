@@ -1,11 +1,7 @@
-'use client'
 import React, { useState } from 'react'
-import { FaSearch } from 'react-icons/fa'
-import { FaChevronRight } from 'react-icons/fa6'
+import { FaChevronRight, FaSearch } from 'react-icons/fa'
 import axios from 'axios'
 import Link from 'next/link'
-
-import SearchResultsArchiveBlock from '../Archive/SearchResultsArchive'
 
 import classes from './index.module.scss'
 
@@ -74,13 +70,25 @@ const SearchBar = () => {
           <div className={classes.container}>
             <div className={classes.searchResult}>
               <ul>
-                {results?.map(result => (
+                {results.map(result => (
                   <li key={result._id}>
-                    <Link href="/products" className={classes.link}>
-                      <div className={classes.searchFlex}>
-                        <div>{result.title}</div>
-                        <div>
-                          <FaChevronRight />
+                    <Link href={`/products/${result.slug}`} className={classes.link}>
+                      <div className={classes.card}>
+                        <div className={classes.imageContainer}>
+                          <img
+                            src={result.meta?.image?.imagekit?.url}
+                            alt={result.title}
+                            className={classes.image}
+                          />
+                        </div>
+                        <div className={classes.cardBody}>
+                          <h3 className={classes.title}>{result.title}</h3>
+                          <p className={classes.price}>Price: ${result.price}</p>
+                          <Link href={`/products/${result.slug}`}>
+                            <span className={classes.link}>
+                              View Product <FaChevronRight />
+                            </span>
+                          </Link>
                         </div>
                       </div>
                     </Link>
@@ -88,7 +96,6 @@ const SearchBar = () => {
                 ))}
               </ul>
             </div>
-            <SearchResultsArchiveBlock />
           </div>
         </>
       )}

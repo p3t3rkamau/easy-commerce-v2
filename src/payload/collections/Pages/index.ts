@@ -17,9 +17,10 @@ import { LastViewed } from '../../blocks/LastViewed'
 import { MediaBlock } from '../../blocks/MediaBlock'
 import { Recommeded } from '../../blocks/Recommended'
 import { ProductsSlider } from '../../blocks/SliderArchive'
+import { TopDealsGrid } from '../../blocks/TopDealsGridArchive'
 // import { ReusableContent } from '../../blocks/ReusableContent'
 import { hero } from '../../fields/hero'
-import link from '../../fields/link'
+import { heroImage } from '../../fields/HeroComponent'
 import { slugField } from '../../fields/slug'
 import { populateArchiveBlock } from '../../hooks/populateArchiveBlock'
 import { adminsOrPublished } from './access/adminsOrPublished'
@@ -83,6 +84,13 @@ export const Pages: CollectionConfig = {
           fields: [hero],
         },
         {
+          fields: [heroImage],
+          label: 'Event Hero',
+          admin: {
+            description: 'Event Hero Image',
+          },
+        },
+        {
           label: 'Content',
           fields: [
             {
@@ -103,6 +111,7 @@ export const Pages: CollectionConfig = {
                 FlashSales,
                 EventArchive,
                 DealsArchive,
+                TopDealsGrid,
                 // CardGrid,
                 // Banner,
                 // BlogContent,
@@ -123,35 +132,6 @@ export const Pages: CollectionConfig = {
               ],
             },
           ],
-        },
-      ],
-    },
-    {
-      name: 'SlidingImages',
-      label: 'Sliding Image',
-      labels: {
-        singular: 'image',
-        plural: 'Images',
-      },
-      type: 'array',
-      minRows: 4,
-      maxRows: 20,
-      fields: [
-        {
-          type: 'upload',
-          name: 'media',
-          relationTo: 'media',
-          required: true,
-        },
-        {
-          name: 'Heading',
-          type: 'text',
-          required: true,
-        },
-        {
-          name: 'Description',
-          type: 'textarea',
-          required: true,
         },
       ],
     },
@@ -178,18 +158,8 @@ export const Pages: CollectionConfig = {
             },
             {
               name: 'Description',
-              type: 'textarea',
+              type: 'richText',
               required: true,
-            },
-            {
-              name: 'navItems',
-              type: 'array',
-              maxRows: 6,
-              fields: [
-                link({
-                  appearances: false,
-                }),
-              ],
             },
           ],
         },
