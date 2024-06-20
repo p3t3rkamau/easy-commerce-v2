@@ -2,6 +2,7 @@ import {
   ARCHIVE_BLOCK,
   CALL_TO_ACTION,
   CONTENT,
+  CTA_WITH_IMAGE,
   DEALS_ARCHIVE_BLOCK,
   EVENT_ARCHIVE_BLOCK,
   FLASHSALES_ARCHIVE_BLOCK,
@@ -53,13 +54,21 @@ export const PAGE = `
           ${LAST_VIEWED_ARCHIVE_BLOCK}
           ${RECOMMENDED_ARCHIVE_BLOCK}
           ${GRIDLAYOUT_ARCHIVE_BLOCK}
-         
         }
         ${META}
         Accordion{
           Heading
           Description
 
+        }
+        Categories{
+          id
+          title
+          media {
+            imagekit {
+              url
+            }
+          }
         }
       }
     }

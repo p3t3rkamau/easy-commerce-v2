@@ -10,13 +10,13 @@ import { VerticalPadding } from '../../_components/VerticalPadding'
 
 import classes from './index.module.scss'
 
-type Props = Extract<Page['layout'][0], { blockType: 'cta' }>
+type Props = Extract<Page['layout'][0], { blockType: 'CtaWithImage' }>
 
 const CallToActionWithImageBlock: React.FC<
   Props & {
     id?: string
   }
-> = ({ links, richText, invertBackground }) => {
+> = ({ links, richText, invertBackground, media }) => {
   return (
     <VerticalPadding
       className={[classes.callToAction, invertBackground && classes.invert]
@@ -25,18 +25,18 @@ const CallToActionWithImageBlock: React.FC<
     >
       <div className={classes.wrap}>
         <div className={classes.ImageContainer}>
-          <Media resource="" imgClassName={classes.Image} />
+          <Media resource={media} imgClassName={classes.Image} />
         </div>
         <div className={classes.content}>
-          Hello How are You am Test Block
-          {/* <RichText className={classes.richText} content={richText} /> */}
+          {/* Hello How are You am Test Block */}
+          <RichText className={classes.richText} content={richText} />
         </div>
         <div className={classes.linkGroup}>
-          {/* {(links || []).map(({ link }, i) => {
-              return <CMSLink key={i} {...link} invert={invertBackground} />
-            })} */}
-          <Button el="link" href="/products" label="Explore" appearance="secondary" />
-          <Button el="link" href="/products" label="Shop Now" appearance="primary" />
+          {(links || []).map(({ link }, i) => {
+            return <CMSLink key={i} {...link} invert={invertBackground} />
+          })}
+          {/* <Button el="link" href="/products" label="Explore" appearance="secondary" />
+          <Button el="link" href="/products" label="Shop Now" appearance="primary" /> */}
         </div>
       </div>
     </VerticalPadding>

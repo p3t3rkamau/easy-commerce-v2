@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { FaCaretRight } from 'react-icons/fa'
+import { FaCaretRight, FaSearch } from 'react-icons/fa'
 import Link from 'next/link'
 
 import { Category, Header as HeaderType } from '../../../../payload/payload-types'
@@ -8,6 +8,7 @@ import { Button } from '../../Button'
 import CartDropDown from '../../CartDropDown'
 import { CartLink } from '../../CartLink'
 import { CMSLink } from '../../Link'
+import MobileSearch from '../../SearchBar/MobileSearch'
 import MobileNav from '../MobileNav'
 
 import classes from './index.module.scss'
@@ -31,6 +32,12 @@ export const HeaderNav: React.FC<{ header: HeaderType }> = ({ header }) => {
         {navItems.map(({ link }, i) => {
           return <CMSLink key={i} {...link} appearance="none" />
         })}
+      </div>
+      <div className={classes.searchIcon}>
+        <FaSearch />
+        <div className={classes.mobileContainer}>
+          <MobileSearch />
+        </div>
       </div>
       {user && <Link href="/account">Account</Link>}
       {!user && (

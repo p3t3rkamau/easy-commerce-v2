@@ -10,6 +10,13 @@
     font-size: 12px;
     @include small-break{
         padding: 0 10px;
+        flex-wrap: nowrap;
+        display: none;
+    }
+}
+.CurrencyWrapper .callFLex{
+    @include small-break{
+        overflow: hidden;
     }
 }
 .callFLex{

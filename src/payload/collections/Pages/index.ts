@@ -78,6 +78,22 @@ export const Pages: CollectionConfig = {
       },
     },
     {
+      name: 'Categories',
+      type: 'relationship',
+      relationTo: 'categories',
+      hasMany: true,
+      filterOptions: ({ id }) => {
+        return {
+          id: {
+            not_in: [id],
+          },
+        }
+      },
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
       type: 'tabs',
       tabs: [
         {

@@ -64,6 +64,7 @@ export interface Config {
   };
 }
 export interface Page {
+  Categories?: (string | Category)[] | null;
   id: string;
   title: string;
   publishedOn?: string | null;

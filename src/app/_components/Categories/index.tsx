@@ -7,7 +7,7 @@ import CategoryCard from './CategoryCard'
 
 import classes from './index.module.scss'
 
-const Categories = ({ categories }: { categories: Category[] }) => {
+const CategoriesComponent = ({ categories }: { categories: Category[] }) => {
   const [isSmallScreen, setIsSmallScreen] = useState(false)
   useEffect(() => {
     const handleResize = () => {
@@ -32,7 +32,7 @@ const Categories = ({ categories }: { categories: Category[] }) => {
   return (
     <section className={classes.container}>
       <div className={classes.titleWrapper}>
-        <h3>Shop by Categories</h3>
+        <h4>Shop by Categories</h4>
         <Link href="/products">Show All</Link>
       </div>
       <div className={classes.list}>
@@ -44,4 +44,4 @@ const Categories = ({ categories }: { categories: Category[] }) => {
   )
 }
 
-export default Categories
+export default CategoriesComponent

@@ -50,9 +50,6 @@ const MobileNav = ({ navItems, toggleMobileMenu }) => {
 
   return (
     <div className={classes.mobileNav}>
-      <div className={classes.searchIcon}>
-        <FaSearch />
-      </div>
       <Hamburger isOpen={isOpen} handleClick={toggleMenu} />
       {isOpen && (
         <div className={`${classes.mobileMenu} ${isOpen ? classes.open : ''}`}>

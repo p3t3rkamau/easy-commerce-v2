@@ -13,7 +13,23 @@ export const CALL_TO_ACTION = `
   }
 }
 `
-
+export const CTA_WITH_IMAGE = `
+...on CtaWithImage {
+  blockType
+  invertBackground
+  media {
+    imagekit {
+      fileId
+      thumbnailUrl
+      url
+    }
+  }
+  richText
+  links {
+    link ${LINK_FIELDS()}
+  }
+}
+`
 export const CONTENT = `
 ...on Content {
   blockType

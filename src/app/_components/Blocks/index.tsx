@@ -3,6 +3,7 @@ import React, { Fragment } from 'react'
 import { Page } from '../../../payload/payload-types.js'
 import { ArchiveBlock } from '../../_blocks/ArchiveBlock'
 import { CallToActionBlock } from '../../_blocks/CallToAction'
+import CallToActionWithImage from '../../_blocks/CallToActionWithImage'
 import { ContentBlock } from '../../_blocks/Content'
 import EventArchiveBlock from '../../_blocks/EventArchive'
 import FlashDealsArchive from '../../_blocks/FlashDeals'
@@ -30,6 +31,7 @@ const blockComponents = {
   'flash-sales': FlashDealsArchive,
   recommended: RecommededArchive,
   'last-viewed': LastViewed,
+  ctaWithImage: CallToActionWithImage,
 }
 
 export const Blocks: React.FC<{

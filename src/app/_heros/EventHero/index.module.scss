@@ -1,11 +1,17 @@
+@import '../../_css/common.scss';
 .container {
     display: flex;
     position: relative;
     gap: 20px;
     padding: 20px;
     background-color: hsl(171, 100%, 12%);
-    max-height: 70vh;
+    @include small-break{
+      flex-direction: column;
+      gap: 10px;
+      padding: 10px;
+    }
   }
+
   
   .imageSlider {
     position: relative;
@@ -15,6 +21,10 @@
     border-radius: 10px;
     width: 50%;
     height: 100%;
+    @include small-break{
+      width: 100%;
+      overflow: scroll;
+    }
   }
   
   .imageContainer {
@@ -29,6 +39,9 @@
     max-height: 420px;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 200;
+    @include small-break{
+      max-height: 200px;
+    }
   }
   
   .contentContainer {
@@ -49,11 +62,17 @@
     font-weight: bold;
     flex-wrap: wrap;
     text-align: center;
+    @include small-break{
+      font-size: 14px;
+    }
   }
   
   .subTitle {
     font-size: 1rem;
     margin-top: 10px;
+    @include small-break{
+      font-size: 10px;
+    }
   }
   
   .heroButton button {
@@ -63,6 +82,10 @@
     padding: 10px 20px;
     margin-top: 20px;
     cursor: pointer;
+    @include small-break{
+      border-radius: 8px;
+      padding: 5px 10px;
+    }
   }
   
   .controllers {
@@ -73,6 +96,7 @@
     display: flex;
     justify-content: space-between;
     transform: translateY(-50%);
+    
   }
   
   .iconWrapper {
@@ -94,7 +118,11 @@
     gap: 10px;
     width: 20%;
     height: 100%;
+    @include small-break{
+      width: 100%;
+    }
   }
+  
   
   .mainPortraitImage {
     width: 100%;
@@ -107,6 +135,10 @@
     height: auto;
     object-fit: cover;
     min-height: 420px;
+    @include small-break{
+      max-height: 200px;
+      min-height: 200px;
+    }
   }
   
   .columnImageFlex {
@@ -115,7 +147,13 @@
     flex-direction: column;
     gap: 20px;
     width: 30%;
+    @include small-break{
+      width: 100%;
+      gap: 10px;
+      flex-direction: row;
+    }
   }
+ 
   
   .columnImage {
     flex: 1;
@@ -144,6 +182,9 @@
     height: auto;
     object-fit: cover;
     max-height: 200px;
+    @include small-break{
+      max-height: 100px;
+    }
   
    
   }

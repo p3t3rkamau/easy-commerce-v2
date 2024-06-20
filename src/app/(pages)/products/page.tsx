@@ -26,17 +26,19 @@ const Products = async () => {
       draft: isDraftMode,
     })
 
-    categories = await fetchDocs<Category>('categories')
+    categories = await fetchDocs<Page>('categories')
   } catch (error) {
     console.log(error)
   }
+
+  const { Categories } = page
 
   return (
     <div className={classes.container}>
       <Gutter className={classes.MainContainer}>
         <div className={classes.products}>
           <div className={classes.filtersFlex}>
-            <Filters categories={categories} />
+            <Filters categories={Categories} />
           </div>
           <div>
             <SortAndFilter />
