@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 
 import classes from './Button.module.scss'
 
 interface Props {
+  children: React.ReactNode
   type?: 'button' | 'submit'
   onClick?: (e: React.MouseEvent<HTMLElement>) => void
   outline?: boolean

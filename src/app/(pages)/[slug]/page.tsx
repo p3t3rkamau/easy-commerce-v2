@@ -22,6 +22,7 @@ import CardStyles from '../../_components/CardStyles'
 import CartDropDown from '../../_components/CartDropDown'
 import Categories from '../../_components/Categories'
 import ExpandableFloatingActionButton from '../../_components/ChatwidgetComponent/_components/FloatingAction/ExpandableFloatingActionButton'
+import FlexBanner from '../../_components/FlexBanner'
 import { Gutter } from '../../_components/Gutter'
 import { Hero } from '../../_components/Hero'
 import EventHero from '../../_heros/EventHero'
@@ -68,6 +69,7 @@ export default async function Page({ params: { slug = 'home' } }) {
       <section>
         <Hero {...hero} />
         <EventHero />
+        <FlexBanner />
 
         <Gutter className={classes.home}>
           {/* <CartDropDown /> */}
@@ -78,9 +80,8 @@ export default async function Page({ params: { slug = 'home' } }) {
             blocks={layout}
             disableTopPadding={!hero || hero?.type === 'none' || hero?.type === 'lowImpact'}
           />
-          <CardStyles />
-          <GridBlock />
           <ProductGrid />
+
           <ExpandableFloatingActionButton />
         </Gutter>
       </section>

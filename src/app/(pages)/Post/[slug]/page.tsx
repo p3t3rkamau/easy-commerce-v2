@@ -7,6 +7,7 @@ import { Post } from '../../../../payload/payload-types'
 // import { fetchComments } from '../../../_api/fetchComments'
 import { fetchDoc } from '../../../_api/fetchDoc'
 import { fetchDocs } from '../../../_api/fetchDocs'
+import { PostHero } from '../../../_blocks/RelatedPosts'
 import { Blocks } from '../../../_components/Blocks'
 import { Gutter } from '../../../_components/Gutter'
 import { generateMeta } from '../../../_utilities/generateMeta'
@@ -39,10 +40,33 @@ export default async function Post({ params: { slug } }) {
   // })
 
   const { layout } = post
+  const { relatedPosts } = post
 
   return (
     <React.Fragment>
+      <PostHero post={post} />
       <Blocks blocks={layout} />
+      <Blocks
+        disableTopPadding
+        blocks={[
+          {
+            blockType: 'relatedPosts',
+            blockName: 'Related Post',
+            relationTo: 'posts',
+            introContent: [
+              {
+                type: 'h3',
+                children: [
+                  {
+                    text: 'Related Posts',
+                  },
+                ],
+              },
+            ],
+            docs: relatedPosts,
+          },
+        ]}
+      />
     </React.Fragment>
   )
 }

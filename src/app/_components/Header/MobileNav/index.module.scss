@@ -1,8 +1,11 @@
-/* index.module.scss */
+@import '../../../_css/common.scss';
 
 /* Mobile Navigation */
 .mobileNav {
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
   /* Mobile Menu */
@@ -119,4 +122,12 @@
     background-color: #fff;
     padding: 3px 8px;
     font-size: 14px;
+  }
+  .searchIcon{
+    display: none;
+    font-size: 22px;
+    margin: 0 30px;
+    @include small-break{
+      display: block;
+    }
   }

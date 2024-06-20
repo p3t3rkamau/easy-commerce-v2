@@ -24,6 +24,10 @@ const nextConfig = {
         source: '/robots.txt',
         destination: '/api/robots',
       },
+      {
+        source: '/api/socket', // Source URL for Socket.IO
+        destination: '/api/socket', // Destination URL for Socket.IO API route
+      },
     ]
   },
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { FaSearch } from 'react-icons/fa'
 import axios from 'axios'
 
@@ -14,30 +14,39 @@ const SearchBar: React.FC = () => {
   const [isFocused, setIsFocused] = useState(false)
 
   const searchBarRef = useRef<HTMLDivElement>(null)
+  const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value)
-    setIsFocused(true)
-  }
+    const value = e.target.value
+    setQuery(value)
 
-  const handleSearchClick = () => {
-    fetchSearchResults()
+    if (debounceTimeoutRef.current) {
+      clearTimeout(debounceTimeoutRef.current)
+    }
+
+    if (value.trim() !== '') {
+      debounceTimeoutRef.current = setTimeout(() => {
+        fetchSearchResults(value)
+      }, 3000) // Adjust the delay as needed
+    } else {
+      setResults([])
+    }
   }
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      fetchSearchResults()
+      fetchSearchResults(query)
     }
   }
 
-  const fetchSearchResults = async () => {
-    if (query.trim() === '') return
+  const fetchSearchResults = async (searchQuery: string) => {
+    if (searchQuery.trim() === '') return
 
     setIsLoading(true)
     setError(null)
 
     try {
-      const response = await axios.post('/api/search', { query })
+      const response = await axios.post('/api/search', { query: searchQuery })
       setResults(response.data.results)
     } catch (error) {
       setError('Error searching products')
@@ -71,26 +80,28 @@ const SearchBar: React.FC = () => {
           <input
             type="text"
             className={classes.searchTerm}
-            placeholder="Search?"
+            placeholder="What Are You Looking For?"
             value={query}
             onChange={handleInputChange}
             onKeyPress={handleKeyPress}
             onFocus={handleFocus}
           />
-          <button onClick={handleSearchClick} className={classes.searchButton}>
+          <button onClick={() => fetchSearchResults(query)} className={classes.searchButton}>
             <FaSearch className={classes.searchicon} />
           </button>
         </div>
       </div>
-      {error && <div className={classes.error}>{error}</div>}
-      {isFocused && (
+
+      {isFocused && query.trim() !== '' && (
         <div className={classes.resultsContainer}>
-          {isLoading && <div className={classes.loading}>Loading...</div>}
+          {error && <div className={classes.error}>{error}</div>}
+          {isLoading && <div className={classes.loading}>Searching {query}...</div>}
           {!isLoading && results?.length > 0 && (
             <div className={classes.searchResult}>
               {results.map(result => (
                 <Card
                   key={result._id}
+                  slug={result.slug}
                   title={result.title}
                   price={result.price}
                   imageUrl={result.meta?.image?.imagekit?.url || '/Easy-logo.svg'}

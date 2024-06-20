@@ -28,7 +28,6 @@ export const POST = `
           title
         }
         createdAt
-        publishedAt
         populatedAuthors {
           id
           name
@@ -42,42 +41,6 @@ export const POST = `
           ${CONTENT_MEDIA}
           ${DOUBLE_MEDIA_CONTENT}
         }
-        Availability,
-        Age,
-        OntopImage{
-          TitleDescription
-          media {
-            imagekit {
-              url
-            }
-          }
-        }
-        MainInfo
-        HighlightImages {
-          title
-          media {
-            imagekit {
-              url
-            }
-          }
-        }
-        Itinary {
-          Heading
-          Description
-          DescriptionImages {
-            media {
-              imagekit {
-                url
-              }
-            }
-          }
-          Accomodation {
-            Accomodation
-            AccomodationDescription
-          }
-        }
-        Days
-        Price
         relatedPosts {
           id
           slug

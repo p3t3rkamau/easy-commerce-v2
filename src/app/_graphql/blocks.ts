@@ -50,6 +50,13 @@ export const ARCHIVE_BLOCK = `
         slug
         title
         price
+        discount
+        discountedPrice
+      }
+      ...on Post {
+        id
+        slug
+        title
       }
     }
   }
@@ -63,6 +70,12 @@ export const ARCHIVE_BLOCK = `
         price
         ${PRODUCT_CATEGORIES}
         ${META}
+      }
+      ...on Post {
+        id
+        slug
+        title
+        ${PRODUCT_CATEGORIES}
       }
     }
   }
@@ -132,6 +145,8 @@ export const PRODUCTS_SLIDER_BLOCK = `
     slug
     title
     price
+    discount
+    discountedPrice
     ${META}
    
   }
@@ -150,6 +165,8 @@ export const DEALS_ARCHIVE_BLOCK = `
     title
     price
     ${META}
+    discount
+    discountedPrice
   }
 }
 `
@@ -166,6 +183,8 @@ export const EVENT_ARCHIVE_BLOCK = `
     title
     price
     ${META}
+    discount
+    discountedPrice
   }
 }
 `
@@ -182,6 +201,8 @@ export const FLASHSALES_ARCHIVE_BLOCK = `
     title
     price
     ${META}
+    discount
+    discountedPrice
   }
 }
 `
@@ -195,6 +216,8 @@ export const LAST_VIEWED_ARCHIVE_BLOCK = `
     title
     price
     ${META}
+    discount
+    discountedPrice
   }
 }
 `
@@ -208,6 +231,8 @@ export const RECOMMENDED_ARCHIVE_BLOCK = `
     title
     price
     ${META}
+    discount
+    discountedPrice
   }
 }
 `
@@ -224,6 +249,8 @@ export const GRIDLAYOUT_ARCHIVE_BLOCK = `
     title
     price
     ${META}
+    discount
+    discountedPrice
   }
 }
 `

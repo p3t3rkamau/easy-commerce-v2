@@ -3,7 +3,7 @@
 import React, { Fragment, useCallback, useEffect, useRef, useState } from 'react'
 import qs from 'qs'
 
-import { Product } from '../../../payload/payload-types'
+import { Post, Product } from '../../../payload/payload-types'
 import type { ArchiveBlockProps } from '../../_blocks/ArchiveBlock/types'
 import { useFilter } from '../../_providers/Filter'
 import { Card } from '../Card'
@@ -14,7 +14,7 @@ import classes from './index.module.scss'
 
 type Result = {
   totalDocs: number
-  docs: Product[]
+  docs: (Post | Product | string)[]
   page: number
   totalPages: number
   hasPrevPage: boolean
@@ -25,13 +25,14 @@ type Result = {
 
 export type Props = {
   className?: string
-  relationTo?: 'products'
+  relationTo?: 'posts' | 'products'
   populateBy?: 'collection' | 'selection'
   showPageRange?: boolean
   onResultChange?: (result: Result) => void // eslint-disable-line no-unused-vars
   limit?: number
   populatedDocs?: ArchiveBlockProps['populatedDocs']
   populatedDocsTotal?: ArchiveBlockProps['populatedDocsTotal']
+  selectedDocs?: ArchiveBlockProps['selectedDocs']
   categories?: ArchiveBlockProps['categories']
 }
 
@@ -41,7 +42,9 @@ export const CollectionArchive: React.FC<Props> = props => {
   const {
     className,
     relationTo,
+    populateBy,
     showPageRange,
+    selectedDocs,
     onResultChange,
     limit = 10,
     populatedDocs,
@@ -50,7 +53,12 @@ export const CollectionArchive: React.FC<Props> = props => {
 
   const [results, setResults] = useState<Result>({
     totalDocs: typeof populatedDocsTotal === 'number' ? populatedDocsTotal : 0,
-    docs: (populatedDocs?.map(doc => doc.value) || []) as [],
+    docs: (populateBy === 'collection'
+      ? populatedDocs
+      : populateBy === 'selection'
+      ? selectedDocs
+      : []
+    )?.map(doc => doc.value),
     page: 1,
     totalPages: 1,
     hasPrevPage: false,
@@ -121,7 +129,7 @@ export const CollectionArchive: React.FC<Props> = props => {
         clearTimeout(timer)
         hasHydrated.current = true
 
-        const { docs } = json as { docs: Product[] }
+        const { docs } = json as { docs: (Post | Product)[] }
         // console.log('json', docs)
 
         if (docs && Array.isArray(docs)) {
@@ -150,7 +158,7 @@ export const CollectionArchive: React.FC<Props> = props => {
       <div ref={scrollRef} className={classes.scrollRef} />
       {!isLoading && error && <div className={classes.error}>{error}</div>}
       <Fragment>
-        {showPageRange !== false && (
+        {showPageRange !== false && populateBy !== 'selection' && (
           <div className={classes.pageRange}>
             <PageRange
               totalDocs={results.totalDocs}
@@ -163,7 +171,7 @@ export const CollectionArchive: React.FC<Props> = props => {
 
         <div className={classes.grid}>
           {results.docs?.map((result, index) => {
-            return <Card key={index} relationTo="products" doc={result} showCategories />
+            return <Card key={index} relationTo={relationTo} doc={result} showCategories />
           })}
         </div>
 

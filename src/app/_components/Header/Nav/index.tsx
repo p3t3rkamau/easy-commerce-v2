@@ -1,4 +1,3 @@
-'use client'
 import React, { useEffect, useRef, useState } from 'react'
 import { FaCaretRight } from 'react-icons/fa'
 import Link from 'next/link'
@@ -16,48 +15,14 @@ import classes from './index.module.scss'
 export const HeaderNav: React.FC<{ header: HeaderType }> = ({ header }) => {
   const navItems = header?.navItems || []
   const { user } = useAuth()
-  const [openItem, setOpenItem] = useState(null)
-  const [isOpen, setIsOpen] = useState(false)
-  const [hoveredMiniCategoryIndex, setHoveredMiniCategoryIndex] = useState(null)
-  const dropdownRef = useRef(null)
+  const [openItem, setOpenItem] = useState<number | null>(null)
+
+  const dropdownRef = useRef<HTMLDivElement | null>(null)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isCartHovered, setIsCartHovered] = useState(false)
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
-  }
-
-  const toggleMenu = () => setIsOpen(!isOpen)
-
-  const handleItemClick = index => {
-    if (openItem === index) {
-      setOpenItem(null)
-    } else {
-      setOpenItem(index)
-    }
-  }
-
-  const handleOutsideClick = event => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setTimeout(() => {
-        setOpenItem(null)
-        setHoveredMiniCategoryIndex(null)
-      }, 6000)
-    }
-  }
-
-  useEffect(() => {
-    document.addEventListener('mousedown', handleOutsideClick)
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideClick)
-    }
-  }, [])
-
-  const handleMouseEnterMiniCategory = index => {
-    setHoveredMiniCategoryIndex(index)
-  }
-
-  const handleMouseLeaveMiniCategory = () => {
-    setHoveredMiniCategoryIndex(null)
   }
 
   return (
@@ -77,8 +42,20 @@ export const HeaderNav: React.FC<{ header: HeaderType }> = ({ header }) => {
           onClick={() => (window.location.href = '/login')}
         />
       )}
-      {user && <CartLink />}
-      {/* <CartDropDown /> */}
+      {user && (
+        <div
+          className={classes.cartLink}
+          onMouseEnter={() => setIsCartHovered(true)}
+          onMouseLeave={() => setIsCartHovered(false)}
+        >
+          <CartLink />
+          {isCartHovered && (
+            <div className={classes.cartDropdown}>
+              <CartDropDown />
+            </div>
+          )}
+        </div>
+      )}
       <MobileNav navItems={navItems} toggleMobileMenu={toggleMobileMenu} />
     </nav>
   )

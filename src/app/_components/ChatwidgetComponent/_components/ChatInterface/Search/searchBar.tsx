@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { FaChevronRight, FaSearch } from 'react-icons/fa'
+import { FaSearch } from 'react-icons/fa'
 import axios from 'axios'
-import Link from 'next/link'
+
+import Card from './SearchCard' // Assuming your Card component is in the same directory
 
 import classes from './index.module.scss'
 
@@ -15,7 +16,7 @@ const SearchBar = () => {
     setQuery(e.target.value)
   }
 
-  const handleSearch = async () => {
+  const fetchSearchResults = async () => {
     if (query.trim() === '') return
 
     setIsLoading(true)
@@ -34,7 +35,7 @@ const SearchBar = () => {
 
   const handleKeyPress = e => {
     if (e.key === 'Enter') {
-      handleSearch()
+      fetchSearchResults()
     }
   }
 
@@ -51,7 +52,7 @@ const SearchBar = () => {
             onKeyPress={handleKeyPress}
             disabled={isLoading}
           />
-          <span className={classes.searchIcon} onClick={handleSearch} disabled={isLoading}>
+          <span className={classes.searchIcon} onClick={fetchSearchResults} disabled={isLoading}>
             {isLoading ? 'Loading...' : <FaSearch />}
           </span>
         </div>
@@ -66,38 +67,17 @@ const SearchBar = () => {
       </div>
       {error && <div className={classes.error}>{error}</div>}
       {results?.length > 0 && (
-        <>
-          <div className={classes.container}>
-            <div className={classes.searchResult}>
-              <ul>
-                {results.map(result => (
-                  <li key={result._id}>
-                    <Link href={`/products/${result.slug}`} className={classes.link}>
-                      <div className={classes.card}>
-                        <div className={classes.imageContainer}>
-                          <img
-                            src={result.meta?.image?.imagekit?.url}
-                            alt={result.title}
-                            className={classes.image}
-                          />
-                        </div>
-                        <div className={classes.cardBody}>
-                          <h3 className={classes.title}>{result.title}</h3>
-                          <p className={classes.price}>Price: ${result.price}</p>
-                          <Link href={`/products/${result.slug}`}>
-                            <span className={classes.link}>
-                              View Product <FaChevronRight />
-                            </span>
-                          </Link>
-                        </div>
-                      </div>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </>
+        <div className={classes.searchResult}>
+          {results.map(result => (
+            <Card
+              key={result._id}
+              title={result.title}
+              price={result.price}
+              imageUrl={result.meta?.image?.imagekit?.url || '/Easy-logo.svg'}
+              slug={result.slug}
+            />
+          ))}
+        </div>
       )}
     </div>
   )

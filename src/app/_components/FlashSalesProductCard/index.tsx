@@ -17,7 +17,7 @@ export const FlashSalesCard: React.FC<{
   hideImagesOnMobile?: boolean
   title?: string
   discount?: number | null
-  discountedPrice?: string | null
+  discountedPrice?: number | null
   Price?: number | null
   relationTo?: 'products'
   doc?: Product
@@ -34,9 +34,11 @@ export const FlashSalesCard: React.FC<{
     <Link href={`/products/${doc.slug}`}>
       <div className={classes.card}>
         <div className={classes.mediaWrapper}>
-          <div className={classes.discount}>
-            <span>{discount}%</span>
-          </div>
+          {discount && (
+            <div className={classes.discount}>
+              <span>{discount}%</span>
+            </div>
+          )}
           <Media imgClassName={classes.image} resource={doc.meta?.image} />
         </div>
 

@@ -7,16 +7,14 @@ import classes from '../index.module.scss'
 
 interface SliderArchiveProps {
   selectedDocs?: Product[]
+  newTag?: boolean
 }
 
-const SliderArchive: React.FC<SliderArchiveProps> = ({ selectedDocs }) => {
-  // Log the selectedDocs to verify
-  // console.log('Selected Docs for Slider:', selectedDocs)
-
+const SliderArchive: React.FC<SliderArchiveProps> = ({ selectedDocs, newTag }) => {
   return (
     <div className={classes.flex}>
       {selectedDocs?.map((product, index) => (
-        <Card key={index} relationTo="products" doc={product} showCategories />
+        <Card key={index} relationTo="products" doc={product} showCategories newTag={newTag} />
       ))}
     </div>
   )

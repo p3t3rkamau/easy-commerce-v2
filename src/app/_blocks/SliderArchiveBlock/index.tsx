@@ -11,7 +11,6 @@ type ProductSliderBlock = Extract<Page['layout'][number], { blockType: 'products
 
 const SliderArchiveBlock: React.FC<ProductSliderBlock & { className?: string }> = props => {
   const { Heading, BackgroundColor, TextColor, NewTag, selectedDocs, className, id } = props
-  // console.log('SliderArchiveBlock Props:', props)
 
   // Type guard function to check if a doc is a Product
   function isProduct(doc: any): doc is Product {
@@ -44,11 +43,6 @@ const SliderArchiveBlock: React.FC<ProductSliderBlock & { className?: string }> 
   const endIndex = startIndex + itemsPerPage
   const itemsToShow = validDocs.slice(startIndex, endIndex)
 
-  // Log the validDocs to verify
-  // console.log('Valid Products:', validDocs)
-  // console.log('Items to Show:', itemsToShow)
-  // console.log('Current Page:', page, 'Total Pages:', totalPages)
-
   return (
     <div>
       <div
@@ -74,7 +68,7 @@ const SliderArchiveBlock: React.FC<ProductSliderBlock & { className?: string }> 
           </button>
         </div>
         <div className={classes.flex}>
-          <SliderArchive selectedDocs={itemsToShow} />
+          <SliderArchive selectedDocs={itemsToShow} newTag={NewTag} />
         </div>
         <div className={classes.ButtonContainer}>
           <button

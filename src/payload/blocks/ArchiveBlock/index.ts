@@ -37,7 +37,7 @@ export const Archive: Block = {
           value: 'products',
         },
         {
-          label: 'Post',
+          label: 'Posts',
           value: 'posts',
         },
       ],

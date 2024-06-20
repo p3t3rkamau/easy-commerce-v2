@@ -15,7 +15,19 @@
   min-height: 100px;
 
 }
+.newTag {
+  position: absolute;
+  top: 2px;
+  left: 10px;
 
+  
+}
+.newTag span{
+  padding: 3px 2px;
+  font-size: 12px;
+ 
+  background-color: rgb(201, 225, 250);
+}
 .content {
   padding: 0;
   display: flex;

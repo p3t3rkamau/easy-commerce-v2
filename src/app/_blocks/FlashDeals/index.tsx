@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Page, Product } from '../../../payload/payload-types'
 import { Chevron } from '../../_components/Chevron'
@@ -11,7 +11,37 @@ type FlashDealsBlock = Extract<Page['layout'][number], { blockType: 'flash-sales
 
 const FlashDealsArchive: React.FC<FlashDealsBlock & { className?: string }> = props => {
   const { Heading, BackgroundColor, TextColor, selectedDocs, className } = props
-  // console.log('SliderArchiveBlock Props:', props)
+
+  const [timeRemaining, setTimeRemaining] = useState('')
+
+  useEffect(() => {
+    const fetchFlashSaleTimes = async () => {
+      // Replace this with actual fetch from your database
+      const startTime = new Date('2024-06-17T12:00:00Z') // example start time
+      const endTime = new Date('2024-06-17T18:00:00Z') // example end time
+
+      const updateRemainingTime = () => {
+        const now = new Date()
+        const timeDiff = endTime.getTime() - now.getTime()
+        if (timeDiff > 0) {
+          const hours = Math.floor(timeDiff / (1000 * 60 * 60))
+          const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60))
+          const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000)
+          setTimeRemaining(`${hours}H:${minutes}M:${seconds}S`)
+        } else {
+          setTimeRemaining('Sale Ended')
+          //TODO: After time ended hide the block
+        }
+      }
+
+      updateRemainingTime()
+      const interval = setInterval(updateRemainingTime, 1000)
+
+      return () => clearInterval(interval)
+    }
+
+    fetchFlashSaleTimes()
+  }, [])
 
   // Type guard function to check if a doc is a Product
   function isProduct(doc: any): doc is Product {
@@ -49,6 +79,8 @@ const FlashDealsArchive: React.FC<FlashDealsBlock & { className?: string }> = pr
   // console.log('Items to Show:', itemsToShow)
   // console.log('Current Page:', page, 'Total Pages:', totalPages)
 
+  // ... rest of your component code
+
   return (
     <div>
       <div
@@ -59,12 +91,11 @@ const FlashDealsArchive: React.FC<FlashDealsBlock & { className?: string }> = pr
         <div>
           <span>
             {' '}
-            Time Left: <span className={classes.Bold}>06H:23M:43s</span>
+            Time Left: <span className={classes.Bold}>{timeRemaining}</span>
           </span>
         </div>
         <div className={classes.seeAll}>
           <div>See All </div>
-
           <div>
             <span className={classes.arrow}>&#8594;</span>
           </div>

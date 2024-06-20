@@ -50,7 +50,7 @@ const MobileNav = ({ navItems, toggleMobileMenu }) => {
 
   return (
     <div className={classes.mobileNav}>
-      <div>
+      <div className={classes.searchIcon}>
         <FaSearch />
       </div>
       <Hamburger isOpen={isOpen} handleClick={toggleMenu} />

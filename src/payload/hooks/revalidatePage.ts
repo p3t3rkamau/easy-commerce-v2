@@ -10,7 +10,7 @@ const PAGES_CACHE_KEY = 'pages'
 const CATEGORIES_CACHE_KEY = 'categories'
 
 // Cache time-to-live (TTL) in seconds (e.g., 1 hour)
-const CACHE_TTL = 3600
+const CACHE_TTL = 360
 
 // Function to get data from cache or fetch and cache it
 async function getCachedData<T>(key: string, fetchFunction: () => Promise<T>): Promise<T> {

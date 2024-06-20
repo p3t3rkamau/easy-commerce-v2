@@ -1,14 +1,22 @@
 import React from 'react'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
+import Image from 'next/image'
 
 import classes from './index.module.scss'
 
-const EventHero = () => {
+const EventHero: React.FC = () => {
   return (
     <div className={classes.container}>
       <div className={classes.imageSlider}>
         <div className={classes.imageContainer}>
-          <img src="/assets/images/image-4.svg" className={classes.mainImage} alt="Holiday Prep" />
+          <Image
+            src="/assets/images/image-4.svg"
+            className={classes.mainImage}
+            alt="Holiday Prep"
+            width={600}
+            height={600}
+          />
+          <div className={classes.overlay}></div>
         </div>
         <div className={classes.contentContainer}>
           <div className={classes.mainTitle}>
@@ -24,31 +32,45 @@ const EventHero = () => {
         <div className={classes.controllers}>
           <div className={classes.iconWrapper}>
             <FaChevronLeft className={classes.icon} />
+          </div>
+          <div className={classes.iconWrapper}>
             <FaChevronRight className={classes.icon} />
           </div>
         </div>
       </div>
+
       <div className={classes.portraitImage}>
         <div className={classes.mainPortraitImage}>
-          <img
+          <Image
             src="/assets/images/image-3.svg"
             className={classes.centerImage}
             alt="Christmas Holiday"
+            width={600}
+            height={600}
           />
+          <div className={classes.overlay}></div>
         </div>
         <div className={classes.contentContainer}>
           <div className={classes.mainTitle}>
             <span>Christmas Holiday</span>
           </div>
           <div className={classes.subTitle}>
-            <span className={classes.text}>Find it all now and don't miss out</span>
+            <span className={classes.text}>Discover Now</span>
           </div>
         </div>
       </div>
+
       <div className={classes.columnImageFlex}>
         <div className={classes.columnImage}>
           <div className={classes.containerFlex}>
-            <img src="/assets/images/image-1.svg" className={classes.image} alt="Golden Gnome" />
+            <Image
+              src="/assets/images/image-1.svg"
+              className={classes.images}
+              alt="Golden Gnome"
+              width={600}
+              height={600}
+            />
+            <div className={classes.overlay}></div>
           </div>
           <div className={classes.contentContainer}>
             <div className={classes.mainTitle}>
@@ -61,7 +83,14 @@ const EventHero = () => {
         </div>
         <div className={classes.columnImage}>
           <div className={classes.containerFlex}>
-            <img src="/assets/images/image-2.svg" className={classes.image} alt="25% Sales Off" />
+            <Image
+              src="/assets/images/image-2.svg"
+              className={classes.images}
+              alt="25% Sales Off"
+              width={600}
+              height={600}
+            />
+            <div className={classes.overlay}></div>
           </div>
           <div className={classes.contentContainer}>
             <div className={classes.mainTitle}>

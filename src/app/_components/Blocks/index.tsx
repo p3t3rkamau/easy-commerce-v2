@@ -9,6 +9,7 @@ import FlashDealsArchive from '../../_blocks/FlashDeals'
 import LastViewed from '../../_blocks/LastViewed'
 import { MediaBlock } from '../../_blocks/MediaBlock'
 import RecommededArchive from '../../_blocks/Recommended'
+import { RelatedPosts, type RelatedPostsProps } from '../../_blocks/RelatedPosts'
 import { RelatedProducts, type RelatedProductsProps } from '../../_blocks/RelatedProducts'
 import SliderArchiveBlock from '../../_blocks/SliderArchiveBlock'
 import TopDealsArchive from '../../_blocks/TopDealsArchive'
@@ -22,6 +23,7 @@ const blockComponents = {
   mediaBlock: MediaBlock,
   archive: ArchiveBlock,
   relatedProducts: RelatedProducts,
+  relatedPosts: RelatedPosts,
   'products-slider': SliderArchiveBlock,
   'Deals-archive': TopDealsArchive,
   'Event-Archive': EventArchiveBlock,
@@ -31,7 +33,7 @@ const blockComponents = {
 }
 
 export const Blocks: React.FC<{
-  blocks: (Page['layout'][0] | RelatedProductsProps)[]
+  blocks: (Page['layout'][0] | RelatedProductsProps | RelatedPostsProps)[]
   disableTopPadding?: boolean
   disableBottomPadding?: boolean
 }> = props => {

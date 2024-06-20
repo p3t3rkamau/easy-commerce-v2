@@ -410,6 +410,7 @@ export interface Category {
   createdAt: string;
 }
 export interface Product {
+  image: string | Media;
   id: string;
   title: string;
   publishedOn?: string | null;

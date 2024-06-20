@@ -13,6 +13,7 @@ import { DealsArchive } from '../../blocks/DealsArchive'
 import { DoubleImagesBlock } from '../../blocks/DoubleMedia/ManyImages'
 import { EventArchive } from '../../blocks/EventArchive'
 import { FlashSales } from '../../blocks/FlashSales'
+import { FlexBanner } from '../../blocks/FlexBanner'
 import { LastViewed } from '../../blocks/LastViewed'
 import { MediaBlock } from '../../blocks/MediaBlock'
 import { Recommeded } from '../../blocks/Recommended'
@@ -112,6 +113,7 @@ export const Pages: CollectionConfig = {
                 EventArchive,
                 DealsArchive,
                 TopDealsGrid,
+                FlexBanner,
                 // CardGrid,
                 // Banner,
                 // BlogContent,

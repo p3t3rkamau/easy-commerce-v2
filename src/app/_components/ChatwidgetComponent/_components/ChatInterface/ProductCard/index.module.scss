@@ -169,11 +169,12 @@
   left: 10px;
  
   top: 2px;
+  z-index: 20;
 
 }
 .new span{
   padding: 3px 2px;
   font-size: 12px;
- 
+  border-radius: 2px;
   background-color: rgb(201, 225, 250);
 }

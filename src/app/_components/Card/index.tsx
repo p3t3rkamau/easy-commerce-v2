@@ -3,7 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 
-import { Product } from '../../../payload/payload-types'
+import { Post, Product } from '../../../payload/payload-types'
 import { AddToCartButton } from '../AddToCartButton'
 import { Media } from '../Media'
 import { Price } from '../Price'
@@ -19,33 +19,54 @@ export const Card: React.FC<{
   Price?: number | null
   discount?: number | null
   discountedPrice?: number | null
-  relationTo?: 'products'
-  doc?: Product
+  newTag?: boolean
+  relationTo?: 'products' | 'posts'
+  doc?: Product | Post
 }> = props => {
-  const { showCategories, title: titleFromProps, doc, discount, discountedPrice } = props
-  console.log(discount, discountedPrice)
+  const {
+    showCategories,
+    title: titleFromProps,
+    doc,
+    discount,
+    discountedPrice,
+    newTag,
+    relationTo,
+  } = props
+
+  const { slug, title, categories, meta } = doc || {}
+  const { description, image: metaImage } = meta || {}
 
   if (!doc) {
     return null
   }
 
   const titleToUse = titleFromProps || doc.title
+  const href = `/${relationTo}/${slug}`
 
   return (
-    <Link href={`/products/${doc.slug}`}>
+    <Link href={href}>
       <div className={classes.card}>
         <div className={classes.mediaWrapper}>
-          <div className={classes.discount}>
-            <span>{doc.discount}%</span>
-          </div>
-          <Media imgClassName={classes.image} resource={doc.meta?.image} />
+          {newTag && (
+            <div className={classes.newTag}>
+              <span>New</span>
+            </div>
+          )}
+          {discount && (
+            <div className={classes.discount}>
+              <span>{discount}%</span>
+            </div>
+          )}
+          <Media imgClassName={classes.image} resource={doc?.meta?.image} />
         </div>
 
         <div className={classes.content}>
           <span className={classes.title}>{titleToUse}</span>
           <div className={classes.price}>
             <Price product={doc} />
-            <div className={classes.discountedPrize}>{doc.discountedPrice}</div>
+            {discountedPrice > 0 && (
+              <div className={classes.discountedPrice}>{discountedPrice}</div>
+            )}
           </div>
           <AddToCartButton product={doc} />
         </div>
