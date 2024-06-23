@@ -1,0 +1,36 @@
+.attributeSelect {
+    margin-bottom: 20px;
+  
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+  
+    .select {
+      width: 60%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+  
+    
+  }
+  .colorOptions {
+    display: flex;
+    gap: 0.5rem; // Adjust the gap between color options as needed
+    margin-bottom: 1rem;
+  }
+  
+  .colorOption {
+    width: 30px; // Adjust the width as needed
+    height: 30px; // Adjust the height as needed
+    border-radius: 50%; // Make it a circle
+    cursor: pointer;
+    border: 2px solid transparent; // Add border for selected state
+  
+    &.selected {
+      border-color: #000; // Change to your desired selected border color
+    }
+  }

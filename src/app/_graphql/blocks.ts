@@ -8,9 +8,7 @@ export const CALL_TO_ACTION = `
   blockType
   invertBackground
   richText
-  links {
-    link ${LINK_FIELDS()}
-  }
+  
 }
 `
 export const CTA_WITH_IMAGE = `
@@ -19,8 +17,6 @@ export const CTA_WITH_IMAGE = `
   invertBackground
   media {
     imagekit {
-      fileId
-      thumbnailUrl
       url
     }
   }
@@ -269,4 +265,22 @@ export const GRIDLAYOUT_ARCHIVE_BLOCK = `
     discountedPrice
   }
 }
+`
+export const FLEX_BANNER_BLOCK = `
+...on FlexBanner {
+  blockType
+  FlexBanners {
+    HorizontalBanners {
+      richText
+      links {
+        link ${LINK_FIELDS()}
+      }
+      media {
+        imagekit {
+          url
+        }
+      }
+    }
+  }
+ }
 `

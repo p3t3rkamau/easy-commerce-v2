@@ -28,15 +28,12 @@ const CallToActionWithImageBlock: React.FC<
           <Media resource={media} imgClassName={classes.Image} />
         </div>
         <div className={classes.content}>
-          {/* Hello How are You am Test Block */}
           <RichText className={classes.richText} content={richText} />
         </div>
         <div className={classes.linkGroup}>
           {(links || []).map(({ link }, i) => {
             return <CMSLink key={i} {...link} invert={invertBackground} />
           })}
-          {/* <Button el="link" href="/products" label="Explore" appearance="secondary" />
-          <Button el="link" href="/products" label="Shop Now" appearance="primary" /> */}
         </div>
       </div>
     </VerticalPadding>

@@ -58,10 +58,10 @@ export default async function Orders() {
                   <div className={classes.itemMeta}>
                     <p>
                       {'Total: '}
-                      {new Intl.NumberFormat('en-US', {
+                      {new Intl.NumberFormat('KES', {
                         style: 'currency',
-                        currency: 'usd',
-                      }).format(order.total / 100)}
+                        currency: 'Ksh',
+                      }).format(order.total / 1)}
                     </p>
                     <p className={classes.orderDate}>{`Ordered On: ${formatDateTime(
                       order.createdAt,
@@ -69,7 +69,7 @@ export default async function Orders() {
                   </div>
                 </div>
                 <Button
-                  appearance="default"
+                  appearance="secondary"
                   label="View Order"
                   className={classes.button}
                   el="link"

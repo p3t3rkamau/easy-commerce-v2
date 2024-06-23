@@ -15,6 +15,7 @@ const Reviews: CollectionConfig = {
       type: 'text',
       admin: {
         readOnly: true,
+        hidden: true,
       },
       hooks: {
         beforeChange: [

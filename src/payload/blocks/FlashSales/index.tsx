@@ -70,84 +70,8 @@ export const FlashSales: Block = {
       fields: [
         {
           type: 'checkbox',
-          name: 'StartNow',
-          label: 'Start Now',
-        },
-        {
-          type: 'checkbox',
-          name: 'Schedule',
-          label: 'Schedule',
-        },
-        {
-          type: 'checkbox',
           name: 'CustomReschedule',
-          label: 'Custom Reschedule',
-        },
-      ],
-    },
-    {
-      label: 'Start Now Settings',
-      type: 'collapsible',
-      admin: {
-        condition: (_, siblingData) => siblingData.StartNow,
-      },
-      fields: [
-        {
-          name: 'StartNowBtn',
-          type: 'text',
-          admin: {
-            readOnly: true,
-          },
-        },
-        {
-          name: 'Timer',
-          type: 'text',
-          admin: {
-            description: 'Flash sale will start immediately after saving.',
-            readOnly: true,
-          },
-          hooks: {
-            beforeChange: [
-              ({ data, value }) => {
-                console.log('Data before change in Timer:', data)
-                if (data.StartNow) {
-                  const timer = calculateTimer({
-                    data,
-                    collection: undefined,
-                    context: undefined,
-                    field: undefined,
-                    global: undefined,
-                    req: undefined,
-                    siblingData: undefined,
-                  })
-                  console.log('Calculated timer:', timer)
-                  return timer || value // Ensure we return the existing value if no timer is calculated
-                }
-                return value // Return existing value when StartNow is false
-              },
-            ],
-          },
-        },
-      ],
-    },
-    {
-      label: 'Schedule Settings',
-      type: 'collapsible',
-      admin: {
-        condition: (_, siblingData) => siblingData.Schedule,
-      },
-      fields: [
-        {
-          name: 'ScheduleTime',
-          type: 'select',
-          options: [
-            { label: '1 hour', value: '1h' },
-            { label: '2 hours', value: '2h' },
-            { label: '3 hours', value: '3h' },
-          ],
-          admin: {
-            description: 'Select the duration for the scheduled flash sale.',
-          },
+          label: 'schedule',
         },
       ],
     },
@@ -159,13 +83,23 @@ export const FlashSales: Block = {
       },
       fields: [
         {
-          name: 'CustomSchedule',
+          name: 'StartTime',
           type: 'date',
           admin: {
             date: {
               pickerAppearance: 'dayAndTime',
             },
-            description: 'Select the custom date and time for the flash sale.',
+            description: 'Select the start time for the flash sale.',
+          },
+        },
+        {
+          name: 'EndTime',
+          type: 'date',
+          admin: {
+            date: {
+              pickerAppearance: 'dayAndTime',
+            },
+            description: 'Select the end time for the flash sale.',
           },
         },
       ],

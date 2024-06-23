@@ -64,10 +64,10 @@ export interface Config {
   };
 }
 export interface Page {
-  Categories?: (string | Category)[] | null;
   id: string;
   title: string;
   publishedOn?: string | null;
+  Categories?: (string | Category)[] | null;
   hero: {
     type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact' | 'customHero';
     richText: {
@@ -91,6 +91,50 @@ export interface Page {
         }[]
       | null;
     media?: string | Media | null;
+  };
+  heroImage: {
+    SliderHero: {
+      richText: {
+        [k: string]: unknown;
+      }[];
+      links?:
+        | {
+            link: {
+              type?: ('reference' | 'custom') | null;
+              newTab?: boolean | null;
+              reference?: {
+                relationTo: 'pages';
+                value: string | Page;
+              } | null;
+              url?: string | null;
+              label: string;
+              icon?: string | Media | null;
+              appearance?: ('default' | 'primary' | 'secondary') | null;
+            };
+            id?: string | null;
+          }[]
+        | null;
+      SliderImages?:
+        | {
+            media: string | Media;
+            id?: string | null;
+          }[]
+        | null;
+    };
+    PotraitImage: {
+      media: string | Media;
+    };
+    SideImages?: {
+      Images?:
+        | {
+            richText: {
+              [k: string]: unknown;
+            }[];
+            media: string | Media;
+            id?: string | null;
+          }[]
+        | null;
+    };
   };
   layout: (
     | {
@@ -124,9 +168,11 @@ export interface Page {
         columns?:
           | {
               size?: ('oneThird' | 'half' | 'twoThirds' | 'full') | null;
-              richText: {
-                [k: string]: unknown;
-              }[];
+              RichText?:
+                | {
+                    [k: string]: unknown;
+                  }[]
+                | null;
               enableLink?: boolean | null;
               link?: {
                 type?: ('reference' | 'custom') | null;
@@ -291,13 +337,9 @@ export interface Page {
         BackgroundColor: string;
         TextColor: string;
         selectedDocs?: (string | Product)[] | null;
-        StartNow?: boolean | null;
-        Schedule?: boolean | null;
         CustomReschedule?: boolean | null;
-        StartNowBtn?: string | null;
-        Timer?: string | null;
-        ScheduleTime?: ('1h' | '2h' | '3h') | null;
-        CustomSchedule?: string | null;
+        StartTime?: string | null;
+        EndTime?: string | null;
         id?: string | null;
         blockName?: string | null;
         blockType: 'flash-sales';
@@ -329,35 +371,46 @@ export interface Page {
         blockName?: string | null;
         blockType: 'TopDealsGrid';
       }
-  )[];
-  SlidingImages?:
     | {
-        media: string | Media;
-        Heading: string;
-        Description: string;
+        FlexBanners?: {
+          HorizontalBanners?:
+            | {
+                richText: {
+                  [k: string]: unknown;
+                }[];
+                links?:
+                  | {
+                      link: {
+                        type?: ('reference' | 'custom') | null;
+                        newTab?: boolean | null;
+                        reference?: {
+                          relationTo: 'pages';
+                          value: string | Page;
+                        } | null;
+                        url?: string | null;
+                        label: string;
+                        icon?: string | Media | null;
+                        appearance?: ('default' | 'primary' | 'secondary') | null;
+                      };
+                      id?: string | null;
+                    }[]
+                  | null;
+                media: string | Media;
+                id?: string | null;
+              }[]
+            | null;
+        };
         id?: string | null;
-      }[]
-    | null;
+        blockName?: string | null;
+        blockType: 'FlexBanner';
+      }
+  )[];
   Accordion?:
     | {
         Heading: string;
-        Description: string;
-        navItems?:
-          | {
-              link: {
-                type?: ('reference' | 'custom') | null;
-                newTab?: boolean | null;
-                reference?: {
-                  relationTo: 'pages';
-                  value: string | Page;
-                } | null;
-                url?: string | null;
-                label: string;
-                icon?: string | Media | null;
-              };
-              id?: string | null;
-            }[]
-          | null;
+        Description: {
+          [k: string]: unknown;
+        }[];
         id?: string | null;
       }[]
     | null;
@@ -370,23 +423,6 @@ export interface Page {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
-}
-export interface Media {
-  id: string;
-  alt?: string | null;
-  imagekit?: {
-    fileId?: string | null;
-    thumbnailUrl?: string | null;
-    url?: string | null;
-  };
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
 }
 export interface Category {
   id: string;
@@ -410,8 +446,24 @@ export interface Category {
   updatedAt: string;
   createdAt: string;
 }
+export interface Media {
+  id: string;
+  alt?: string | null;
+  imagekit?: {
+    fileId?: string | null;
+    thumbnailUrl?: string | null;
+    url?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+}
 export interface Product {
-  image: string | Media;
   id: string;
   title: string;
   publishedOn?: string | null;
@@ -448,9 +500,11 @@ export interface Product {
             columns?:
               | {
                   size?: ('oneThird' | 'half' | 'twoThirds' | 'full') | null;
-                  richText: {
-                    [k: string]: unknown;
-                  }[];
+                  RichText?:
+                    | {
+                        [k: string]: unknown;
+                      }[]
+                    | null;
                   enableLink?: boolean | null;
                   link?: {
                     type?: ('reference' | 'custom') | null;
@@ -576,260 +630,6 @@ export interface Product {
         | 'Zesta'
       )
     | null;
-  colors?:
-    | (
-        | 'rgb(255, 0, 0)'
-        | 'rgb(0, 0, 255)'
-        | 'rgb(255, 165, 0)'
-        | 'rgb(255, 215, 0)'
-        | 'rgb(255, 255, 255)'
-        | 'rgb(0, 0, 0)'
-        | 'rgb(0, 128, 0)'
-        | 'rgb(255, 255, 0)'
-        | 'rgb(128, 0, 128)'
-        | 'rgb(255, 192, 203)'
-        | 'rgb(0, 255, 255)'
-        | 'rgb(255, 0, 255)'
-        | 'rgb(0, 255, 0)'
-        | 'rgb(0, 128, 128)'
-        | 'rgb(165, 42, 42)'
-        | 'rgb(0, 0, 128)'
-        | 'rgb(64, 224, 208)'
-        | 'rgb(250, 128, 114)'
-        | 'rgb(75, 0, 130)'
-        | 'rgb(112, 128, 144)'
-        | 'rgb(128, 128, 0)'
-        | 'rgb(70, 130, 180)'
-        | 'rgb(205, 133, 63)'
-        | 'rgb(255, 99, 71)'
-        | 'rgb(85, 107, 47)'
-        | 'rgb(135, 206, 235)'
-        | 'rgb(210, 105, 30)'
-        | 'rgb(160, 82, 45)'
-        | 'rgb(47, 79, 79)'
-        | 'rgb(0, 139, 139)'
-        | 'rgb(128, 0, 0)'
-        | 'rgb(255, 140, 0)'
-        | 'rgb(65, 105, 225)'
-        | 'rgb(219, 112, 147)'
-        | 'rgb(230, 230, 250)'
-        | 'rgb(0, 250, 154)'
-        | 'rgb(184, 134, 11)'
-        | 'rgb(147, 112, 219)'
-        | 'rgb(205, 92, 92)'
-        | 'rgb(0, 206, 209)'
-        | 'rgb(183, 110, 121)'
-        | 'rgb(50, 205, 50)'
-        | 'rgb(255, 105, 180)'
-        | 'rgb(128, 128, 128)'
-        | 'rgb(192, 192, 192)'
-        | 'rgb(255, 255, 240)'
-        | 'rgb(255, 253, 208)'
-        | 'rgb(64, 224, 208)'
-        | 'rgb(0, 0, 255)'
-        | 'rgb(255, 182, 193)'
-        | 'rgb(255, 0, 255)'
-        | 'rgb(255, 255, 255)'
-        | 'rgb(255, 192, 203)'
-        | 'rgb(255, 0, 0)'
-        | 'rgb(255, 255, 255)'
-        | 'rgb(255, 0, 0)'
-        | 'rgb(255, 255, 0)'
-        | 'rgb(0, 0, 0)'
-        | 'rgb(0, 128, 0)'
-        | 'rgb(255, 165, 0)'
-        | 'rgb(255, 192, 203)'
-      )[]
-    | null;
-  size?:
-    | (
-        | '25cm'
-        | '30cm'
-        | '50mm'
-        | '100mm'
-        | '150mm'
-        | '200mm'
-        | '250mm'
-        | '300mm'
-        | '350mm'
-        | '400mm'
-        | '450mm'
-        | '500mm'
-        | '550mm'
-        | '600mm'
-        | '650mm'
-        | '700mm'
-        | '750mm'
-        | '800mm'
-        | '850mm'
-        | '900mm'
-        | '950mm'
-        | '1000mm'
-        | '850mm'
-        | '900mm'
-        | '950mm'
-        | '1000mm'
-        | 'small'
-        | 'medium'
-        | 'large'
-        | 'Forever_Leaves_10'
-        | 'Forever_Leaves_A'
-        | 'Forever_Leaves_FID_5687'
-        | 'ST_5687'
-        | 'ST_5685'
-        | 'ST_5691'
-        | 'Bohemian_Pattern_06'
-        | 'Harvest_1'
-        | 'No_8'
-        | 'No_5'
-        | 'No_7'
-        | 'No_17'
-        | 'No_18'
-        | '50pcs'
-        | '100pcs'
-        | '500pcs'
-        | '1000 pcs'
-        | '4_Hole_Plastic_Cupcake_Containers'
-        | '12_Hole_Plastic_Cupcake_Containers'
-        | '6_Hole_Plastic_Cupcake_Containers'
-        | '24_Hole_Plastic_Cupcake_Containers'
-        | '10x15'
-        | '12x20'
-        | '14x20'
-        | '17x24'
-        | '18x26'
-        | '20x30'
-        | '0.1 Inch'
-        | '1 Inch'
-        | '4 Inch'
-        | '5 Inch'
-        | '6 Inch'
-        | '8 Inch'
-        | '10 Inch'
-        | '12 Inch'
-        | '14 Inch'
-        | '16 Inch'
-        | '18 Inch'
-        | '20 Inch'
-        | 'White_10_Inch'
-        | 'Peach_10_Inch'
-        | 'Turquoise_10_Inch'
-        | 'Black_10_Inch'
-        | 'White_12_Inch'
-        | 'Turquoise_12_Inch'
-        | '8x4'
-        | '10x4'
-        | '10x5'
-        | '12x4'
-        | '12x5'
-        | '4.5x4.5x2'
-        | '4.5x4.5x3'
-        | '5x5x4'
-        | '6x6x4'
-        | '8x8x4'
-        | '10x10x4'
-        | '10x10x5'
-        | '11x11x4'
-        | '12x12x4'
-        | '12x12x5'
-        | '14x14x4'
-        | '14x14x5'
-        | '16x16x4_Fold_2'
-        | '16x16x5_Fold_1'
-        | '10x10'
-        | '12x12'
-        | '14x14'
-        | '16x16'
-        | '18x18'
-        | '20x20'
-        | '10x10x10_Window'
-        | '10x10x10_Plain'
-        | '12x12x12_Window'
-        | '12x12x12_Plain'
-        | '10x10x12_1kg'
-        | '12x12x12_2kg'
-        | '14x14x14_3kg'
-        | '12x12x5_Blue'
-        | '12x12x5_Pink'
-        | '12x12x5_Green'
-        | '10x10x5_Polka_Green'
-        | '10x10x5_Polka_Blue'
-        | '10x10x5_Polka_Pink'
-        | '10.5x10.5x10'
-        | '12.5x12.5x12'
-        | '14x14x16'
-        | '15x15x16'
-        | '18x18x18'
-        | '10x10x5'
-        | '12x12x5'
-        | '14x14x5'
-        | '16x16x5'
-        | '18x18x5'
-        | '4x4x4'
-        | '6x4x4'
-        | '8x4x4'
-        | '10x4x4'
-        | '12x4x4'
-        | '14x4x4'
-        | '16x4x4'
-      )[]
-    | null;
-  volumeAndWeight?:
-    | (
-        | '50ml'
-        | '100ml'
-        | '150ml'
-        | '200ml'
-        | '250ml'
-        | '300ml'
-        | '350ml'
-        | '400ml'
-        | '450ml'
-        | '500ml'
-        | '550ml'
-        | '600ml'
-        | '650ml'
-        | '700ml'
-        | '750ml'
-        | '800ml'
-        | '850ml'
-        | '900ml'
-        | '950ml'
-        | '1000ml'
-        | '100g'
-        | '120g'
-        | '15g'
-        | '1kg'
-        | '2.5kg'
-        | '250g'
-        | '38g'
-        | '40g'
-        | '45g'
-        | '5kg'
-        | '500g'
-        | '80g'
-        | '90g'
-        | '1kg'
-        | '2kg'
-        | '3kg'
-        | '4kg'
-        | '5kg'
-        | '10kg'
-        | '15kg'
-        | '20kg'
-        | 'Orange Emulsion (50 ml)'
-        | 'Orange Emulsion (240 ml)'
-        | 'Red Velvet (50 ml)'
-        | 'Red Velvet (240 ml)'
-        | 'Blueberry (240 ml)'
-        | 'Hot Pink (50 ml)'
-        | 'Royal Blue (50 ml)'
-        | 'Fondant Black (50 ml)'
-        | 'Orange Liquid Food Color (50 ml)'
-      )[]
-    | null;
-  rating?: number | null;
-  number_reviews?: number | null;
   Reviews?: (string | Review)[] | null;
   meta?: {
     title?: string | null;
@@ -908,9 +708,11 @@ export interface Post {
         columns?:
           | {
               size?: ('oneThird' | 'half' | 'twoThirds' | 'full') | null;
-              richText: {
-                [k: string]: unknown;
-              }[];
+              RichText?:
+                | {
+                    [k: string]: unknown;
+                  }[]
+                | null;
               enableLink?: boolean | null;
               link?: {
                 type?: ('reference' | 'custom') | null;
@@ -986,6 +788,128 @@ export interface Post {
         id?: string | null;
         blockName?: string | null;
         blockType: 'contentMedia';
+      }
+    | {
+        invertBackground?: boolean | null;
+        richText: {
+          [k: string]: unknown;
+        }[];
+        media: string | Media;
+        links?:
+          | {
+              link: {
+                type?: ('reference' | 'custom') | null;
+                newTab?: boolean | null;
+                reference?: {
+                  relationTo: 'pages';
+                  value: string | Page;
+                } | null;
+                url?: string | null;
+                label: string;
+                icon?: string | Media | null;
+                appearance?: ('primary' | 'secondary') | null;
+              };
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'CtaWithImage';
+      }
+    | {
+        mediaContentFields?: {
+          MoreImages?:
+            | {
+                Images?: {
+                  type?: ('TwoImages' | 'ThreeImages' | 'FourImages') | null;
+                  TwoImages?:
+                    | {
+                        media: string | Media;
+                        id?: string | null;
+                      }[]
+                    | null;
+                  TrippleImages?:
+                    | {
+                        media: string | Media;
+                        id?: string | null;
+                      }[]
+                    | null;
+                  FourImages?:
+                    | {
+                        media: string | Media;
+                        id?: string | null;
+                      }[]
+                    | null;
+                };
+                id?: string | null;
+              }[]
+            | null;
+        };
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'DoubleMediaContent';
+      }
+    | {
+        Heading: string;
+        BackgroundColor: string;
+        TextColor: string;
+        NewTag?: boolean | null;
+        CustomTag?: string | null;
+        selectedDocs?: (string | Product)[] | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'products-slider';
+      }
+    | {
+        selectedDocs?: (string | Product)[] | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'recommended';
+      }
+    | {
+        selectedDocs?: (string | Product)[] | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'last-viewed';
+      }
+    | {
+        Heading: string;
+        BackgroundColor: string;
+        TextColor: string;
+        selectedDocs?: (string | Product)[] | null;
+        CustomReschedule?: boolean | null;
+        StartTime?: string | null;
+        EndTime?: string | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'flash-sales';
+      }
+    | {
+        Heading: string;
+        BackgroundColor: string;
+        TextColor: string;
+        selectedDocs?: (string | Product)[] | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'Event-Archive';
+      }
+    | {
+        Heading: string;
+        BackgroundColor: string;
+        TextColor: string;
+        selectedDocs?: (string | Product)[] | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'Deals-archive';
+      }
+    | {
+        Heading: string;
+        BackgroundColor: string;
+        TextColor: string;
+        selectedDocs?: (string | Product)[] | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'TopDealsGrid';
       }
   )[];
   relatedPosts?: (string | Post)[] | null;
@@ -1064,7 +988,6 @@ export interface Review {
 export interface Order {
   id: string;
   orderedBy?: (string | null) | User;
-  stripePaymentIntentID?: string | null;
   DeliveryLocation?: (string | null) | DeliveryLocation;
   mpesaTransactionRef?: string | null;
   GenerateReceiptButton?: string | null;

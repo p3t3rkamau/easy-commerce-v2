@@ -13,39 +13,42 @@ export const CheckoutForm: React.FC<{}> = () => {
   const router = useRouter()
   const { cart, cartTotal } = useCart()
 
-  const handleSubmit = useCallback(async () => {
-    try {
-      // Simulate creating an order without payment processing
-      const orderReq = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/orders`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          total: cartTotal.raw,
-          items: (cart?.items || []).map(({ product, quantity }) => ({
-            product: typeof product === 'string' ? product : product.id,
-            quantity,
-            price: typeof product === 'object' ? Price(product.price, 1, true) : undefined,
-          })),
-        }),
-      })
+  const handleSubmit = useCallback(
+    async e => {
+      e.preventDefault()
+      try {
+        // Create an order without payment processing
+        const orderReq = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/orders`, {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            total: cartTotal.raw,
+            items: (cart?.items || []).map(({ product, quantity }) => ({
+              product: typeof product === 'object' ? product.id : product, // Ensure product is properly identified
+              quantity,
+              price: typeof product === 'object' ? product.price : undefined,
+            })),
+          }),
+        })
 
-      if (!orderReq.ok) throw new Error(orderReq.statusText || 'Something went wrong.')
-      console.log(orderReq)
+        if (!orderReq.ok) throw new Error(orderReq.statusText || 'Something went wrong.')
 
-      const { error: errorFromRes, doc }: { message?: string; error?: string; doc: Order } =
-        await orderReq.json()
+        const { error: errorFromRes, doc }: { message?: string; error?: string; doc: Order } =
+          await orderReq.json()
 
-      if (errorFromRes) throw new Error(errorFromRes)
+        if (errorFromRes) throw new Error(errorFromRes)
 
-      router.push(`/order-confirmation?order_id=${doc.id}`)
-    } catch (err) {
-      console.log('Error occurred while creating order:', err) // Log the error message
-      router.push(`/app?error=${encodeURIComponent(err.message)}`)
-    }
-  }, [cart, cartTotal, router])
+        router.push(`/order-confirmation?order_id=${doc.id}`)
+      } catch (err) {
+        console.error('Error occurred while creating order:', err) // Log the error message
+        router.push(`/app?error=${encodeURIComponent(err.message)}`)
+      }
+    },
+    [cart, cartTotal, router],
+  )
 
   return (
     <form onSubmit={handleSubmit} className={classes.form}>

@@ -1,3 +1,4 @@
+import { headers } from 'next/headers'
 import type { Footer, Header, MainMenu, Settings } from '../../payload/payload-types'
 import { FOOTER_QUERY, GLOBALS, HEADER_QUERY, SETTINGS_QUERY } from '../_graphql/globals'
 import { GRAPHQL_API_URL } from './shared'

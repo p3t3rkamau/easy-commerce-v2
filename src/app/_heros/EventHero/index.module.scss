@@ -23,7 +23,7 @@
     height: 100%;
     @include small-break{
       width: 100%;
-      overflow: scroll;
+      
     }
   }
   
@@ -70,8 +70,10 @@
   .subTitle {
     font-size: 1rem;
     margin-top: 10px;
+    text-align: center;
     @include small-break{
       font-size: 10px;
+      
     }
   }
   

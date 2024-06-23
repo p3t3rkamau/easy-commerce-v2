@@ -1,21 +1,29 @@
-'use client'
 import React, { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation' // Update import
+import { useRouter } from 'next/navigation'
 
-import { Product } from '../../../payload/payload-types'
+import { Post, Product } from '../../../payload/payload-types'
 import { useCart } from '../../_providers/Cart'
 import { Button, Props } from '../Button'
 
 import classes from './index.module.scss'
 
 export const AddToCartButton: React.FC<{
-  product: Product
+  product: Product | Post
   quantity?: number
   className?: string
   appearance?: Props['appearance']
-}> = ({ product, quantity = 1, className, appearance = 'primary' }) => {
+  selectedAttributes?: { [key: string]: string }
+  attributePrices?: { [key: string]: number | undefined }
+}> = ({
+  product,
+  quantity = 1,
+  className,
+  appearance = 'primary',
+  selectedAttributes,
+  attributePrices,
+}) => {
   const { cart, addItemToCart, isProductInCart, hasInitializedCart } = useCart()
-  const [isInCart, setIsInCart] = useState<boolean>(false) // Initialize as false
+  const [isInCart, setIsInCart] = useState<boolean>(false)
   const router = useRouter()
 
   useEffect(() => {
@@ -23,20 +31,23 @@ export const AddToCartButton: React.FC<{
   }, [isProductInCart, product, cart])
 
   const handleAddToCart = () => {
+    const validatedQuantity = Math.max(1, quantity)  // Ensure quantity is at least 1
     if (!isInCart) {
       addItemToCart({
         product,
-        quantity,
+        quantity: validatedQuantity,
+        selectedAttributes,
+        attributePrices,
       })
       router.push('/cart')
     }
   }
 
-  const isOutOfStock = product.OutOfStock // Corrected casing of outOfStock
+  const isOutOfStock = product.OutOfStock
 
   return (
     <Button
-      href={isInCart ? '/cart' : undefined} // Update href based on isInCart
+      href={isInCart ? '/cart' : undefined}
       type={!isInCart ? 'button' : undefined}
       label={isOutOfStock ? 'Out of Stock' : isInCart ? `✓ View in cart` : `Add to cart`}
       el={isInCart ? 'link' : undefined}
@@ -44,14 +55,14 @@ export const AddToCartButton: React.FC<{
       className={[
         className,
         classes.addToCartButton,
-        appearance === 'default' && isInCart && classes.green,
+        isInCart && classes.green,
         !hasInitializedCart && classes.hidden,
         isOutOfStock ? classes.disabledButton : '',
       ]
         .filter(Boolean)
         .join(' ')}
       onClick={handleAddToCart}
-      disabled={isOutOfStock} // Disable the button if the product is out of stock
+      disabled={isOutOfStock}
     />
   )
 }

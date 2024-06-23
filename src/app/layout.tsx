@@ -7,7 +7,6 @@ import { Footer } from './_components/Footer'
 import { Header } from './_components/Headercopy'
 import SalesTopBar from './_components/SalesTopBar'
 import TopBar from './_components/Topbar'
-// import { HomeCarousel } from './_components/HomeCarousel/HomeCarousel'
 import { Providers } from './_providers'
 import { InitTheme } from './_providers/Theme/InitTheme'
 import { mergeOpenGraph } from './_utilities/mergeOpenGraph'
@@ -30,11 +29,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </head>
       <body className={jost.variable}>
         <Providers>
-          <TopBar />
-          <AdminBar />
-          {/* @ts-expect-error */}
-          <Header />
-          <SalesTopBar />
+          <div className="fixed-top">
+            <AdminBar />
+            <TopBar />
+            {/* @ts-expect-error */}
+            <Header />
+            <SalesTopBar />
+          </div>
           <main className="main">{children}</main>
           {/* @ts-expect-error */}
           <Footer />

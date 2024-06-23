@@ -6,6 +6,7 @@ import {
   DEALS_ARCHIVE_BLOCK,
   EVENT_ARCHIVE_BLOCK,
   FLASHSALES_ARCHIVE_BLOCK,
+  FLEX_BANNER_BLOCK,
   GRIDLAYOUT_ARCHIVE_BLOCK,
   LAST_VIEWED_ARCHIVE_BLOCK,
   MEDIA_BLOCK,
@@ -54,6 +55,8 @@ export const PAGE = `
           ${LAST_VIEWED_ARCHIVE_BLOCK}
           ${RECOMMENDED_ARCHIVE_BLOCK}
           ${GRIDLAYOUT_ARCHIVE_BLOCK}
+          ${FLEX_BANNER_BLOCK}
+          ${CTA_WITH_IMAGE}
         }
         ${META}
         Accordion{
@@ -69,6 +72,38 @@ export const PAGE = `
               url
             }
           }
+        }
+        heroImage {
+          SliderHero {
+            richText
+            links {
+              link ${LINK_FIELDS()}
+            }
+            SliderImages {
+              media {
+                imagekit {
+                  url
+                }
+              }
+            } 
+          }
+          PotraitImage{
+            media {
+              imagekit {
+                url
+              }
+            }
+          }
+          SideImages {
+            Images{
+              richText
+              media {
+                imagekit {
+                  url
+                }
+              }
+            }
+          } 
         }
       }
     }

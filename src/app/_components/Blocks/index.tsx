@@ -25,13 +25,13 @@ const blockComponents = {
   archive: ArchiveBlock,
   relatedProducts: RelatedProducts,
   relatedPosts: RelatedPosts,
+  ctaWithImage: CallToActionWithImage,
   'products-slider': SliderArchiveBlock,
   'Deals-archive': TopDealsArchive,
   'Event-Archive': EventArchiveBlock,
   'flash-sales': FlashDealsArchive,
   recommended: RecommededArchive,
   'last-viewed': LastViewed,
-  ctaWithImage: CallToActionWithImage,
 }
 
 export const Blocks: React.FC<{
@@ -60,7 +60,9 @@ export const Blocks: React.FC<{
 
               // the cta block is containerized, so we don't consider it to be inverted at the block-level
               const blockIsInverted =
-                'invertBackground' in block && blockType !== 'cta' ? block.invertBackground : false
+                'invertBackground' in block && blockType !== 'cta' && blockType !== 'CtaWithImage'
+                  ? block.invertBackground
+                  : false
               const prevBlock = blocks[index - 1]
 
               const prevBlockInverted =

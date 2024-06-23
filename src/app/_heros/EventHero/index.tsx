@@ -1,6 +1,9 @@
+'use client'
 import React from 'react'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import Image from 'next/image'
+
+import { Button } from '../../_components/Button'
 
 import classes from './index.module.scss'
 
@@ -26,7 +29,7 @@ const EventHero: React.FC = () => {
             <span className={classes.text}>Find it all now and don't miss out</span>
           </div>
           <div className={classes.heroButton}>
-            <button>Shop Now</button>
+            <Button el="link" href="/products" label="Shop" appearance="secondary" />
           </div>
         </div>
         <div className={classes.controllers}>

@@ -39,7 +39,7 @@
 
 
       .title {
-        color: #952a96;
+        color: var(--theme-elevation-1000);
         font-family: cursive;
         font-size: 50px;
         font-weight: 800;
@@ -68,7 +68,7 @@
        
 
         &:hover {
-          background-color: #c13e1d;
+          background-color: var(--theme-elevation-100);
           /* Darker shade for hover effect */
         }
       }
@@ -76,7 +76,7 @@
       button {
         padding: 15px 30px;
 
-        background-color: #952a96;
+        background-color: var(--theme-elevation-1000);
         color: white;
         outline: none;
         animation: fadeInUp 1s ease-in-out;
@@ -87,7 +87,6 @@
         }
 
         &:hover {
-          background-color: #c13e1d;
           transition: .3s ease;
         }
 

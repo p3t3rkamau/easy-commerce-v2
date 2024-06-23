@@ -20,6 +20,7 @@ import { generateMeta } from '../../_utilities/generateMeta'
 // If you are not using Payload Cloud then this line can be removed, see `../../../README.md#cache`
 export const dynamic = 'force-dynamic'
 
+import LogoSlider from '../../_components/BrandSlider'
 import ProductGrid from '../../_components/CardGrid/ProductGrid'
 import CategoriesComponent from '../../_components/Categories'
 import ExpandableFloatingActionButton from '../../_components/ChatwidgetComponent/_components/FloatingAction/ExpandableFloatingActionButton'
@@ -82,6 +83,7 @@ export default async function Page({ params: { slug = 'home' } }) {
             disableTopPadding={!hero || hero?.type === 'none' || hero?.type === 'lowImpact'}
           />
           <ProductGrid />
+          <LogoSlider />
           <ExpandableFloatingActionButton />
         </Gutter>
       </section>

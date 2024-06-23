@@ -1,0 +1,61 @@
+.imageSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    border: 1px solid black;
+  
+    .mediaWrapper {
+      position: relative;
+      width: 100%;
+      max-width: 400px; /* Adjust max-width as needed */
+      margin-bottom: 20px;
+      background-color: var(--color-dark-50);
+      .alternativeImage {
+        border-radius: 4px;
+      }
+  
+      .image {
+        display: block;
+        width: 100%;
+        height: auto;
+        border-radius: 4px;
+        transition: transform 0.2s ease-in-out;
+  
+        &.zoomEffect {
+          cursor: pointer;
+  
+          &:hover {
+            transform: scale(1.1);
+          }
+        }
+      }
+    }
+  
+    .smallImagesWrapper {
+      display: flex;
+      flex-wrap: wrap;
+      background-color: var(--color-dark-50);
+      justify-content: center;
+      gap: 10px; /* Adjust gap between small images */
+    }
+  
+    .otherImagesContainer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px; /* Adjust gap between small images */
+    }
+  
+    .SmallImages {
+      border-radius: 4px;
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out;
+  
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  }
+  

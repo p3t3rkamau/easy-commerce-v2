@@ -5,6 +5,7 @@ const policies = {
     'https://ik.imagekit.io/',
     'https://media.giphy.com',
     'https://giphy.com',
+    'https://i.ibb.co',
   ],
   'script-src': [
     "'self'",
@@ -27,6 +28,7 @@ const policies = {
     'https://ik.imagekit.io/',
     'https://giphy.com',
     'https://media.giphy.com',
+    'https://i.ibb.co',
   ],
   'font-src': ["'self'"],
   'frame-src': [
@@ -56,6 +58,7 @@ const policies = {
     'http://translate.google.com',
     'https://giphy.com',
     'https://media.giphy.com',
+    'https://i.ibb.co',
   ],
 }
 

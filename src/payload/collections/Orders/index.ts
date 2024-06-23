@@ -35,17 +35,17 @@ export const Orders: CollectionConfig = {
         beforeChange: [populateOrderedBy],
       },
     },
-    {
-      name: 'stripePaymentIntentID',
-      label: 'Stripe Payment Intent ID',
-      type: 'text',
-      admin: {
-        position: 'sidebar',
-        components: {
-          Field: LinkToPaymentIntent,
-        },
-      },
-    },
+    // {
+    //   name: 'stripePaymentIntentID',
+    //   label: 'Stripe Payment Intent ID',
+    //   type: 'text',
+    //   admin: {
+    //     position: 'sidebar',
+    //     components: {
+    //       Field: LinkToPaymentIntent,
+    //     },
+    //   },
+    // },
     {
       name: 'DeliveryLocation',
       label: 'Delivery Location',

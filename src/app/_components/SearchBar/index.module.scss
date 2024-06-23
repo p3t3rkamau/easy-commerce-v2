@@ -44,7 +44,7 @@
 .searchTerm {
   flex: 1;  // Ensures input takes up available space
   padding: 10px;
-  border: 1px solid rgb(144, 47, 201);
+  border: 1px solid var(--theme-elevation-1000);
   border-right: none;
   border-radius: 5px 0 0 5px;
   outline: none;
@@ -53,14 +53,14 @@
   transition: color 300ms ease;
 
   &:focus {
-    color: rgb(144, 47, 201);
+    color: var(--theme-elevation-1000);
   }
 }
 
 .searchButton {
   width: 40px;
   height: 40px;
-  border: 3px solid rgb(144, 47, 201);
+  border: 3px solid var(--theme-elevation-1000);
   background-color: var(--theme-elevation-1000);
   border-radius: 0 5px 5px 0;
   display: flex;
@@ -70,7 +70,7 @@
   transition: background-color 300ms ease;
 
   &:hover {
-    background-color: rgb(144, 47, 201);
+    background-color: var(--theme-elevation-1000);
   }
 }
 

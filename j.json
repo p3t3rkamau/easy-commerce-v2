@@ -1,0 +1,414 @@
+{
+    "_id": {
+      "$oid": "65c787ac7f6c032665a71dbf"
+    },
+    "title": "Home",
+    "publishedOn": {
+      "$date": "2024-02-10T14:26:52.837Z"
+    },
+    "hero": {
+      "type": "none",
+      "richText": [
+        {
+          "children": [
+            {
+              "text": "Your One Stop ",
+              "bold": true
+            }
+          ],
+          "type": "h2"
+        },
+        {
+          "children": [
+            {
+              "text": "Baking Shop",
+              "bold": true
+            }
+          ],
+          "type": "h2"
+        },
+        {
+          "children": [
+            {
+              "text": "Everything in one"
+            }
+          ]
+        }
+      ],
+      "links": [
+        {
+          "link": {
+            "type": "reference",
+            "reference": {
+              "value": "65c91eba04c1ced46bfdd7a8",
+              "relationTo": "pages"
+            },
+            "label": "Shop Now",
+            "icon": null,
+            "appearance": "primary"
+          },
+          "id": "65c929fd79af1a0f1763d09c"
+        }
+      ],
+      "media": "65ef3e79d0dff2def415c87f"
+    },
+    "layout": [
+      {
+        "richText": [
+          {
+            "children": [
+              {
+                "text": "cta with image"
+              }
+            ]
+          }
+        ],
+        "media": "665d0ddc38fdf781d914c969",
+        "links": [
+          {
+            "link": {
+              "type": "reference",
+              "reference": {
+                "value": "65cfd21f3ef4ee84e91372b9",
+                "relationTo": "pages"
+              },
+              "label": "Posts",
+              "appearance": "primary"
+            },
+            "id": "66744cef9718aadb809cac0e"
+          },
+          {
+            "link": {
+              "type": "reference",
+              "reference": {
+                "value": "65c787ac7f6c032665a71dbf",
+                "relationTo": "pages"
+              },
+              "label": "Home",
+              "appearance": "secondary"
+            },
+            "id": "66744d0f9718aadb809cac0f"
+          }
+        ],
+        "id": "66744cdc9718aadb809cac0d",
+        "blockType": "CtaWithImage"
+      },
+      {
+        "Heading": "New Arrivals",
+        "BackgroundColor": "red",
+        "TextColor": "white",
+        "NewTag": true,
+        "selectedDocs": [
+          "65e08123ef6331dc1ddbffdc",
+          "65c5dee3f58e5dfc175b0e09",
+          "65e0660def6331dc1ddbf0b7",
+          "65e0502cef6331dc1ddbe844",
+          "65e0656fef6331dc1ddbefed",
+          "65e0866fef6331dc1ddc01d8",
+          "65e070aaef6331dc1ddbf320",
+          "65e07fdaef6331dc1ddbfe79"
+        ],
+        "id": "6667fbb14db8af74fda299a0",
+        "blockType": "products-slider"
+      },
+      {
+        "Heading": "March Deals",
+        "BackgroundColor": "orange",
+        "TextColor": "white",
+        "selectedDocs": [
+          "65e08123ef6331dc1ddbffdc",
+          "65c5dee3f58e5dfc175b0e09",
+          "65e0660def6331dc1ddbf0b7",
+          "65e0866fef6331dc1ddc01d8",
+          "65e0502cef6331dc1ddbe844",
+          "65e070aaef6331dc1ddbf320",
+          "65e0656fef6331dc1ddbefed"
+        ],
+        "id": "666b1067db4337035c2d4242",
+        "blockType": "Deals-archive"
+      },
+      {
+        "Heading": "Happy Valentine",
+        "BackgroundColor": "skyblue",
+        "TextColor": "white",
+        "selectedDocs": [
+          "65e08123ef6331dc1ddbffdc",
+          "65e070aaef6331dc1ddbf320",
+          "65e0656fef6331dc1ddbefed",
+          "65e07fdaef6331dc1ddbfe79",
+          "65e05c20ef6331dc1ddbeaca",
+          "65c5d7eaf58e5dfc175b0ca6",
+          "65c5dee3f58e5dfc175b0e09"
+        ],
+        "id": "666b1038db4337035c2d4241",
+        "blockType": "Event-Archive"
+      },
+      {
+        "selectedDocs": [
+          "65e08123ef6331dc1ddbffdc",
+          "65c5dee3f58e5dfc175b0e09",
+          "65e0660def6331dc1ddbf0b7",
+          "65e0866fef6331dc1ddc01d8",
+          "65e0656fef6331dc1ddbefed",
+          "65e0502cef6331dc1ddbe844",
+          "65e070aaef6331dc1ddbf320",
+          "65e05c20ef6331dc1ddbeaca",
+          "65e07fdaef6331dc1ddbfe79"
+        ],
+        "id": "666b0fe6db4337035c2d423e",
+        "blockType": "last-viewed"
+      },
+      {
+        "selectedDocs": [
+          "65e08123ef6331dc1ddbffdc",
+          "65c5dee3f58e5dfc175b0e09",
+          "65e0660def6331dc1ddbf0b7",
+          "65e0502cef6331dc1ddbe844",
+          "65e0866fef6331dc1ddc01d8",
+          "65e0656fef6331dc1ddbefed",
+          "65e070aaef6331dc1ddbf320"
+        ],
+        "id": "666b0fd0db4337035c2d423d",
+        "blockType": "recommended"
+      },
+      {
+        "Heading": "Flash Sales",
+        "BackgroundColor": "blue",
+        "TextColor": "white",
+        "selectedDocs": [
+          "65c5dee3f58e5dfc175b0e09",
+          "65e08123ef6331dc1ddbffdc",
+          "65e0866fef6331dc1ddc01d8",
+          "65e0660def6331dc1ddbf0b7",
+          "65c5d7eaf58e5dfc175b0ca6",
+          "65e0502cef6331dc1ddbe844",
+          "65e0656fef6331dc1ddbefed"
+        ],
+        "CustomReschedule": false,
+        "id": "666b1005db4337035c2d4240",
+        "blockType": "flash-sales"
+      },
+      {
+        "populateBy": "collection",
+        "relationTo": "products",
+        "categories": [
+          "65c7461eff3ea65e4c70ce3b"
+        ],
+        "limit": 10,
+        "id": "65dcd7e501e0f1ed13064985",
+        "blockType": "archive"
+      },
+      {
+        "richText": [
+          {
+            "children": [
+              {
+                "text": "Enjoy This Week Best Deals"
+              }
+            ]
+          }
+        ],
+        "links": [
+          {
+            "link": {
+              "type": "reference",
+              "reference": {
+                "value": "65c91eba04c1ced46bfdd7a8",
+                "relationTo": "pages"
+              },
+              "label": "New Offers",
+              "icon": null,
+              "appearance": "secondary"
+            },
+            "id": "65cdafff028e2d36e1dbd599"
+          }
+        ],
+        "id": "65cdaee9028e2d36e1dbd598",
+        "blockType": "cta"
+      },
+      {
+        "populateBy": "collection",
+        "relationTo": "products",
+        "categories": [
+          "65c73f02ff3ea65e4c70cdeb"
+        ],
+        "limit": 20,
+        "id": "65ea7096569fecda8d861f11",
+        "blockType": "archive"
+      },
+      {
+        "Heading": "Shop Now",
+        "BackgroundColor": "blue",
+        "TextColor": "white",
+        "selectedDocs": [
+          "65e08123ef6331dc1ddbffdc",
+          "65c5dee3f58e5dfc175b0e09",
+          "65e0660def6331dc1ddbf0b7",
+          "65e0866fef6331dc1ddc01d8",
+          "65e0502cef6331dc1ddbe844",
+          "65e0656fef6331dc1ddbefed",
+          "65e070aaef6331dc1ddbf320",
+          "65e07fdaef6331dc1ddbfe79",
+          "65e05c20ef6331dc1ddbeaca",
+          "65c5d7eaf58e5dfc175b0ca6"
+        ],
+        "id": "666e8baea0f01e51e1d1f51a",
+        "blockType": "TopDealsGrid"
+      },
+      {
+        "FlexBanners": {
+          "HorizontalBanners": [
+            {
+              "richText": [
+                {
+                  "children": [
+                    {
+                      "text": "hello banner"
+                    }
+                  ]
+                }
+              ],
+              "links": [
+                {
+                  "link": {
+                    "type": "reference",
+                    "reference": {
+                      "value": "65c787ac7f6c032665a71dbf",
+                      "relationTo": "pages"
+                    },
+                    "label": "Explore",
+                    "appearance": "primary"
+                  },
+                  "id": "6674856d7166bc4e60709a82"
+                }
+              ],
+              "media": "665d0ddc38fdf781d914c969",
+              "id": "6674850c7166bc4e60709a7f"
+            },
+            {
+              "richText": [
+                {
+                  "children": [
+                    {
+                      "text": "second banner"
+                    }
+                  ]
+                }
+              ],
+              "links": [
+                {
+                  "link": {
+                    "type": "reference",
+                    "reference": {
+                      "value": "65c787ac7f6c032665a71dbf",
+                      "relationTo": "pages"
+                    },
+                    "label": "shop now",
+                    "appearance": "primary"
+                  },
+                  "id": "667485517166bc4e60709a81"
+                }
+              ],
+              "media": "665d048b337ade9535c22f01",
+              "id": "6674853c7166bc4e60709a80"
+            }
+          ]
+        },
+        "id": "667485077166bc4e60709a7e",
+        "blockType": "FlexBanner"
+      }
+    ],
+    "slug": "home",
+    "meta": {
+      "title": {
+        "en": "Home"
+      },
+      "description": {
+        "en": "Your One Stop \nBaking Shop\nEverything in one\n"
+      },
+      "image": {
+        "en": null
+      }
+    },
+    "_status": "published",
+    "createdAt": {
+      "$date": "2024-02-10T14:26:52.875Z"
+    },
+    "updatedAt": {
+      "$date": "2024-06-22T06:57:17.023Z"
+    },
+    "__v": 0,
+    "Accordion": [],
+    "SlidingImages": [],
+    "heroImage": {
+      "SliderHero": {
+        "richText": [
+          {
+            "children": [
+              {
+                "text": "Hero text"
+              }
+            ]
+          }
+        ],
+        "links": [],
+        "SliderImages": [
+          {
+            "media": "665d0ddc38fdf781d914c969",
+            "id": "667486577166bc4e60709a84"
+          },
+          {
+            "media": "665d048b337ade9535c22f01",
+            "id": "6674865d7166bc4e60709a85"
+          }
+        ]
+      },
+      "PotraitImage": {
+        "media": "665d0ddc38fdf781d914c969"
+      },
+      "SideImages": {
+        "Images": [
+          {
+            "richText": [
+              {
+                "children": [
+                  {
+                    "text": "side images example"
+                  }
+                ]
+              }
+            ],
+            "media": "665d046d337ade9535c22edb",
+            "id": "667486787166bc4e60709a86"
+          },
+          {
+            "richText": [
+              {
+                "children": [
+                  {
+                    "text": "image two"
+                  }
+                ]
+              }
+            ],
+            "media": "665d044f337ade9535c22eb5",
+            "id": "6674868c7166bc4e60709a87"
+          }
+        ]
+      }
+    },
+    "Categories": [
+      "65c73f02ff3ea65e4c70cdeb",
+      "65c746a9ff3ea65e4c70ce63",
+      "65c6f2c7aa5034f473d7c925",
+      "65c73f11ff3ea65e4c70cdff",
+      "65d95ca6ff9eaddbb47688c5",
+      "65d95cc1ff9eaddbb47688eb",
+      "65c73a8eff3ea65e4c70cdd1",
+      "65c74685ff3ea65e4c70ce4f",
+      "65e05c87ef6331dc1ddbeb54",
+      "65c745f8ff3ea65e4c70ce27",
+      "65d95cd0ff9eaddbb4768911",
+      "65c745c5ff3ea65e4c70ce13"
+    ]
+  }

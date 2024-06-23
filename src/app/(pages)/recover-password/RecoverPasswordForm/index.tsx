@@ -64,7 +64,7 @@ export const RecoverPasswordForm: React.FC = () => {
             />
             <Button
               type="submit"
-              appearance="primary"
+              appearance="secondary"
               label="Recover Password"
               className={classes.submit}
             />
@@ -73,7 +73,7 @@ export const RecoverPasswordForm: React.FC = () => {
       )}
       {success && (
         <React.Fragment>
-          <h1>Request submitted</h1>
+          <h4 className={classes.submitText}>Request submitted</h4>
           <p>Check your email for a link that will allow you to securely reset your password.</p>
         </React.Fragment>
       )}

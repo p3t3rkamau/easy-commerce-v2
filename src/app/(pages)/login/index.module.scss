@@ -2,16 +2,13 @@
 
 .login {
   display: grid;
-  grid-template-columns: 1fr 45%;
-  height: 100vh;
-
-  @include mid-break {
+ 
     grid-template-columns: 1fr;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-image: url('/assets/images/image-1.svg');
-  }
+
+  
 
   p {
     color: var(--color-gray-500);
@@ -21,6 +18,7 @@
 .formTitle {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 16px;
   width: 100%;
 
@@ -35,20 +33,20 @@
 
 }
 
-.heroImg {
-  height: 100%;
-  width: 100%;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-image: url('/assets/images/image-1.svg');
+// .heroImg {
+//   height: 100%;
+//   width: 100%;
+//   background-size: cover;
+//   background-repeat: no-repeat;
+//   background-position: center;
+//   background-image: url('/assets/images/image-1.svg');
 
-  @include mid-break {
-    background: none;
-    display: flex;
-    justify-content: center;
-  }
-}
+//   @include mid-break {
+//     background: none;
+//     display: flex;
+//     justify-content: center;
+//   }
+// }
 
 // .logo {
 //   margin: 60px;

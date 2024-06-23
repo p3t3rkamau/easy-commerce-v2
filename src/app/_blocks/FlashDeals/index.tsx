@@ -17,8 +17,8 @@ const FlashDealsArchive: React.FC<FlashDealsBlock & { className?: string }> = pr
   useEffect(() => {
     const fetchFlashSaleTimes = async () => {
       // Replace this with actual fetch from your database
-      const startTime = new Date('2024-06-17T12:00:00Z') // example start time
-      const endTime = new Date('2024-06-17T18:00:00Z') // example end time
+      const startTime = new Date('2024-06-17T12:00:00Z')
+      const endTime = new Date('2024-06-17T18:00:00Z')
 
       const updateRemainingTime = () => {
         const now = new Date()

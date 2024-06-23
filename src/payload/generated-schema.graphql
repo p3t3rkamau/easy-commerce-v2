@@ -375,11 +375,6 @@ type Product {
   OutOfStock: Boolean
   skipSync: Boolean
   brands: Product_brands
-  colors: [Product_colors!]
-  size: [Product_size!]
-  volumeAndWeight: [Product_volumeAndWeight!]
-  rating: Float
-  number_reviews: Float
   Reviews(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Review!]
   meta: Product_Meta
   updatedAt: DateTime
@@ -3150,22 +3145,12 @@ type FlashSales {
   BackgroundColor: String
   TextColor: String
   selectedDocs(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Product!]
-  StartNow: Boolean
-  Schedule: Boolean
   CustomReschedule: Boolean
-  StartNowBtn: String
-  Timer: String
-  ScheduleTime: FlashSales_ScheduleTime
-  CustomSchedule: DateTime
+  StartTime: DateTime
+  EndTime: DateTime
   id: String
   blockName: String
   blockType: String
-}
-
-enum FlashSales_ScheduleTime {
-  _1h
-  _2h
-  _3h
 }
 
 type EventArchive {
@@ -3674,233 +3659,6 @@ enum Product_brands {
   Wilton
   Zeelandia
   Zesta
-}
-
-enum Product_colors {
-  rgb_255_0_0_
-  rgb_0_0_255_
-  rgb_255_165_0_
-  rgb_255_215_0_
-  rgb_255_255_255_
-  rgb_0_0_0_
-  rgb_0_128_0_
-  rgb_255_255_0_
-  rgb_128_0_128_
-  rgb_255_192_203_
-  rgb_0_255_255_
-  rgb_255_0_255_
-  rgb_0_255_0_
-  rgb_0_128_128_
-  rgb_165_42_42_
-  rgb_0_0_128_
-  rgb_64_224_208_
-  rgb_250_128_114_
-  rgb_75_0_130_
-  rgb_112_128_144_
-  rgb_128_128_0_
-  rgb_70_130_180_
-  rgb_205_133_63_
-  rgb_255_99_71_
-  rgb_85_107_47_
-  rgb_135_206_235_
-  rgb_210_105_30_
-  rgb_160_82_45_
-  rgb_47_79_79_
-  rgb_0_139_139_
-  rgb_128_0_0_
-  rgb_255_140_0_
-  rgb_65_105_225_
-  rgb_219_112_147_
-  rgb_230_230_250_
-  rgb_0_250_154_
-  rgb_184_134_11_
-  rgb_147_112_219_
-  rgb_205_92_92_
-  rgb_0_206_209_
-  rgb_183_110_121_
-  rgb_50_205_50_
-  rgb_255_105_180_
-  rgb_128_128_128_
-  rgb_192_192_192_
-  rgb_255_255_240_
-  rgb_255_253_208_
-  rgb_255_182_193_
-}
-
-enum Product_size {
-  _25cm
-  _30cm
-  _50mm
-  _100mm
-  _150mm
-  _200mm
-  _250mm
-  _300mm
-  _350mm
-  _400mm
-  _450mm
-  _500mm
-  _550mm
-  _600mm
-  _650mm
-  _700mm
-  _750mm
-  _800mm
-  _850mm
-  _900mm
-  _950mm
-  _1000mm
-  small
-  medium
-  large
-  Forever_Leaves_10
-  Forever_Leaves_A
-  Forever_Leaves_FID_5687
-  ST_5687
-  ST_5685
-  ST_5691
-  Bohemian_Pattern_06
-  Harvest_1
-  No_8
-  No_5
-  No_7
-  No_17
-  No_18
-  _50pcs
-  _100pcs
-  _500pcs
-  _1000pcs
-  _4_Hole_Plastic_Cupcake_Containers
-  _12_Hole_Plastic_Cupcake_Containers
-  _6_Hole_Plastic_Cupcake_Containers
-  _24_Hole_Plastic_Cupcake_Containers
-  _10x15
-  _12x20
-  _14x20
-  _17x24
-  _18x26
-  _20x30
-  _0_1Inch
-  _1Inch
-  _4Inch
-  _5Inch
-  _6Inch
-  _8Inch
-  _10Inch
-  _12Inch
-  _14Inch
-  _16Inch
-  _18Inch
-  _20Inch
-  White_10_Inch
-  Peach_10_Inch
-  Turquoise_10_Inch
-  Black_10_Inch
-  White_12_Inch
-  Turquoise_12_Inch
-  _8x4
-  _10x4
-  _10x5
-  _12x4
-  _12x5
-  _4_5x4_5x2
-  _4_5x4_5x3
-  _5x5x4
-  _6x6x4
-  _8x8x4
-  _10x10x4
-  _10x10x5
-  _11x11x4
-  _12x12x4
-  _12x12x5
-  _14x14x4
-  _14x14x5
-  _16x16x4_Fold_2
-  _16x16x5_Fold_1
-  _10x10
-  _12x12
-  _14x14
-  _16x16
-  _18x18
-  _20x20
-  _10x10x10_Window
-  _10x10x10_Plain
-  _12x12x12_Window
-  _12x12x12_Plain
-  _10x10x12_1kg
-  _12x12x12_2kg
-  _14x14x14_3kg
-  _12x12x5_Blue
-  _12x12x5_Pink
-  _12x12x5_Green
-  _10x10x5_Polka_Green
-  _10x10x5_Polka_Blue
-  _10x10x5_Polka_Pink
-  _10_5x10_5x10
-  _12_5x12_5x12
-  _14x14x16
-  _15x15x16
-  _18x18x18
-  _16x16x5
-  _18x18x5
-  _4x4x4
-  _6x4x4
-  _8x4x4
-  _10x4x4
-  _12x4x4
-  _14x4x4
-  _16x4x4
-}
-
-enum Product_volumeAndWeight {
-  _50ml
-  _100ml
-  _150ml
-  _200ml
-  _250ml
-  _300ml
-  _350ml
-  _400ml
-  _450ml
-  _500ml
-  _550ml
-  _600ml
-  _650ml
-  _700ml
-  _750ml
-  _800ml
-  _850ml
-  _900ml
-  _950ml
-  _1000ml
-  _100g
-  _120g
-  _15g
-  _1kg
-  _2_5kg
-  _250g
-  _38g
-  _40g
-  _45g
-  _5kg
-  _500g
-  _80g
-  _90g
-  _2kg
-  _3kg
-  _4kg
-  _10kg
-  _15kg
-  _20kg
-  OrangeEmulsion_50ml_
-  OrangeEmulsion_240ml_
-  RedVelvet_50ml_
-  RedVelvet_240ml_
-  Blueberry_240ml_
-  HotPink_50ml_
-  RoyalBlue_50ml_
-  FondantBlack_50ml_
-  OrangeLiquidFoodColor_50ml_
 }
 
 type Review {
@@ -10152,11 +9910,6 @@ input Product_where {
   OutOfStock: Product_OutOfStock_operator
   skipSync: Product_skipSync_operator
   brands: Product_brands_operator
-  colors: Product_colors_operator
-  size: Product_size_operator
-  volumeAndWeight: Product_volumeAndWeight_operator
-  rating: Product_rating_operator
-  number_reviews: Product_number_reviews_operator
   Reviews: Product_Reviews_operator
   meta__title: Product_meta__title_operator
   meta__description: Product_meta__description_operator
@@ -10344,280 +10097,6 @@ enum Product_brands_Input {
   Zesta
 }
 
-input Product_colors_operator {
-  equals: Product_colors_Input
-  not_equals: Product_colors_Input
-  in: [Product_colors_Input]
-  not_in: [Product_colors_Input]
-  all: [Product_colors_Input]
-  exists: Boolean
-}
-
-enum Product_colors_Input {
-  rgb_255_0_0_
-  rgb_0_0_255_
-  rgb_255_165_0_
-  rgb_255_215_0_
-  rgb_255_255_255_
-  rgb_0_0_0_
-  rgb_0_128_0_
-  rgb_255_255_0_
-  rgb_128_0_128_
-  rgb_255_192_203_
-  rgb_0_255_255_
-  rgb_255_0_255_
-  rgb_0_255_0_
-  rgb_0_128_128_
-  rgb_165_42_42_
-  rgb_0_0_128_
-  rgb_64_224_208_
-  rgb_250_128_114_
-  rgb_75_0_130_
-  rgb_112_128_144_
-  rgb_128_128_0_
-  rgb_70_130_180_
-  rgb_205_133_63_
-  rgb_255_99_71_
-  rgb_85_107_47_
-  rgb_135_206_235_
-  rgb_210_105_30_
-  rgb_160_82_45_
-  rgb_47_79_79_
-  rgb_0_139_139_
-  rgb_128_0_0_
-  rgb_255_140_0_
-  rgb_65_105_225_
-  rgb_219_112_147_
-  rgb_230_230_250_
-  rgb_0_250_154_
-  rgb_184_134_11_
-  rgb_147_112_219_
-  rgb_205_92_92_
-  rgb_0_206_209_
-  rgb_183_110_121_
-  rgb_50_205_50_
-  rgb_255_105_180_
-  rgb_128_128_128_
-  rgb_192_192_192_
-  rgb_255_255_240_
-  rgb_255_253_208_
-  rgb_255_182_193_
-}
-
-input Product_size_operator {
-  equals: Product_size_Input
-  not_equals: Product_size_Input
-  in: [Product_size_Input]
-  not_in: [Product_size_Input]
-  all: [Product_size_Input]
-  exists: Boolean
-}
-
-enum Product_size_Input {
-  _25cm
-  _30cm
-  _50mm
-  _100mm
-  _150mm
-  _200mm
-  _250mm
-  _300mm
-  _350mm
-  _400mm
-  _450mm
-  _500mm
-  _550mm
-  _600mm
-  _650mm
-  _700mm
-  _750mm
-  _800mm
-  _850mm
-  _900mm
-  _950mm
-  _1000mm
-  small
-  medium
-  large
-  Forever_Leaves_10
-  Forever_Leaves_A
-  Forever_Leaves_FID_5687
-  ST_5687
-  ST_5685
-  ST_5691
-  Bohemian_Pattern_06
-  Harvest_1
-  No_8
-  No_5
-  No_7
-  No_17
-  No_18
-  _50pcs
-  _100pcs
-  _500pcs
-  _1000pcs
-  _4_Hole_Plastic_Cupcake_Containers
-  _12_Hole_Plastic_Cupcake_Containers
-  _6_Hole_Plastic_Cupcake_Containers
-  _24_Hole_Plastic_Cupcake_Containers
-  _10x15
-  _12x20
-  _14x20
-  _17x24
-  _18x26
-  _20x30
-  _0_1Inch
-  _1Inch
-  _4Inch
-  _5Inch
-  _6Inch
-  _8Inch
-  _10Inch
-  _12Inch
-  _14Inch
-  _16Inch
-  _18Inch
-  _20Inch
-  White_10_Inch
-  Peach_10_Inch
-  Turquoise_10_Inch
-  Black_10_Inch
-  White_12_Inch
-  Turquoise_12_Inch
-  _8x4
-  _10x4
-  _10x5
-  _12x4
-  _12x5
-  _4_5x4_5x2
-  _4_5x4_5x3
-  _5x5x4
-  _6x6x4
-  _8x8x4
-  _10x10x4
-  _10x10x5
-  _11x11x4
-  _12x12x4
-  _12x12x5
-  _14x14x4
-  _14x14x5
-  _16x16x4_Fold_2
-  _16x16x5_Fold_1
-  _10x10
-  _12x12
-  _14x14
-  _16x16
-  _18x18
-  _20x20
-  _10x10x10_Window
-  _10x10x10_Plain
-  _12x12x12_Window
-  _12x12x12_Plain
-  _10x10x12_1kg
-  _12x12x12_2kg
-  _14x14x14_3kg
-  _12x12x5_Blue
-  _12x12x5_Pink
-  _12x12x5_Green
-  _10x10x5_Polka_Green
-  _10x10x5_Polka_Blue
-  _10x10x5_Polka_Pink
-  _10_5x10_5x10
-  _12_5x12_5x12
-  _14x14x16
-  _15x15x16
-  _18x18x18
-  _16x16x5
-  _18x18x5
-  _4x4x4
-  _6x4x4
-  _8x4x4
-  _10x4x4
-  _12x4x4
-  _14x4x4
-  _16x4x4
-}
-
-input Product_volumeAndWeight_operator {
-  equals: Product_volumeAndWeight_Input
-  not_equals: Product_volumeAndWeight_Input
-  in: [Product_volumeAndWeight_Input]
-  not_in: [Product_volumeAndWeight_Input]
-  all: [Product_volumeAndWeight_Input]
-  exists: Boolean
-}
-
-enum Product_volumeAndWeight_Input {
-  _50ml
-  _100ml
-  _150ml
-  _200ml
-  _250ml
-  _300ml
-  _350ml
-  _400ml
-  _450ml
-  _500ml
-  _550ml
-  _600ml
-  _650ml
-  _700ml
-  _750ml
-  _800ml
-  _850ml
-  _900ml
-  _950ml
-  _1000ml
-  _100g
-  _120g
-  _15g
-  _1kg
-  _2_5kg
-  _250g
-  _38g
-  _40g
-  _45g
-  _5kg
-  _500g
-  _80g
-  _90g
-  _2kg
-  _3kg
-  _4kg
-  _10kg
-  _15kg
-  _20kg
-  OrangeEmulsion_50ml_
-  OrangeEmulsion_240ml_
-  RedVelvet_50ml_
-  RedVelvet_240ml_
-  Blueberry_240ml_
-  HotPink_50ml_
-  RoyalBlue_50ml_
-  FondantBlack_50ml_
-  OrangeLiquidFoodColor_50ml_
-}
-
-input Product_rating_operator {
-  equals: Float
-  not_equals: Float
-  greater_than_equal: Float
-  greater_than: Float
-  less_than_equal: Float
-  less_than: Float
-  exists: Boolean
-}
-
-input Product_number_reviews_operator {
-  equals: Float
-  not_equals: Float
-  greater_than_equal: Float
-  greater_than: Float
-  less_than_equal: Float
-  less_than: Float
-  exists: Boolean
-}
-
 input Product_Reviews_operator {
   equals: JSON
   not_equals: JSON
@@ -10715,11 +10194,6 @@ input Product_where_and {
   OutOfStock: Product_OutOfStock_operator
   skipSync: Product_skipSync_operator
   brands: Product_brands_operator
-  colors: Product_colors_operator
-  size: Product_size_operator
-  volumeAndWeight: Product_volumeAndWeight_operator
-  rating: Product_rating_operator
-  number_reviews: Product_number_reviews_operator
   Reviews: Product_Reviews_operator
   meta__title: Product_meta__title_operator
   meta__description: Product_meta__description_operator
@@ -10748,11 +10222,6 @@ input Product_where_or {
   OutOfStock: Product_OutOfStock_operator
   skipSync: Product_skipSync_operator
   brands: Product_brands_operator
-  colors: Product_colors_operator
-  size: Product_size_operator
-  volumeAndWeight: Product_volumeAndWeight_operator
-  rating: Product_rating_operator
-  number_reviews: Product_number_reviews_operator
   Reviews: Product_Reviews_operator
   meta__title: Product_meta__title_operator
   meta__description: Product_meta__description_operator
@@ -10790,11 +10259,6 @@ type ProductsDocAccessFields {
   OutOfStock: ProductsDocAccessFields_OutOfStock
   skipSync: ProductsDocAccessFields_skipSync
   brands: ProductsDocAccessFields_brands
-  colors: ProductsDocAccessFields_colors
-  size: ProductsDocAccessFields_size
-  volumeAndWeight: ProductsDocAccessFields_volumeAndWeight
-  rating: ProductsDocAccessFields_rating
-  number_reviews: ProductsDocAccessFields_number_reviews
   Reviews: ProductsDocAccessFields_Reviews
   meta: ProductsDocAccessFields_meta
   updatedAt: ProductsDocAccessFields_updatedAt
@@ -11199,121 +10663,6 @@ type ProductsDocAccessFields_brands_Delete {
   permission: Boolean!
 }
 
-type ProductsDocAccessFields_colors {
-  create: ProductsDocAccessFields_colors_Create
-  read: ProductsDocAccessFields_colors_Read
-  update: ProductsDocAccessFields_colors_Update
-  delete: ProductsDocAccessFields_colors_Delete
-}
-
-type ProductsDocAccessFields_colors_Create {
-  permission: Boolean!
-}
-
-type ProductsDocAccessFields_colors_Read {
-  permission: Boolean!
-}
-
-type ProductsDocAccessFields_colors_Update {
-  permission: Boolean!
-}
-
-type ProductsDocAccessFields_colors_Delete {
-  permission: Boolean!
-}
-
-type ProductsDocAccessFields_size {
-  create: ProductsDocAccessFields_size_Create
-  read: ProductsDocAccessFields_size_Read
-  update: ProductsDocAccessFields_size_Update
-  delete: ProductsDocAccessFields_size_Delete
-}
-
-type ProductsDocAccessFields_size_Create {
-  permission: Boolean!
-}
-
-type ProductsDocAccessFields_size_Read {
-  permission: Boolean!
-}
-
-type ProductsDocAccessFields_size_Update {
-  permission: Boolean!
-}
-
-type ProductsDocAccessFields_size_Delete {
-  permission: Boolean!
-}
-
-type ProductsDocAccessFields_volumeAndWeight {
-  create: ProductsDocAccessFields_volumeAndWeight_Create
-  read: ProductsDocAccessFields_volumeAndWeight_Read
-  update: ProductsDocAccessFields_volumeAndWeight_Update
-  delete: ProductsDocAccessFields_volumeAndWeight_Delete
-}
-
-type ProductsDocAccessFields_volumeAndWeight_Create {
-  permission: Boolean!
-}
-
-type ProductsDocAccessFields_volumeAndWeight_Read {
-  permission: Boolean!
-}
-
-type ProductsDocAccessFields_volumeAndWeight_Update {
-  permission: Boolean!
-}
-
-type ProductsDocAccessFields_volumeAndWeight_Delete {
-  permission: Boolean!
-}
-
-type ProductsDocAccessFields_rating {
-  create: ProductsDocAccessFields_rating_Create
-  read: ProductsDocAccessFields_rating_Read
-  update: ProductsDocAccessFields_rating_Update
-  delete: ProductsDocAccessFields_rating_Delete
-}
-
-type ProductsDocAccessFields_rating_Create {
-  permission: Boolean!
-}
-
-type ProductsDocAccessFields_rating_Read {
-  permission: Boolean!
-}
-
-type ProductsDocAccessFields_rating_Update {
-  permission: Boolean!
-}
-
-type ProductsDocAccessFields_rating_Delete {
-  permission: Boolean!
-}
-
-type ProductsDocAccessFields_number_reviews {
-  create: ProductsDocAccessFields_number_reviews_Create
-  read: ProductsDocAccessFields_number_reviews_Read
-  update: ProductsDocAccessFields_number_reviews_Update
-  delete: ProductsDocAccessFields_number_reviews_Delete
-}
-
-type ProductsDocAccessFields_number_reviews_Create {
-  permission: Boolean!
-}
-
-type ProductsDocAccessFields_number_reviews_Read {
-  permission: Boolean!
-}
-
-type ProductsDocAccessFields_number_reviews_Update {
-  permission: Boolean!
-}
-
-type ProductsDocAccessFields_number_reviews_Delete {
-  permission: Boolean!
-}
-
 type ProductsDocAccessFields_Reviews {
   create: ProductsDocAccessFields_Reviews_Create
   read: ProductsDocAccessFields_Reviews_Read
@@ -11603,11 +10952,6 @@ type ProductVersion_Version {
   OutOfStock: Boolean
   skipSync: Boolean
   brands: ProductVersion_Version_brands
-  colors: [ProductVersion_Version_colors!]
-  size: [ProductVersion_Version_size!]
-  volumeAndWeight: [ProductVersion_Version_volumeAndWeight!]
-  rating: Float
-  number_reviews: Float
   Reviews(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Review!]
   meta: ProductVersion_Version_Meta
   updatedAt: DateTime
@@ -11857,233 +11201,6 @@ enum ProductVersion_Version_brands {
   Zesta
 }
 
-enum ProductVersion_Version_colors {
-  rgb_255_0_0_
-  rgb_0_0_255_
-  rgb_255_165_0_
-  rgb_255_215_0_
-  rgb_255_255_255_
-  rgb_0_0_0_
-  rgb_0_128_0_
-  rgb_255_255_0_
-  rgb_128_0_128_
-  rgb_255_192_203_
-  rgb_0_255_255_
-  rgb_255_0_255_
-  rgb_0_255_0_
-  rgb_0_128_128_
-  rgb_165_42_42_
-  rgb_0_0_128_
-  rgb_64_224_208_
-  rgb_250_128_114_
-  rgb_75_0_130_
-  rgb_112_128_144_
-  rgb_128_128_0_
-  rgb_70_130_180_
-  rgb_205_133_63_
-  rgb_255_99_71_
-  rgb_85_107_47_
-  rgb_135_206_235_
-  rgb_210_105_30_
-  rgb_160_82_45_
-  rgb_47_79_79_
-  rgb_0_139_139_
-  rgb_128_0_0_
-  rgb_255_140_0_
-  rgb_65_105_225_
-  rgb_219_112_147_
-  rgb_230_230_250_
-  rgb_0_250_154_
-  rgb_184_134_11_
-  rgb_147_112_219_
-  rgb_205_92_92_
-  rgb_0_206_209_
-  rgb_183_110_121_
-  rgb_50_205_50_
-  rgb_255_105_180_
-  rgb_128_128_128_
-  rgb_192_192_192_
-  rgb_255_255_240_
-  rgb_255_253_208_
-  rgb_255_182_193_
-}
-
-enum ProductVersion_Version_size {
-  _25cm
-  _30cm
-  _50mm
-  _100mm
-  _150mm
-  _200mm
-  _250mm
-  _300mm
-  _350mm
-  _400mm
-  _450mm
-  _500mm
-  _550mm
-  _600mm
-  _650mm
-  _700mm
-  _750mm
-  _800mm
-  _850mm
-  _900mm
-  _950mm
-  _1000mm
-  small
-  medium
-  large
-  Forever_Leaves_10
-  Forever_Leaves_A
-  Forever_Leaves_FID_5687
-  ST_5687
-  ST_5685
-  ST_5691
-  Bohemian_Pattern_06
-  Harvest_1
-  No_8
-  No_5
-  No_7
-  No_17
-  No_18
-  _50pcs
-  _100pcs
-  _500pcs
-  _1000pcs
-  _4_Hole_Plastic_Cupcake_Containers
-  _12_Hole_Plastic_Cupcake_Containers
-  _6_Hole_Plastic_Cupcake_Containers
-  _24_Hole_Plastic_Cupcake_Containers
-  _10x15
-  _12x20
-  _14x20
-  _17x24
-  _18x26
-  _20x30
-  _0_1Inch
-  _1Inch
-  _4Inch
-  _5Inch
-  _6Inch
-  _8Inch
-  _10Inch
-  _12Inch
-  _14Inch
-  _16Inch
-  _18Inch
-  _20Inch
-  White_10_Inch
-  Peach_10_Inch
-  Turquoise_10_Inch
-  Black_10_Inch
-  White_12_Inch
-  Turquoise_12_Inch
-  _8x4
-  _10x4
-  _10x5
-  _12x4
-  _12x5
-  _4_5x4_5x2
-  _4_5x4_5x3
-  _5x5x4
-  _6x6x4
-  _8x8x4
-  _10x10x4
-  _10x10x5
-  _11x11x4
-  _12x12x4
-  _12x12x5
-  _14x14x4
-  _14x14x5
-  _16x16x4_Fold_2
-  _16x16x5_Fold_1
-  _10x10
-  _12x12
-  _14x14
-  _16x16
-  _18x18
-  _20x20
-  _10x10x10_Window
-  _10x10x10_Plain
-  _12x12x12_Window
-  _12x12x12_Plain
-  _10x10x12_1kg
-  _12x12x12_2kg
-  _14x14x14_3kg
-  _12x12x5_Blue
-  _12x12x5_Pink
-  _12x12x5_Green
-  _10x10x5_Polka_Green
-  _10x10x5_Polka_Blue
-  _10x10x5_Polka_Pink
-  _10_5x10_5x10
-  _12_5x12_5x12
-  _14x14x16
-  _15x15x16
-  _18x18x18
-  _16x16x5
-  _18x18x5
-  _4x4x4
-  _6x4x4
-  _8x4x4
-  _10x4x4
-  _12x4x4
-  _14x4x4
-  _16x4x4
-}
-
-enum ProductVersion_Version_volumeAndWeight {
-  _50ml
-  _100ml
-  _150ml
-  _200ml
-  _250ml
-  _300ml
-  _350ml
-  _400ml
-  _450ml
-  _500ml
-  _550ml
-  _600ml
-  _650ml
-  _700ml
-  _750ml
-  _800ml
-  _850ml
-  _900ml
-  _950ml
-  _1000ml
-  _100g
-  _120g
-  _15g
-  _1kg
-  _2_5kg
-  _250g
-  _38g
-  _40g
-  _45g
-  _5kg
-  _500g
-  _80g
-  _90g
-  _2kg
-  _3kg
-  _4kg
-  _10kg
-  _15kg
-  _20kg
-  OrangeEmulsion_50ml_
-  OrangeEmulsion_240ml_
-  RedVelvet_50ml_
-  RedVelvet_240ml_
-  Blueberry_240ml_
-  HotPink_50ml_
-  RoyalBlue_50ml_
-  FondantBlack_50ml_
-  OrangeLiquidFoodColor_50ml_
-}
-
 type ProductVersion_Version_Meta {
   title: String
   description: String
@@ -12320,11 +11437,6 @@ input versionsProduct_where {
   version__OutOfStock: versionsProduct_version__OutOfStock_operator
   version__skipSync: versionsProduct_version__skipSync_operator
   version__brands: versionsProduct_version__brands_operator
-  version__colors: versionsProduct_version__colors_operator
-  version__size: versionsProduct_version__size_operator
-  version__volumeAndWeight: versionsProduct_version__volumeAndWeight_operator
-  version__rating: versionsProduct_version__rating_operator
-  version__number_reviews: versionsProduct_version__number_reviews_operator
   version__Reviews: versionsProduct_version__Reviews_operator
   version__meta__title: versionsProduct_version__meta__title_operator
   version__meta__description: versionsProduct_version__meta__description_operator
@@ -12524,280 +11636,6 @@ enum versionsProduct_version__brands_Input {
   Zesta
 }
 
-input versionsProduct_version__colors_operator {
-  equals: versionsProduct_version__colors_Input
-  not_equals: versionsProduct_version__colors_Input
-  in: [versionsProduct_version__colors_Input]
-  not_in: [versionsProduct_version__colors_Input]
-  all: [versionsProduct_version__colors_Input]
-  exists: Boolean
-}
-
-enum versionsProduct_version__colors_Input {
-  rgb_255_0_0_
-  rgb_0_0_255_
-  rgb_255_165_0_
-  rgb_255_215_0_
-  rgb_255_255_255_
-  rgb_0_0_0_
-  rgb_0_128_0_
-  rgb_255_255_0_
-  rgb_128_0_128_
-  rgb_255_192_203_
-  rgb_0_255_255_
-  rgb_255_0_255_
-  rgb_0_255_0_
-  rgb_0_128_128_
-  rgb_165_42_42_
-  rgb_0_0_128_
-  rgb_64_224_208_
-  rgb_250_128_114_
-  rgb_75_0_130_
-  rgb_112_128_144_
-  rgb_128_128_0_
-  rgb_70_130_180_
-  rgb_205_133_63_
-  rgb_255_99_71_
-  rgb_85_107_47_
-  rgb_135_206_235_
-  rgb_210_105_30_
-  rgb_160_82_45_
-  rgb_47_79_79_
-  rgb_0_139_139_
-  rgb_128_0_0_
-  rgb_255_140_0_
-  rgb_65_105_225_
-  rgb_219_112_147_
-  rgb_230_230_250_
-  rgb_0_250_154_
-  rgb_184_134_11_
-  rgb_147_112_219_
-  rgb_205_92_92_
-  rgb_0_206_209_
-  rgb_183_110_121_
-  rgb_50_205_50_
-  rgb_255_105_180_
-  rgb_128_128_128_
-  rgb_192_192_192_
-  rgb_255_255_240_
-  rgb_255_253_208_
-  rgb_255_182_193_
-}
-
-input versionsProduct_version__size_operator {
-  equals: versionsProduct_version__size_Input
-  not_equals: versionsProduct_version__size_Input
-  in: [versionsProduct_version__size_Input]
-  not_in: [versionsProduct_version__size_Input]
-  all: [versionsProduct_version__size_Input]
-  exists: Boolean
-}
-
-enum versionsProduct_version__size_Input {
-  _25cm
-  _30cm
-  _50mm
-  _100mm
-  _150mm
-  _200mm
-  _250mm
-  _300mm
-  _350mm
-  _400mm
-  _450mm
-  _500mm
-  _550mm
-  _600mm
-  _650mm
-  _700mm
-  _750mm
-  _800mm
-  _850mm
-  _900mm
-  _950mm
-  _1000mm
-  small
-  medium
-  large
-  Forever_Leaves_10
-  Forever_Leaves_A
-  Forever_Leaves_FID_5687
-  ST_5687
-  ST_5685
-  ST_5691
-  Bohemian_Pattern_06
-  Harvest_1
-  No_8
-  No_5
-  No_7
-  No_17
-  No_18
-  _50pcs
-  _100pcs
-  _500pcs
-  _1000pcs
-  _4_Hole_Plastic_Cupcake_Containers
-  _12_Hole_Plastic_Cupcake_Containers
-  _6_Hole_Plastic_Cupcake_Containers
-  _24_Hole_Plastic_Cupcake_Containers
-  _10x15
-  _12x20
-  _14x20
-  _17x24
-  _18x26
-  _20x30
-  _0_1Inch
-  _1Inch
-  _4Inch
-  _5Inch
-  _6Inch
-  _8Inch
-  _10Inch
-  _12Inch
-  _14Inch
-  _16Inch
-  _18Inch
-  _20Inch
-  White_10_Inch
-  Peach_10_Inch
-  Turquoise_10_Inch
-  Black_10_Inch
-  White_12_Inch
-  Turquoise_12_Inch
-  _8x4
-  _10x4
-  _10x5
-  _12x4
-  _12x5
-  _4_5x4_5x2
-  _4_5x4_5x3
-  _5x5x4
-  _6x6x4
-  _8x8x4
-  _10x10x4
-  _10x10x5
-  _11x11x4
-  _12x12x4
-  _12x12x5
-  _14x14x4
-  _14x14x5
-  _16x16x4_Fold_2
-  _16x16x5_Fold_1
-  _10x10
-  _12x12
-  _14x14
-  _16x16
-  _18x18
-  _20x20
-  _10x10x10_Window
-  _10x10x10_Plain
-  _12x12x12_Window
-  _12x12x12_Plain
-  _10x10x12_1kg
-  _12x12x12_2kg
-  _14x14x14_3kg
-  _12x12x5_Blue
-  _12x12x5_Pink
-  _12x12x5_Green
-  _10x10x5_Polka_Green
-  _10x10x5_Polka_Blue
-  _10x10x5_Polka_Pink
-  _10_5x10_5x10
-  _12_5x12_5x12
-  _14x14x16
-  _15x15x16
-  _18x18x18
-  _16x16x5
-  _18x18x5
-  _4x4x4
-  _6x4x4
-  _8x4x4
-  _10x4x4
-  _12x4x4
-  _14x4x4
-  _16x4x4
-}
-
-input versionsProduct_version__volumeAndWeight_operator {
-  equals: versionsProduct_version__volumeAndWeight_Input
-  not_equals: versionsProduct_version__volumeAndWeight_Input
-  in: [versionsProduct_version__volumeAndWeight_Input]
-  not_in: [versionsProduct_version__volumeAndWeight_Input]
-  all: [versionsProduct_version__volumeAndWeight_Input]
-  exists: Boolean
-}
-
-enum versionsProduct_version__volumeAndWeight_Input {
-  _50ml
-  _100ml
-  _150ml
-  _200ml
-  _250ml
-  _300ml
-  _350ml
-  _400ml
-  _450ml
-  _500ml
-  _550ml
-  _600ml
-  _650ml
-  _700ml
-  _750ml
-  _800ml
-  _850ml
-  _900ml
-  _950ml
-  _1000ml
-  _100g
-  _120g
-  _15g
-  _1kg
-  _2_5kg
-  _250g
-  _38g
-  _40g
-  _45g
-  _5kg
-  _500g
-  _80g
-  _90g
-  _2kg
-  _3kg
-  _4kg
-  _10kg
-  _15kg
-  _20kg
-  OrangeEmulsion_50ml_
-  OrangeEmulsion_240ml_
-  RedVelvet_50ml_
-  RedVelvet_240ml_
-  Blueberry_240ml_
-  HotPink_50ml_
-  RoyalBlue_50ml_
-  FondantBlack_50ml_
-  OrangeLiquidFoodColor_50ml_
-}
-
-input versionsProduct_version__rating_operator {
-  equals: Float
-  not_equals: Float
-  greater_than_equal: Float
-  greater_than: Float
-  less_than_equal: Float
-  less_than: Float
-  exists: Boolean
-}
-
-input versionsProduct_version__number_reviews_operator {
-  equals: Float
-  not_equals: Float
-  greater_than_equal: Float
-  greater_than: Float
-  less_than_equal: Float
-  less_than: Float
-  exists: Boolean
-}
-
 input versionsProduct_version__Reviews_operator {
   equals: JSON
   not_equals: JSON
@@ -12924,11 +11762,6 @@ input versionsProduct_where_and {
   version__OutOfStock: versionsProduct_version__OutOfStock_operator
   version__skipSync: versionsProduct_version__skipSync_operator
   version__brands: versionsProduct_version__brands_operator
-  version__colors: versionsProduct_version__colors_operator
-  version__size: versionsProduct_version__size_operator
-  version__volumeAndWeight: versionsProduct_version__volumeAndWeight_operator
-  version__rating: versionsProduct_version__rating_operator
-  version__number_reviews: versionsProduct_version__number_reviews_operator
   version__Reviews: versionsProduct_version__Reviews_operator
   version__meta__title: versionsProduct_version__meta__title_operator
   version__meta__description: versionsProduct_version__meta__description_operator
@@ -12961,11 +11794,6 @@ input versionsProduct_where_or {
   version__OutOfStock: versionsProduct_version__OutOfStock_operator
   version__skipSync: versionsProduct_version__skipSync_operator
   version__brands: versionsProduct_version__brands_operator
-  version__colors: versionsProduct_version__colors_operator
-  version__size: versionsProduct_version__size_operator
-  version__volumeAndWeight: versionsProduct_version__volumeAndWeight_operator
-  version__rating: versionsProduct_version__rating_operator
-  version__number_reviews: versionsProduct_version__number_reviews_operator
   version__Reviews: versionsProduct_version__Reviews_operator
   version__meta__title: versionsProduct_version__meta__title_operator
   version__meta__description: versionsProduct_version__meta__description_operator
@@ -12984,7 +11812,6 @@ input versionsProduct_where_or {
 type Order {
   id: String
   orderedBy(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): User
-  stripePaymentIntentID: String
   DeliveryLocation(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): DeliveryLocation
   mpesaTransactionRef: String
   GenerateReceiptButton: String
@@ -13020,7 +11847,6 @@ type Orders {
 
 input Order_where {
   orderedBy: Order_orderedBy_operator
-  stripePaymentIntentID: Order_stripePaymentIntentID_operator
   DeliveryLocation: Order_DeliveryLocation_operator
   mpesaTransactionRef: Order_mpesaTransactionRef_operator
   GenerateReceiptButton: Order_GenerateReceiptButton_operator
@@ -13045,17 +11871,6 @@ input Order_orderedBy_operator {
   in: [JSON]
   not_in: [JSON]
   all: [JSON]
-  exists: Boolean
-}
-
-input Order_stripePaymentIntentID_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
   exists: Boolean
 }
 
@@ -13206,7 +12021,6 @@ input Order_id_operator {
 
 input Order_where_and {
   orderedBy: Order_orderedBy_operator
-  stripePaymentIntentID: Order_stripePaymentIntentID_operator
   DeliveryLocation: Order_DeliveryLocation_operator
   mpesaTransactionRef: Order_mpesaTransactionRef_operator
   GenerateReceiptButton: Order_GenerateReceiptButton_operator
@@ -13227,7 +12041,6 @@ input Order_where_and {
 
 input Order_where_or {
   orderedBy: Order_orderedBy_operator
-  stripePaymentIntentID: Order_stripePaymentIntentID_operator
   DeliveryLocation: Order_DeliveryLocation_operator
   mpesaTransactionRef: Order_mpesaTransactionRef_operator
   GenerateReceiptButton: Order_GenerateReceiptButton_operator
@@ -13256,7 +12069,6 @@ type ordersDocAccess {
 
 type OrdersDocAccessFields {
   orderedBy: OrdersDocAccessFields_orderedBy
-  stripePaymentIntentID: OrdersDocAccessFields_stripePaymentIntentID
   DeliveryLocation: OrdersDocAccessFields_DeliveryLocation
   mpesaTransactionRef: OrdersDocAccessFields_mpesaTransactionRef
   GenerateReceiptButton: OrdersDocAccessFields_GenerateReceiptButton
@@ -13286,29 +12098,6 @@ type OrdersDocAccessFields_orderedBy_Update {
 }
 
 type OrdersDocAccessFields_orderedBy_Delete {
-  permission: Boolean!
-}
-
-type OrdersDocAccessFields_stripePaymentIntentID {
-  create: OrdersDocAccessFields_stripePaymentIntentID_Create
-  read: OrdersDocAccessFields_stripePaymentIntentID_Read
-  update: OrdersDocAccessFields_stripePaymentIntentID_Update
-  delete: OrdersDocAccessFields_stripePaymentIntentID_Delete
-}
-
-type OrdersDocAccessFields_stripePaymentIntentID_Create {
-  permission: Boolean!
-}
-
-type OrdersDocAccessFields_stripePaymentIntentID_Read {
-  permission: Boolean!
-}
-
-type OrdersDocAccessFields_stripePaymentIntentID_Update {
-  permission: Boolean!
-}
-
-type OrdersDocAccessFields_stripePaymentIntentID_Delete {
   permission: Boolean!
 }
 
@@ -31083,11 +29872,6 @@ type ProductsFields {
   OutOfStock: ProductsFields_OutOfStock
   skipSync: ProductsFields_skipSync
   brands: ProductsFields_brands
-  colors: ProductsFields_colors
-  size: ProductsFields_size
-  volumeAndWeight: ProductsFields_volumeAndWeight
-  rating: ProductsFields_rating
-  number_reviews: ProductsFields_number_reviews
   Reviews: ProductsFields_Reviews
   meta: ProductsFields_meta
   updatedAt: ProductsFields_updatedAt
@@ -31492,121 +30276,6 @@ type ProductsFields_brands_Delete {
   permission: Boolean!
 }
 
-type ProductsFields_colors {
-  create: ProductsFields_colors_Create
-  read: ProductsFields_colors_Read
-  update: ProductsFields_colors_Update
-  delete: ProductsFields_colors_Delete
-}
-
-type ProductsFields_colors_Create {
-  permission: Boolean!
-}
-
-type ProductsFields_colors_Read {
-  permission: Boolean!
-}
-
-type ProductsFields_colors_Update {
-  permission: Boolean!
-}
-
-type ProductsFields_colors_Delete {
-  permission: Boolean!
-}
-
-type ProductsFields_size {
-  create: ProductsFields_size_Create
-  read: ProductsFields_size_Read
-  update: ProductsFields_size_Update
-  delete: ProductsFields_size_Delete
-}
-
-type ProductsFields_size_Create {
-  permission: Boolean!
-}
-
-type ProductsFields_size_Read {
-  permission: Boolean!
-}
-
-type ProductsFields_size_Update {
-  permission: Boolean!
-}
-
-type ProductsFields_size_Delete {
-  permission: Boolean!
-}
-
-type ProductsFields_volumeAndWeight {
-  create: ProductsFields_volumeAndWeight_Create
-  read: ProductsFields_volumeAndWeight_Read
-  update: ProductsFields_volumeAndWeight_Update
-  delete: ProductsFields_volumeAndWeight_Delete
-}
-
-type ProductsFields_volumeAndWeight_Create {
-  permission: Boolean!
-}
-
-type ProductsFields_volumeAndWeight_Read {
-  permission: Boolean!
-}
-
-type ProductsFields_volumeAndWeight_Update {
-  permission: Boolean!
-}
-
-type ProductsFields_volumeAndWeight_Delete {
-  permission: Boolean!
-}
-
-type ProductsFields_rating {
-  create: ProductsFields_rating_Create
-  read: ProductsFields_rating_Read
-  update: ProductsFields_rating_Update
-  delete: ProductsFields_rating_Delete
-}
-
-type ProductsFields_rating_Create {
-  permission: Boolean!
-}
-
-type ProductsFields_rating_Read {
-  permission: Boolean!
-}
-
-type ProductsFields_rating_Update {
-  permission: Boolean!
-}
-
-type ProductsFields_rating_Delete {
-  permission: Boolean!
-}
-
-type ProductsFields_number_reviews {
-  create: ProductsFields_number_reviews_Create
-  read: ProductsFields_number_reviews_Read
-  update: ProductsFields_number_reviews_Update
-  delete: ProductsFields_number_reviews_Delete
-}
-
-type ProductsFields_number_reviews_Create {
-  permission: Boolean!
-}
-
-type ProductsFields_number_reviews_Read {
-  permission: Boolean!
-}
-
-type ProductsFields_number_reviews_Update {
-  permission: Boolean!
-}
-
-type ProductsFields_number_reviews_Delete {
-  permission: Boolean!
-}
-
 type ProductsFields_Reviews {
   create: ProductsFields_Reviews_Create
   read: ProductsFields_Reviews_Read
@@ -31881,7 +30550,6 @@ type ordersAccess {
 
 type OrdersFields {
   orderedBy: OrdersFields_orderedBy
-  stripePaymentIntentID: OrdersFields_stripePaymentIntentID
   DeliveryLocation: OrdersFields_DeliveryLocation
   mpesaTransactionRef: OrdersFields_mpesaTransactionRef
   GenerateReceiptButton: OrdersFields_GenerateReceiptButton
@@ -31911,29 +30579,6 @@ type OrdersFields_orderedBy_Update {
 }
 
 type OrdersFields_orderedBy_Delete {
-  permission: Boolean!
-}
-
-type OrdersFields_stripePaymentIntentID {
-  create: OrdersFields_stripePaymentIntentID_Create
-  read: OrdersFields_stripePaymentIntentID_Read
-  update: OrdersFields_stripePaymentIntentID_Update
-  delete: OrdersFields_stripePaymentIntentID_Delete
-}
-
-type OrdersFields_stripePaymentIntentID_Create {
-  permission: Boolean!
-}
-
-type OrdersFields_stripePaymentIntentID_Read {
-  permission: Boolean!
-}
-
-type OrdersFields_stripePaymentIntentID_Update {
-  permission: Boolean!
-}
-
-type OrdersFields_stripePaymentIntentID_Delete {
   permission: Boolean!
 }
 
@@ -40781,11 +39426,6 @@ input mutationProductInput {
   OutOfStock: Boolean
   skipSync: Boolean
   brands: Product_brands_MutationInput
-  colors: [Product_colors_MutationInput]
-  size: [Product_size_MutationInput]
-  volumeAndWeight: [Product_volumeAndWeight_MutationInput]
-  rating: Float
-  number_reviews: Float
   Reviews: [String]
   meta: mutationProduct_MetaInput
   updatedAt: String
@@ -40839,233 +39479,6 @@ enum Product_brands_MutationInput {
   Zesta
 }
 
-enum Product_colors_MutationInput {
-  rgb_255_0_0_
-  rgb_0_0_255_
-  rgb_255_165_0_
-  rgb_255_215_0_
-  rgb_255_255_255_
-  rgb_0_0_0_
-  rgb_0_128_0_
-  rgb_255_255_0_
-  rgb_128_0_128_
-  rgb_255_192_203_
-  rgb_0_255_255_
-  rgb_255_0_255_
-  rgb_0_255_0_
-  rgb_0_128_128_
-  rgb_165_42_42_
-  rgb_0_0_128_
-  rgb_64_224_208_
-  rgb_250_128_114_
-  rgb_75_0_130_
-  rgb_112_128_144_
-  rgb_128_128_0_
-  rgb_70_130_180_
-  rgb_205_133_63_
-  rgb_255_99_71_
-  rgb_85_107_47_
-  rgb_135_206_235_
-  rgb_210_105_30_
-  rgb_160_82_45_
-  rgb_47_79_79_
-  rgb_0_139_139_
-  rgb_128_0_0_
-  rgb_255_140_0_
-  rgb_65_105_225_
-  rgb_219_112_147_
-  rgb_230_230_250_
-  rgb_0_250_154_
-  rgb_184_134_11_
-  rgb_147_112_219_
-  rgb_205_92_92_
-  rgb_0_206_209_
-  rgb_183_110_121_
-  rgb_50_205_50_
-  rgb_255_105_180_
-  rgb_128_128_128_
-  rgb_192_192_192_
-  rgb_255_255_240_
-  rgb_255_253_208_
-  rgb_255_182_193_
-}
-
-enum Product_size_MutationInput {
-  _25cm
-  _30cm
-  _50mm
-  _100mm
-  _150mm
-  _200mm
-  _250mm
-  _300mm
-  _350mm
-  _400mm
-  _450mm
-  _500mm
-  _550mm
-  _600mm
-  _650mm
-  _700mm
-  _750mm
-  _800mm
-  _850mm
-  _900mm
-  _950mm
-  _1000mm
-  small
-  medium
-  large
-  Forever_Leaves_10
-  Forever_Leaves_A
-  Forever_Leaves_FID_5687
-  ST_5687
-  ST_5685
-  ST_5691
-  Bohemian_Pattern_06
-  Harvest_1
-  No_8
-  No_5
-  No_7
-  No_17
-  No_18
-  _50pcs
-  _100pcs
-  _500pcs
-  _1000pcs
-  _4_Hole_Plastic_Cupcake_Containers
-  _12_Hole_Plastic_Cupcake_Containers
-  _6_Hole_Plastic_Cupcake_Containers
-  _24_Hole_Plastic_Cupcake_Containers
-  _10x15
-  _12x20
-  _14x20
-  _17x24
-  _18x26
-  _20x30
-  _0_1Inch
-  _1Inch
-  _4Inch
-  _5Inch
-  _6Inch
-  _8Inch
-  _10Inch
-  _12Inch
-  _14Inch
-  _16Inch
-  _18Inch
-  _20Inch
-  White_10_Inch
-  Peach_10_Inch
-  Turquoise_10_Inch
-  Black_10_Inch
-  White_12_Inch
-  Turquoise_12_Inch
-  _8x4
-  _10x4
-  _10x5
-  _12x4
-  _12x5
-  _4_5x4_5x2
-  _4_5x4_5x3
-  _5x5x4
-  _6x6x4
-  _8x8x4
-  _10x10x4
-  _10x10x5
-  _11x11x4
-  _12x12x4
-  _12x12x5
-  _14x14x4
-  _14x14x5
-  _16x16x4_Fold_2
-  _16x16x5_Fold_1
-  _10x10
-  _12x12
-  _14x14
-  _16x16
-  _18x18
-  _20x20
-  _10x10x10_Window
-  _10x10x10_Plain
-  _12x12x12_Window
-  _12x12x12_Plain
-  _10x10x12_1kg
-  _12x12x12_2kg
-  _14x14x14_3kg
-  _12x12x5_Blue
-  _12x12x5_Pink
-  _12x12x5_Green
-  _10x10x5_Polka_Green
-  _10x10x5_Polka_Blue
-  _10x10x5_Polka_Pink
-  _10_5x10_5x10
-  _12_5x12_5x12
-  _14x14x16
-  _15x15x16
-  _18x18x18
-  _16x16x5
-  _18x18x5
-  _4x4x4
-  _6x4x4
-  _8x4x4
-  _10x4x4
-  _12x4x4
-  _14x4x4
-  _16x4x4
-}
-
-enum Product_volumeAndWeight_MutationInput {
-  _50ml
-  _100ml
-  _150ml
-  _200ml
-  _250ml
-  _300ml
-  _350ml
-  _400ml
-  _450ml
-  _500ml
-  _550ml
-  _600ml
-  _650ml
-  _700ml
-  _750ml
-  _800ml
-  _850ml
-  _900ml
-  _950ml
-  _1000ml
-  _100g
-  _120g
-  _15g
-  _1kg
-  _2_5kg
-  _250g
-  _38g
-  _40g
-  _45g
-  _5kg
-  _500g
-  _80g
-  _90g
-  _2kg
-  _3kg
-  _4kg
-  _10kg
-  _15kg
-  _20kg
-  OrangeEmulsion_50ml_
-  OrangeEmulsion_240ml_
-  RedVelvet_50ml_
-  RedVelvet_240ml_
-  Blueberry_240ml_
-  HotPink_50ml_
-  RoyalBlue_50ml_
-  FondantBlack_50ml_
-  OrangeLiquidFoodColor_50ml_
-}
-
 input mutationProduct_MetaInput {
   title: String
   description: String
@@ -41093,11 +39506,6 @@ input mutationProductUpdateInput {
   OutOfStock: Boolean
   skipSync: Boolean
   brands: ProductUpdate_brands_MutationInput
-  colors: [ProductUpdate_colors_MutationInput]
-  size: [ProductUpdate_size_MutationInput]
-  volumeAndWeight: [ProductUpdate_volumeAndWeight_MutationInput]
-  rating: Float
-  number_reviews: Float
   Reviews: [String]
   meta: mutationProductUpdate_MetaInput
   updatedAt: String
@@ -41151,233 +39559,6 @@ enum ProductUpdate_brands_MutationInput {
   Zesta
 }
 
-enum ProductUpdate_colors_MutationInput {
-  rgb_255_0_0_
-  rgb_0_0_255_
-  rgb_255_165_0_
-  rgb_255_215_0_
-  rgb_255_255_255_
-  rgb_0_0_0_
-  rgb_0_128_0_
-  rgb_255_255_0_
-  rgb_128_0_128_
-  rgb_255_192_203_
-  rgb_0_255_255_
-  rgb_255_0_255_
-  rgb_0_255_0_
-  rgb_0_128_128_
-  rgb_165_42_42_
-  rgb_0_0_128_
-  rgb_64_224_208_
-  rgb_250_128_114_
-  rgb_75_0_130_
-  rgb_112_128_144_
-  rgb_128_128_0_
-  rgb_70_130_180_
-  rgb_205_133_63_
-  rgb_255_99_71_
-  rgb_85_107_47_
-  rgb_135_206_235_
-  rgb_210_105_30_
-  rgb_160_82_45_
-  rgb_47_79_79_
-  rgb_0_139_139_
-  rgb_128_0_0_
-  rgb_255_140_0_
-  rgb_65_105_225_
-  rgb_219_112_147_
-  rgb_230_230_250_
-  rgb_0_250_154_
-  rgb_184_134_11_
-  rgb_147_112_219_
-  rgb_205_92_92_
-  rgb_0_206_209_
-  rgb_183_110_121_
-  rgb_50_205_50_
-  rgb_255_105_180_
-  rgb_128_128_128_
-  rgb_192_192_192_
-  rgb_255_255_240_
-  rgb_255_253_208_
-  rgb_255_182_193_
-}
-
-enum ProductUpdate_size_MutationInput {
-  _25cm
-  _30cm
-  _50mm
-  _100mm
-  _150mm
-  _200mm
-  _250mm
-  _300mm
-  _350mm
-  _400mm
-  _450mm
-  _500mm
-  _550mm
-  _600mm
-  _650mm
-  _700mm
-  _750mm
-  _800mm
-  _850mm
-  _900mm
-  _950mm
-  _1000mm
-  small
-  medium
-  large
-  Forever_Leaves_10
-  Forever_Leaves_A
-  Forever_Leaves_FID_5687
-  ST_5687
-  ST_5685
-  ST_5691
-  Bohemian_Pattern_06
-  Harvest_1
-  No_8
-  No_5
-  No_7
-  No_17
-  No_18
-  _50pcs
-  _100pcs
-  _500pcs
-  _1000pcs
-  _4_Hole_Plastic_Cupcake_Containers
-  _12_Hole_Plastic_Cupcake_Containers
-  _6_Hole_Plastic_Cupcake_Containers
-  _24_Hole_Plastic_Cupcake_Containers
-  _10x15
-  _12x20
-  _14x20
-  _17x24
-  _18x26
-  _20x30
-  _0_1Inch
-  _1Inch
-  _4Inch
-  _5Inch
-  _6Inch
-  _8Inch
-  _10Inch
-  _12Inch
-  _14Inch
-  _16Inch
-  _18Inch
-  _20Inch
-  White_10_Inch
-  Peach_10_Inch
-  Turquoise_10_Inch
-  Black_10_Inch
-  White_12_Inch
-  Turquoise_12_Inch
-  _8x4
-  _10x4
-  _10x5
-  _12x4
-  _12x5
-  _4_5x4_5x2
-  _4_5x4_5x3
-  _5x5x4
-  _6x6x4
-  _8x8x4
-  _10x10x4
-  _10x10x5
-  _11x11x4
-  _12x12x4
-  _12x12x5
-  _14x14x4
-  _14x14x5
-  _16x16x4_Fold_2
-  _16x16x5_Fold_1
-  _10x10
-  _12x12
-  _14x14
-  _16x16
-  _18x18
-  _20x20
-  _10x10x10_Window
-  _10x10x10_Plain
-  _12x12x12_Window
-  _12x12x12_Plain
-  _10x10x12_1kg
-  _12x12x12_2kg
-  _14x14x14_3kg
-  _12x12x5_Blue
-  _12x12x5_Pink
-  _12x12x5_Green
-  _10x10x5_Polka_Green
-  _10x10x5_Polka_Blue
-  _10x10x5_Polka_Pink
-  _10_5x10_5x10
-  _12_5x12_5x12
-  _14x14x16
-  _15x15x16
-  _18x18x18
-  _16x16x5
-  _18x18x5
-  _4x4x4
-  _6x4x4
-  _8x4x4
-  _10x4x4
-  _12x4x4
-  _14x4x4
-  _16x4x4
-}
-
-enum ProductUpdate_volumeAndWeight_MutationInput {
-  _50ml
-  _100ml
-  _150ml
-  _200ml
-  _250ml
-  _300ml
-  _350ml
-  _400ml
-  _450ml
-  _500ml
-  _550ml
-  _600ml
-  _650ml
-  _700ml
-  _750ml
-  _800ml
-  _850ml
-  _900ml
-  _950ml
-  _1000ml
-  _100g
-  _120g
-  _15g
-  _1kg
-  _2_5kg
-  _250g
-  _38g
-  _40g
-  _45g
-  _5kg
-  _500g
-  _80g
-  _90g
-  _2kg
-  _3kg
-  _4kg
-  _10kg
-  _15kg
-  _20kg
-  OrangeEmulsion_50ml_
-  OrangeEmulsion_240ml_
-  RedVelvet_50ml_
-  RedVelvet_240ml_
-  Blueberry_240ml_
-  HotPink_50ml_
-  RoyalBlue_50ml_
-  FondantBlack_50ml_
-  OrangeLiquidFoodColor_50ml_
-}
-
 input mutationProductUpdate_MetaInput {
   title: String
   description: String
@@ -41391,7 +39572,6 @@ enum ProductUpdate__status_MutationInput {
 
 input mutationOrderInput {
   orderedBy: String
-  stripePaymentIntentID: String
   DeliveryLocation: String
   mpesaTransactionRef: String
   GenerateReceiptButton: String
@@ -41413,7 +39593,6 @@ input mutationOrder_ItemsInput {
 
 input mutationOrderUpdateInput {
   orderedBy: String
-  stripePaymentIntentID: String
   DeliveryLocation: String
   mpesaTransactionRef: String
   GenerateReceiptButton: String

@@ -1,11 +1,11 @@
 import React from 'react'
 
-import { Product } from '../../../payload/payload-types'
+import { Post, Product } from '../../../payload/payload-types'
 
 import classes from './index.module.scss'
 
 export const Price: React.FC<{
-  product: Product
+  product: Product | Post
   quantity?: number
   button?: 'addToCart' | 'removeFromCart' | false
 }> = props => {

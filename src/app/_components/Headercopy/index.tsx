@@ -20,6 +20,9 @@ export async function Header() {
     console.log(error)
   }
 
+  const head = header
+  // console.log('header', head)
+
   return (
     <>
       <HeaderComponent header={header} />

@@ -53,7 +53,7 @@ const SearchBar = () => {
             disabled={isLoading}
           />
           <span className={classes.searchIcon} onClick={fetchSearchResults} disabled={isLoading}>
-            {isLoading ? 'Loading...' : <FaSearch />}
+            {isLoading ? 'Searching...' : <FaSearch />}
           </span>
         </div>
       </div>

@@ -17,24 +17,13 @@ export const Card: React.FC<{
   hideImagesOnMobile?: boolean
   title?: string
   Price?: number | null
-  discount?: number | null
-  discountedPrice?: number | null
   newTag?: boolean
   relationTo?: 'products' | 'posts'
   doc?: Product | Post
 }> = props => {
-  const {
-    showCategories,
-    title: titleFromProps,
-    doc,
-    discount,
-    discountedPrice,
-    newTag,
-    relationTo,
-  } = props
+  const { title: titleFromProps, doc, newTag, relationTo } = props
 
-  const { slug, title, categories, meta } = doc || {}
-  const { description, image: metaImage } = meta || {}
+  const { slug, discount, discountedPrice } = doc || {}
 
   if (!doc) {
     return null

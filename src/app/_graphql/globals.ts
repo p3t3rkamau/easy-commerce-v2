@@ -7,6 +7,25 @@ export const HEADER = `
 		}
   }
 `
+export const HEADER_CATEGORIES_QUERY = `
+query HeaderCategories {
+  Category
+  Subcategory {
+    Name
+    SubcategoryImage {
+      media {
+        imagekit {
+          url
+        }
+      }
+    }
+    Attribute {
+      Name
+    }
+  }
+ 
+}
+`
 
 export const HEADER_QUERY = `
 query Header {
