@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { FaSearch } from 'react-icons/fa'
+import { FaSearch, FaTimes } from 'react-icons/fa'
 import axios from 'axios'
 
 import Card from './SearchResults'
 
 import classes from './index.module.scss'
 
-const SearchBar: React.FC = () => {
+const SearchBar: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [query, setQuery] = useState('')
   const [results, setResults] = useState([])
   const [isLoading, setIsLoading] = useState(false)
@@ -91,6 +91,9 @@ const SearchBar: React.FC = () => {
           </button>
         </div>
       </div>
+      {/* <button onClick={onClose} className={classes.closeButton}>
+        <FaTimes className={classes.closeIcon} />
+      </button> */}
 
       {isFocused && query.trim() !== '' && (
         <div className={classes.resultsContainer}>

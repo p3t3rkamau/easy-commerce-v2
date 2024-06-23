@@ -1,14 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { FaCaretRight, FaSearch } from 'react-icons/fa'
+import React, { useRef, useState } from 'react'
+import { FaSearch } from 'react-icons/fa'
 import Link from 'next/link'
 
-import { Category, Header as HeaderType } from '../../../../payload/payload-types'
+import { Header as HeaderType } from '../../../../payload/payload-types'
 import { useAuth } from '../../../_providers/Auth'
 import { Button } from '../../Button'
 import CartDropDown from '../../CartDropDown'
 import { CartLink } from '../../CartLink'
 import { CMSLink } from '../../Link'
 import MobileSearch from '../../SearchBar/MobileSearch'
+import SearchView from '../../SearchView'
 import MobileNav from '../MobileNav'
 
 import classes from './index.module.scss'
@@ -21,11 +22,23 @@ export const HeaderNav: React.FC<{ header: HeaderType }> = ({ header }) => {
   const dropdownRef = useRef<HTMLDivElement | null>(null)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isCartHovered, setIsCartHovered] = useState(false)
+  const [isSearchViewOpen, setIsSearchViewOpen] = useState(false) // State for toggling search view
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
   }
 
+  const openSearchView = () => {
+    setIsSearchViewOpen(true)
+  }
+
+  const closeSearchView = () => {
+    setIsSearchViewOpen(false)
+  }
+
+  if (isSearchViewOpen) {
+    return <SearchView closeSearchView={closeSearchView} />
+  }
   return (
     <nav className={[classes.nav, user === undefined && classes.hide].filter(Boolean).join(' ')}>
       <div className={classes.desktopNav} ref={dropdownRef}>
@@ -33,11 +46,8 @@ export const HeaderNav: React.FC<{ header: HeaderType }> = ({ header }) => {
           return <CMSLink key={i} {...link} appearance="none" />
         })}
       </div>
-      <div className={classes.searchIcon}>
+      <div className={classes.searchIcon} onClick={openSearchView}>
         <FaSearch />
-        <div className={classes.mobileContainer}>
-          <MobileSearch />
-        </div>
       </div>
       {user && <Link href="/account">Account</Link>}
       {!user && (

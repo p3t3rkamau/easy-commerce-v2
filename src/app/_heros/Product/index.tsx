@@ -49,7 +49,9 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
       [attributeName]: value,
     })
 
-    const attribute = ProductsAttributes.find(attr => attr.Attribute_Name === attributeName) as AttributesCollection
+    const attribute = ProductsAttributes.find(
+      attr => attr.Attribute_Name === attributeName,
+    ) as AttributesCollection
 
     const selectedProperty = attribute?.Attribute_Property?.find(prop => prop.Value === value)
 
@@ -70,30 +72,34 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
 
   return (
     <Gutter className={classes.productHero}>
-      <ProductImage
-        mainImage={mainImage}
-        otherImages={OtherImages}
-        onImageClick={handleSmallImageClick}
-      />
-      <ProductDetails
-        product={product}
-        selectedAttributePrice={selectedAttributePrice}
-        minAttributePrice={minAttributePrice}
-        maxAttributePrice={maxAttributePrice}
-      />
-      <AttributeSelector
-        ProductsAttributes={ProductsAttributes}
-        selectedAttributes={selectedAttributes}
-        handleAttributeSelect={handleAttributeSelect}
-      />
-      <QuantitySelector quantity={quantity} setQuantity={handleQuantityChange} />
-      <AddToCartButton
-        product={product}
-        quantity={quantity}
-        className={classes.addToCartButton}
-        selectedAttributes={selectedAttributes}
-      />
-      <ProductDescription description={description} />
+      <div>
+        <ProductImage
+          mainImage={mainImage}
+          otherImages={OtherImages}
+          onImageClick={handleSmallImageClick}
+        />
+      </div>
+      <div>
+        <ProductDetails
+          product={product}
+          selectedAttributePrice={selectedAttributePrice}
+          minAttributePrice={minAttributePrice}
+          maxAttributePrice={maxAttributePrice}
+        />
+        <AttributeSelector
+          ProductsAttributes={ProductsAttributes}
+          selectedAttributes={selectedAttributes}
+          handleAttributeSelect={handleAttributeSelect}
+        />
+        <QuantitySelector quantity={quantity} setQuantity={handleQuantityChange} />
+        <AddToCartButton
+          product={product}
+          quantity={quantity}
+          className={classes.addToCartButton}
+          selectedAttributes={selectedAttributes}
+        />
+        <ProductDescription description={description} />
+      </div>
     </Gutter>
   )
 }

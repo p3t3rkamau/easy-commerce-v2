@@ -1,12 +1,12 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { FaSearch } from 'react-icons/fa'
+import React, { useEffect, useRef, useState } from 'react'
+import { FaSearch, FaTimes } from 'react-icons/fa'
 import axios from 'axios'
 
 import Card from '../SearchResults'
 
 import classes from './index.module.scss'
 
-const MobileSearch: React.FC = () => {
+const MobileSearch: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [query, setQuery] = useState('')
   const [results, setResults] = useState([])
   const [isLoading, setIsLoading] = useState(false)
@@ -27,7 +27,7 @@ const MobileSearch: React.FC = () => {
     if (value.trim() !== '') {
       debounceTimeoutRef.current = setTimeout(() => {
         fetchSearchResults(value)
-      }, 3000) // Adjust the delay as needed
+      }, 300) // Adjust the delay as needed
     } else {
       setResults([])
     }
@@ -89,28 +89,32 @@ const MobileSearch: React.FC = () => {
           <button onClick={() => fetchSearchResults(query)} className={classes.searchButton}>
             <FaSearch className={classes.searchicon} />
           </button>
+          <button onClick={onClose} className={classes.closeButton}>
+            <FaTimes className={classes.closeIcon} />
+          </button>
         </div>
       </div>
-
-      {isFocused && query.trim() !== '' && (
-        <div className={classes.resultsContainer}>
-          {error && <div className={classes.error}>{error}</div>}
-          {isLoading && <div className={classes.loading}>Searching {query}...</div>}
-          {!isLoading && results?.length > 0 && (
-            <div className={classes.searchResult}>
-              {results.map(result => (
-                <Card
-                  key={result._id}
-                  slug={result.slug}
-                  title={result.title}
-                  price={result.price}
-                  imageUrl={result.meta?.image?.imagekit?.url || '/Easy-logo.svg'}
-                />
-              ))}
-            </div>
-          )}
-        </div>
-      )}
+      <div>
+        {isFocused && query.trim() !== '' && (
+          <div className={classes.resultsContainer}>
+            {error && <div className={classes.error}>{error}</div>}
+            {isLoading && <div className={classes.loading}>Searching {query}...</div>}
+            {!isLoading && results?.length > 0 && (
+              <div className={classes.searchResult}>
+                {results.map(result => (
+                  <Card
+                    key={result._id}
+                    slug={result.slug}
+                    title={result.title}
+                    price={result.price}
+                    imageUrl={result.meta?.image?.imagekit?.url || '/Easy-logo.svg'}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   )
 }

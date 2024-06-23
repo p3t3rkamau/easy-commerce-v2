@@ -29,7 +29,7 @@ export const AttributeSelector: React.FC<AttributeSelectorProps> = ({
             <div key={index} className={classes.attributeSelect}>
               {attribute.Attribute_Property?.some(property => property.type === 'color') ? (
                 <div className={classes.colorOptions}>
-                  <div className={classes.attributeTitle}>{`Select ${attribute.title}`}</div>
+                  {/* <div className={classes.attributeTitle}>{`Select ${attribute.title}`}</div> */}
                   {attribute.Attribute_Property?.map((property, idx) =>
                     property.type === 'color' ? (
                       <div
