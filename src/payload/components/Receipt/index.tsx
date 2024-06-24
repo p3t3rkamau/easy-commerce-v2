@@ -3,20 +3,11 @@ import { PDFDocument, rgb } from 'pdf-lib'
 
 import { Order } from '../../payload-types'
 
-interface OrderDetails {}
-
 export const generateReceipt = async (order: Order) => {
   const pdfDoc = await PDFDocument.create()
   const page = pdfDoc.addPage([600, 800])
 
-  const {
-    orderedBy = {},
-    stripePaymentIntentID,
-    mpesaTransactionRef,
-    total,
-    DeliveryLocation = {},
-    items = [],
-  } = order
+  const { orderedBy = {}, total, DeliveryLocation = {} } = order
 
   let yOffset = 750
   const lineHeight = 20
