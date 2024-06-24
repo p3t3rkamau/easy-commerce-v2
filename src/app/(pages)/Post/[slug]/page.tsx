@@ -4,20 +4,18 @@ import { draftMode } from 'next/headers'
 import { notFound } from 'next/navigation'
 
 import { Post } from '../../../../payload/payload-types'
-// import { fetchComments } from '../../../_api/fetchComments'
 import { fetchDoc } from '../../../_api/fetchDoc'
-import { fetchDocs } from '../../../_api/fetchDocs'
 import { PostHero } from '../../../_blocks/RelatedPosts'
 import { Blocks } from '../../../_components/Blocks'
-import { Gutter } from '../../../_components/Gutter'
 import { generateMeta } from '../../../_utilities/generateMeta'
 
 // Force this page to be dynamic so that Next.js does not cache it
-// See the note in '../../../[slug]/page.tsx' about this
 export const dynamic = 'force-dynamic'
 
 export default async function Post({ params: { slug } }) {
   const { isEnabled: isDraftMode } = draftMode()
+
+  console.log('Fetching post with slug:', slug)
 
   let post: Post | null = null
 
@@ -27,20 +25,18 @@ export default async function Post({ params: { slug } }) {
       slug,
       draft: isDraftMode,
     })
+
+    console.log('Fetched post:', post)
   } catch (error) {
-    console.error(error) // eslint-disable-line no-console
+    console.error('Error fetching post:', error)
   }
 
   if (!post) {
+    console.log('Post not found, rendering 404')
     notFound()
   }
 
-  // const comments = await fetchComments({
-  //   doc: post?.id,
-  // })
-
-  const { layout } = post
-  const { relatedPosts } = post
+  const { layout, relatedPosts } = post
 
   return (
     <React.Fragment>
@@ -76,12 +72,15 @@ export async function generateStaticParams() {
     const posts = await fetchDocs<Post>('posts')
     return posts?.map(({ slug }) => slug)
   } catch (error) {
+    console.error('Error generating static params:', error)
     return []
   }
 }
 
 export async function generateMetadata({ params: { slug } }): Promise<Metadata> {
   const { isEnabled: isDraftMode } = draftMode()
+
+  console.log('Generating metadata for slug:', slug)
 
   let post: Post | null = null
 
@@ -91,7 +90,9 @@ export async function generateMetadata({ params: { slug } }): Promise<Metadata> 
       slug,
       draft: isDraftMode,
     })
-  } catch (error) {}
+  } catch (error) {
+    console.error('Error fetching post for metadata:', error)
+  }
 
   return generateMeta({ doc: post })
 }

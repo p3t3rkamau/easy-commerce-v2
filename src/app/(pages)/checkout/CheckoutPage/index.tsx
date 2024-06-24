@@ -84,6 +84,7 @@ export const CheckoutPage: React.FC<{
                       metaImage={metaImage}
                       quantity={quantity}
                       index={index}
+                      selectedAttributes={undefined}
                     />
                   </Fragment>
                 )
@@ -97,7 +98,7 @@ export const CheckoutPage: React.FC<{
           </ul>
         </div>
       )}
-      <DepositForm />
+      {/* <DepositForm /> */}
       <CheckoutForm />
       {error && (
         <div className={classes.error}>

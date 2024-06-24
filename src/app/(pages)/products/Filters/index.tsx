@@ -1,4 +1,6 @@
 'use client'
+'use client'
+
 import React, { useState } from 'react'
 
 import { Category } from '../../../../payload/payload-types'
@@ -15,9 +17,9 @@ interface FiltersProps {
 }
 
 const Filters: React.FC<FiltersProps> = ({ categories }) => {
-  const { categoryFilters, sort, setCategoryFilters, setSort } = useFilter()
+  const { categoryFilters, sort, setCategoryFilters, setSort, priceFilter, setPriceFilter } =
+    useFilter()
   const [showAllCategories, setShowAllCategories] = useState(false)
-  const [priceFilter, setPriceFilter] = useState<{ min: number; max: number }>({ min: 0, max: 0 })
   const initialDisplayCount = 3 // Number of categories to display initially
 
   const handleCategories = (categoryId: string) => {

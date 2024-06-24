@@ -1,3 +1,4 @@
+// collections/Orders.js
 import type { CollectionConfig } from 'payload/types'
 
 import { admins } from '../../access/admins'
@@ -5,8 +6,8 @@ import { adminsOrLoggedIn } from '../../access/adminsOrLoggedIn'
 import CustomOrderReceiptButton from '../../components/Receipt/ReceiptButton'
 import { adminsOrOrderedBy } from './access/adminsOrOrderedBy'
 import { clearUserCart } from './hooks/clearUserCart'
-// import { initiateMpesaPayment } from './hooks/initiateMpesaPayment'
 import { populateOrderedBy } from './hooks/populateOrderedBy'
+import { sendOrderEmails } from './hooks/sendOrderEmails'
 import { updateUserPurchases } from './hooks/updateUserPurchases'
 
 export const Orders: CollectionConfig = {
@@ -17,7 +18,7 @@ export const Orders: CollectionConfig = {
     preview: doc => `${process.env.PAYLOAD_PUBLIC_SERVER_URL}/orders/${doc.id}`,
   },
   hooks: {
-    afterChange: [updateUserPurchases, clearUserCart],
+    afterChange: [updateUserPurchases, clearUserCart, sendOrderEmails],
   },
   access: {
     read: adminsOrOrderedBy,

@@ -35,6 +35,8 @@ export const fetchDoc = async <T>(args: {
 }): Promise<T> => {
   const { collection, slug, draft } = args || {}
 
+  // console.log(`Fetching doc from collection: ${collection}, slug: ${slug}, draft: ${draft}`)
+
   if (!queryMap[collection]) throw new Error(`Collection ${collection} not found`)
 
   let token: RequestCookie | undefined
@@ -42,6 +44,7 @@ export const fetchDoc = async <T>(args: {
   if (draft) {
     const { cookies } = await import('next/headers')
     token = cookies().get(payloadToken)
+    // console.log(`Using draft token: ${token?.value}`)
   }
 
   const doc: T = await fetch(`${GRAPHQL_API_URL}/api/graphql`, {
@@ -60,11 +63,20 @@ export const fetchDoc = async <T>(args: {
       },
     }),
   })
-    ?.then(res => res.json())
     ?.then(res => {
-      if (res.errors) throw new Error(res?.errors?.[0]?.message ?? 'Error fetching doc')
+      // console.log('Received response:', res)
+      return res.json()
+    })
+    ?.then(res => {
+      if (res.errors) {
+        // console.error('GraphQL errors:', res.errors)
+        throw new Error(res?.errors?.[0]?.message ?? 'Error fetching doc')
+      }
+      // console.log('Received data:', res?.data)
       return res?.data?.[queryMap[collection].key]?.docs?.[0]
     })
+
+  // console.log('Fetched doc:', doc)
 
   return doc
 }
