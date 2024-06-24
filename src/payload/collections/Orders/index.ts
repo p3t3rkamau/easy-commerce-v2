@@ -8,7 +8,6 @@ import { clearUserCart } from './hooks/clearUserCart'
 // import { initiateMpesaPayment } from './hooks/initiateMpesaPayment'
 import { populateOrderedBy } from './hooks/populateOrderedBy'
 import { updateUserPurchases } from './hooks/updateUserPurchases'
-import { LinkToPaymentIntent } from './ui/LinkToPaymentIntent'
 
 export const Orders: CollectionConfig = {
   slug: 'orders',
@@ -35,17 +34,6 @@ export const Orders: CollectionConfig = {
         beforeChange: [populateOrderedBy],
       },
     },
-    // {
-    //   name: 'stripePaymentIntentID',
-    //   label: 'Stripe Payment Intent ID',
-    //   type: 'text',
-    //   admin: {
-    //     position: 'sidebar',
-    //     components: {
-    //       Field: LinkToPaymentIntent,
-    //     },
-    //   },
-    // },
     {
       name: 'DeliveryLocation',
       label: 'Delivery Location',
@@ -101,19 +89,9 @@ export const Orders: CollectionConfig = {
           min: 0,
         },
         {
-          name: 'colorId',
-          label: 'Color Id',
-          type: 'text',
-        },
-        {
-          name: 'size',
-          label: 'Size',
-          type: 'text',
-        },
-        {
-          name: 'volumeOrHeight',
-          label: 'Volume or Height',
-          type: 'text',
+          name: 'selectedAttributes',
+          type: 'json',
+          label: 'Selected Attributes',
         },
       ],
     },

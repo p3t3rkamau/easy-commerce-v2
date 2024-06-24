@@ -41,7 +41,6 @@ import BeforeDashboard from './components/BeforeDashboard'
 import BeforeLogin from './components/BeforeLogin'
 import { Footer } from './globals/Footer'
 import { Header } from './globals/Header'
-import { MainMenu } from './globals/MainMenu'
 import { Settings } from './globals/Settings'
 // import payloadMux from './plugins/payload-mux/plugin'
 // import payloadVercel from './plugins/payload-vercel/plugin'
@@ -138,7 +137,7 @@ export default buildConfig({
     // QuestionSets,
     // ReusableContent,
   ],
-  globals: [Settings, Header, Footer, MainMenu],
+  globals: [Settings, Header, Footer],
   typescript: {
     outputFile: path.resolve(__dirname, 'payload-types.ts'),
   },

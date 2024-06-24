@@ -45,7 +45,7 @@ export default async function Page({ params: { slug = 'home' } }) {
     })
 
     categories = await fetchDocs<Category>('categories')
-    // console.log(page.Categories)
+    // console.log(page)
   } catch (error) {
     // when deploying this template on Payload Cloud, this page needs to build before the APIs are live
     // so swallow the error here and simply render the page with fallback data where necessary
@@ -64,7 +64,7 @@ export default async function Page({ params: { slug = 'home' } }) {
     return notFound()
   }
 
-  const { hero, layout, Categories } = page
+  const { hero, layout, Categories, heroImage } = page
   // console.log('slug:', slug)
   // console.log('layout:', layout)
   const noCategories = !Categories || Categories.length === 0
@@ -74,7 +74,7 @@ export default async function Page({ params: { slug = 'home' } }) {
       <section>
         <Hero {...hero} />
         {/* <HomeCarousel /> */}
-        <EventHero />
+        <EventHero heroimage={heroImage} />
         <FlexBanner />
         <Gutter className={classes.home}>
           {!noCategories && <CategoriesComponent categories={Categories} />}

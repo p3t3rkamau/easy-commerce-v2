@@ -1,8 +1,7 @@
-// BudgetFilter.tsx
-'use client'
 import React from 'react'
 
 import './budget.scss'
+
 interface BudgetFilterProps {
   value: { min: number; max: number }
   onChange: (value: { min: number; max: number }) => void
@@ -30,15 +29,15 @@ const BudgetFilter: React.FC<BudgetFilterProps> = ({ value, onChange }) => {
         <input
           type="number"
           className="input"
+          placeholder="Min"
           min={0}
           value={value.min}
           onChange={handleMinChange}
         />
-      </div>
-      <div>
         <input
           type="number"
           className="input"
+          placeholder="Max"
           min={0}
           value={value.max}
           onChange={handleMaxChange}

@@ -5,10 +5,11 @@ import { AttributesCollection, Product } from '../../../payload/payload-types'
 import { AddToCartButton } from '../../_components/AddToCartButton'
 import { Gutter } from '../../_components/Gutter'
 import { AttributeSelector } from './AttributesSelector'
-import { ProductDescription } from './ProductDescription'
+import ProductDescription from './ProductDescription'
 import { ProductDetails } from './ProductDetail'
 import ProductImage from './ProductImage'
 import { QuantitySelector } from './QuantitySelector'
+import Review from './Reviews'
 
 import classes from './index.module.scss'
 
@@ -29,6 +30,7 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
   useEffect(() => {
     if (ProductsAttributes && ProductsAttributes.length > 0) {
       const prices = ProductsAttributes.flatMap(attr =>
+        // @ts-ignore
         attr.Attribute_Property?.map(prop => prop.price).filter(price => price !== undefined),
       ).filter(price => price !== undefined) as number[]
 
@@ -44,12 +46,19 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
   }
 
   const handleAttributeSelect = (attributeName: string, value: string) => {
-    setSelectedAttributes({
-      ...selectedAttributes,
-      [attributeName]: value,
+    // console.log(`Attribute selected: ${attributeName}, Value: ${value}`)
+
+    setSelectedAttributes(prevAttributes => {
+      const newAttributes = {
+        ...prevAttributes,
+        [attributeName]: value,
+      }
+      // console.log('Updated selectedAttributes:', newAttributes)
+      return newAttributes
     })
 
     const attribute = ProductsAttributes.find(
+      // @ts-ignore
       attr => attr.Attribute_Name === attributeName,
     ) as AttributesCollection
 
@@ -57,8 +66,10 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
 
     if (selectedProperty?.price !== undefined) {
       setSelectedAttributePrice(selectedProperty.price)
+      // console.log(`Selected attribute price: ${selectedProperty.price}`)
     } else {
       setSelectedAttributePrice(null)
+      // console.log('No price found for selected attribute')
     }
   }
 
@@ -74,7 +85,9 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
     <Gutter className={classes.productHero}>
       <div>
         <ProductImage
+          // @ts-ignore
           mainImage={mainImage}
+          // @ts-ignore
           otherImages={OtherImages}
           onImageClick={handleSmallImageClick}
         />
@@ -86,19 +99,28 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
           minAttributePrice={minAttributePrice}
           maxAttributePrice={maxAttributePrice}
         />
-        <AttributeSelector
-          ProductsAttributes={ProductsAttributes}
-          selectedAttributes={selectedAttributes}
-          handleAttributeSelect={handleAttributeSelect}
-        />
-        <QuantitySelector quantity={quantity} setQuantity={handleQuantityChange} />
-        <AddToCartButton
-          product={product}
-          quantity={quantity}
-          className={classes.addToCartButton}
-          selectedAttributes={selectedAttributes}
-        />
+        <div className={classes.flexMain}>
+          <div className={classes.AttributeFlex}>
+            <AttributeSelector
+              // @ts-ignore
+              ProductsAttributes={ProductsAttributes}
+              selectedAttributes={selectedAttributes}
+              handleAttributeSelect={handleAttributeSelect}
+            />
+          </div>
+          <div className={classes.priceFlex}>
+            <QuantitySelector quantity={quantity} setQuantity={handleQuantityChange} />
+            <AddToCartButton
+              product={product}
+              quantity={quantity}
+              className={classes.addToCartButton}
+              selectedAttributes={selectedAttributes}
+            />
+          </div>
+        </div>
+        {/* TODO:if a product has a attributes dont just add cart without selecting attributes */}
         <ProductDescription description={description} />
+        <Review />
       </div>
     </Gutter>
   )

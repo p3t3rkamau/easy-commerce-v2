@@ -1,0 +1,35 @@
+.filtersContainer{
+    margin: 15px 0;
+    display: block;
+    
+}
+.filtersContainer h3{
+    align-items: flex-start;
+    display: flex;
+    
+}
+
+.categoryContainer{
+    position: relative;
+    overflow: scroll;
+    width: 100%;
+    padding: 12px 0;
+}
+.List{
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    gap: 10px;
+    overflow: hidden;
+}
+.List li{
+   
+    color: white;
+}
+.List li button{
+    padding: 8px 10px;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+
+}

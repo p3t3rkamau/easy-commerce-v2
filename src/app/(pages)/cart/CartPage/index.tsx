@@ -74,19 +74,20 @@ export const CartPage: React.FC<{
                         quantity,
                         product,
                         product: { id, title, meta },
+                        selectedAttributes, // Make sure this is available in your cart item object
                       } = item
-
-                      const isLast = index === (cart?.items?.length || 0) - 1
 
                       const metaImage = meta?.image
 
                       return (
                         <CartItem
+                          key={`${id}-${index}`}
                           product={product}
                           title={title}
                           metaImage={metaImage}
                           qty={quantity}
                           addItemToCart={addItemToCart}
+                          selectedAttributes={selectedAttributes} // Pass this to CartItem
                         />
                       )
                     }

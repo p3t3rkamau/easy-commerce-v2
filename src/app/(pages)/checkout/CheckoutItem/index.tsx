@@ -1,3 +1,4 @@
+import React from 'react'
 import Link from 'next/link'
 
 import { Media } from '../../../_components/Media'
@@ -5,7 +6,14 @@ import { Price } from '../../../_components/Price'
 
 import classes from './index.module.scss'
 
-export const CheckoutItem = ({ product, title, metaImage, quantity, index }) => {
+export const CheckoutItem = ({
+  product,
+  title,
+  metaImage,
+  quantity,
+  index,
+  selectedAttributes,
+}) => {
   return (
     <li className={classes.item} key={index}>
       <Link href={`/products/${product.slug}`} className={classes.mediaWrapper}>
@@ -20,6 +28,15 @@ export const CheckoutItem = ({ product, title, metaImage, quantity, index }) => 
           <h6>{title}</h6>
           <Price product={product} button={false} />
         </div>
+        {selectedAttributes && Object.entries(selectedAttributes).length > 0 && (
+          <div className={classes.attributes}>
+            {Object.entries(selectedAttributes).map(([key, value]) => (
+              <p key={key} className={classes.attribute}>
+                {key}: {value}
+              </p>
+            ))}
+          </div>
+        )}
         <p className={classes.quantity}>x{quantity}</p>
       </div>
 

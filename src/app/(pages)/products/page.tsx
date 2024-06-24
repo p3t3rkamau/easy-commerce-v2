@@ -4,6 +4,8 @@ import { draftMode } from 'next/headers'
 import { Category, Page } from '../../../payload/payload-types'
 import { fetchDoc } from '../../_api/fetchDoc'
 import { fetchDocs } from '../../_api/fetchDocs'
+import LastViewed from '../../_blocks/LastViewed'
+import Recommeded from '../../_blocks/Recommended'
 import { Blocks } from '../../_components/Blocks'
 import { Gutter } from '../../_components/Gutter'
 import { HR } from '../../_components/HR'
@@ -38,7 +40,7 @@ const Products = async () => {
       <Gutter className={classes.MainContainer}>
         <div className={classes.products}>
           <div className={classes.filtersFlex}>
-            <Filters categories={Categories} />
+            <Filters categories={categories} />
           </div>
           <div>
             <SortAndFilter />

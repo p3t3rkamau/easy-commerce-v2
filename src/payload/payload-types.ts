@@ -447,6 +447,7 @@ export interface Category {
   createdAt: string;
 }
 export interface Media {
+  media(media: any): void;
   id: string;
   alt?: string | null;
   imagekit?: {
@@ -997,9 +998,15 @@ export interface Order {
         product: string | Product;
         price?: number | null;
         quantity?: number | null;
-        colorId?: string | null;
-        size?: string | null;
-        volumeOrHeight?: string | null;
+        selectedAttributes?:
+          | {
+              [k: string]: unknown;
+            }
+          | unknown[]
+          | string
+          | number
+          | boolean
+          | null;
         id?: string | null;
       }[]
     | null;

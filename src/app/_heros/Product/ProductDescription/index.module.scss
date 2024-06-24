@@ -1,0 +1,20 @@
+.description {
+    margin: 1em 0;
+    h6 {
+      font-size: 1.2em;
+      margin-bottom: 0.5em;
+    }
+    p {
+      margin-bottom: 0.5em;
+    }
+    .toggleButton {
+      background: none;
+      border: none;
+      color: #007bff;
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 0;
+      font: inherit;
+    }
+  }
+  

@@ -11825,9 +11825,7 @@ type Order_Items {
   product(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): Product
   price: Float
   quantity: Float
-  colorId: String
-  size: String
-  volumeOrHeight: String
+  selectedAttributes: JSON
   id: String
 }
 
@@ -11854,9 +11852,7 @@ input Order_where {
   items__product: Order_items__product_operator
   items__price: Order_items__price_operator
   items__quantity: Order_items__quantity_operator
-  items__colorId: Order_items__colorId_operator
-  items__size: Order_items__size_operator
-  items__volumeOrHeight: Order_items__volumeOrHeight_operator
+  items__selectedAttributes: Order_items__selectedAttributes_operator
   items__id: Order_items__id_operator
   updatedAt: Order_updatedAt_operator
   createdAt: Order_createdAt_operator
@@ -11942,36 +11938,13 @@ input Order_items__quantity_operator {
   exists: Boolean
 }
 
-input Order_items__colorId_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input Order_items__size_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input Order_items__volumeOrHeight_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
+input Order_items__selectedAttributes_operator {
+  equals: JSON
+  not_equals: JSON
+  like: JSON
+  contains: JSON
+  within: JSON
+  intersects: JSON
   exists: Boolean
 }
 
@@ -12028,9 +12001,7 @@ input Order_where_and {
   items__product: Order_items__product_operator
   items__price: Order_items__price_operator
   items__quantity: Order_items__quantity_operator
-  items__colorId: Order_items__colorId_operator
-  items__size: Order_items__size_operator
-  items__volumeOrHeight: Order_items__volumeOrHeight_operator
+  items__selectedAttributes: Order_items__selectedAttributes_operator
   items__id: Order_items__id_operator
   updatedAt: Order_updatedAt_operator
   createdAt: Order_createdAt_operator
@@ -12048,9 +12019,7 @@ input Order_where_or {
   items__product: Order_items__product_operator
   items__price: Order_items__price_operator
   items__quantity: Order_items__quantity_operator
-  items__colorId: Order_items__colorId_operator
-  items__size: Order_items__size_operator
-  items__volumeOrHeight: Order_items__volumeOrHeight_operator
+  items__selectedAttributes: Order_items__selectedAttributes_operator
   items__id: Order_items__id_operator
   updatedAt: Order_updatedAt_operator
   createdAt: Order_createdAt_operator
@@ -12221,9 +12190,7 @@ type OrdersDocAccessFields_items_Fields {
   product: OrdersDocAccessFields_items_product
   price: OrdersDocAccessFields_items_price
   quantity: OrdersDocAccessFields_items_quantity
-  colorId: OrdersDocAccessFields_items_colorId
-  size: OrdersDocAccessFields_items_size
-  volumeOrHeight: OrdersDocAccessFields_items_volumeOrHeight
+  selectedAttributes: OrdersDocAccessFields_items_selectedAttributes
   id: OrdersDocAccessFields_items_id
 }
 
@@ -12296,72 +12263,26 @@ type OrdersDocAccessFields_items_quantity_Delete {
   permission: Boolean!
 }
 
-type OrdersDocAccessFields_items_colorId {
-  create: OrdersDocAccessFields_items_colorId_Create
-  read: OrdersDocAccessFields_items_colorId_Read
-  update: OrdersDocAccessFields_items_colorId_Update
-  delete: OrdersDocAccessFields_items_colorId_Delete
+type OrdersDocAccessFields_items_selectedAttributes {
+  create: OrdersDocAccessFields_items_selectedAttributes_Create
+  read: OrdersDocAccessFields_items_selectedAttributes_Read
+  update: OrdersDocAccessFields_items_selectedAttributes_Update
+  delete: OrdersDocAccessFields_items_selectedAttributes_Delete
 }
 
-type OrdersDocAccessFields_items_colorId_Create {
+type OrdersDocAccessFields_items_selectedAttributes_Create {
   permission: Boolean!
 }
 
-type OrdersDocAccessFields_items_colorId_Read {
+type OrdersDocAccessFields_items_selectedAttributes_Read {
   permission: Boolean!
 }
 
-type OrdersDocAccessFields_items_colorId_Update {
+type OrdersDocAccessFields_items_selectedAttributes_Update {
   permission: Boolean!
 }
 
-type OrdersDocAccessFields_items_colorId_Delete {
-  permission: Boolean!
-}
-
-type OrdersDocAccessFields_items_size {
-  create: OrdersDocAccessFields_items_size_Create
-  read: OrdersDocAccessFields_items_size_Read
-  update: OrdersDocAccessFields_items_size_Update
-  delete: OrdersDocAccessFields_items_size_Delete
-}
-
-type OrdersDocAccessFields_items_size_Create {
-  permission: Boolean!
-}
-
-type OrdersDocAccessFields_items_size_Read {
-  permission: Boolean!
-}
-
-type OrdersDocAccessFields_items_size_Update {
-  permission: Boolean!
-}
-
-type OrdersDocAccessFields_items_size_Delete {
-  permission: Boolean!
-}
-
-type OrdersDocAccessFields_items_volumeOrHeight {
-  create: OrdersDocAccessFields_items_volumeOrHeight_Create
-  read: OrdersDocAccessFields_items_volumeOrHeight_Read
-  update: OrdersDocAccessFields_items_volumeOrHeight_Update
-  delete: OrdersDocAccessFields_items_volumeOrHeight_Delete
-}
-
-type OrdersDocAccessFields_items_volumeOrHeight_Create {
-  permission: Boolean!
-}
-
-type OrdersDocAccessFields_items_volumeOrHeight_Read {
-  permission: Boolean!
-}
-
-type OrdersDocAccessFields_items_volumeOrHeight_Update {
-  permission: Boolean!
-}
-
-type OrdersDocAccessFields_items_volumeOrHeight_Delete {
+type OrdersDocAccessFields_items_selectedAttributes_Delete {
   permission: Boolean!
 }
 
@@ -30702,9 +30623,7 @@ type OrdersFields_items_Fields {
   product: OrdersFields_items_product
   price: OrdersFields_items_price
   quantity: OrdersFields_items_quantity
-  colorId: OrdersFields_items_colorId
-  size: OrdersFields_items_size
-  volumeOrHeight: OrdersFields_items_volumeOrHeight
+  selectedAttributes: OrdersFields_items_selectedAttributes
   id: OrdersFields_items_id
 }
 
@@ -30777,72 +30696,26 @@ type OrdersFields_items_quantity_Delete {
   permission: Boolean!
 }
 
-type OrdersFields_items_colorId {
-  create: OrdersFields_items_colorId_Create
-  read: OrdersFields_items_colorId_Read
-  update: OrdersFields_items_colorId_Update
-  delete: OrdersFields_items_colorId_Delete
+type OrdersFields_items_selectedAttributes {
+  create: OrdersFields_items_selectedAttributes_Create
+  read: OrdersFields_items_selectedAttributes_Read
+  update: OrdersFields_items_selectedAttributes_Update
+  delete: OrdersFields_items_selectedAttributes_Delete
 }
 
-type OrdersFields_items_colorId_Create {
+type OrdersFields_items_selectedAttributes_Create {
   permission: Boolean!
 }
 
-type OrdersFields_items_colorId_Read {
+type OrdersFields_items_selectedAttributes_Read {
   permission: Boolean!
 }
 
-type OrdersFields_items_colorId_Update {
+type OrdersFields_items_selectedAttributes_Update {
   permission: Boolean!
 }
 
-type OrdersFields_items_colorId_Delete {
-  permission: Boolean!
-}
-
-type OrdersFields_items_size {
-  create: OrdersFields_items_size_Create
-  read: OrdersFields_items_size_Read
-  update: OrdersFields_items_size_Update
-  delete: OrdersFields_items_size_Delete
-}
-
-type OrdersFields_items_size_Create {
-  permission: Boolean!
-}
-
-type OrdersFields_items_size_Read {
-  permission: Boolean!
-}
-
-type OrdersFields_items_size_Update {
-  permission: Boolean!
-}
-
-type OrdersFields_items_size_Delete {
-  permission: Boolean!
-}
-
-type OrdersFields_items_volumeOrHeight {
-  create: OrdersFields_items_volumeOrHeight_Create
-  read: OrdersFields_items_volumeOrHeight_Read
-  update: OrdersFields_items_volumeOrHeight_Update
-  delete: OrdersFields_items_volumeOrHeight_Delete
-}
-
-type OrdersFields_items_volumeOrHeight_Create {
-  permission: Boolean!
-}
-
-type OrdersFields_items_volumeOrHeight_Read {
-  permission: Boolean!
-}
-
-type OrdersFields_items_volumeOrHeight_Update {
-  permission: Boolean!
-}
-
-type OrdersFields_items_volumeOrHeight_Delete {
+type OrdersFields_items_selectedAttributes_Delete {
   permission: Boolean!
 }
 
@@ -39585,9 +39458,7 @@ input mutationOrder_ItemsInput {
   product: String
   price: Float
   quantity: Float
-  colorId: String
-  size: String
-  volumeOrHeight: String
+  selectedAttributes: JSON
   id: String
 }
 
@@ -39606,9 +39477,7 @@ input mutationOrderUpdate_ItemsInput {
   product: String
   price: Float
   quantity: Float
-  colorId: String
-  size: String
-  volumeOrHeight: String
+  selectedAttributes: JSON
   id: String
 }
 

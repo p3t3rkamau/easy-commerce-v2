@@ -11,8 +11,8 @@ export const ORDERS = `
 `
 
 export const ORDER = `
-  query Order($id: String ) {
-    Orders(where: { id: { equals: $id}}) {
+  query Order($id: String) {
+    Orders(where: { id: { equals: $id } }) {
       docs {
         id
         orderedBy
@@ -20,6 +20,8 @@ export const ORDER = `
           product ${PRODUCT}
           title
           price
+          quantity
+          selectedAttributes
         }
       }
     }
