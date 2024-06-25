@@ -60,7 +60,6 @@ export interface Config {
     settings: Settings;
     header: Header;
     footer: Footer;
-    'main-menu': MainMenu;
   };
 }
 export interface Page {
@@ -447,7 +446,6 @@ export interface Category {
   createdAt: string;
 }
 export interface Media {
-  media(media: any): void;
   id: string;
   alt?: string | null;
   imagekit?: {
@@ -1377,108 +1375,6 @@ export interface Footer {
           label: string;
           icon?: string | Media | null;
         };
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-export interface MainMenu {
-  id: string;
-  tabs?:
-    | {
-        label: string;
-        enableDirectLink?: boolean | null;
-        enableDropdown?: boolean | null;
-        link?: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?: {
-            relationTo: 'pages';
-            value: string | Page;
-          } | null;
-          url?: string | null;
-        };
-        description?: string | null;
-        descriptionLinks?:
-          | {
-              link: {
-                type?: ('reference' | 'custom') | null;
-                newTab?: boolean | null;
-                reference?: {
-                  relationTo: 'pages';
-                  value: string | Page;
-                } | null;
-                url?: string | null;
-                label: string;
-                icon?: string | Media | null;
-              };
-              id?: string | null;
-            }[]
-          | null;
-        navItems?:
-          | {
-              style?: ('default' | 'featured' | 'list') | null;
-              defaultLink?: {
-                link: {
-                  type?: ('reference' | 'custom') | null;
-                  newTab?: boolean | null;
-                  reference?: {
-                    relationTo: 'pages';
-                    value: string | Page;
-                  } | null;
-                  url?: string | null;
-                  label: string;
-                  icon?: string | Media | null;
-                };
-                description?: string | null;
-              };
-              featuredLink?: {
-                tag?: string | null;
-                label?:
-                  | {
-                      [k: string]: unknown;
-                    }[]
-                  | null;
-                links?:
-                  | {
-                      link: {
-                        type?: ('reference' | 'custom') | null;
-                        newTab?: boolean | null;
-                        reference?: {
-                          relationTo: 'pages';
-                          value: string | Page;
-                        } | null;
-                        url?: string | null;
-                        label: string;
-                        icon?: string | Media | null;
-                      };
-                      id?: string | null;
-                    }[]
-                  | null;
-              };
-              listLinks?: {
-                tag?: string | null;
-                links?:
-                  | {
-                      link: {
-                        type?: ('reference' | 'custom') | null;
-                        newTab?: boolean | null;
-                        reference?: {
-                          relationTo: 'pages';
-                          value: string | Page;
-                        } | null;
-                        url?: string | null;
-                        label: string;
-                        icon?: string | Media | null;
-                      };
-                      id?: string | null;
-                    }[]
-                  | null;
-              };
-              id?: string | null;
-            }[]
-          | null;
         id?: string | null;
       }[]
     | null;
