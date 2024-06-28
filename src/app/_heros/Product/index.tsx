@@ -46,19 +46,13 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
   }
 
   const handleAttributeSelect = (attributeName: string, value: string) => {
-    // console.log(`Attribute selected: ${attributeName}, Value: ${value}`)
-
-    setSelectedAttributes(prevAttributes => {
-      const newAttributes = {
-        ...prevAttributes,
-        [attributeName]: value,
-      }
-      // console.log('Updated selectedAttributes:', newAttributes)
-      return newAttributes
-    })
+    setSelectedAttributes(prevAttributes => ({
+      ...prevAttributes,
+      [attributeName]: value,
+    }))
 
     const attribute = ProductsAttributes.find(
-      // @ts-ignore
+      // @ts-expect-error
       attr => attr.Attribute_Name === attributeName,
     ) as AttributesCollection
 
@@ -66,10 +60,8 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
 
     if (selectedProperty?.price !== undefined) {
       setSelectedAttributePrice(selectedProperty.price)
-      // console.log(`Selected attribute price: ${selectedProperty.price}`)
     } else {
       setSelectedAttributePrice(null)
-      // console.log('No price found for selected attribute')
     }
   }
 
@@ -85,9 +77,9 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
     <Gutter className={classes.productHero}>
       <div>
         <ProductImage
-          // @ts-ignore
+         //@ts-ignore
           mainImage={mainImage}
-          // @ts-ignore
+          //@ts-ignore
           otherImages={OtherImages}
           onImageClick={handleSmallImageClick}
         />
@@ -102,7 +94,7 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
         <div className={classes.flexMain}>
           <div className={classes.AttributeFlex}>
             <AttributeSelector
-              // @ts-ignore
+            // @ts-ignore
               ProductsAttributes={ProductsAttributes}
               selectedAttributes={selectedAttributes}
               handleAttributeSelect={handleAttributeSelect}
@@ -118,7 +110,6 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
             />
           </div>
         </div>
-        {/* TODO:if a product has a attributes dont just add cart without selecting attributes */}
         <ProductDescription description={description} />
         <Review />
       </div>

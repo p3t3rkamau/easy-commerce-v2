@@ -24,6 +24,7 @@ export const AddToCartButton: React.FC<{
 }) => {
   const { cart, addItemToCart, isProductInCart, hasInitializedCart } = useCart()
   const [isInCart, setIsInCart] = useState<boolean>(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const router = useRouter()
 
   useEffect(() => {
@@ -31,7 +32,20 @@ export const AddToCartButton: React.FC<{
   }, [isProductInCart, product, cart])
 
   const handleAddToCart = () => {
-    const validatedQuantity = Math.max(1, quantity)  // Ensure quantity is at least 1
+    const validatedQuantity = Math.max(1, quantity) // Ensure quantity is at least 1
+
+    // Check if all required attributes are selected
+    if (product.ProductsAttributes && product.ProductsAttributes.length > 0) {
+      const allAttributesSelected = product.ProductsAttributes.every(
+        attribute => selectedAttributes && selectedAttributes[attribute.Attribute_Name],
+      )
+
+      if (!allAttributesSelected) {
+        setErrorMessage('Please select all required attributes before adding to cart.')
+        return
+      }
+    }
+
     if (!isInCart) {
       addItemToCart({
         product,

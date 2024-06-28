@@ -1,7 +1,7 @@
 // utils/sendEmail.js
 import { Resend } from 'resend'
 
-const resend = new Resend('re_CBw9McTD_LLCRBcEL65gWUBF5EWsrURRt')
+const resend = new Resend('re_5GMVdfwo_Q8LT5uyX8MFcdgHXZPJqbkim')
 
 export const sendEmail = async ({ to, subject, html }) => {
   try {

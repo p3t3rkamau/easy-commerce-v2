@@ -8,23 +8,27 @@ export const HEADER = `
   }
 `
 export const HEADER_CATEGORIES_QUERY = `
-query HeaderCategories {
-  Category
-  Subcategory {
-    Name
-    SubcategoryImage {
-      media {
-        imagekit {
-          url
+  query GetHeaderCategories {
+    headerCategories {
+      id
+      Category
+      Subcategory {
+        Name
+        SubcategoryImage {
+          media {
+            imagekit {
+              url
+            }
+          }
         }
+        Attribute {
+          Name
+          id
+        }
+        id
       }
     }
-    Attribute {
-      Name
-    }
   }
- 
-}
 `
 
 export const HEADER_QUERY = `

@@ -25,6 +25,7 @@ import ProductGrid from '../../_components/CardGrid/ProductGrid'
 import CategoriesComponent from '../../_components/Categories'
 import ExpandableFloatingActionButton from '../../_components/ChatwidgetComponent/_components/FloatingAction/ExpandableFloatingActionButton'
 import FlexBanner from '../../_components/FlexBanner'
+import HeaderCategories from '../../_components/HeaderCategories'
 import EventHero from '../../_heros/EventHero'
 
 // import { HomeCarousel } from '../../_components/HomeCarousel/HomeCarousel'
@@ -74,6 +75,7 @@ export default async function Page({ params: { slug = 'home' } }) {
       <section>
         <Hero {...hero} />
         {/* <HomeCarousel /> */}
+        <HeaderCategories />
         <EventHero heroimage={heroImage} />
         <FlexBanner />
         <Gutter className={classes.home}>
