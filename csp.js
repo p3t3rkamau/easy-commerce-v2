@@ -1,5 +1,12 @@
 const policies = {
-  'default-src': ["'self'", 'https://imagekit.io', 'https://ik.imagekit.io/'],
+  'default-src': [
+    "'self'",
+    'https://imagekit.io',
+    'https://ik.imagekit.io/',
+    'https://media.giphy.com',
+    'https://giphy.com',
+    'https://i.ibb.co',
+  ],
   'script-src': [
     "'self'",
     "'unsafe-inline'",
@@ -9,6 +16,7 @@ const policies = {
     'https://maps.googleapis.com',
     'https://imagekit.io',
     'https://eu-central-1.aws.data.mongodb-api.com',
+    'http://translate.google.com',
   ],
   'child-src': ["'self'"],
   'style-src': ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
@@ -18,6 +26,9 @@ const policies = {
     'https://raw.githubusercontent.com',
     'https://imagekit.io',
     'https://ik.imagekit.io/',
+    'https://giphy.com',
+    'https://media.giphy.com',
+    'https://i.ibb.co',
   ],
   'font-src': ["'self'"],
   'frame-src': [
@@ -25,6 +36,9 @@ const policies = {
     'https://checkout.stripe.com',
     'https://js.stripe.com',
     'https://hooks.stripe.com',
+    'http://maps.google.com',
+    'https://maps.google.com',
+    'https://www.google.com',
   ],
   'connect-src': [
     "'self'",
@@ -33,6 +47,18 @@ const policies = {
     'https://maps.googleapis.com',
     'https://imagekit.io',
     'https://ik.imagekit.io/',
+    'https://jae-travels-expenditions.payloadcms.app/api/comments',
+    'jaetravel.co.ke/api/comments',
+    'jaetravel.co.ke/api/reviews',
+    'https://jae-travels-expenditions.payloadcms.app/api/reviews',
+    'jaetravel.co.ke/api/form-submissions',
+    'https://jae-travels-expenditions.payloadcms.app/api/form-submissions',
+    'jaetravel.co.ke',
+    'https://jae-travels-expenditions.payloadcms.app',
+    'http://translate.google.com',
+    'https://giphy.com',
+    'https://media.giphy.com',
+    'https://i.ibb.co',
   ],
 }
 

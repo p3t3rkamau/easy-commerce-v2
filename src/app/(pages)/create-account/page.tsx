@@ -20,11 +20,11 @@ export default async function CreateAccount() {
 
   return (
     <section className={classes.createAccount}>
-      <div className={classes.heroImg}>
+      {/* <div className={classes.heroImg}>
         <Link href="/">
           <Image src="/Easy-logo.svg" alt="logo" width={100} height={23} className={classes.logo} />
         </Link>
-      </div>
+      </div> */}
 
       <div className={classes.formWrapper}>
         <div className={classes.formContainer}>
@@ -32,10 +32,9 @@ export default async function CreateAccount() {
 
           <div className={classes.formTitle}>
             <h3>Create Account</h3>
-            <Image src="/assets/icons/hand.png" alt="hand" width={30} height={30} />
           </div>
 
-          <p>Please enter details</p>
+          {/* <p>Please enter details</p> */}
 
           <CreateAccountForm />
         </div>

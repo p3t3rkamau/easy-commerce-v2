@@ -6,7 +6,7 @@ import richText from '../../fields/richText'
 
 export const CallToAction: Block = {
   slug: 'cta',
-  imageURL: 'https://i.pinimg.com/564x/f0/0f/02/f00f0218aa011a510797817b82e336e8.jpg',
+  imageURL: 'https://ik.imagekit.io/6cga8hi9z/All_Products/Home__15__zk6UVOew1Z.png',
   labels: {
     singular: 'Call to Action',
     plural: 'Calls to Action',

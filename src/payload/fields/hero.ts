@@ -60,28 +60,5 @@ export const hero: Field = {
           ['highImpact', 'mediumImpact', 'customHero'].includes(type),
       },
     },
-    // {
-    //   name: 'slides',
-    //   label: 'Slides',
-    //   labels: {
-    //     singular: 'Slide',
-    //     plural: 'Slides',
-    //   },
-    //   type: 'array',
-    //   minRows: 3,
-    //   maxRows: 9,
-    //   fields: [
-    //     {
-    //       name: 'media',
-    //       type: 'upload',
-    //       relationTo: 'media',
-    //       required: true,
-    //       admin: {
-    //         condition: (_, { type } = {}) =>
-    //           ['highImpact', 'mediumImpact', 'customHero'].includes(type),
-    //       },
-    //     },
-    //   ],
-    // },
   ],
 }

@@ -1,0 +1,49 @@
+@import '../../../_css/common.scss';
+
+.attributeSelect {
+    margin-bottom: 20px;
+    @include small-break{
+      margin: 0;
+    }
+  
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      @include small-break{
+        margin-bottom: 0;
+      }
+    }
+  
+    .select {
+      width: 60%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+      @include small-break{
+        width: 100%;
+        padding: 4px;
+      }
+    }
+  
+    
+  }
+  .colorOptions {
+    display: flex;
+    gap: 0.5rem; // Adjust the gap between color options as needed
+    margin-bottom: 1rem;
+
+  }
+  
+  .colorOption {
+    width: 30px; // Adjust the width as needed
+    height: 30px; // Adjust the height as needed
+    border-radius: 50%; // Make it a circle
+    cursor: pointer;
+    border: 1px solid rgb(179, 172, 172); // Add border for selected state
+  
+    &.selected {
+      border: 2px solid #9b03af; // Change to your desired selected border color
+    }
+  }

@@ -1,0 +1,20 @@
+.quantityWrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  
+    label {
+      margin-right: 10px;
+      font-weight: bold;
+    }
+  
+    .quantityInput {
+      padding: 8px;
+      width: 60px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+  }
+  
+  

@@ -1,0 +1,84 @@
+.container{
+  border: 1px solid rgb(201, 195, 195);
+  position: relative;
+  margin: 20px 0 ;
+  border-radius: 10px;
+}
+.search input{
+  padding: 10px;
+  width: 95%;
+  margin: 10px 10px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  border: none;
+  outline: none;
+  justify-content: center;
+}
+.searchResult ul li{
+  text-decoration: none;
+  list-style-type: none;
+  padding: 5px 5px;
+  cursor: pointer;
+  width: 100%;
+}
+.searchFlex{
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  
+  padding: 2px 2px;
+  margin: 3px 3px;
+  border-radius: 5px;
+  
+}
+.SearchResultImage{
+  max-width: 30px;
+  object-fit: cover;
+  width: 100%;
+}
+.mostsearched{
+  position: relative;
+}
+.mostsearched ul {
+  display: flex;
+  flex-direction: column;
+ 
+  flex-wrap: wrap;
+  width: 100%;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.mostsearched ul li{
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin: 5px;
+  font-size: 10px;
+  cursor: pointer;
+}
+.header{
+  display: flex;
+  font-weight: 600;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  align-items: center;
+  justify-content: center;
+}
+.productsearch{
+  width: 100%;
+  
+}
+
+.resultItem {
+  // Styles for individual result items
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.loading {
+  text-align: center;
+  padding: 20px;
+}

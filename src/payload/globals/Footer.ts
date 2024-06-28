@@ -28,6 +28,36 @@ export const Footer: GlobalConfig = {
       },
     },
     {
+      name: 'topbrands',
+      label: 'Top Brands',
+      type: 'relationship',
+      relationTo: 'categories',
+      hasMany: true,
+      required: true,
+      filterOptions: ({ id }) => {
+        return {
+          id: {
+            not_in: [id],
+          },
+        }
+      },
+    },
+    {
+      name: 'information',
+      label: 'Information',
+      type: 'relationship',
+      relationTo: 'categories',
+      hasMany: true,
+      required: true,
+      filterOptions: ({ id }) => {
+        return {
+          id: {
+            not_in: [id],
+          },
+        }
+      },
+    },
+    {
       name: 'navItems',
       type: 'array',
       maxRows: 6,

@@ -26,10 +26,9 @@ export const PRODUCT = `
           ${ARCHIVE_BLOCK}
         }
         price
-        size 
-        colors 
-        volumeAndWeight
         OutOfStock
+        discount
+        discountedPrice
         OtherImages {
           media {
             imagekit {
@@ -45,6 +44,24 @@ export const PRODUCT = `
           title
           price
           ${META}
+        }
+        ProductsAttributes {
+          id
+          title
+          Attribute_Name
+          Attribute_Property {
+            label
+            type
+            Value
+            colourValue
+            NumberValue
+            media {
+              imagekit {
+                url
+              }
+            }
+            price
+          }
         }
         ${META}
       }

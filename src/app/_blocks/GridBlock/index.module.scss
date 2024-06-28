@@ -1,0 +1,66 @@
+@import '../../_css/common.scss';
+
+.Container{
+    position: relative;
+    width: 100%;
+}
+.gridBlock{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-height: 400px;
+    border: 1px solid black;
+    @include small-break{
+        flex-direction: column;
+        width: 100%;
+    }
+}
+.grid{
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    border: 1px solid black;
+
+}
+.gridColumn{
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    border: 1px solid black;
+}
+.Block1{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+   
+    gap: 10px;
+    border: 1px solid black;
+}
+.Block2{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    
+    gap: 10px;
+    border: 1px solid black;
+
+}
+.Block3{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+   
+    gap: 10px;
+    border: 1px solid black;
+}
+.Image{
+    max-width: 100px;
+
+    object-fit: cover;
+    width: 100%;
+}

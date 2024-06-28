@@ -4,19 +4,22 @@ import dotenv from 'dotenv'
 import express from 'express'
 import next from 'next'
 import nextBuild from 'next/dist/build'
+import NodeCache from 'node-cache'
 import nodemailerSendgrid from 'nodemailer-sendgrid'
 import path from 'path'
 import payload from 'payload'
 
-// import { seed } from './payload/seed'
+import generateSitemap from '../genarateSitemap'
 
 dotenv.config({
   path: path.resolve(__dirname, '../.env'),
 })
 
 const app = express()
-const PORT = process.env.PORT || 3000
+const cache = new NodeCache()
+const PORT = process.env.PORT || 3002
 app.use(cors())
+app.use(express.json())
 
 const sendGridAPIKey = process.env.SENDGRID_API_KEY
 
@@ -31,8 +34,8 @@ const start = async (): Promise<void> => {
     secret: process.env.PAYLOAD_SECRET || '',
     express: app,
     email: {
-      fromName: 'Payload CMS',
-      fromAddress: 'info@payloadcms.org',
+      fromName: 'EasyBake Supplies Limited',
+      fromAddress: 'petercubolt@gmail.com',
       ...sendgridConfig,
     },
     onInit: () => {
@@ -60,9 +63,34 @@ const start = async (): Promise<void> => {
     dev: process.env.NODE_ENV !== 'production',
   })
 
-  const nextHandler = nextApp.getRequestHandler()
+  app.get('/test', (req, res) => {
+    res.send('All Systems Operational')
+  })
+
+  app.get('/robots.txt', (req, res) => {
+    const robotsTxt = `
+      User-agent: *
+      Disallow: /admin/
+      
+      Sitemap: ${process.env.NEXT_PUBLIC_SERVER_URL}/sitemap.xml
+    `
+    res.setHeader('Content-Type', 'text/plain')
+    res.send(robotsTxt)
+  })
 
   app.use((req, res) => nextHandler(req, res))
+
+  const nextHandler = nextApp.getRequestHandler()
+  app.get('/sitemap.xml', async (req, res) => {
+    try {
+      const sitemap = await generateSitemap() // Generate the sitemap
+      res.setHeader('Content-Type', 'application/xml')
+      res.send(sitemap) // Use send instead of write/end for simplicity
+    } catch (error: unknown) {
+      console.error('Error generating sitemap:', error)
+      res.status(500).send('Internal Server Error')
+    }
+  })
 
   await nextApp.prepare()
 
@@ -72,21 +100,22 @@ const start = async (): Promise<void> => {
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const searchMongoDB = async (searchQuery: string) => {
+const searchMongoDB = async searchQuery => {
   try {
-    // Define the request body with the specified type
     const requestBody = {
       collection: 'products',
       database: 'test',
       dataSource: 'Cluster0',
       filter: { title: { $regex: searchQuery, $options: 'i' } },
-      projection: { title: 1 },
+      projection: {
+        title: 1,
+        slug: 1,
+        price: 1,
+        meta: 1,
+      },
     }
 
-    // Use Axios to send a request to MongoDB
-    const response = await axios.post<{
-      data: { SearchProducts: { docs: unknown[] } }
-    }>(process.env.API_LINK, requestBody, {
+    const response = await axios.post(process.env.API_LINK, requestBody, {
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Request-Headers': '*',
@@ -94,30 +123,33 @@ const searchMongoDB = async (searchQuery: string) => {
       },
     })
 
-    const searchResults = response.data || []
-    payload.logger.info(`SearchApi connected successfully`)
-
-    // Log the results to the console
-    console.log('Search Results:', searchResults)
+    const searchResults = response.data.documents || []
+    return searchResults
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      console.error('Error searching products:', error.message)
-    } else {
-      console.error('Unknown error:', 'The error is not an instance of Error')
-    }
+    console.error('Error searching products:', error)
+    throw error
   }
 }
 
-app.post('/api/search', express.json(), async (req, res) => {
+app.post('/api/search', async (req, res) => {
   const { query } = req.body
 
   try {
+    const cachedResults = cache.get(query)
+    if (cachedResults) {
+      return res.json({ success: true, results: cachedResults })
+    }
+
     const results = await searchMongoDB(query)
-    res.json({ success: true, results })
+    cache.set(query, results, 3600) // Cache for 1 hour
+
+    return res.json({ success: true, results })
   } catch (error: unknown) {
-    res
-      .status(500)
-      .json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' })
+    if (!res.headersSent) {
+      res.status(500).json({ success: false, error: error })
+    } else {
+      console.error('Headers already sent, cannot respond with error:', error)
+    }
   }
 })
 

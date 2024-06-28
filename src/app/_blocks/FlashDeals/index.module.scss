@@ -1,0 +1,189 @@
+@use '../../_css/common.scss' as *;
+@import '../../_css/type.scss';
+
+.flex {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  overflow: scroll;
+  transition: 2s ease;
+}
+.ButtonContainer{
+  position: relative;
+}
+
+.sliderArchive {
+  display: flex;
+  overflow-x: scroll;
+}
+.sliderFlex{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.flex::-webkit-scrollbar {
+  display: none;
+}
+
+
+.pagination {
+  @extend %label;
+  display: flex;
+  align-items: center;
+  gap: 150px;
+}
+
+.button2 {
+  all: unset;
+  cursor: pointer;
+  right: -50px;
+  top: 60%;
+  position: absolute;
+  display: flex;
+  padding: calc(var(--base) / 2);
+  color: var(--color-elevation-500);
+  border: 1px solid var(--theme-elevation-200);
+  border-radius: 50%;
+
+  &:disabled {
+    cursor: not-allowed;
+    color: var(--theme-elevation-200);
+    border-color: var(--theme-elevation-150);
+    border-radius: 50%;
+  }
+}
+
+.button1 {
+  all: unset;
+  cursor: pointer;
+  left: -50px;
+  top: 60%;
+  position: absolute;
+  display: flex;
+  padding: calc(var(--base) / 2);
+  color: var(--color-elevation-500);
+  border: 1px solid var(--theme-elevation-200);
+  border-radius: 50%;
+
+  &:disabled {
+    cursor: not-allowed;
+    color: var(--theme-elevation-200);
+    border-color: var(--theme-elevation-150);
+    border-radius: 50%;
+  }
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  &:hover{
+    scale: 1.1;
+    transition: .2s ease;
+  }
+}
+
+.pageRange {
+
+  // border: 1px solid black;
+  @include small-break {
+    display: none;
+    gap: 200px;
+  }
+}
+
+.ButtonContainer {
+  // border: 1px solid black;
+  z-index: 20;
+  @include small-break{
+    display: none;
+  }
+}
+
+.container {
+  position: relative;
+}
+
+.btn1 {
+  left: -50px;
+  position: relative;
+  top: 45%;
+
+  @include small-break {
+    left: -20px;
+  }
+}
+
+.btn2 {
+  right: -50px;
+  position: relative;
+  top: 45%;
+
+  @include small-break {
+    right: -20px;
+  }
+}
+
+.headerContainer{
+  // background-color: rgb(90, 17, 124);
+  // color: white;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0 10px;
+}
+.seeAll{
+ 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  
+}
+.arrow{
+  padding: 0 10px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.Bold{
+  font-weight: 700;
+
+}
+// .container {
+//   overflow: hidden;
+//   position: relative;
+// }
+
+// .headerContainer {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   margin-bottom: 10px;
+// }
+
+// .ButtonContainer {
+//   position: absolute;
+//   top: 50%;
+//   transform: translateY(-50%);
+//   display: flex;
+//   justify-content: space-between;
+//   width: 100%;
+// }
+
+// .flex {
+//   display: flex;
+//   transition: transform 0.5s ease-in-out;
+// }
+
+// .card {
+//   flex: 0 0 25%; // Adjust based on products per page
+//   box-sizing: border-box;
+//   padding: 10px;
+// }
+
+// .button {
+//   background: none;
+//   border: none;
+//   cursor: pointer;
+//   padding: 10px;
+// }

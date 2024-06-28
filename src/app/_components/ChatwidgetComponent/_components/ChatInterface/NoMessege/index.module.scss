@@ -1,0 +1,15 @@
+@import '../../../../../_css/common.scss';
+
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 40vh;
+    @include small-break{
+        min-height: 60vh;
+    }
+}
+.messageIcon{
+    font-size: 24px;
+}

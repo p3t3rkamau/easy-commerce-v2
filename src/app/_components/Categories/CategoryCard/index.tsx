@@ -1,4 +1,3 @@
-'use client'
 import React from 'react'
 import NextImage, { StaticImageData } from 'next/image'
 import Link from 'next/link'
@@ -13,13 +12,11 @@ type CategoryCardProps = {
 }
 
 const getImageUrl = (media: Media): string | undefined => {
-  // console.log('media', media)
   if (!media || typeof media === 'string') {
     return undefined
   }
 
   const imagekitUrl = media?.imagekit?.url
-  // console.log('categoryimage', imagekitUrl)
 
   return imagekitUrl || undefined
 }

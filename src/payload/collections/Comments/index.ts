@@ -48,6 +48,7 @@ const Comments: CollectionConfig = {
           : (comment?.doc as string)
       }`,
     useAsTitle: 'comment',
+    group: 'Admin',
   },
   fields: [
     {

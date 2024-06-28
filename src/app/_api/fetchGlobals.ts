@@ -1,5 +1,12 @@
+import { headers } from 'next/headers'
+
 import type { Footer, Header, Settings } from '../../payload/payload-types'
-import { FOOTER_QUERY, HEADER_QUERY, SETTINGS_QUERY } from '../_graphql/globals'
+import {
+  FOOTER_QUERY,
+  HEADER_CATEGORIES_QUERY,
+  HEADER_QUERY,
+  SETTINGS_QUERY,
+} from '../_graphql/globals'
 import { GRAPHQL_API_URL } from './shared'
 
 export async function fetchSettings(): Promise<Settings> {
@@ -76,27 +83,56 @@ export async function fetchFooter(): Promise<Footer> {
   return footer
 }
 
+export async function fetchHeaderCategories(): Promise<any> {
+  if (!GRAPHQL_API_URL) throw new Error('NEXT_PUBLIC_SERVER_URL not found')
+
+  const headerCategories = await fetch(`${GRAPHQL_API_URL}/api/graphql`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    cache: 'no-store',
+    body: JSON.stringify({
+      query: HEADER_CATEGORIES_QUERY,
+    }),
+  })
+    .then(res => {
+      if (!res.ok) throw new Error('Error fetching header categories')
+      return res.json()
+    })
+    .then(res => {
+      if (res?.errors)
+        throw new Error(res?.errors[0]?.message || 'Error fetching header categories')
+      return res.data
+    })
+
+  console.log(headerCategories) // Log the fetched header categories to the console
+
+  return headerCategories
+}
+
 export const fetchGlobals = async (): Promise<{
   settings: Settings
   header: Header
   footer: Footer
+
+  headerCategories: any
 }> => {
   // initiate requests in parallel, then wait for them to resolve
-  // this will eagerly start to the fetch requests at the same time
-  // see https://nextjs.org/docs/app/building-your-application/data-fetching/fetching
+  // this will eagerly start the fetch requests at the same time
   const settingsData = fetchSettings()
   const headerData = fetchHeader()
   const footerData = fetchFooter()
 
-  const [settings, header, footer]: [Settings, Header, Footer] = await Promise.all([
-    await settingsData,
-    await headerData,
-    await footerData,
-  ])
+  const headerCategoriesData = fetchHeaderCategories() // Add this line
+
+  const [settings, header, footer, headerCategories]: [Settings, Header, Footer, any] =
+    await Promise.all([settingsData, headerData, footerData, headerCategoriesData]) // Add headerCategoriesData
 
   return {
     settings,
     header,
     footer,
+    headerCategories, // Add this line
   }
 }

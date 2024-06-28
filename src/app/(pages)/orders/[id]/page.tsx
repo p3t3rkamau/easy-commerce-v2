@@ -53,14 +53,14 @@ export default async function Order({ params: { id } }) {
       </h1>
       <div className={classes.itemMeta}>
         <p>{`ID: ${order.id}`}</p>
-        <p>{`Payment Intent: ${order.stripePaymentIntentID}`}</p>
+        <p>{`Payment Intent: ${order.mpesaTransactionRef}`}</p>
         <p>{`Ordered On: ${formatDateTime(order.createdAt)}`}</p>
         <p className={classes.total}>
           {'Total: '}
-          {new Intl.NumberFormat('en-US', {
+          {new Intl.NumberFormat('Ksh', {
             style: 'currency',
-            currency: 'usd',
-          }).format(order.total / 100)}
+            currency: 'Ksh',
+          }).format(order.total / 1)}
         </p>
       </div>
       <HR />

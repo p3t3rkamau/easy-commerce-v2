@@ -3,20 +3,29 @@ import type { CollectionConfig } from 'payload/types'
 import { admins } from '../../access/admins'
 import { Archive } from '../../blocks/ArchiveBlock'
 import { CallToAction } from '../../blocks/CallToAction'
+import { CallToActionWithImage } from '../../blocks/CallToActionWithImage'
 // import { CaseStudyCards } from '../../blocks/CaseStudyCards'
 // import { CaseStudiesHighlight } from '../../blocks/CaseStudiesHighlight'
 // import { CaseStudyCards } from '../../blocks/CaseStudyCards'
 import { Content } from '../../blocks/Content'
 import { ContentMedia } from '../../blocks/ContentMedia'
-import { FormBlock } from '../../blocks/Form'
+import { DealsArchive } from '../../blocks/DealsArchive'
+import { DoubleImagesBlock } from '../../blocks/DoubleMedia/ManyImages'
+import { EventArchive } from '../../blocks/EventArchive'
+import { FlashSales } from '../../blocks/FlashSales'
+import { FlexBanner } from '../../blocks/FlexBanner'
+import { LastViewed } from '../../blocks/LastViewed'
 import { MediaBlock } from '../../blocks/MediaBlock'
+import { Recommeded } from '../../blocks/Recommended'
+import { ProductsSlider } from '../../blocks/SliderArchive'
+import { TopDealsGrid } from '../../blocks/TopDealsGridArchive'
 // import { ReusableContent } from '../../blocks/ReusableContent'
 import { hero } from '../../fields/hero'
+import { heroImage } from '../../fields/HeroComponent'
 import { slugField } from '../../fields/slug'
 import { populateArchiveBlock } from '../../hooks/populateArchiveBlock'
 import { adminsOrPublished } from './access/adminsOrPublished'
 import { revalidatePage } from './hooks/revalidatePage'
-
 export const Pages: CollectionConfig = {
   slug: 'pages',
   admin: {
@@ -27,6 +36,7 @@ export const Pages: CollectionConfig = {
         `${process.env.PAYLOAD_PUBLIC_SERVER_URL}/${doc.slug !== 'home' ? doc.slug : ''}`,
       )}&secret=${process.env.PAYLOAD_PUBLIC_DRAFT_SECRET}`
     },
+    group: 'Content',
   },
   hooks: {
     afterChange: [revalidatePage],
@@ -68,11 +78,34 @@ export const Pages: CollectionConfig = {
       },
     },
     {
+      name: 'Categories',
+      type: 'relationship',
+      relationTo: 'categories',
+      hasMany: true,
+      filterOptions: ({ id }) => {
+        return {
+          id: {
+            not_in: [id],
+          },
+        }
+      },
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
       type: 'tabs',
       tabs: [
         {
           label: 'Hero',
           fields: [hero],
+        },
+        {
+          fields: [heroImage],
+          label: 'Event Hero',
+          admin: {
+            description: 'Event Hero Image',
+          },
         },
         {
           label: 'Content',
@@ -87,6 +120,16 @@ export const Pages: CollectionConfig = {
                 MediaBlock,
                 Archive,
                 ContentMedia,
+                CallToActionWithImage,
+                DoubleImagesBlock,
+                ProductsSlider,
+                Recommeded,
+                LastViewed,
+                FlashSales,
+                EventArchive,
+                DealsArchive,
+                TopDealsGrid,
+                FlexBanner,
                 // CardGrid,
                 // Banner,
                 // BlogContent,
@@ -98,7 +141,6 @@ export const Pages: CollectionConfig = {
                 // Accordion,
                 // ContentGrid,
                 // Form,
-                FormBlock,
                 // HoverHighlights,
                 // LinkGrid,
                 // MediaContent,
@@ -106,6 +148,36 @@ export const Pages: CollectionConfig = {
                 // Steps,
                 // StickyHighlights,
               ],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: 'Accordion',
+      label: 'Accordion',
+      labels: {
+        singular: 'accordion',
+        plural: 'accordion',
+      },
+      type: 'array',
+      minRows: 2,
+      maxRows: 20,
+      fields: [
+        {
+          label: ({ data }) => data?.title || 'Untitled',
+          type: 'collapsible', // required
+          fields: [
+            // required
+            {
+              name: 'Heading',
+              type: 'text',
+              required: true,
+            },
+            {
+              name: 'Description',
+              type: 'richText',
+              required: true,
             },
           ],
         },

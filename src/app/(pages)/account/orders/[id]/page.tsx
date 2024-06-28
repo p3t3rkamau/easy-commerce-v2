@@ -50,16 +50,21 @@ export default async function Order({ params: { id } }) {
         <span className={classes.id}>{` ${order.id}`}</span>
       </h5>
       <div className={classes.itemMeta}>
-        <p>{`ID: ${order.id}`}</p>
-        <p>{`Payment Intent: ${order.stripePaymentIntentID}`}</p>
-        <p>{`Ordered On: ${formatDateTime(order.createdAt)}`}</p>
-        <p className={classes.total}>
-          {'Total: '}
-          {new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'usd',
-          }).format(order.total / 100)}
-        </p>
+        {order && (
+          <>
+            <p>{`ID: ${order.id}`}</p>
+            <p>{`Payment Intent: ${order.mpesaTransactionRef}`}</p>
+            <p>{`Delivery: ${order.DeliveryLocation}`}</p>
+            <p>{`Ordered On: ${formatDateTime(order.createdAt)}`}</p>
+            <p className={classes.total}>
+              {'Total: '}
+              {new Intl.NumberFormat('KES', {
+                style: 'currency',
+                currency: 'Ksh',
+              }).format(order.total / 1)}
+            </p>
+          </>
+        )}
       </div>
 
       <div className={classes.order}>
@@ -74,30 +79,32 @@ export default async function Order({ params: { id } }) {
             const metaImage = meta?.image
 
             return (
-              <Fragment key={index}>
-                <div className={classes.row}>
-                  <Link href={`/products/${product.slug}`} className={classes.mediaWrapper}>
-                    {!metaImage && <span className={classes.placeholder}>No image</span>}
-                    {metaImage && typeof metaImage !== 'string' && (
-                      <Media
-                        className={classes.media}
-                        imgClassName={classes.image}
-                        resource={metaImage}
-                        fill
-                      />
-                    )}
-                  </Link>
-                  <div className={classes.rowContent}>
-                    <h6 className={classes.title}>
-                      <Link href={`/products/${product.slug}`} className={classes.titleLink}>
-                        {title}
-                      </Link>
-                    </h6>
-                    <p>{`Quantity: ${quantity}`}</p>
-                    <Price product={product} button={false} quantity={quantity} />
+              <div className={classes.flex} key={index}>
+                <Fragment>
+                  <div className={classes.row}>
+                    <Link href={`/products/${product.slug}`} className={classes.mediaWrapper}>
+                      {!metaImage && <span className={classes.placeholder}>No image</span>}
+                      {metaImage && typeof metaImage !== 'string' && (
+                        <Media
+                          className={classes.media}
+                          imgClassName={classes.image}
+                          resource={metaImage}
+                          fill
+                        />
+                      )}
+                    </Link>
+                    <div className={classes.rowContent}>
+                      <h6 className={classes.title}>
+                        <Link href={`/products/${product.slug}`} className={classes.titleLink}>
+                          {title}
+                        </Link>
+                      </h6>
+                      <p>{`Quantity: ${quantity}`}</p>
+                      <Price product={product} button={false} quantity={quantity} />
+                    </div>
                   </div>
-                </div>
-              </Fragment>
+                </Fragment>
+              </div>
             )
           }
 

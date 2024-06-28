@@ -10,7 +10,7 @@ import { RemoveFromCartButton } from '../../../_components/RemoveFromCartButton'
 
 import classes from './index.module.scss'
 
-const CartItem = ({ product, title, metaImage, qty, addItemToCart }) => {
+const CartItem = ({ product, title, metaImage, qty, addItemToCart, selectedAttributes }) => {
   const [quantity, setQuantity] = useState(qty)
 
   const decrementQty = () => {
@@ -48,6 +48,17 @@ const CartItem = ({ product, title, metaImage, qty, addItemToCart }) => {
           <h6>{title}</h6>
           <Price product={product} button={false} />
         </div>
+
+        {/* Display selected attributes */}
+        {selectedAttributes && Object.entries(selectedAttributes).length > 0 && (
+          <div className={classes.attributes}>
+            {Object.entries(selectedAttributes).map(([key, value]) => (
+              <p key={key} className={classes.attribute}>
+                {key}: {value}
+              </p>
+            ))}
+          </div>
+        )}
 
         <div className={classes.quantity}>
           <div className={classes.quantityBtn} onClick={decrementQty}>

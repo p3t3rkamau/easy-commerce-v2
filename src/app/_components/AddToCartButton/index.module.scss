@@ -2,10 +2,12 @@
   visibility: visible;
   opacity: 1;
   transition: opacity 100ms linear;
+  background-color: var(--theme-elevation-1000);
+  color: white;
 }
 
 .green {
-  color: var(--theme-success-700);
+  color: white;
 }
 
 .hidden {

@@ -1,0 +1,71 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f0f0f0;
+    padding: 10px;
+
+}
+
+.logoContainer {
+    font-weight: bold;
+}
+
+.mongoDBLogo {
+    color: #13aa52;
+}
+
+.iconsContainer {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.avatarImage {
+    width: 100%;
+    object-fit: cover;
+
+}
+
+
+.icon {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    color: #000;
+
+    font-size: 36px;
+
+    border-radius: 50%;
+  }
+  
+  .icon:hover {
+    color: #007bff;
+  }
+  
+  .icon[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 125%; /* Adjust as needed */
+    left: 50%;
+    font-size: 12px;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 5px;
+    white-space: nowrap;
+    z-index: 200;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+    z-index: 1;
+  }
+  
+  .icon[data-tooltip]:hover::after {
+    opacity: 1;
+    visibility: visible;
+  }
+  

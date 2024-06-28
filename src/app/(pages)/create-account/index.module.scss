@@ -1,27 +1,25 @@
 @import '../../_css/common';
 
-.createAccount {
-  display: grid;
-  grid-template-columns: 1fr 45%;
-  height: 100vh;
-  overflow: auto;
+// .createAccount {
+//   display: grid;
+//     grid-template-columns: 1fr;
+//     background-size: cover;
+//     background-repeat: no-repeat;
+//     background-position: center;
+//     background-image: url('/assets/images/image-2.svg');
 
-  @include mid-break {
-    grid-template-columns: 1fr;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-image: url('/assets/images/image-2.svg');
-  }
-
-  p {
-    color: var(--color-gray-500);
-  }
+//   p {
+//     color: var(--color-gray-500);
+//   }
+// }
+.createAccount{
+  
+  border-radius: 20px;
 }
-
 .formTitle {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 16px;
   width: 100%;
 
@@ -38,21 +36,27 @@
     height: 24px;
   }
 }
-
-.heroImg {
-  height: 100%;
+.heroImg{
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-image: url('/assets/images/image-2.svg');
-
-  @include mid-break {
-    background: none;
-    display: flex;
-    justify-content: center;
-  }
 }
+
+// .heroImg {
+//   height: 100%;
+//   width: 100%;
+//   background-size: cover;
+//   background-repeat: no-repeat;
+//   background-position: center;
+//   background-image: url('/assets/images/image-2.svg');
+
+//   @include mid-break {
+//     background: none;
+//     display: flex;
+//     justify-content: center;
+//   }
+// }
 
 // .logo {
 //   margin: 60px;

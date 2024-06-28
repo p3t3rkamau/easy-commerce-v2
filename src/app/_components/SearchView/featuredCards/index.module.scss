@@ -1,0 +1,17 @@
+.header{
+    align-items: center;
+    text-align: center;
+}
+.featuredContainer{
+    display: flex;
+    
+}
+.headerContainer{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: 20px 0;
+}
+.headerContainer h4{
+    font-weight: 600;
+}

@@ -1,0 +1,36 @@
+.headerCategories {
+    .category {
+      margin-bottom: 10px;
+      cursor: pointer;
+  
+      .categoryName {
+        font-weight: bold;
+        padding: 10px;
+        background-color: #f0f0f0;
+        border: 1px solid #ddd;
+      }
+  
+      .subcategories {
+        padding: 10px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-top: none;
+  
+        .subcategory {
+          margin-bottom: 10px;
+  
+          .subcategoryName {
+            font-weight: bold;
+            margin-bottom: 5px;
+          }
+  
+          .subcategoryImage {
+            max-width: 100%;
+            height: auto;
+            display: block;
+          }
+        }
+      }
+    }
+  }
+  

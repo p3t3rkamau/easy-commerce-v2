@@ -3,12 +3,30 @@ import type { CollectionConfig } from 'payload/types'
 const Reviews: CollectionConfig = {
   slug: 'Reviews',
   admin: {
-    useAsTitle: 'Reviews',
+    useAsTitle: 'title',
+    group: 'Admin',
   },
   access: {
     read: () => true,
   },
   fields: [
+    {
+      name: 'title',
+      type: 'text',
+      admin: {
+        readOnly: true,
+        hidden: true,
+      },
+      hooks: {
+        beforeChange: [
+          ({ data }) => {
+            if (data.name && data.rating) {
+              data.title = `${data.name} - Rating: ${data.rating}`
+            }
+          },
+        ],
+      },
+    },
     {
       name: 'user',
       type: 'relationship',
@@ -20,7 +38,13 @@ const Reviews: CollectionConfig = {
       },
     },
     {
-      name: 'review',
+      name: 'name',
+      label: 'Name',
+      type: 'text',
+      required: false,
+    },
+    {
+      name: 'message',
       label: 'Review',
       type: 'textarea',
       required: false,

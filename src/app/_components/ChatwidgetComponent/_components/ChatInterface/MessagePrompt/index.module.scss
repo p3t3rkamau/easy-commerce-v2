@@ -1,0 +1,26 @@
+.container{
+    
+    background-color: white;
+    padding: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 8px 0;
+   
+}
+.message{
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+}
+.arrow{
+    font-size: 18px;
+    font-weight: 600;
+}
+.send{
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--theme-elevation-1000);
+}

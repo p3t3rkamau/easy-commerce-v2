@@ -1,0 +1,55 @@
+#ourclients {
+  display: block;
+  margin: 0 auto;
+  background: #f9f9f9;
+  
+  height: fit-content;
+}
+
+.clients-wrap {
+  display: block;
+  width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.clients-wrap ul {
+  display: flex;
+  list-style: none;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin: 0;
+  padding: 0 10px;
+  transition: none; /* Remove transition for smoother animation */
+}
+
+.clients-wrap ul li {
+  display: block;
+  position: relative;
+  margin-top: 20px;
+  
+  
+  height: 100px;
+  line-height: 100px;
+  text-align: center;
+  flex: 0 0 auto;
+  transition: filter 0.3s;
+}
+
+.clients-wrap ul li img {
+  vertical-align: middle;
+  max-width: 100%;
+  width: 150px;
+  margin: 0 20px;
+  max-height: 100%;
+}
+
+.clients-wrap ul li:hover img {
+  filter: none;
+}
+
+.clients-wrap ul.grayscale li img {
+  filter: grayscale(100%);
+}
+

@@ -1,4 +1,18 @@
-import { ARCHIVE_BLOCK, CALL_TO_ACTION, CONTENT, MEDIA_BLOCK } from './blocks'
+import {
+  ARCHIVE_BLOCK,
+  CALL_TO_ACTION,
+  CONTENT,
+  CTA_WITH_IMAGE,
+  DEALS_ARCHIVE_BLOCK,
+  EVENT_ARCHIVE_BLOCK,
+  FLASHSALES_ARCHIVE_BLOCK,
+  FLEX_BANNER_BLOCK,
+  GRIDLAYOUT_ARCHIVE_BLOCK,
+  LAST_VIEWED_ARCHIVE_BLOCK,
+  MEDIA_BLOCK,
+  PRODUCTS_SLIDER_BLOCK,
+  RECOMMENDED_ARCHIVE_BLOCK,
+} from './blocks'
 // import { FORM_FIELDS } from './form'
 import { LINK_FIELDS } from './link'
 import { MEDIA } from './media'
@@ -34,8 +48,63 @@ export const PAGE = `
           ${CONTENT}
           ${MEDIA_BLOCK}
           ${ARCHIVE_BLOCK}
+          ${PRODUCTS_SLIDER_BLOCK}
+          ${DEALS_ARCHIVE_BLOCK}
+          ${EVENT_ARCHIVE_BLOCK}
+          ${FLASHSALES_ARCHIVE_BLOCK}
+          ${LAST_VIEWED_ARCHIVE_BLOCK}
+          ${RECOMMENDED_ARCHIVE_BLOCK}
+          ${GRIDLAYOUT_ARCHIVE_BLOCK}
+          ${FLEX_BANNER_BLOCK}
+          ${CTA_WITH_IMAGE}
         }
         ${META}
+        Accordion{
+          Heading
+          Description
+
+        }
+        Categories{
+          id
+          title
+          media {
+            imagekit {
+              url
+            }
+          }
+        }
+        heroImage {
+          SliderHero {
+            richText
+            links {
+              link ${LINK_FIELDS()}
+            }
+            SliderImages {
+              media {
+                imagekit {
+                  url
+                }
+              }
+            } 
+          }
+          PotraitImage{
+            media {
+              imagekit {
+                url
+              }
+            }
+          }
+          SideImages {
+            Images{
+              richText
+              media {
+                imagekit {
+                  url
+                }
+              }
+            }
+          } 
+        }
       }
     }
   }

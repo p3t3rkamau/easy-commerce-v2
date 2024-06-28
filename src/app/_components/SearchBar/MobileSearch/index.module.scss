@@ -1,0 +1,122 @@
+@import '../../../_css/common.scss';
+
+.container {
+  display: none;
+
+  @include small-break {
+    width: 100%;
+  
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+  }
+
+}
+.search input{
+  padding: 5px 10px;
+  outline: none;
+
+}
+.searchIcon {
+  cursor: pointer;
+  // Add transition for smooth effect
+  transition: transform 0.3s ease;
+}
+
+.mobileSearch {
+  position: absolute;
+  top: 20%;
+  min-width: 250px;
+  left: 0;
+  right: 20px;
+  background-color: white;
+  z-index: 1000;
+  // Add transition for smooth effect
+  transform: translateY(-100%);
+  transition: transform 0.3s ease;
+
+  &.open {
+    transform: translateY(0);
+  }
+}
+
+/* Ensure to handle focus and blur styles for the input */
+.searchTerm {
+  outline: none;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  position: absolute;
+  right: 0;
+  cursor: pointer;
+}
+
+.closeIcon {
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.searchTerm {
+  flex: 1;  // Ensures input takes up available space
+  padding: 10px;
+  border: 1px solid var(--theme-elevation-1000);
+  border-right: none;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+  color: #9DBFAF;
+  font-size: 16px;
+  transition: color 300ms ease;
+
+  &:focus {
+    color: var(--theme-elevation-1000);
+  }
+}
+
+.searchButton {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--theme-elevation-1000);
+  background-color: var(--theme-elevation-1000);
+  border-radius: 0 5px 5px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 300ms ease;
+
+  &:hover {
+    background-color: var(--theme-elevation-1000);
+  }
+}
+
+.searchicon {
+  color: #fff;
+  font-size: 20px;
+}
+.resultsContainer {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: white;
+  border: 1px solid #ccc;
+  z-index: 1000;
+}
+
+.loading {
+  padding: 10px;
+  text-align: center;
+}
+
+.error {
+  color: red;
+  padding: 10px;
+}
+
+.searchResult {
+  max-height: 300px;
+  overflow-y: auto;
+}

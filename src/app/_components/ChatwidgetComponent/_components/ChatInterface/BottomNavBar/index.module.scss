@@ -1,0 +1,16 @@
+.navBar {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-top: .5px solid rgb(223, 220, 220);
+}
+.bottomIcon{
+    font-size: 24px;
+    cursor: pointer;
+}
+.bottomIcon:hover{
+    scale: 1.1;
+    transition: .1s ease-in-out;
+}

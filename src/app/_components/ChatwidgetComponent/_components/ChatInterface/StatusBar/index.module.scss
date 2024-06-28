@@ -1,0 +1,44 @@
+.container {
+  background-color: #ffffff;
+  border-radius: 4px;
+  padding: 8px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: Arial, sans-serif;
+}
+
+.statusContainer {
+  display: flex;
+  align-items: center;
+}
+
+.greenIcon {
+  color: green;
+  margin-right: 8px;
+}
+
+.redIcon {
+  color: red;
+  margin-right: 8px;
+}
+
+.statusText {
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.updatedAt {
+  color: #666;
+  font-size: 10px;
+}
+.Flexstyle{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+.statusFlex{
+  display: flex;
+  gap: 20px;
+}

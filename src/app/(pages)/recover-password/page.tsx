@@ -13,18 +13,11 @@ import classes from './index.module.scss'
 export default async function RecoverPassword() {
   return (
     <section className={classes.recoverPassword}>
-      <div className={classes.heroImg}>
-        <Link href="/">
-          <Image src="/Easy-logo.svg" alt="logo" width={100} height={23} className={classes.logo} />
-        </Link>
-      </div>
-
       <div className={classes.formWrapper}>
         <div className={classes.formContainer}>
           <RenderParams className={classes.params} />
 
           <Link href="/login" className={classes.backLink}>
-            <Image src="/assets/icons/arrow-left.svg" alt="left arrow" width={24} height={24} />
             <p>Back</p>
           </Link>
           <div className={classes.formTitle}>
@@ -36,6 +29,7 @@ export default async function RecoverPassword() {
     </section>
   )
 }
+// TODO:add a back icon here
 
 export const metadata: Metadata = {
   title: 'Recover Password',

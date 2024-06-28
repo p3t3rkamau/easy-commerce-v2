@@ -1,3 +1,4 @@
+import payloadSimpleRBAC from '@nouance/payload-simple-rbac'
 import { webpackBundler } from '@payloadcms/bundler-webpack' // bundler-import
 import { mongooseAdapter } from '@payloadcms/db-mongodb' // database-adapter-import
 import formBuilder from '@payloadcms/plugin-form-builder'
@@ -14,20 +15,26 @@ import { buildConfig } from 'payload/config'
 // import warding, { convention } from 'payload-warding'
 import imagekitPlugin from 'payloadcms-plugin-imagekit'
 
+import SiteLogo from '../payload/components/SiteLogo'
 // import { ReusableContent } from './blocks/ReusableContent'
 import { Alerts } from './collections/Alerts'
+// import Attributes from './collections/Attributes'
+import AttributeCollection from './collections/Attributes'
 // import { CaseStudies } from './collections/CaseStudies'
 import Categories from './collections/Categories'
 import Comments from './collections/Comments'
+import DeliveryLocations from './collections/DeliveryLocation'
+import { EMailSms } from './collections/Email & Sms'
+import HeaderCategories from './collections/HeaderCategories'
+import { LiveChats } from './collections/LiveChats/LiveChats'
 import { Media } from './collections/Media'
 import { Orders } from './collections/Orders'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
 import Products from './collections/Products'
-import { Projects } from './collections/Projects'
-import Promotion from './collections/Promotions'
 // import { QuestionSets } from './collections/QuestionSets'
 import Reviews from './collections/Reviews/Reviews'
+import SiteMedia from './collections/SiteMedia/sitemedia'
 import Users from './collections/Users'
 import Videos from './collections/Videos'
 import BeforeDashboard from './components/BeforeDashboard'
@@ -51,6 +58,7 @@ dotenv.config({
 
 export default buildConfig({
   admin: {
+    css: path.resolve(__dirname, '../../tailwind.css'),
     user: Users.slug,
     bundler: webpackBundler(), // bundler-config
     components: {
@@ -60,6 +68,10 @@ export default buildConfig({
       // The `BeforeDashboard` component renders the 'welcome' block that you see after logging into your admin panel.
       // Feel free to delete this at any time. Simply remove the line below and the import `BeforeDashboard` statement on line 15.
       beforeDashboard: [BeforeDashboard],
+      graphics: {
+        Icon: SiteLogo,
+        Logo: SiteLogo,
+      },
     },
     webpack: config => {
       return {
@@ -83,6 +95,16 @@ export default buildConfig({
             express: mockModulePath,
           },
         },
+        module: {
+          ...config.module,
+          rules: [
+            ...config.module.rules,
+            {
+              test: /\tailwind.css$/i,
+              use: ['css-loader', 'postcss-loader'],
+            },
+          ],
+        },
       }
     },
   },
@@ -102,11 +124,15 @@ export default buildConfig({
     Categories,
     Users,
     Reviews,
-    Promotion,
+    SiteMedia,
     Comments,
-    Projects,
     Posts,
     Alerts,
+    HeaderCategories,
+    AttributeCollection,
+    DeliveryLocations,
+    LiveChats,
+    EMailSms,
     // CaseStudies,
     // QuestionSets,
     // ReusableContent,
@@ -237,6 +263,46 @@ export default buildConfig({
       generateTitle,
       uploadsCollection: 'media',
     }),
+    payloadSimpleRBAC({
+      roles: ['customer', 'editor', 'manager', 'admin'],
+      users: [Users.slug],
+      defaultRole: 'customer',
+      collections: [
+        {
+          slug: Posts.slug,
+          permissions: {
+            read: 'publishedOnly',
+            update: 'editor',
+            create: 'editor',
+            delete: 'manager',
+          },
+        },
+        {
+          slug: Categories.slug,
+          permissions: {
+            read: 'public',
+          },
+        },
+        {
+          slug: Products.slug,
+          permissions: {
+            read: 'publishedOnly',
+            create: 'manager',
+            update: 'manager',
+            delete: 'admin',
+          },
+        },
+        {
+          slug: Orders.slug,
+          permissions: {
+            read: 'publishedOnly',
+            create: 'manager',
+            update: 'manager',
+            delete: 'admin',
+          },
+        },
+      ],
+    }),
     // warding(
     //   convention.opts({
     //     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -246,7 +312,7 @@ export default buildConfig({
     formBuilder({
       formOverrides: {
         admin: {
-          group: 'Content',
+          group: 'Admin',
         },
       },
       formSubmissionOverrides: {

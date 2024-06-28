@@ -8,19 +8,30 @@ export const CALL_TO_ACTION = `
   blockType
   invertBackground
   richText
+  
+}
+`
+export const CTA_WITH_IMAGE = `
+...on CtaWithImage {
+  blockType
+  invertBackground
+  media {
+    imagekit {
+      url
+    }
+  }
+  richText
   links {
     link ${LINK_FIELDS()}
   }
 }
 `
-
 export const CONTENT = `
 ...on Content {
   blockType
   invertBackground
   columns {
     size
-    richText
     enableLink
     link ${LINK_FIELDS()}
   }
@@ -51,6 +62,13 @@ export const ARCHIVE_BLOCK = `
         slug
         title
         price
+        discount
+        discountedPrice
+      }
+      ...on Post {
+        id
+        slug
+        title
       }
     }
   }
@@ -65,8 +83,204 @@ export const ARCHIVE_BLOCK = `
         ${PRODUCT_CATEGORIES}
         ${META}
       }
+      ...on Post {
+        id
+        slug
+        title
+        ${PRODUCT_CATEGORIES}
+      }
     }
   }
   populatedDocsTotal
 }
+`
+export const CONTENT_MEDIA = `
+  ...on ContentMedia{
+    blockType
+    mediaPosition
+    richText
+    media {
+      imagekit {
+        url
+      }
+    }
+  }
+`
+
+export const DOUBLE_MEDIA_CONTENT = `
+  ... on DoubleMediaContent {
+    blockType
+    mediaContentFields {
+      MoreImages {
+        Images {
+          type
+          TwoImages {
+            media {
+              imagekit {
+                url
+              }
+            }
+            
+          }
+          TrippleImages {
+            media {
+              imagekit {
+                url
+              }
+            }
+            
+          }
+          FourImages {
+            media {
+              imagekit {
+                url
+              }
+            }
+            
+          }
+          
+        }
+        
+      }
+    }
+  }
+`
+export const PRODUCTS_SLIDER_BLOCK = `
+...on ProductsSlider {
+  blockType
+  Heading
+  BackgroundColor
+  TextColor
+  NewTag
+  selectedDocs {
+    id
+    slug
+    title
+    price
+    discount
+    discountedPrice
+    ${META}
+   
+  }
+      
+}
+`
+export const DEALS_ARCHIVE_BLOCK = `
+...on DealsArchive {
+  blockType
+  Heading
+  BackgroundColor
+  TextColor
+  selectedDocs {
+    id
+    slug
+    title
+    price
+    ${META}
+    discount
+    discountedPrice
+  }
+}
+`
+
+export const EVENT_ARCHIVE_BLOCK = `
+...on EventArchive {
+  blockType
+  Heading
+  BackgroundColor
+  TextColor
+  selectedDocs {
+    id
+    slug
+    title
+    price
+    ${META}
+    discount
+    discountedPrice
+  }
+}
+`
+
+export const FLASHSALES_ARCHIVE_BLOCK = `
+...on FlashSales {
+  blockType
+  Heading
+  BackgroundColor
+  TextColor
+  selectedDocs {
+    id
+    slug
+    title
+    price
+    ${META}
+    discount
+    discountedPrice
+  }
+}
+`
+
+export const LAST_VIEWED_ARCHIVE_BLOCK = `
+...on LastViewed {
+  blockType
+  selectedDocs {
+    id
+    slug
+    title
+    price
+    ${META}
+    discount
+    discountedPrice
+  }
+}
+`
+
+export const RECOMMENDED_ARCHIVE_BLOCK = `
+...on Recommended {
+  blockType
+  selectedDocs {
+    id
+    slug
+    title
+    price
+    ${META}
+    discount
+    discountedPrice
+  }
+}
+`
+
+export const GRIDLAYOUT_ARCHIVE_BLOCK = `
+...on TopDealsGrid {
+  blockType
+  Heading
+  BackgroundColor
+  TextColor
+  selectedDocs {
+    id
+    slug
+    title
+    price
+    ${META}
+    discount
+    discountedPrice
+  }
+}
+`
+export const FLEX_BANNER_BLOCK = `
+...on FlexBanner {
+  blockType
+  FlexBanners {
+    HorizontalBanners {
+      richText
+      links {
+        link ${LINK_FIELDS()}
+      }
+      media {
+        imagekit {
+          url
+        }
+      }
+    }
+  }
+ }
 `

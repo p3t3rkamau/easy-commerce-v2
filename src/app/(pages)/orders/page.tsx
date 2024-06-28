@@ -64,10 +64,10 @@ export default async function Orders() {
                     <p>{`Ordered On: ${formatDateTime(order.createdAt)}`}</p>
                     <p>
                       {'Total: '}
-                      {new Intl.NumberFormat('en-US', {
+                      {new Intl.NumberFormat('Ksh', {
                         style: 'currency',
-                        currency: 'usd',
-                      }).format(order.total / 100)}
+                        currency: 'Ksh',
+                      }).format(order.total / 1)}
                     </p>
                   </div>
                 </div>

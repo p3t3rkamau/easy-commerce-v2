@@ -35,7 +35,7 @@
 }
 
 .itemsList {
-  border-top: 1px solid var(--color-dark-50);
+  border-top: 1px solid rgb(157, 157, 158);
 }
 
 .summary {
@@ -43,7 +43,9 @@
   flex-direction: column;
   gap: 16px;
   padding: 30px 24px;
-  border: 1px solid var(--color-dark-50);
+  border: 1px solid rgb(203, 203, 207);
+  margin: 40px 10px;
+  border-radius: 20px;
 }
 
 .row {
@@ -51,5 +53,13 @@
   justify-content: space-between;
   align-items: center;
   padding-bottom: 16px;
-  border-bottom: 1px solid var(--color-dark-50);
+  border-bottom:  1px solid rgb(200, 200, 202);
+}
+.grandTotal{
+  color: black;
+  font-weight: 600;
+}
+.cartTotal{
+  font-weight: 600;
+  color: var(--theme-elevation-1000);
 }

@@ -26,7 +26,9 @@ const FooterComponent = ({ footer }: { footer: Footer }) => {
   const pathname = usePathname()
   const navItems = footer?.navItems || []
   const categories = footer?.Categories || []
-  console.log(categories)
+  const topBrands = footer?.topbrands || []
+  const Information = footer?.information || []
+  // console.log(topBrands, Information)
 
   return (
     <footer className={noHeaderFooterUrls.includes(pathname) ? classes.hide : ''}>
@@ -107,29 +109,34 @@ const FooterComponent = ({ footer }: { footer: Footer }) => {
                 <h3>Categories</h3>
                 {categories.map((category: Category, index: number) => (
                   <li className={classes.footerlist} key={index}>
-                    <span>{category.title}</span>
+                    <Link className={classes.title} href={`/${category?.CustomUrl}`} passHref>
+                      {' '}
+                      {category.title}
+                    </Link>
                   </li>
                 ))}
               </div>
               <div className={classes.Topbrands}>
                 <h3>Top Brands</h3>
-                <ul>
-                  <li>Easybake</li>
-                  <li>Puratos</li>
-                  <li>Dairyland</li>
-                  <li>Americolor</li>
-                  <li>Pristine</li>
-                </ul>
+                {topBrands.map((category: Category, index: number) => (
+                  <li className={classes.footerlist} key={index}>
+                    <Link className={classes.title} href={`/${category?.CustomUrl}`} passHref>
+                      {' '}
+                      {category.title}
+                    </Link>
+                  </li>
+                ))}
               </div>
               <div className={classes.InformationSection}>
                 <h3>Information</h3>
-                <ul>
-                  <li>WishList</li>
-                  <li>About Us</li>
-                  <li>FAQ's</li>
-                  <li>Return Policy</li>
-                  <li>Shipping</li>
-                </ul>
+                {Information.map((category: Category, index: number) => (
+                  <li className={classes.footerlist} key={index}>
+                    <Link className={classes.title} href={`/${category?.CustomUrl}`} passHref>
+                      {' '}
+                      {category.title}
+                    </Link>
+                  </li>
+                ))}
               </div>
               {/* <div className={classes.paymentMethod}>
                 <p>Payment Method</p>

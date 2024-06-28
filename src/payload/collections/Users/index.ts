@@ -9,13 +9,14 @@ import { createStripeCustomer } from './hooks/createStripeCustomer'
 import { ensureFirstUserIsAdmin } from './hooks/ensureFirstUserIsAdmin'
 import { loginAfterCreate } from './hooks/loginAfterCreate'
 import { resolveDuplicatePurchases } from './hooks/resolveDuplicatePurchases'
-import { CustomerSelect } from './ui/CustomerSelect'
+import { resolveDuplicateRecentlyViewed } from './hooks/resolveDuplicateRecentlyViewed'
 
 const Users: CollectionConfig = {
   slug: 'users',
   admin: {
-    useAsTitle: 'name',
+    useAsTitle: 'title',
     defaultColumns: ['name', 'email'],
+    group: 'Admin',
   },
   access: {
     read: adminsAndUser,
@@ -43,8 +44,29 @@ const Users: CollectionConfig = {
   ],
   fields: [
     {
+      name: 'title',
+      type: 'text',
+      admin: {
+        readOnly: true,
+        hidden: true,
+      },
+      hooks: {
+        beforeChange: [
+          ({ data }) => {
+            if (data.name && data.email) {
+              data.title = `${data.name} (${data.email})`
+            }
+          },
+        ],
+      },
+    },
+    {
       name: 'name',
       type: 'text',
+    },
+    {
+      name: 'email',
+      type: 'email',
     },
     {
       name: 'photo',
@@ -64,6 +86,14 @@ const Users: CollectionConfig = {
         {
           label: 'customer',
           value: 'customer',
+        },
+        {
+          label: 'editor',
+          value: 'editor',
+        },
+        {
+          label: 'manager',
+          value: 'manager',
         },
       ],
       hooks: {
@@ -86,17 +116,26 @@ const Users: CollectionConfig = {
       },
     },
     {
-      name: 'stripeCustomerID',
-      label: 'Stripe Customer',
-      type: 'text',
-      access: {
-        read: ({ req: { user } }) => checkRole(['admin'], user),
+      name: 'recentlyViewed',
+      label: 'Recently Viewed',
+      type: 'relationship',
+      relationTo: 'products',
+      hasMany: true,
+      hooks: {
+        beforeChange: [resolveDuplicateRecentlyViewed],
       },
       admin: {
         position: 'sidebar',
-        components: {
-          Field: CustomerSelect,
-        },
+      },
+    },
+    {
+      name: 'DeliveryLocation',
+      label: 'DeliveryLocation',
+      type: 'relationship',
+      relationTo: 'deliveryLocations',
+      hasMany: true,
+      admin: {
+        position: 'sidebar',
       },
     },
     {

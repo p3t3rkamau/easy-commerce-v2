@@ -2,6 +2,7 @@ import type { Block } from 'payload/types'
 
 export const Archive: Block = {
   slug: 'archive',
+  imageURL: 'https://ik.imagekit.io/6cga8hi9z/All_Products/Home__6__NTAVFsRpy.png',
   labels: {
     singular: 'Archive',
     plural: 'Archives',
@@ -36,8 +37,8 @@ export const Archive: Block = {
           value: 'products',
         },
         {
-          label: 'Post',
-          value: 'post',
+          label: 'Posts',
+          value: 'posts',
         },
       ],
     },
@@ -65,7 +66,7 @@ export const Archive: Block = {
       type: 'relationship',
       name: 'selectedDocs',
       label: 'Selection',
-      relationTo: ['products'],
+      relationTo: ['products', 'posts'],
       hasMany: true,
       admin: {
         condition: (_, siblingData) => siblingData.populateBy === 'selection',
@@ -75,7 +76,7 @@ export const Archive: Block = {
       type: 'relationship',
       name: 'populatedDocs',
       label: 'Populated Docs',
-      relationTo: ['products'],
+      relationTo: ['products', 'posts'],
       hasMany: true,
       admin: {
         disabled: true,
