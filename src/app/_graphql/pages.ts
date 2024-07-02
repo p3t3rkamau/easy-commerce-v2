@@ -8,9 +8,11 @@ import {
   FLASHSALES_ARCHIVE_BLOCK,
   FLEX_BANNER_BLOCK,
   GRIDLAYOUT_ARCHIVE_BLOCK,
+  HOLIDAY_BANNER_BLOCK,
   LAST_VIEWED_ARCHIVE_BLOCK,
   MEDIA_BLOCK,
   PRODUCTS_SLIDER_BLOCK,
+  PROMO_BANNER_BLOCK,
   RECOMMENDED_ARCHIVE_BLOCK,
 } from './blocks'
 // import { FORM_FIELDS } from './form'
@@ -57,6 +59,8 @@ export const PAGE = `
           ${GRIDLAYOUT_ARCHIVE_BLOCK}
           ${FLEX_BANNER_BLOCK}
           ${CTA_WITH_IMAGE}
+          ${PROMO_BANNER_BLOCK}
+          ${HOLIDAY_BANNER_BLOCK}
         }
         ${META}
         Accordion{
