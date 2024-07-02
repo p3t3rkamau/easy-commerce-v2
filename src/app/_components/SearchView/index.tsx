@@ -140,7 +140,7 @@ const SearchView: React.FC<SearchViewProps> = ({ closeSearchView }) => {
                   slug={result.slug}
                   title={result.title}
                   price={result.price}
-                  imageUrl={result.meta?.image?.imagekit?.url || '/Easy-logo.svg'}
+                  imageUrl={result.meta?.image || '/Easy-logo.svg'}
                 />
               ))}
             </div>

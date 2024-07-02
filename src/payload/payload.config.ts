@@ -5,6 +5,7 @@ import formBuilder from '@payloadcms/plugin-form-builder'
 import nestedDocs from '@payloadcms/plugin-nested-docs'
 import redirects from '@payloadcms/plugin-redirects'
 import search from '@payloadcms/plugin-search'
+import { sentry } from '@payloadcms/plugin-sentry'
 import seo from '@payloadcms/plugin-seo'
 import type { GenerateTitle } from '@payloadcms/plugin-seo/types'
 // import stripePlugin from '@payloadcms/plugin-stripe' // editor-import
@@ -223,6 +224,22 @@ export default buildConfig({
       collections: ['products'],
       defaultPriorities: {
         Products: 10,
+      },
+    }),
+    sentry({
+      enabled: false,
+      dsn: 'https://a77ee12c2ce6cfcf1a5d6d8e1fada14f@o4507514971226112.ingest.de.sentry.io/4507515060355152',
+      options: {
+        init: {
+          debug: true,
+          environment: 'development',
+          tracesSampleRate: 1.0,
+        },
+        requestHandler: {
+          serverName: false,
+          user: ['email'],
+        },
+        captureErrors: [400, 403, 404, 500],
       },
     }),
     // payloadMux({

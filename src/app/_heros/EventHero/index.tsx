@@ -1,57 +1,55 @@
 'use client'
+
 import React, { useState } from 'react'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
-import Image from 'next/image'
+import NextImage from 'next/image'
 
-import { Button } from '../../_components/Button'
+import { Media, Page } from '../../../payload/payload-types'
+import ContentSlider from '../../_components/HeroButton'
+import { CMSLink } from '../../_components/Link'
+import RichText from '../../_components/RichText'
 
 import classes from './index.module.scss'
 
-const EventHero: React.FC = heroImage => {
-  const images = [
-    { src: '/assets/images/image-4.svg', alt: 'Holiday Prep' },
-    { src: '/assets/images/image-3.svg', alt: 'Christmas Holiday' },
-    { src: '/assets/images/image-1.svg', alt: 'Golden Gnome' },
-    { src: '/assets/images/image-2.svg', alt: '25% Sales Off' },
-  ]
-
-  // State to keep track of the current image index
+export const EventHero: React.FC<Page['heroImage']> = ({
+  SliderHero,
+  PotraitImage,
+  SideImages,
+}) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
-  // Function to handle the previous image
   const handlePrevious = () => {
-    setCurrentImageIndex(prevIndex => (prevIndex === 0 ? images.length - 1 : prevIndex - 1))
+    setCurrentImageIndex(prevIndex =>
+      prevIndex === 0 ? SliderHero?.SliderImages.length - 1 : prevIndex - 1,)
   }
 
-  // Function to handle the next image
   const handleNext = () => {
-    setCurrentImageIndex(prevIndex => (prevIndex === images.length - 1 ? 0 : prevIndex + 1))
+    setCurrentImageIndex(prevIndex =>
+      prevIndex === SliderHero?.SliderImages.length - 1 ? 0 : prevIndex + 1,)
   }
+
+  const getImageUrl = (media: Media): string | undefined => {
+    if (!media || typeof media === 'string') {
+      return undefined
+    }
+
+    return media?.imagekit?.url || undefined
+  }
+
+  const imageUrl = getImageUrl(SliderHero?.SliderImages[currentImageIndex]?.media as Media)
 
   return (
-    <div className={classes.container}>
-      <div className={classes.imageSlider}>
-        <div className={classes.imageContainer}>
-          <Image
-            src={images[currentImageIndex].src}
-            className={classes.mainImage}
-            alt={images[currentImageIndex].alt}
-            width={600}
-            height={600}
+    <section className={classes.hero}>
+      <div className={classes.heroWrapper}>
+        {imageUrl && (
+          <NextImage
+            src={imageUrl}
+            alt="Hero Image"
+            layout="fill"
+            objectFit="cover"
+            className={classes.heroImage}
           />
-          <div className={classes.overlay}></div>
-        </div>
-        <div className={classes.contentContainer}>
-          <div className={classes.mainTitle}>
-            <span>{images[currentImageIndex].alt}</span>
-          </div>
-          <div className={classes.subTitle}>
-            <span className={classes.text}>Find it all now and don't miss out</span>
-          </div>
-          <div className={classes.heroButton}>
-            <Button el="link" href="/products" label="Shop" appearance="secondary" />
-          </div>
-        </div>
+        )}
         <div className={classes.controllers}>
           <div className={classes.iconWrapper} onClick={handlePrevious}>
             <FaChevronLeft className={classes.icon} />
@@ -60,72 +58,49 @@ const EventHero: React.FC = heroImage => {
             <FaChevronRight className={classes.icon} />
           </div>
         </div>
+        <div className={classes.contentContainer}>
+          <div className={classes.mainTitle}>HOLIDAY PREP</div>
+          <div className={classes.subTitle}>Find it all now and don't miss out</div>
+        </div>
       </div>
 
       <div className={classes.portraitImage}>
-        <div className={classes.mainPortraitImage}>
-          <Image
-            src="/assets/images/image-3.svg"
+        {PotraitImage.media && (
+          <NextImage
+            src={getImageUrl(PotraitImage?.media as Media)}
+            alt="Portrait Image"
+            layout="fill"
+            objectFit="cover"
             className={classes.centerImage}
-            alt="Christmas Holiday"
-            width={600}
-            height={600}
           />
-          <div className={classes.overlay}></div>
-        </div>
+        )}
         <div className={classes.contentContainer}>
-          <div className={classes.mainTitle}>
-            <span>Christmas Holiday</span>
-          </div>
-          <div className={classes.subTitle}>
-            <span className={classes.text}>Discover Now</span>
-          </div>
+          <div className={classes.mainTitle}>CHRISTMAS SOLIDER</div>
+          <div className={classes.subTitle}>DISCOVER NOW</div>
         </div>
       </div>
-
       <div className={classes.columnImageFlex}>
-        <div className={classes.columnImage}>
-          <div className={classes.containerFlex}>
-            <Image
-              src="/assets/images/image-1.svg"
-              className={classes.images}
-              alt="Golden Gnome"
-              width={600}
-              height={600}
-            />
-            <div className={classes.overlay}></div>
-          </div>
-          <div className={classes.contentContainer}>
-            <div className={classes.mainTitle}>
-              <span>Golden Gnome</span>
+        {SideImages?.Images?.map((sideImage, index) => (
+          <div className={classes.columnImage} key={index}>
+            <div className={classes.containerFlex}>
+              <NextImage
+                src={getImageUrl(sideImage.media as Media)}
+                className={classes.images}
+                alt={`Side Image ${index}`}
+                height={400}
+                width={600}
+              />
+              <div className={classes.overlay}></div>
             </div>
-            <div className={classes.subTitle}>
-              <span className={classes.text}>Scavenger Hunt</span>
-            </div>
-          </div>
-        </div>
-        <div className={classes.columnImage}>
-          <div className={classes.containerFlex}>
-            <Image
-              src="/assets/images/image-2.svg"
-              className={classes.images}
-              alt="25% Sales Off"
-              width={600}
-              height={600}
-            />
-            <div className={classes.overlay}></div>
-          </div>
-          <div className={classes.contentContainer}>
-            <div className={classes.mainTitle}>
-              <span>25% Sales Off</span>
-            </div>
-            <div className={classes.subTitle}>
-              <span className={classes.text}>Stocking & Tree Skirts</span>
+            <div className={classes.contentContainer}>
+              <div className={classes.mainTitle}>
+                <RichText content={sideImage.richText} />
+              </div>
             </div>
           </div>
-        </div>
+        ))}
       </div>
-    </div>
+    </section>
   )
 }
 

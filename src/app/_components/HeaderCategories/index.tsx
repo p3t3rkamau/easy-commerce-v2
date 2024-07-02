@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 
-import { fetchHeaderCategories } from '../../_api/fetchGlobals' // Adjust the import path as needed
+import { fetchHeaderCategories } from '../../_api/fetchGlobals'
 
 import classes from './index.module.scss'
 
@@ -12,7 +12,13 @@ export interface Attribute {
 
 export interface Subcategory {
   Name: string
-  SubcategoryImage: string
+  SubcategoryImage: {
+    media: {
+      imagekit: {
+        url: string
+      }
+    }
+  }
   Attribute: Attribute[]
   id: string
 }
@@ -46,32 +52,39 @@ export const HeaderCategories: React.FC = () => {
   }
 
   return (
-    <div className={classes.headerCategories}>
-      {categories.map(category => (
-        <div key={category.id} className={classes.category}>
-          <div
-            className={classes.categoryName}
-            onClick={() => handleCategoryClick(category.Category)}
-          >
-            {category.Category}
-          </div>
-          {activeCategory === category.Category && (
-            <div className={classes.subcategories}>
-              {category.Subcategory.map(subcategory => (
-                <div key={subcategory.id} className={classes.subcategory}>
-                  <div className={classes.subcategoryName}>{subcategory.Name}</div>
-                  <img
-                    src={subcategory.SubcategoryImage}
-                    alt={subcategory.Name}
-                    className={classes.subcategoryImage}
-                  />
-                </div>
-              ))}
+    <>
+      <div className={classes.headerCategories}>
+        {categories.map(category => (
+          <div key={category.id} className={classes.category}>
+            <div
+              className={`${classes.categoryName} ${
+                activeCategory === category.Category ? classes.active : ''
+              }`}
+              onClick={() => handleCategoryClick(category.Category)}
+            >
+              {category.Category}
             </div>
-          )}
-        </div>
-      ))}
-    </div>
+            {activeCategory === category.Category && (
+              <div className={classes.subcategoriesContainer}>
+                <div className={classes.subcategories}>
+                  {category.Subcategory.map(subcategory => (
+                    <div key={subcategory.id} className={classes.subcategory}>
+                      <img
+                        src={subcategory.SubcategoryImage.media.imagekit.url}
+                        alt={subcategory.Name}
+                        className={classes.subcategoryImage}
+                      />
+                      <div className={classes.subcategoryName}>{subcategory.Name}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+      <div className={classes.scallopEdge}></div>
+    </>
   )
 }
 

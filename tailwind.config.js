@@ -5,6 +5,9 @@ const {
   isolateForComponents,
   scopedPreflightStyles,
 } = require('tailwindcss-scoped-preflight')
+const defaultTheme = require('tailwindcss/defaultTheme')
+const colors = require('tailwindcss/colors')
+const { default: flattenColorPalette } = require('tailwindcss/lib/util/flattenColorPalette')
 
 module.exports = {
   darkMode: ['[data-theme="dark"]'],
@@ -77,6 +80,7 @@ module.exports = {
   },
   plugins: [
     require('tailwindcss-animate'),
+    [addVariablesForColors],
     scopedPreflightStyles({
       isolationStrategy: isolateInsideOfContainer({
         cssSelector: '#action-save, h1, h2, h3, body',
@@ -86,4 +90,12 @@ module.exports = {
   ],
   blocklist: ['table'],
   preflight: false,
+}
+function addVariablesForColors({ addBase, theme }) {
+  let allColors = flattenColorPalette(theme('colors'))
+  let newVars = Object.fromEntries(Object.entries(allColors).map(([key, val]) => [`--${key}`, val]))
+
+  addBase({
+    ':root': newVars,
+  })
 }
