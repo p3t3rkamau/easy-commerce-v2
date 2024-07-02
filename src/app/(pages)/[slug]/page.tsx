@@ -26,8 +26,6 @@ import CategoriesComponent from '../../_components/Categories'
 import ExpandableFloatingActionButton from '../../_components/ChatwidgetComponent/_components/FloatingAction/ExpandableFloatingActionButton'
 import FlexBanner from '../../_components/FlexBanner'
 import { HeaderCategories } from '../../_components/HeaderCategories'
-import HolidayBanners from '../../_components/Holiday_Banner'
-import PromoBanner from '../../_components/Promo_Banner'
 import { EventHero } from '../../_heros/EventHero'
 
 // import { HomeCarousel } from '../../_components/HomeCarousel/HomeCarousel'
@@ -84,8 +82,6 @@ export default async function Page({ params: { slug = 'home' } }) {
 
         <Gutter className={classes.home}>
           {!noCategories && <CategoriesComponent categories={Categories} />}
-          <PromoBanner />
-          <HolidayBanners />
           <Blocks
             blocks={layout}
             disableTopPadding={!hero || hero?.type === 'none' || hero?.type === 'lowImpact'}

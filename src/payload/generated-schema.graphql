@@ -5180,7 +5180,7 @@ input Page_HeroImage_SideImages_Images_Media_where_or {
   OR: [Page_HeroImage_SideImages_Images_Media_where_or]
 }
 
-union Page_Layout = Cta | Content | MediaBlock | Archive | ContentMedia | CtaWithImage | DoubleMediaContent | ProductsSlider | Recommended | LastViewed | FlashSales | EventArchive | DealsArchive | TopDealsGrid | FlexBanner
+union Page_Layout = Cta | Content | MediaBlock | Archive | ContentMedia | CtaWithImage | DoubleMediaContent | ProductsSlider | Recommended | LastViewed | FlashSales | EventArchive | DealsArchive | TopDealsGrid | FlexBanner | HolidayBanners | PromoBanners
 
 type FlexBanner {
   FlexBanners: FlexBanner_FlexBanners
@@ -5623,6 +5623,648 @@ input FlexBanner_FlexBanners_HorizontalBanners_Media_where_or {
   id: FlexBanner_FlexBanners_HorizontalBanners_Media_id_operator
   AND: [FlexBanner_FlexBanners_HorizontalBanners_Media_where_and]
   OR: [FlexBanner_FlexBanners_HorizontalBanners_Media_where_or]
+}
+
+type HolidayBanners {
+  HolidayBanners: [HolidayBanners_HolidayBanners!]
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type HolidayBanners_HolidayBanners {
+  title: String
+  richText(depth: Int): JSON
+  image(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType, where: HolidayBanners_HolidayBanners_Image_where): Media
+  BackgroundColor: String
+  id: String
+}
+
+input HolidayBanners_HolidayBanners_Image_where {
+  alt: HolidayBanners_HolidayBanners_Image_alt_operator
+  imagekit__fileId: HolidayBanners_HolidayBanners_Image_imagekit__fileId_operator
+  imagekit__thumbnailUrl: HolidayBanners_HolidayBanners_Image_imagekit__thumbnailUrl_operator
+  imagekit__url: HolidayBanners_HolidayBanners_Image_imagekit__url_operator
+  updatedAt: HolidayBanners_HolidayBanners_Image_updatedAt_operator
+  createdAt: HolidayBanners_HolidayBanners_Image_createdAt_operator
+  url: HolidayBanners_HolidayBanners_Image_url_operator
+  filename: HolidayBanners_HolidayBanners_Image_filename_operator
+  mimeType: HolidayBanners_HolidayBanners_Image_mimeType_operator
+  filesize: HolidayBanners_HolidayBanners_Image_filesize_operator
+  width: HolidayBanners_HolidayBanners_Image_width_operator
+  height: HolidayBanners_HolidayBanners_Image_height_operator
+  id: HolidayBanners_HolidayBanners_Image_id_operator
+  AND: [HolidayBanners_HolidayBanners_Image_where_and]
+  OR: [HolidayBanners_HolidayBanners_Image_where_or]
+}
+
+input HolidayBanners_HolidayBanners_Image_alt_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input HolidayBanners_HolidayBanners_Image_imagekit__fileId_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input HolidayBanners_HolidayBanners_Image_imagekit__thumbnailUrl_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input HolidayBanners_HolidayBanners_Image_imagekit__url_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input HolidayBanners_HolidayBanners_Image_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input HolidayBanners_HolidayBanners_Image_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input HolidayBanners_HolidayBanners_Image_url_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input HolidayBanners_HolidayBanners_Image_filename_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input HolidayBanners_HolidayBanners_Image_mimeType_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input HolidayBanners_HolidayBanners_Image_filesize_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input HolidayBanners_HolidayBanners_Image_width_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input HolidayBanners_HolidayBanners_Image_height_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input HolidayBanners_HolidayBanners_Image_id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input HolidayBanners_HolidayBanners_Image_where_and {
+  alt: HolidayBanners_HolidayBanners_Image_alt_operator
+  imagekit__fileId: HolidayBanners_HolidayBanners_Image_imagekit__fileId_operator
+  imagekit__thumbnailUrl: HolidayBanners_HolidayBanners_Image_imagekit__thumbnailUrl_operator
+  imagekit__url: HolidayBanners_HolidayBanners_Image_imagekit__url_operator
+  updatedAt: HolidayBanners_HolidayBanners_Image_updatedAt_operator
+  createdAt: HolidayBanners_HolidayBanners_Image_createdAt_operator
+  url: HolidayBanners_HolidayBanners_Image_url_operator
+  filename: HolidayBanners_HolidayBanners_Image_filename_operator
+  mimeType: HolidayBanners_HolidayBanners_Image_mimeType_operator
+  filesize: HolidayBanners_HolidayBanners_Image_filesize_operator
+  width: HolidayBanners_HolidayBanners_Image_width_operator
+  height: HolidayBanners_HolidayBanners_Image_height_operator
+  id: HolidayBanners_HolidayBanners_Image_id_operator
+  AND: [HolidayBanners_HolidayBanners_Image_where_and]
+  OR: [HolidayBanners_HolidayBanners_Image_where_or]
+}
+
+input HolidayBanners_HolidayBanners_Image_where_or {
+  alt: HolidayBanners_HolidayBanners_Image_alt_operator
+  imagekit__fileId: HolidayBanners_HolidayBanners_Image_imagekit__fileId_operator
+  imagekit__thumbnailUrl: HolidayBanners_HolidayBanners_Image_imagekit__thumbnailUrl_operator
+  imagekit__url: HolidayBanners_HolidayBanners_Image_imagekit__url_operator
+  updatedAt: HolidayBanners_HolidayBanners_Image_updatedAt_operator
+  createdAt: HolidayBanners_HolidayBanners_Image_createdAt_operator
+  url: HolidayBanners_HolidayBanners_Image_url_operator
+  filename: HolidayBanners_HolidayBanners_Image_filename_operator
+  mimeType: HolidayBanners_HolidayBanners_Image_mimeType_operator
+  filesize: HolidayBanners_HolidayBanners_Image_filesize_operator
+  width: HolidayBanners_HolidayBanners_Image_width_operator
+  height: HolidayBanners_HolidayBanners_Image_height_operator
+  id: HolidayBanners_HolidayBanners_Image_id_operator
+  AND: [HolidayBanners_HolidayBanners_Image_where_and]
+  OR: [HolidayBanners_HolidayBanners_Image_where_or]
+}
+
+type PromoBanners {
+  discountPercentage: Float
+  productTitle: String
+  productDescription: String
+  originalPrice: Float
+  discountedPrice: Float
+  link: PromoBanners_Link
+  productImage(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType, where: PromoBanners_ProductImage_where): Media
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type PromoBanners_Link {
+  type: PromoBanners_Link_type
+  newTab: Boolean
+  reference(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): PromoBanners_Link_Reference_Relationship
+  url: String
+  label: String
+  icon(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType, where: PromoBanners_Link_Icon_where): Media
+  appearance: PromoBanners_Link_appearance
+}
+
+enum PromoBanners_Link_type {
+  reference
+  custom
+}
+
+type PromoBanners_Link_Reference_Relationship {
+  relationTo: PromoBanners_Link_Reference_RelationTo
+  value: PromoBanners_Link_Reference
+}
+
+enum PromoBanners_Link_Reference_RelationTo {
+  pages
+}
+
+union PromoBanners_Link_Reference = Page
+
+input PromoBanners_Link_Icon_where {
+  alt: PromoBanners_Link_Icon_alt_operator
+  imagekit__fileId: PromoBanners_Link_Icon_imagekit__fileId_operator
+  imagekit__thumbnailUrl: PromoBanners_Link_Icon_imagekit__thumbnailUrl_operator
+  imagekit__url: PromoBanners_Link_Icon_imagekit__url_operator
+  updatedAt: PromoBanners_Link_Icon_updatedAt_operator
+  createdAt: PromoBanners_Link_Icon_createdAt_operator
+  url: PromoBanners_Link_Icon_url_operator
+  filename: PromoBanners_Link_Icon_filename_operator
+  mimeType: PromoBanners_Link_Icon_mimeType_operator
+  filesize: PromoBanners_Link_Icon_filesize_operator
+  width: PromoBanners_Link_Icon_width_operator
+  height: PromoBanners_Link_Icon_height_operator
+  id: PromoBanners_Link_Icon_id_operator
+  AND: [PromoBanners_Link_Icon_where_and]
+  OR: [PromoBanners_Link_Icon_where_or]
+}
+
+input PromoBanners_Link_Icon_alt_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input PromoBanners_Link_Icon_imagekit__fileId_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input PromoBanners_Link_Icon_imagekit__thumbnailUrl_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input PromoBanners_Link_Icon_imagekit__url_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input PromoBanners_Link_Icon_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input PromoBanners_Link_Icon_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input PromoBanners_Link_Icon_url_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input PromoBanners_Link_Icon_filename_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input PromoBanners_Link_Icon_mimeType_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input PromoBanners_Link_Icon_filesize_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input PromoBanners_Link_Icon_width_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input PromoBanners_Link_Icon_height_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input PromoBanners_Link_Icon_id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input PromoBanners_Link_Icon_where_and {
+  alt: PromoBanners_Link_Icon_alt_operator
+  imagekit__fileId: PromoBanners_Link_Icon_imagekit__fileId_operator
+  imagekit__thumbnailUrl: PromoBanners_Link_Icon_imagekit__thumbnailUrl_operator
+  imagekit__url: PromoBanners_Link_Icon_imagekit__url_operator
+  updatedAt: PromoBanners_Link_Icon_updatedAt_operator
+  createdAt: PromoBanners_Link_Icon_createdAt_operator
+  url: PromoBanners_Link_Icon_url_operator
+  filename: PromoBanners_Link_Icon_filename_operator
+  mimeType: PromoBanners_Link_Icon_mimeType_operator
+  filesize: PromoBanners_Link_Icon_filesize_operator
+  width: PromoBanners_Link_Icon_width_operator
+  height: PromoBanners_Link_Icon_height_operator
+  id: PromoBanners_Link_Icon_id_operator
+  AND: [PromoBanners_Link_Icon_where_and]
+  OR: [PromoBanners_Link_Icon_where_or]
+}
+
+input PromoBanners_Link_Icon_where_or {
+  alt: PromoBanners_Link_Icon_alt_operator
+  imagekit__fileId: PromoBanners_Link_Icon_imagekit__fileId_operator
+  imagekit__thumbnailUrl: PromoBanners_Link_Icon_imagekit__thumbnailUrl_operator
+  imagekit__url: PromoBanners_Link_Icon_imagekit__url_operator
+  updatedAt: PromoBanners_Link_Icon_updatedAt_operator
+  createdAt: PromoBanners_Link_Icon_createdAt_operator
+  url: PromoBanners_Link_Icon_url_operator
+  filename: PromoBanners_Link_Icon_filename_operator
+  mimeType: PromoBanners_Link_Icon_mimeType_operator
+  filesize: PromoBanners_Link_Icon_filesize_operator
+  width: PromoBanners_Link_Icon_width_operator
+  height: PromoBanners_Link_Icon_height_operator
+  id: PromoBanners_Link_Icon_id_operator
+  AND: [PromoBanners_Link_Icon_where_and]
+  OR: [PromoBanners_Link_Icon_where_or]
+}
+
+enum PromoBanners_Link_appearance {
+  default
+  primary
+  secondary
+}
+
+input PromoBanners_ProductImage_where {
+  alt: PromoBanners_ProductImage_alt_operator
+  imagekit__fileId: PromoBanners_ProductImage_imagekit__fileId_operator
+  imagekit__thumbnailUrl: PromoBanners_ProductImage_imagekit__thumbnailUrl_operator
+  imagekit__url: PromoBanners_ProductImage_imagekit__url_operator
+  updatedAt: PromoBanners_ProductImage_updatedAt_operator
+  createdAt: PromoBanners_ProductImage_createdAt_operator
+  url: PromoBanners_ProductImage_url_operator
+  filename: PromoBanners_ProductImage_filename_operator
+  mimeType: PromoBanners_ProductImage_mimeType_operator
+  filesize: PromoBanners_ProductImage_filesize_operator
+  width: PromoBanners_ProductImage_width_operator
+  height: PromoBanners_ProductImage_height_operator
+  id: PromoBanners_ProductImage_id_operator
+  AND: [PromoBanners_ProductImage_where_and]
+  OR: [PromoBanners_ProductImage_where_or]
+}
+
+input PromoBanners_ProductImage_alt_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input PromoBanners_ProductImage_imagekit__fileId_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input PromoBanners_ProductImage_imagekit__thumbnailUrl_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input PromoBanners_ProductImage_imagekit__url_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input PromoBanners_ProductImage_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input PromoBanners_ProductImage_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input PromoBanners_ProductImage_url_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input PromoBanners_ProductImage_filename_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input PromoBanners_ProductImage_mimeType_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input PromoBanners_ProductImage_filesize_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input PromoBanners_ProductImage_width_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input PromoBanners_ProductImage_height_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input PromoBanners_ProductImage_id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input PromoBanners_ProductImage_where_and {
+  alt: PromoBanners_ProductImage_alt_operator
+  imagekit__fileId: PromoBanners_ProductImage_imagekit__fileId_operator
+  imagekit__thumbnailUrl: PromoBanners_ProductImage_imagekit__thumbnailUrl_operator
+  imagekit__url: PromoBanners_ProductImage_imagekit__url_operator
+  updatedAt: PromoBanners_ProductImage_updatedAt_operator
+  createdAt: PromoBanners_ProductImage_createdAt_operator
+  url: PromoBanners_ProductImage_url_operator
+  filename: PromoBanners_ProductImage_filename_operator
+  mimeType: PromoBanners_ProductImage_mimeType_operator
+  filesize: PromoBanners_ProductImage_filesize_operator
+  width: PromoBanners_ProductImage_width_operator
+  height: PromoBanners_ProductImage_height_operator
+  id: PromoBanners_ProductImage_id_operator
+  AND: [PromoBanners_ProductImage_where_and]
+  OR: [PromoBanners_ProductImage_where_or]
+}
+
+input PromoBanners_ProductImage_where_or {
+  alt: PromoBanners_ProductImage_alt_operator
+  imagekit__fileId: PromoBanners_ProductImage_imagekit__fileId_operator
+  imagekit__thumbnailUrl: PromoBanners_ProductImage_imagekit__thumbnailUrl_operator
+  imagekit__url: PromoBanners_ProductImage_imagekit__url_operator
+  updatedAt: PromoBanners_ProductImage_updatedAt_operator
+  createdAt: PromoBanners_ProductImage_createdAt_operator
+  url: PromoBanners_ProductImage_url_operator
+  filename: PromoBanners_ProductImage_filename_operator
+  mimeType: PromoBanners_ProductImage_mimeType_operator
+  filesize: PromoBanners_ProductImage_filesize_operator
+  width: PromoBanners_ProductImage_width_operator
+  height: PromoBanners_ProductImage_height_operator
+  id: PromoBanners_ProductImage_id_operator
+  AND: [PromoBanners_ProductImage_where_and]
+  OR: [PromoBanners_ProductImage_where_or]
 }
 
 type Page_Accordion {
@@ -9087,7 +9729,7 @@ input PageVersion_Version_HeroImage_SideImages_Images_Media_where_or {
   OR: [PageVersion_Version_HeroImage_SideImages_Images_Media_where_or]
 }
 
-union PageVersion_Version_Layout = Cta | Content | MediaBlock | Archive | ContentMedia | CtaWithImage | DoubleMediaContent | ProductsSlider | Recommended | LastViewed | FlashSales | EventArchive | DealsArchive | TopDealsGrid | FlexBanner
+union PageVersion_Version_Layout = Cta | Content | MediaBlock | Archive | ContentMedia | CtaWithImage | DoubleMediaContent | ProductsSlider | Recommended | LastViewed | FlashSales | EventArchive | DealsArchive | TopDealsGrid | FlexBanner | HolidayBanners | PromoBanners
 
 type PageVersion_Version_Accordion {
   Heading: String

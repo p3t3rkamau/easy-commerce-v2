@@ -26,7 +26,10 @@ import { slugField } from '../../fields/slug'
 import { populateArchiveBlock } from '../../hooks/populateArchiveBlock'
 import { adminsOrPublished } from './access/adminsOrPublished'
 import { revalidatePage } from './hooks/revalidatePage'
+import HolidayBanners from '../../blocks/Holiday_Banner'
+import PromoBanners from '../../blocks/Promotion_Banner'
 export const Pages: CollectionConfig = {
+  
   slug: 'pages',
   admin: {
     useAsTitle: 'title',
@@ -130,6 +133,8 @@ export const Pages: CollectionConfig = {
                 DealsArchive,
                 TopDealsGrid,
                 FlexBanner,
+                HolidayBanners,
+                PromoBanners,
                 // CardGrid,
                 // Banner,
                 // BlogContent,

@@ -17,6 +17,8 @@ import TopDealsArchive from '../../_blocks/TopDealsArchive'
 import { toKebabCase } from '../../_utilities/toKebabCase'
 import { BackgroundColor } from '../BackgroundColor/index'
 import { VerticalPadding, VerticalPaddingOptions } from '../VerticalPadding/index'
+import { PromoBanner } from '../Promo_Banner/index'
+import { HolidayBanners } from '../Holiday_Banner/index'
 
 const blockComponents = {
   cta: CallToActionBlock,
@@ -32,6 +34,8 @@ const blockComponents = {
   'flash-sales': FlashDealsArchive,
   recommended: RecommededArchive,
   'last-viewed': LastViewed,
+  promoBanner: PromoBanner,
+  holiday: HolidayBanners,
 }
 
 export const Blocks: React.FC<{

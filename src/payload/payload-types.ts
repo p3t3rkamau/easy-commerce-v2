@@ -403,6 +403,45 @@ export interface Page {
         blockName?: string | null;
         blockType: 'FlexBanner';
       }
+    | {
+        HolidayBanners?:
+          | {
+              title: string;
+              richText: {
+                [k: string]: unknown;
+              }[];
+              image: string | Media;
+              BackgroundColor: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'holiday-banners';
+      }
+    | {
+        discountPercentage: number;
+        productTitle: string;
+        productDescription: string;
+        originalPrice: number;
+        discountedPrice: number;
+        link: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?: {
+            relationTo: 'pages';
+            value: string | Page;
+          } | null;
+          url?: string | null;
+          label: string;
+          icon?: string | Media | null;
+          appearance?: ('default' | 'primary' | 'secondary') | null;
+        };
+        productImage: string | Media;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'promo-banners';
+      }
   )[];
   Accordion?:
     | {

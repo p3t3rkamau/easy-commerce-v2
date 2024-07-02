@@ -284,3 +284,41 @@ export const FLEX_BANNER_BLOCK = `
   }
  }
 `
+
+export const HOLIDAY_BANNER_BLOCK = `
+...on HolidayBanner {
+  blockType
+    blockName
+    HolidayBanners {
+      id
+      title
+      richText 
+      image {
+        imagekit {
+          url
+        }
+      }
+      BackgroundColor
+    }
+ }
+`
+export const PROMO_BANNER_BLOCK = `
+...on PromoBanner {
+  blockType
+  blockName
+  discountPercentage
+  productTitle
+  productDescription
+  originalPrice
+  discountedPrice
+  links {
+    link ${LINK_FIELDS()}
+  }
+  productImage {
+    imagekit {
+      url
+    }
+  }
+ }
+`
+
