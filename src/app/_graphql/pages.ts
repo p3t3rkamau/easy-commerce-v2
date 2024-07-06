@@ -59,8 +59,7 @@ export const PAGE = `
           ${GRIDLAYOUT_ARCHIVE_BLOCK}
           ${FLEX_BANNER_BLOCK}
           ${CTA_WITH_IMAGE}
-          ${PROMO_BANNER_BLOCK}
-          ${HOLIDAY_BANNER_BLOCK}
+          
         }
         ${META}
         Accordion{

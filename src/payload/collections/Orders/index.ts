@@ -1,14 +1,13 @@
-// collections/Orders.js
-import type { CollectionConfig } from 'payload/types'
-
-import { admins } from '../../access/admins'
-import { adminsOrLoggedIn } from '../../access/adminsOrLoggedIn'
-import CustomOrderReceiptButton from '../../components/Receipt/ReceiptButton'
-import { adminsOrOrderedBy } from './access/adminsOrOrderedBy'
-import { clearUserCart } from './hooks/clearUserCart'
-import { populateOrderedBy } from './hooks/populateOrderedBy'
-import { sendOrderEmails } from './hooks/sendOrderEmails'
-import { updateUserPurchases } from './hooks/updateUserPurchases'
+import type { CollectionConfig } from 'payload/types';
+import { admins } from '../../access/admins';
+import { adminsOrLoggedIn } from '../../access/adminsOrLoggedIn';
+import CustomOrderReceiptButton from '../../components/Receipt/ReceiptButton';
+import { adminsOrOrderedBy } from './access/adminsOrOrderedBy';
+import { clearUserCart } from './hooks/clearUserCart';
+import { populateOrderedBy } from './hooks/populateOrderedBy';
+import { sendOrderEmails } from './hooks/sendOrderEmails';
+import { updateUserPurchases } from './hooks/updateUserPurchases';
+import calculateOrderTotal from './hooks/calculateOrderTotal';
 
 export const Orders: CollectionConfig = {
   slug: 'orders',
@@ -18,6 +17,7 @@ export const Orders: CollectionConfig = {
     preview: doc => `${process.env.PAYLOAD_PUBLIC_SERVER_URL}/orders/${doc.id}`,
   },
   hooks: {
+    beforeChange: [calculateOrderTotal], // Added beforeChange hook
     afterChange: [updateUserPurchases, clearUserCart, sendOrderEmails],
   },
   access: {
@@ -36,16 +36,7 @@ export const Orders: CollectionConfig = {
       },
     },
     {
-      name: 'DeliveryLocation',
-      label: 'Delivery Location',
-      type: 'relationship',
-      relationTo: 'deliveryLocations',
-      admin: {
-        position: 'sidebar',
-      },
-    },
-    {
-      name: 'mpesaTransactionRef',
+      name: 'refId',
       type: 'text',
       admin: {
         position: 'sidebar',
@@ -68,6 +59,18 @@ export const Orders: CollectionConfig = {
       type: 'number',
       required: true,
       min: 0,
+      admin: {
+        readOnly: true, // Make it read-only in the admin UI
+      },
+    },
+    {
+      name: 'deliveryCost',
+      type: 'number',
+      required: true,
+      min: 0,
+      admin: {
+        readOnly: true, // Make it read-only in the admin UI
+      },
     },
     {
       name: 'items',
@@ -96,5 +99,29 @@ export const Orders: CollectionConfig = {
         },
       ],
     },
+    {
+      name: 'phoneNumber',
+      type: 'text',
+    },
+    {
+      name: 'orderNotes',
+      type: 'textarea',
+    },
+    {
+      name: 'deliveryType',
+      type: 'text',
+    },
+    {
+      name: 'location',
+      type: 'text',
+    },
+    {
+      name: 'deliveryNote',
+      type: 'textarea',
+    },
+    {
+      name: 'customLocation',
+      type: 'point',
+    },
   ],
-}
+};

@@ -53,7 +53,7 @@ export default async function Order({ params: { id } }) {
       </h1>
       <div className={classes.itemMeta}>
         <p>{`ID: ${order.id}`}</p>
-        <p>{`Payment Intent: ${order.mpesaTransactionRef}`}</p>
+        <p>{`Payment Intent: ${order.refId}`}</p>
         <p>{`Ordered On: ${formatDateTime(order.createdAt)}`}</p>
         <p className={classes.total}>
           {'Total: '}

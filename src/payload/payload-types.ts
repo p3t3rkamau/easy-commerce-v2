@@ -1026,10 +1026,10 @@ export interface Review {
 export interface Order {
   id: string;
   orderedBy?: (string | null) | User;
-  DeliveryLocation?: (string | null) | DeliveryLocation;
-  mpesaTransactionRef?: string | null;
+  refId?: string | null;
   GenerateReceiptButton?: string | null;
   total: number;
+  deliveryCost: number;
   items?:
     | {
         product: string | Product;
@@ -1047,6 +1047,16 @@ export interface Order {
         id?: string | null;
       }[]
     | null;
+  phoneNumber?: string | null;
+  orderNotes?: string | null;
+  deliveryType?: string | null;
+  location?: string | null;
+  deliveryNote?: string | null;
+  /**
+   * @minItems 2
+   * @maxItems 2
+   */
+  customLocation?: [number, number] | null;
   updatedAt: string;
   createdAt: string;
 }

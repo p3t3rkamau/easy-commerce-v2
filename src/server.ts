@@ -47,7 +47,6 @@ const start = async (): Promise<void> => {
   //   await seed(payload)
   //   process.exit()
   // }
-
   if (process.env.NEXT_BUILD) {
     app.listen(PORT, async () => {
       payload.logger.info(`Next.js is now building...`)

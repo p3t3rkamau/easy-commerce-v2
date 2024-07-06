@@ -12452,11 +12452,17 @@ input versionsProduct_where_or {
 type Order {
   id: String
   orderedBy(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): User
-  DeliveryLocation(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): DeliveryLocation
-  mpesaTransactionRef: String
+  refId: String
   GenerateReceiptButton: String
   total: Float!
+  deliveryCost: Float!
   items: [Order_Items!]
+  phoneNumber: String
+  orderNotes: String
+  deliveryType: String
+  location: String
+  deliveryNote: String
+  customLocation: [Float!]
   updatedAt: DateTime
   createdAt: DateTime
 }
@@ -12485,15 +12491,21 @@ type Orders {
 
 input Order_where {
   orderedBy: Order_orderedBy_operator
-  DeliveryLocation: Order_DeliveryLocation_operator
-  mpesaTransactionRef: Order_mpesaTransactionRef_operator
+  refId: Order_refId_operator
   GenerateReceiptButton: Order_GenerateReceiptButton_operator
   total: Order_total_operator
+  deliveryCost: Order_deliveryCost_operator
   items__product: Order_items__product_operator
   items__price: Order_items__price_operator
   items__quantity: Order_items__quantity_operator
   items__selectedAttributes: Order_items__selectedAttributes_operator
   items__id: Order_items__id_operator
+  phoneNumber: Order_phoneNumber_operator
+  orderNotes: Order_orderNotes_operator
+  deliveryType: Order_deliveryType_operator
+  location: Order_location_operator
+  deliveryNote: Order_deliveryNote_operator
+  customLocation: Order_customLocation_operator
   updatedAt: Order_updatedAt_operator
   createdAt: Order_createdAt_operator
   id: Order_id_operator
@@ -12510,16 +12522,7 @@ input Order_orderedBy_operator {
   exists: Boolean
 }
 
-input Order_DeliveryLocation_operator {
-  equals: JSON
-  not_equals: JSON
-  in: [JSON]
-  not_in: [JSON]
-  all: [JSON]
-  exists: Boolean
-}
-
-input Order_mpesaTransactionRef_operator {
+input Order_refId_operator {
   equals: String
   not_equals: String
   like: String
@@ -12542,6 +12545,15 @@ input Order_GenerateReceiptButton_operator {
 }
 
 input Order_total_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+}
+
+input Order_deliveryCost_operator {
   equals: Float
   not_equals: Float
   greater_than_equal: Float
@@ -12599,6 +12611,73 @@ input Order_items__id_operator {
   exists: Boolean
 }
 
+input Order_phoneNumber_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Order_orderNotes_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  exists: Boolean
+}
+
+input Order_deliveryType_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Order_location_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Order_deliveryNote_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  exists: Boolean
+}
+
+input Order_customLocation_operator {
+  equals: [Float]
+  not_equals: [Float]
+  greater_than_equal: [Float]
+  greater_than: [Float]
+  less_than_equal: [Float]
+  less_than: [Float]
+  near: [Float]
+  within: GeoJSONObject
+  intersects: GeoJSONObject
+  exists: Boolean
+}
+
+input GeoJSONObject {
+  coordinates: JSON
+  type: String
+}
+
 input Order_updatedAt_operator {
   equals: DateTime
   not_equals: DateTime
@@ -12634,15 +12713,21 @@ input Order_id_operator {
 
 input Order_where_and {
   orderedBy: Order_orderedBy_operator
-  DeliveryLocation: Order_DeliveryLocation_operator
-  mpesaTransactionRef: Order_mpesaTransactionRef_operator
+  refId: Order_refId_operator
   GenerateReceiptButton: Order_GenerateReceiptButton_operator
   total: Order_total_operator
+  deliveryCost: Order_deliveryCost_operator
   items__product: Order_items__product_operator
   items__price: Order_items__price_operator
   items__quantity: Order_items__quantity_operator
   items__selectedAttributes: Order_items__selectedAttributes_operator
   items__id: Order_items__id_operator
+  phoneNumber: Order_phoneNumber_operator
+  orderNotes: Order_orderNotes_operator
+  deliveryType: Order_deliveryType_operator
+  location: Order_location_operator
+  deliveryNote: Order_deliveryNote_operator
+  customLocation: Order_customLocation_operator
   updatedAt: Order_updatedAt_operator
   createdAt: Order_createdAt_operator
   id: Order_id_operator
@@ -12652,15 +12737,21 @@ input Order_where_and {
 
 input Order_where_or {
   orderedBy: Order_orderedBy_operator
-  DeliveryLocation: Order_DeliveryLocation_operator
-  mpesaTransactionRef: Order_mpesaTransactionRef_operator
+  refId: Order_refId_operator
   GenerateReceiptButton: Order_GenerateReceiptButton_operator
   total: Order_total_operator
+  deliveryCost: Order_deliveryCost_operator
   items__product: Order_items__product_operator
   items__price: Order_items__price_operator
   items__quantity: Order_items__quantity_operator
   items__selectedAttributes: Order_items__selectedAttributes_operator
   items__id: Order_items__id_operator
+  phoneNumber: Order_phoneNumber_operator
+  orderNotes: Order_orderNotes_operator
+  deliveryType: Order_deliveryType_operator
+  location: Order_location_operator
+  deliveryNote: Order_deliveryNote_operator
+  customLocation: Order_customLocation_operator
   updatedAt: Order_updatedAt_operator
   createdAt: Order_createdAt_operator
   id: Order_id_operator
@@ -12678,11 +12769,17 @@ type ordersDocAccess {
 
 type OrdersDocAccessFields {
   orderedBy: OrdersDocAccessFields_orderedBy
-  DeliveryLocation: OrdersDocAccessFields_DeliveryLocation
-  mpesaTransactionRef: OrdersDocAccessFields_mpesaTransactionRef
+  refId: OrdersDocAccessFields_refId
   GenerateReceiptButton: OrdersDocAccessFields_GenerateReceiptButton
   total: OrdersDocAccessFields_total
+  deliveryCost: OrdersDocAccessFields_deliveryCost
   items: OrdersDocAccessFields_items
+  phoneNumber: OrdersDocAccessFields_phoneNumber
+  orderNotes: OrdersDocAccessFields_orderNotes
+  deliveryType: OrdersDocAccessFields_deliveryType
+  location: OrdersDocAccessFields_location
+  deliveryNote: OrdersDocAccessFields_deliveryNote
+  customLocation: OrdersDocAccessFields_customLocation
   updatedAt: OrdersDocAccessFields_updatedAt
   createdAt: OrdersDocAccessFields_createdAt
 }
@@ -12710,49 +12807,26 @@ type OrdersDocAccessFields_orderedBy_Delete {
   permission: Boolean!
 }
 
-type OrdersDocAccessFields_DeliveryLocation {
-  create: OrdersDocAccessFields_DeliveryLocation_Create
-  read: OrdersDocAccessFields_DeliveryLocation_Read
-  update: OrdersDocAccessFields_DeliveryLocation_Update
-  delete: OrdersDocAccessFields_DeliveryLocation_Delete
+type OrdersDocAccessFields_refId {
+  create: OrdersDocAccessFields_refId_Create
+  read: OrdersDocAccessFields_refId_Read
+  update: OrdersDocAccessFields_refId_Update
+  delete: OrdersDocAccessFields_refId_Delete
 }
 
-type OrdersDocAccessFields_DeliveryLocation_Create {
+type OrdersDocAccessFields_refId_Create {
   permission: Boolean!
 }
 
-type OrdersDocAccessFields_DeliveryLocation_Read {
+type OrdersDocAccessFields_refId_Read {
   permission: Boolean!
 }
 
-type OrdersDocAccessFields_DeliveryLocation_Update {
+type OrdersDocAccessFields_refId_Update {
   permission: Boolean!
 }
 
-type OrdersDocAccessFields_DeliveryLocation_Delete {
-  permission: Boolean!
-}
-
-type OrdersDocAccessFields_mpesaTransactionRef {
-  create: OrdersDocAccessFields_mpesaTransactionRef_Create
-  read: OrdersDocAccessFields_mpesaTransactionRef_Read
-  update: OrdersDocAccessFields_mpesaTransactionRef_Update
-  delete: OrdersDocAccessFields_mpesaTransactionRef_Delete
-}
-
-type OrdersDocAccessFields_mpesaTransactionRef_Create {
-  permission: Boolean!
-}
-
-type OrdersDocAccessFields_mpesaTransactionRef_Read {
-  permission: Boolean!
-}
-
-type OrdersDocAccessFields_mpesaTransactionRef_Update {
-  permission: Boolean!
-}
-
-type OrdersDocAccessFields_mpesaTransactionRef_Delete {
+type OrdersDocAccessFields_refId_Delete {
   permission: Boolean!
 }
 
@@ -12799,6 +12873,29 @@ type OrdersDocAccessFields_total_Update {
 }
 
 type OrdersDocAccessFields_total_Delete {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryCost {
+  create: OrdersDocAccessFields_deliveryCost_Create
+  read: OrdersDocAccessFields_deliveryCost_Read
+  update: OrdersDocAccessFields_deliveryCost_Update
+  delete: OrdersDocAccessFields_deliveryCost_Delete
+}
+
+type OrdersDocAccessFields_deliveryCost_Create {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryCost_Read {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryCost_Update {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryCost_Delete {
   permission: Boolean!
 }
 
@@ -12946,6 +13043,144 @@ type OrdersDocAccessFields_items_id_Update {
 }
 
 type OrdersDocAccessFields_items_id_Delete {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_phoneNumber {
+  create: OrdersDocAccessFields_phoneNumber_Create
+  read: OrdersDocAccessFields_phoneNumber_Read
+  update: OrdersDocAccessFields_phoneNumber_Update
+  delete: OrdersDocAccessFields_phoneNumber_Delete
+}
+
+type OrdersDocAccessFields_phoneNumber_Create {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_phoneNumber_Read {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_phoneNumber_Update {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_phoneNumber_Delete {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_orderNotes {
+  create: OrdersDocAccessFields_orderNotes_Create
+  read: OrdersDocAccessFields_orderNotes_Read
+  update: OrdersDocAccessFields_orderNotes_Update
+  delete: OrdersDocAccessFields_orderNotes_Delete
+}
+
+type OrdersDocAccessFields_orderNotes_Create {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_orderNotes_Read {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_orderNotes_Update {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_orderNotes_Delete {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryType {
+  create: OrdersDocAccessFields_deliveryType_Create
+  read: OrdersDocAccessFields_deliveryType_Read
+  update: OrdersDocAccessFields_deliveryType_Update
+  delete: OrdersDocAccessFields_deliveryType_Delete
+}
+
+type OrdersDocAccessFields_deliveryType_Create {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryType_Read {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryType_Update {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryType_Delete {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_location {
+  create: OrdersDocAccessFields_location_Create
+  read: OrdersDocAccessFields_location_Read
+  update: OrdersDocAccessFields_location_Update
+  delete: OrdersDocAccessFields_location_Delete
+}
+
+type OrdersDocAccessFields_location_Create {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_location_Read {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_location_Update {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_location_Delete {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryNote {
+  create: OrdersDocAccessFields_deliveryNote_Create
+  read: OrdersDocAccessFields_deliveryNote_Read
+  update: OrdersDocAccessFields_deliveryNote_Update
+  delete: OrdersDocAccessFields_deliveryNote_Delete
+}
+
+type OrdersDocAccessFields_deliveryNote_Create {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryNote_Read {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryNote_Update {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryNote_Delete {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_customLocation {
+  create: OrdersDocAccessFields_customLocation_Create
+  read: OrdersDocAccessFields_customLocation_Read
+  update: OrdersDocAccessFields_customLocation_Update
+  delete: OrdersDocAccessFields_customLocation_Delete
+}
+
+type OrdersDocAccessFields_customLocation_Create {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_customLocation_Read {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_customLocation_Update {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_customLocation_Delete {
   permission: Boolean!
 }
 
@@ -28710,11 +28945,17 @@ type ordersAccess {
 
 type OrdersFields {
   orderedBy: OrdersFields_orderedBy
-  DeliveryLocation: OrdersFields_DeliveryLocation
-  mpesaTransactionRef: OrdersFields_mpesaTransactionRef
+  refId: OrdersFields_refId
   GenerateReceiptButton: OrdersFields_GenerateReceiptButton
   total: OrdersFields_total
+  deliveryCost: OrdersFields_deliveryCost
   items: OrdersFields_items
+  phoneNumber: OrdersFields_phoneNumber
+  orderNotes: OrdersFields_orderNotes
+  deliveryType: OrdersFields_deliveryType
+  location: OrdersFields_location
+  deliveryNote: OrdersFields_deliveryNote
+  customLocation: OrdersFields_customLocation
   updatedAt: OrdersFields_updatedAt
   createdAt: OrdersFields_createdAt
 }
@@ -28742,49 +28983,26 @@ type OrdersFields_orderedBy_Delete {
   permission: Boolean!
 }
 
-type OrdersFields_DeliveryLocation {
-  create: OrdersFields_DeliveryLocation_Create
-  read: OrdersFields_DeliveryLocation_Read
-  update: OrdersFields_DeliveryLocation_Update
-  delete: OrdersFields_DeliveryLocation_Delete
+type OrdersFields_refId {
+  create: OrdersFields_refId_Create
+  read: OrdersFields_refId_Read
+  update: OrdersFields_refId_Update
+  delete: OrdersFields_refId_Delete
 }
 
-type OrdersFields_DeliveryLocation_Create {
+type OrdersFields_refId_Create {
   permission: Boolean!
 }
 
-type OrdersFields_DeliveryLocation_Read {
+type OrdersFields_refId_Read {
   permission: Boolean!
 }
 
-type OrdersFields_DeliveryLocation_Update {
+type OrdersFields_refId_Update {
   permission: Boolean!
 }
 
-type OrdersFields_DeliveryLocation_Delete {
-  permission: Boolean!
-}
-
-type OrdersFields_mpesaTransactionRef {
-  create: OrdersFields_mpesaTransactionRef_Create
-  read: OrdersFields_mpesaTransactionRef_Read
-  update: OrdersFields_mpesaTransactionRef_Update
-  delete: OrdersFields_mpesaTransactionRef_Delete
-}
-
-type OrdersFields_mpesaTransactionRef_Create {
-  permission: Boolean!
-}
-
-type OrdersFields_mpesaTransactionRef_Read {
-  permission: Boolean!
-}
-
-type OrdersFields_mpesaTransactionRef_Update {
-  permission: Boolean!
-}
-
-type OrdersFields_mpesaTransactionRef_Delete {
+type OrdersFields_refId_Delete {
   permission: Boolean!
 }
 
@@ -28831,6 +29049,29 @@ type OrdersFields_total_Update {
 }
 
 type OrdersFields_total_Delete {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryCost {
+  create: OrdersFields_deliveryCost_Create
+  read: OrdersFields_deliveryCost_Read
+  update: OrdersFields_deliveryCost_Update
+  delete: OrdersFields_deliveryCost_Delete
+}
+
+type OrdersFields_deliveryCost_Create {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryCost_Read {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryCost_Update {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryCost_Delete {
   permission: Boolean!
 }
 
@@ -28978,6 +29219,144 @@ type OrdersFields_items_id_Update {
 }
 
 type OrdersFields_items_id_Delete {
+  permission: Boolean!
+}
+
+type OrdersFields_phoneNumber {
+  create: OrdersFields_phoneNumber_Create
+  read: OrdersFields_phoneNumber_Read
+  update: OrdersFields_phoneNumber_Update
+  delete: OrdersFields_phoneNumber_Delete
+}
+
+type OrdersFields_phoneNumber_Create {
+  permission: Boolean!
+}
+
+type OrdersFields_phoneNumber_Read {
+  permission: Boolean!
+}
+
+type OrdersFields_phoneNumber_Update {
+  permission: Boolean!
+}
+
+type OrdersFields_phoneNumber_Delete {
+  permission: Boolean!
+}
+
+type OrdersFields_orderNotes {
+  create: OrdersFields_orderNotes_Create
+  read: OrdersFields_orderNotes_Read
+  update: OrdersFields_orderNotes_Update
+  delete: OrdersFields_orderNotes_Delete
+}
+
+type OrdersFields_orderNotes_Create {
+  permission: Boolean!
+}
+
+type OrdersFields_orderNotes_Read {
+  permission: Boolean!
+}
+
+type OrdersFields_orderNotes_Update {
+  permission: Boolean!
+}
+
+type OrdersFields_orderNotes_Delete {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryType {
+  create: OrdersFields_deliveryType_Create
+  read: OrdersFields_deliveryType_Read
+  update: OrdersFields_deliveryType_Update
+  delete: OrdersFields_deliveryType_Delete
+}
+
+type OrdersFields_deliveryType_Create {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryType_Read {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryType_Update {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryType_Delete {
+  permission: Boolean!
+}
+
+type OrdersFields_location {
+  create: OrdersFields_location_Create
+  read: OrdersFields_location_Read
+  update: OrdersFields_location_Update
+  delete: OrdersFields_location_Delete
+}
+
+type OrdersFields_location_Create {
+  permission: Boolean!
+}
+
+type OrdersFields_location_Read {
+  permission: Boolean!
+}
+
+type OrdersFields_location_Update {
+  permission: Boolean!
+}
+
+type OrdersFields_location_Delete {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryNote {
+  create: OrdersFields_deliveryNote_Create
+  read: OrdersFields_deliveryNote_Read
+  update: OrdersFields_deliveryNote_Update
+  delete: OrdersFields_deliveryNote_Delete
+}
+
+type OrdersFields_deliveryNote_Create {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryNote_Read {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryNote_Update {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryNote_Delete {
+  permission: Boolean!
+}
+
+type OrdersFields_customLocation {
+  create: OrdersFields_customLocation_Create
+  read: OrdersFields_customLocation_Read
+  update: OrdersFields_customLocation_Update
+  delete: OrdersFields_customLocation_Delete
+}
+
+type OrdersFields_customLocation_Create {
+  permission: Boolean!
+}
+
+type OrdersFields_customLocation_Read {
+  permission: Boolean!
+}
+
+type OrdersFields_customLocation_Update {
+  permission: Boolean!
+}
+
+type OrdersFields_customLocation_Delete {
   permission: Boolean!
 }
 
@@ -36244,11 +36623,17 @@ enum ProductUpdate__status_MutationInput {
 
 input mutationOrderInput {
   orderedBy: String
-  DeliveryLocation: String
-  mpesaTransactionRef: String
+  refId: String
   GenerateReceiptButton: String
   total: Float!
+  deliveryCost: Float!
   items: [mutationOrder_ItemsInput]
+  phoneNumber: String
+  orderNotes: String
+  deliveryType: String
+  location: String
+  deliveryNote: String
+  customLocation: [Float]
   updatedAt: String
   createdAt: String
 }
@@ -36263,11 +36648,17 @@ input mutationOrder_ItemsInput {
 
 input mutationOrderUpdateInput {
   orderedBy: String
-  DeliveryLocation: String
-  mpesaTransactionRef: String
+  refId: String
   GenerateReceiptButton: String
   total: Float
+  deliveryCost: Float
   items: [mutationOrderUpdate_ItemsInput]
+  phoneNumber: String
+  orderNotes: String
+  deliveryType: String
+  location: String
+  deliveryNote: String
+  customLocation: [Float]
   updatedAt: String
   createdAt: String
 }

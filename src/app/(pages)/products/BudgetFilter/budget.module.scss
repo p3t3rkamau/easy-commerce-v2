@@ -1,3 +1,4 @@
+/* BudgetFilter.module.scss */
 .budget-filter {
   margin-bottom: 20px;
 }
@@ -26,7 +27,7 @@
   padding: 10px;
   background-color: white;
   color: black;
-  margin: 5px 0 5px 0;
+  // margin: 5px 0 5px 0;
   border-radius: 5px;
   width: 100%;
   outline: none;
@@ -35,5 +36,14 @@
 }
 
 .input:focus {
-  border: 1px solid rgb(252, 118, 8);
+  border: 1px solid var(--theme-elevation-1000);
+}
+.flex{
+  display: flex;
+  flex-direction: column;
+  
+}
+.label{
+  font-size: 10px;
+  color: #ccc;
 }

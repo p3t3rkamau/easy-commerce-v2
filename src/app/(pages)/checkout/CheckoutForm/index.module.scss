@@ -1,13 +1,158 @@
-@import "../../../_css/common";
+@import '../../../_css/common.scss';
 
 .form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--base);
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  background-color: #ffffff;
 }
 
-.actions {
+.inputGroup {
+  margin-bottom: 20px;
+
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+  }
+
+  input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+
+    &::placeholder {
+      color: #999;
+    }
+  }
+}
+
+.privacyNote {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 20px;
+
+  a {
+    color: #0066cc;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.termsGroup {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--base);
+  align-items: center;
+  margin-bottom: 20px;
+
+  input[type="checkbox"] {
+    margin-right: 10px;
+  }
+
+  label {
+    font-size: 14px;
+    color: #333;
+  }
+
+  a {
+    color: #0066cc;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.submitButton {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--theme-elevation-1000);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #d81b60;
+  }
+}
+
+// ... (previous styles remain the same)
+
+.additionalInfo {
+  margin-bottom: 20px;
+
+  h3 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+  }
+}
+
+.textareaGroup {
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+  }
+
+  textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 14px;
+    min-height: 100px;
+    resize: vertical;
+    background-color: #f9f9f9;
+
+    &::placeholder {
+      color: #999;
+    }
+  }
+}
+.checkoutContainer {
+  max-width: 100%;
+  margin: 0 0;
+  padding: 10px;
+  display: flex;
+  width: 100%;
+  @include small-break{
+    flex-direction: column;
+    padding:0px;
+  }
+
+}
+
+.paymentSteps {
+  margin-bottom: 30px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 5px;
+
+  h3 {
+    color: #333;
+    margin-bottom: 15px;
+  }
+
+  ol {
+    padding-left: 20px;
+    
+    li {
+      color: #666;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+  }
 }

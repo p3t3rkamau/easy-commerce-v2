@@ -78,3 +78,5 @@ export const FlashSales: Block = {
     },
   ],
 }
+// TODO: if an item was from a flashsale and an order is created create a hook to deduct total items
+// TODO: if a flashsale has ended remove it from the view

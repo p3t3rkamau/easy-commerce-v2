@@ -50,3 +50,43 @@
 .error {
   margin-top: calc(var(--block-padding) - var(--base));
 }
+
+/* CheckoutPage.module.scss */
+
+.summary {
+  background-color: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  h6 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 16px;
+    color: #333;
+  }
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #e0e0e0;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    p {
+      margin: 0;
+      font-size: 1rem;
+      color: #555;
+
+      &:last-child {
+        font-weight: bold;
+        color: #000;
+      }
+    }
+  }
+}

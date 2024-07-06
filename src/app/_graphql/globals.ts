@@ -9,23 +9,19 @@ export const HEADER = `
 `
 export const HEADER_CATEGORIES_QUERY = `
   query GetHeaderCategories {
-    headerCategories {
+    _id
+    Category
+    Subcategory {
       id
-      Category
-      Subcategory {
-        Name
-        SubcategoryImage {
-          media {
-            imagekit {
-              url
-            }
-          }
+      Name
+      SubcategoryImage {
+        imagekit {
+          url
         }
-        Attribute {
-          Name
-          id
-        }
+      }
+      Attribute {
         id
+        Name
       }
     }
   }

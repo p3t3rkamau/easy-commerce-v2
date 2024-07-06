@@ -97,3 +97,4 @@ const Filters: React.FC<FiltersProps> = ({ categories }) => {
 }
 
 export default Filters
+// TODO: add brand filters

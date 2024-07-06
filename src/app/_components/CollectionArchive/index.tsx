@@ -28,7 +28,7 @@ export type Props = {
   relationTo?: 'posts' | 'products'
   populateBy?: 'collection' | 'selection'
   showPageRange?: boolean
-  onResultChange?: (result: Result) => void // eslint-disable-line no-unused-vars
+  onResultChange?: (result: Result) => void
   limit?: number
   populatedDocs?: ArchiveBlockProps['populatedDocs']
   populatedDocsTotal?: ArchiveBlockProps['populatedDocsTotal']
@@ -37,7 +37,7 @@ export type Props = {
 }
 
 export const CollectionArchive: React.FC<Props> = props => {
-  const { categoryFilters, sort } = useFilter()
+  const { categoryFilters, sort, priceFilteredProducts } = useFilter()
 
   const {
     className,
@@ -89,11 +89,8 @@ export const CollectionArchive: React.FC<Props> = props => {
   }, [isLoading, scrollToRef, results])
 
   useEffect(() => {
-    // hydrate the block with fresh content after first render
-    // don't show loader unless the request takes longer than x ms
-    // and don't show it during initial hydration
     const timer: NodeJS.Timeout = setTimeout(() => {
-      if (hasHydrated) {
+      if (hasHydrated.current) {
         setIsLoading(true)
       }
     }, 500)
@@ -109,6 +106,13 @@ export const CollectionArchive: React.FC<Props> = props => {
                     typeof categoryFilters === 'string'
                       ? [categoryFilters]
                       : categoryFilters.map((cat: string) => cat).join(','),
+                },
+              }
+            : {}),
+          ...(priceFilteredProducts.length > 0
+            ? {
+                id: {
+                  in: priceFilteredProducts,
                 },
               }
             : {}),
@@ -130,7 +134,6 @@ export const CollectionArchive: React.FC<Props> = props => {
         hasHydrated.current = true
 
         const { docs } = json as { docs: (Post | Product)[] }
-        // console.log('json', docs)
 
         if (docs && Array.isArray(docs)) {
           setResults(json)
@@ -140,7 +143,7 @@ export const CollectionArchive: React.FC<Props> = props => {
           }
         }
       } catch (err) {
-        console.warn(err) // eslint-disable-line no-console
+        console.warn(err)
         setIsLoading(false)
         setError(`Unable to load "${relationTo} archive" data at this time.`)
       }
@@ -151,7 +154,7 @@ export const CollectionArchive: React.FC<Props> = props => {
     return () => {
       if (timer) clearTimeout(timer)
     }
-  }, [page, categoryFilters, relationTo, onResultChange, sort, limit])
+  }, [page, categoryFilters, relationTo, onResultChange, sort, limit, priceFilteredProducts])
 
   return (
     <div className={[classes.collectionArchive, className].filter(Boolean).join(' ')}>
@@ -171,6 +174,7 @@ export const CollectionArchive: React.FC<Props> = props => {
 
         <div className={classes.grid}>
           {results.docs?.map((result, index) => {
+            // @ts-ignore
             return <Card key={index} relationTo={relationTo} doc={result} showCategories />
           })}
         </div>

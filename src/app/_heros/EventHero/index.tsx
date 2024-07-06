@@ -65,7 +65,7 @@ export const EventHero: React.FC<Page['heroImage']> = ({
       </div>
 
       <div className={classes.portraitImage}>
-        {PotraitImage.media && (
+        {PotraitImage?.media && (
           <NextImage
             src={getImageUrl(PotraitImage?.media as Media)}
             alt="Portrait Image"

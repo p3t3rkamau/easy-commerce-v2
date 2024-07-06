@@ -6,6 +6,7 @@ import { Order } from '../../payload-types'
 export const generateReceipt = async (order: Order) => {
   const pdfDoc = await PDFDocument.create()
   const page = pdfDoc.addPage([600, 800])
+  // @ts-ignore
 
   const { orderedBy = {}, total, DeliveryLocation = {} } = order
 
