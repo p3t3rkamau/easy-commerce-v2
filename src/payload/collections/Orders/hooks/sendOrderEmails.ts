@@ -1,47 +1,45 @@
-// hooks/sendOrderEmails.js
 import type { AfterChangeHook } from 'payload/dist/collections/config/types'
 
-import { generateEmailContent } from '../../../utilities/generateEmailContent'
-import { sendEmail } from '../../../utilities/sendemail.jsx'
-
-export const sendOrderEmails: AfterChangeHook = async ({ doc, operation }) => {
-  console.log('sendOrderEmails hook triggered') // Log when hook is triggered
+export const sendOrderEmails: AfterChangeHook = async ({ doc, operation, req }) => {
+  console.log('sendOrderEmails hook triggered')
 
   if (operation === 'create') {
-    console.log('Creating order email content') // Log before generating email content
+    console.log('Creating order email content')
 
-    const { userEmailContent, companyEmailContent } = generateEmailContent(doc)
-
-    // Assuming `orderedBy` contains the user's email
     const userEmail = typeof doc.orderedBy === 'object' ? doc.orderedBy.email : null
-    const companyEmail = 'petercubolt@gmail.com' // Replace with your company's email address
+    const companyEmail = 'petercubolt@gmail.com'
 
     if (!userEmail) {
-      console.error('User email is missing') // Log error if user email is missing
+      console.error('User email is missing')
       return
     }
 
-    console.log(`Sending email to user: ${userEmail}`) // Log the user email
-    console.log(`Sending email to company: ${companyEmail}`) // Log the company email
+    const userEmailContent = `<p>Hello User,</p><p>Your order has been placed successfully.</p><p>Thank you for shopping with us!</p>`
+    const companyEmailContent = `<p>Hello Company,</p><p>A new order has been received.</p>`
+
+    console.log(`Sending email to user: ${userEmail}`)
+    console.log(`Sending email to company: ${companyEmail}`)
 
     try {
       // Send email to user
-      await sendEmail({
+      await req.payload.sendEmail({
         to: userEmail,
         subject: 'Your Order Confirmation',
         html: userEmailContent,
       })
-      console.log('User email sent successfully') // Log success
+      console.log('User email sent successfully')
 
       // Send email to company
-      await sendEmail({
+      await req.payload.sendEmail({
         to: companyEmail,
         subject: 'New Order Received',
         html: companyEmailContent,
       })
-      console.log('Company email sent successfully') // Log success
+      console.log('Company email sent successfully')
     } catch (error: unknown) {
-      console.error('Error sending order emails:', error) // Log error
+      console.error('Error sending order emails:', error)
+      // You might want to throw the error here to ensure Payload knows the hook failed
+      throw error
     }
   }
 }

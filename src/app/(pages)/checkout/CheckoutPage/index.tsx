@@ -1,81 +1,79 @@
-'use client'
-import React, { Fragment, useEffect, useState } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import React, { Fragment, useEffect, useState } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
-import { Settings } from '../../../../payload/payload-types';
-import { Button } from '../../../_components/Button';
-import { LoadingShimmer } from '../../../_components/LoadingShimmer';
-import { useAuth } from '../../../_providers/Auth';
-import { useCart } from '../../../_providers/Cart';
-import { CheckoutItem } from '../CheckoutItem';
-import { CheckoutForm } from '../CheckoutForm';
+import { Settings } from '../../../../payload/payload-types'
+import { Button } from '../../../_components/Button'
+import { LoadingShimmer } from '../../../_components/LoadingShimmer'
+import { useAuth } from '../../../_providers/Auth'
+import { useCart } from '../../../_providers/Cart'
+import { CheckoutForm } from '../CheckoutForm'
+import { CheckoutItem } from '../CheckoutItem'
 
-
-import classes from './index.module.scss';
-
+import classes from './index.module.scss'
 
 const decrypt = (encryptedValue: string): number => {
-  const key = 42; // Example decryption key (must match encryption key)
-  return encryptedValue.charCodeAt(0) ^ key;
-};
+  const key = 42 // Example decryption key (must match encryption key)
+  return encryptedValue.charCodeAt(0) ^ key
+}
 
 export const CheckoutPage: React.FC<{
-  settings: Settings;
-}> = (props) => {
+  settings: Settings
+}> = props => {
   const {
     settings: { productsPage },
-  } = props;
+  } = props
 
-  const { user } = useAuth();
-  const router = useRouter();
-  const { cart, cartIsEmpty, cartTotal } = useCart();
+  const { user } = useAuth()
+  const router = useRouter()
+  const { cart, cartIsEmpty, cartTotal } = useCart()
 
-  const [deliveryType, setDeliveryType] = useState<string>('');
-  const [location, setLocation] = useState<string>('');
-  const [shippingCost, setShippingCost] = useState<number>(0);
-  const [deliveryNote, setDeliveryNote] = useState<string>('');
-  const [customLocation, setCustomLocation] = useState<string>('');
-  const [error, setError] = React.useState<string | null>(null);
+  const [deliveryType, setDeliveryType] = useState<string>('')
+  const [location, setLocation] = useState<string>('')
+  const [locationLabel, setLocationLabel] = useState<string>('')
+  const [shippingCost, setShippingCost] = useState<number>(0)
+  const [deliveryNote, setDeliveryNote] = useState<string>('')
+  const [customLocation, setCustomLocation] = useState<string>('')
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     // Extract parameters from URL
-    const params = new URLSearchParams(window.location.search);
-    const deliveryTypeParam = params.get('deliveryType') || '';
-    const locationParam = params.get('location') || '';
+    const params = new URLSearchParams(window.location.search)
+    const deliveryTypeParam = params.get('deliveryType') || ''
+    const locationParam = params.get('location') || ''
+    const locationLabelParam = params.get('locationLabel') || ''
 
     // Decrypt shipping cost from URL parameter
-    const encryptedShippingCost = params.get('shippingCost') || '0';
-    const decryptedCost = decrypt(encryptedShippingCost);
-    const shippingCostParam = parseFloat(decryptedCost.toString());
+    const encryptedShippingCost = params.get('shippingCost') || '0'
+    const decryptedCost = decrypt(encryptedShippingCost)
+    const shippingCostParam = parseFloat(decryptedCost.toString())
 
     // Optional: Fetch delivery note and custom location from URL parameters
-    const deliveryNoteParam = params.get('deliveryNote') || '';
-    const customLocationParam = params.get('customLocation') || '';
+    const deliveryNoteParam = params.get('deliveryNote') || ''
+    const customLocationParam = params.get('customLocation') || ''
 
     // Update state with extracted values
-    setDeliveryType(deliveryTypeParam);
-    setLocation(locationParam);
-    setShippingCost(shippingCostParam);
-    setDeliveryNote(decodeURIComponent(deliveryNoteParam));
-    setCustomLocation(decodeURIComponent(customLocationParam));
-  }, []);
+    setDeliveryType(deliveryTypeParam)
+    setLocation(locationParam)
+    setLocationLabel(locationLabelParam)
+    setShippingCost(shippingCostParam)
+    setDeliveryNote(decodeURIComponent(deliveryNoteParam))
+    setCustomLocation(decodeURIComponent(customLocationParam))
+  }, [])
 
   useEffect(() => {
-    if (user !== null && cartIsEmpty) {
-      router.push('/cart');
+    if (!user && !cartIsEmpty) {
+      router.push('/cart')
     }
-  }, [router, user, cartIsEmpty]);
+  }, [router, user, cartIsEmpty])
 
-  if (!user) return null;
+  if (!user) return null
 
   return (
     <Fragment>
       {cartIsEmpty && (
         <div>
-          {'Your '}
-          <Link href="/cart">cart</Link>
-          {' is empty.'}
+          Your <Link href="/cart">cart</Link> is empty.
           {typeof productsPage === 'object' && productsPage?.slug && (
             <Fragment>
               {' '}
@@ -103,11 +101,11 @@ export const CheckoutPage: React.FC<{
                   product,
                   product: { title, meta },
                   selectedAttributes,
-                } = item;
+                } = item
 
-                if (!quantity) return null;
+                if (!quantity) return null
 
-                const metaImage = meta?.image;
+                const metaImage = meta?.image
 
                 return (
                   <Fragment key={index}>
@@ -120,9 +118,9 @@ export const CheckoutPage: React.FC<{
                       selectedAttributes={selectedAttributes}
                     />
                   </Fragment>
-                );
+                )
               }
-              return null;
+              return null
             })}
           </ul>
         </div>
@@ -140,7 +138,7 @@ export const CheckoutPage: React.FC<{
 
         <div className={classes.row}>
           <p className={classes.cartTotal}>Delivery Location</p>
-          <p className={classes.cartTotal}>{location}</p>
+          <p className={classes.cartTotal}>{locationLabel}</p>
         </div>
 
         <div className={classes.row}>
@@ -174,6 +172,7 @@ export const CheckoutPage: React.FC<{
       <CheckoutForm
         deliveryType={deliveryType}
         location={location}
+        locationLabel={locationLabel} // Pass locationLabel to CheckoutForm
         subtotal={cartTotal.raw}
         deliveryNote={deliveryNote}
         customLocation={customLocation}
@@ -186,5 +185,5 @@ export const CheckoutPage: React.FC<{
         </div>
       )}
     </Fragment>
-  );
-};
+  )
+}

@@ -4,13 +4,7 @@ import CouponForm from '../CouponForm'
 
 import classes from './index.module.scss'
 
-interface RiderOption {
-  id: string
-  label: string
-  value: string
-}
-
-interface MatatuOption {
+interface DeliveryOption {
   id: string
   label: string
   value: string
@@ -19,7 +13,7 @@ interface MatatuOption {
 interface Props {
   onDeliveryCostChange: (cost: number) => void
   onDeliveryTypeChange: (type: string) => void
-  onLocationChange: (loc: string) => void
+  onLocationChange: (locId: string, locLabel: string) => void
 }
 
 const ShippingForm: React.FC<Props> = ({
@@ -28,11 +22,12 @@ const ShippingForm: React.FC<Props> = ({
   onLocationChange,
 }) => {
   const [deliveryType, setDeliveryType] = useState<string>('')
-  const [location, setLocation] = useState<string>('')
+  const [locationId, setLocationId] = useState<string>('')
+  const [locationLabel, setLocationLabel] = useState<string>('')
   const [customLocation, setCustomLocation] = useState<string>('')
   const [deliveryNote, setDeliveryNote] = useState<string>('')
-  const [riderOptions, setRiderOptions] = useState<RiderOption[]>([])
-  const [matatuOptions, setMatatuOptions] = useState<MatatuOption[]>([])
+  const [riderOptions, setRiderOptions] = useState<DeliveryOption[]>([])
+  const [matatuOptions, setMatatuOptions] = useState<DeliveryOption[]>([])
 
   useEffect(() => {
     if (deliveryType === 'rider') {
@@ -44,13 +39,16 @@ const ShippingForm: React.FC<Props> = ({
   }, [deliveryType])
 
   useEffect(() => {
-    onLocationChange(location)
-  }, [location])
+    const selectedOption = getSelectedOption()
+    if (selectedOption) {
+      onLocationChange(selectedOption.id, selectedOption.label)
+    }
+  }, [locationId, deliveryType])
 
   const fetchRiderOptions = () => {
     fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/forms/65fe8a2a2e728c6fcb994223`)
       .then(response => response.json())
-      .then((data: { fields: { options: RiderOption[] }[] }) => {
+      .then((data: { fields: { options: DeliveryOption[] }[] }) => {
         setRiderOptions(data.fields[0].options)
       })
       .catch(error => console.error('Error fetching rider options:', error))
@@ -59,36 +57,40 @@ const ShippingForm: React.FC<Props> = ({
   const fetchMatatuOptions = () => {
     fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/forms/6686884b54645faa14f5bc62`)
       .then(response => response.json())
-      .then((data: { fields: { options: MatatuOption[] }[] }) => {
+      .then((data: { fields: { options: DeliveryOption[] }[] }) => {
         setMatatuOptions(data.fields[0].options)
       })
       .catch(error => console.error('Error fetching matatu options:', error))
   }
 
   useEffect(() => {
-    // Calculate delivery cost based on selected options
-    const cost = calculateDeliveryCost(deliveryType, location)
+    const cost = calculateDeliveryCost()
     onDeliveryCostChange(cost)
-  }, [deliveryType, location])
+  }, [deliveryType, locationId])
 
-  const calculateDeliveryCost = (type: string, selectedLocation: string): number => {
-    if (type === 'rider') {
-      const selectedOption = riderOptions.find(option => option.id === selectedLocation)
-      return selectedOption ? parseFloat(selectedOption.value) : 0
+  const calculateDeliveryCost = (): number => {
+    const selectedOption = getSelectedOption()
+    return selectedOption ? parseFloat(selectedOption.value) : 0
+  }
+
+  const getSelectedOption = (): DeliveryOption | undefined => {
+    if (deliveryType === 'rider') {
+      return riderOptions.find(option => option.id === locationId)
     }
-    if (type === 'matatu') {
-      const selectedOption = matatuOptions.find(option => option.id === selectedLocation)
-      return selectedOption ? parseFloat(selectedOption.value) : 0
+    if (deliveryType === 'matatu') {
+      return matatuOptions.find(option => option.id === locationId)
     }
-    return 0 // For pickup
+    return undefined
   }
 
   const handleLocationShare = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         position => {
-          setCustomLocation(`${position.coords.latitude},${position.coords.longitude}`)
-          setLocation(`${position.coords.latitude},${position.coords.longitude}`)
+          const loc = `${position.coords.latitude},${position.coords.longitude}`
+          setCustomLocation(loc)
+          setLocationId(loc)
+          setLocationLabel(loc)
         },
         error => {
           console.error('Error getting location:', error)
@@ -99,6 +101,24 @@ const ShippingForm: React.FC<Props> = ({
     }
   }
 
+  const handleLocationChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedOption = getSelectedOptionById(e.target.value)
+    if (selectedOption) {
+      setLocationId(selectedOption.id)
+      setLocationLabel(selectedOption.label)
+    }
+  }
+
+  const getSelectedOptionById = (id: string): DeliveryOption | undefined => {
+    if (deliveryType === 'rider') {
+      return riderOptions.find(option => option.id === id)
+    }
+    if (deliveryType === 'matatu') {
+      return matatuOptions.find(option => option.id === id)
+    }
+    return undefined
+  }
+
   const renderDeliveryOptions = () => {
     switch (deliveryType) {
       case 'rider':
@@ -106,8 +126,8 @@ const ShippingForm: React.FC<Props> = ({
           <>
             <select
               className={classes.deliveryDropdown}
-              value={location}
-              onChange={e => setLocation(e.target.value)}
+              value={locationId}
+              onChange={handleLocationChange}
             >
               <option value="">Select Delivery Location</option>
               {riderOptions.map(option => (
@@ -132,8 +152,8 @@ const ShippingForm: React.FC<Props> = ({
           <>
             <select
               className={classes.deliveryDropdown}
-              value={location}
-              onChange={e => setLocation(e.target.value)}
+              value={locationId}
+              onChange={handleLocationChange}
             >
               <option value="">Select Delivery Location</option>
               {matatuOptions.map(option => (

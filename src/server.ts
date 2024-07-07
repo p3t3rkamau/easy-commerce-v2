@@ -5,7 +5,7 @@ import express from 'express'
 import next from 'next'
 import nextBuild from 'next/dist/build'
 import NodeCache from 'node-cache'
-import nodemailerSendgrid from 'nodemailer-sendgrid'
+import nodemailer from 'nodemailer'
 import path from 'path'
 import payload from 'payload'
 
@@ -21,12 +21,52 @@ const PORT = process.env.PORT || 3002
 app.use(cors())
 app.use(express.json())
 
-const sendGridAPIKey = process.env.SENDGRID_API_KEY
+const transporter = nodemailer.createTransport({
+  host: 'smtp.resend.com',
+  secure: true,
+  port: 465,
+  auth: {
+    user: 'resend',
+    pass: process.env.RESEND_API_KEY,
+  },
+  from: 'EasyBake Supplies Limited <noreply@berleensafaris.com>', // Add this line
+})
 
-const sendgridConfig = {
-  transportOptions: nodemailerSendgrid({
-    apiKey: sendGridAPIKey,
-  }),
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+const saveSearchTerm = async (term: string) => {
+  try {
+    const existingTerm = await payload.find({
+      collection: 'searchTerms',
+      where: {
+        term: {
+          equals: term,
+        },
+      },
+    })
+    if (existingTerm.totalDocs > 0) {
+      await payload.update({
+        collection: 'searchTerms',
+        id: existingTerm.docs[0].id,
+        data: {
+          count: existingTerm.docs[0].count + 1,
+          // @ts-expect-error
+          lastSearched: new Date(),
+        },
+      })
+    } else {
+      await payload.create({
+        collection: 'searchTerms',
+        data: {
+          term,
+          count: 1,
+          // @ts-expect-error
+          lastSearched: new Date(),
+        },
+      })
+    }
+  } catch (error: unknown) {
+    console.error('Error saving search term:', error)
+  }
 }
 
 const start = async (): Promise<void> => {
@@ -34,9 +74,9 @@ const start = async (): Promise<void> => {
     secret: process.env.PAYLOAD_SECRET || '',
     express: app,
     email: {
+      transport: transporter,
       fromName: 'EasyBake Supplies Limited',
-      fromAddress: 'petercubolt@gmail.com',
-      ...sendgridConfig,
+      fromAddress: 'noreply@berleensafaris.com', // Replace with your verified domain
     },
     onInit: () => {
       payload.logger.info(`Payload Admin URL: ${payload.getAdminURL()}`)
@@ -174,12 +214,13 @@ app.post('/api/search', async (req, res) => {
   try {
     const cachedResults = cache.get(query)
     if (cachedResults) {
+      await saveSearchTerm(query)
       return res.json({ success: true, results: cachedResults })
     }
 
     const results = await searchMongoDB(query)
     cache.set(query, results, 3600) // Cache for 1 hour
-
+    await saveSearchTerm(query)
     return res.json({ success: true, results })
   } catch (error: unknown) {
     if (!res.headersSent) {
@@ -187,6 +228,18 @@ app.post('/api/search', async (req, res) => {
     } else {
       console.error('Headers already sent, cannot respond with error:', error)
     }
+  }
+})
+
+app.post('/api/save-search', async (req, res) => {
+  const { term } = req.body
+
+  try {
+    await saveSearchTerm(term)
+    res.status(200).json({ message: 'Search term saved successfully' })
+  } catch (error: unknown) {
+    console.error('Error saving search term:', error)
+    res.status(500).json({ message: 'Error saving search term' })
   }
 })
 

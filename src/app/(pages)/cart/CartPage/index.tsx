@@ -1,4 +1,3 @@
-'use client'
 import React, { Fragment, useEffect, useState } from 'react'
 import Link from 'next/link'
 
@@ -29,7 +28,8 @@ export const CartPage: React.FC<{
   const { cart, cartIsEmpty, cartTotal, addItemToCart, hasInitializedCart } = useCart()
   const [shippingCost, setShippingCost] = useState(0)
   const [deliveryType, setDeliveryType] = useState('')
-  const [location, setLocation] = useState('')
+  const [locationId, setLocationId] = useState('')
+  const [locationLabel, setLocationLabel] = useState('')
   const [deliveryNote, setDeliveryNote] = useState('')
   const [customLocation, setCustomLocation] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -51,8 +51,9 @@ export const CartPage: React.FC<{
     setDeliveryType(type)
   }
 
-  const handleLocationChange = (loc: string) => {
-    setLocation(loc)
+  const handleLocationChange = (locId: string, locLabel: string) => {
+    setLocationId(locId)
+    setLocationLabel(locLabel)
   }
 
   const encryptedShippingCost = encrypt(shippingCost)
@@ -60,7 +61,9 @@ export const CartPage: React.FC<{
   const handleCheckoutClick = () => {
     setIsLoading(true)
     const checkoutUrl = user
-      ? `/checkout?deliveryType=${deliveryType}&location=${location}&shippingCost=${encryptedShippingCost}&deliveryNote=${encodeURIComponent(
+      ? `/checkout?deliveryType=${deliveryType}&location=${encodeURIComponent(
+          locationLabel,
+        )}&shippingCost=${encryptedShippingCost}&deliveryNote=${encodeURIComponent(
           deliveryNote,
         )}&customLocation=${encodeURIComponent(customLocation)}`
       : '/login?redirect=%2Fcheckout'

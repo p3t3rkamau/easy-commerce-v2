@@ -56,6 +56,7 @@ const SearchView: React.FC<SearchViewProps> = ({ closeSearchView }) => {
     try {
       const response = await axios.post('/api/search', { query: searchQuery })
       setResults(response.data.results)
+      console.log(response.data.results)
     } catch (error) {
       setError('Error searching products')
       console.error('Error searching products:', error)
@@ -147,6 +148,7 @@ const SearchView: React.FC<SearchViewProps> = ({ closeSearchView }) => {
                   title={result.title}
                   price={result.price}
                   imageUrl={result.meta?.image || '/Easy-logo.svg'}
+                  
                 />
               ))}
             </div>

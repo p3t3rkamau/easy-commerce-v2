@@ -97,3 +97,16 @@
   max-height: 300px;
   overflow-y: auto;
 }
+.clearHistory {
+  color: #ff0000;
+  font-weight: bold;
+}
+
+.clearHistoryItem {
+  display: flex;
+  align-items: center;
+}
+
+.trashIcon {
+  margin-right: 8px;
+}

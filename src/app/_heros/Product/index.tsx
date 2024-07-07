@@ -21,6 +21,7 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
     meta: { image: metaImage, description },
     OtherImages,
     ProductsAttributes,
+    slug,
   } = product
 
   const [mainImage, setMainImage] = useState(metaImage)
@@ -78,7 +79,7 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
 
   return (
     <Gutter className={classes.productHero}>
-      <BreadcrumbItemNextUi />
+      <BreadcrumbItemNextUi productname={slug} />
       <div>
         <ProductImage
           //@ts-ignore

@@ -1,119 +1,135 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { FaSearch, FaTimes } from 'react-icons/fa'
+import { FaTrash } from 'react-icons/fa'
+import { Autocomplete, AutocompleteItem } from '@nextui-org/react'
 import axios from 'axios'
-
-import Card from './SearchResults'
+import { useRouter } from 'next/navigation'
 
 import classes from './index.module.scss'
 
 const SearchBar: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [query, setQuery] = useState('')
-  const [results, setResults] = useState([])
+  const [suggestions, setSuggestions] = useState([])
+  const [recentSearches, setRecentSearches] = useState([])
   const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState(null)
-  const [isFocused, setIsFocused] = useState(false)
+  const router = useRouter()
 
-  const searchBarRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    // Load recent searches from localStorage
+    const savedSearches = localStorage.getItem('recentSearches')
+    if (savedSearches) {
+      setRecentSearches(JSON.parse(savedSearches))
+    }
+  }, [])
+
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
+  const fetchSuggestions = useCallback(async (value: string) => {
+    if (value.trim() === '') {
+      setSuggestions([])
+      return
+    }
+
+    setIsLoading(true)
+
+    try {
+      const response = await axios.post('/api/search', { query: value })
+      setSuggestions(
+        response.data.results.map(item => ({
+          label: item.title,
+          value: item.slug,
+        })),
+      )
+    } catch (error) {
+      console.error('Error fetching suggestions:', error)
+      setSuggestions([])
+    } finally {
+      setIsLoading(false)
+    }
+  }, [])
+
+  const handleInputChange = (value: string) => {
     setQuery(value)
 
     if (debounceTimeoutRef.current) {
       clearTimeout(debounceTimeoutRef.current)
     }
 
-    if (value.trim() !== '') {
-      debounceTimeoutRef.current = setTimeout(() => {
-        fetchSearchResults(value)
-      }, 3000) // Adjust the delay as needed
-    } else {
-      setResults([])
+    debounceTimeoutRef.current = setTimeout(() => {
+      fetchSuggestions(value)
+      saveSearchTerm(value)
+    }, 300)
+  }
+
+  const handleSelectionChange = (selected: string) => {
+    if (selected) {
+      if (selected === 'clear_history') {
+        clearSearchHistory()
+      } else {
+        // Update recent searches
+        const updatedSearches = [selected, ...recentSearches.filter(s => s !== selected)].slice(
+          0,
+          5,
+        )
+        setRecentSearches(updatedSearches)
+        localStorage.setItem('recentSearches', JSON.stringify(updatedSearches))
+
+        // Navigate to the product page
+        router.push(`/products/${selected}`)
+      }
     }
   }
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      fetchSearchResults(query)
+  const clearSearchHistory = () => {
+    setRecentSearches([])
+    localStorage.removeItem('recentSearches')
+  }
+
+  const saveSearchTerm = async (term: string) => {
+    if (term.trim() !== '') {
+      try {
+        await axios.post('/api/save-search', { term })
+      } catch (error) {
+        console.error('Error saving search term:', error)
+      }
     }
   }
 
-  const fetchSearchResults = async (searchQuery: string) => {
-    if (searchQuery.trim() === '') return
-
-    setIsLoading(true)
-    setError(null)
-
-    try {
-      const response = await axios.post('/api/search', { query: searchQuery })
-      setResults(response.data.results)
-    } catch (error) {
-      setError('Error searching products')
-      console.error('Error searching products:', error)
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  const handleFocus = () => {
-    setIsFocused(true)
-  }
-
-  const handleBlur = (e: MouseEvent) => {
-    if (searchBarRef.current && !searchBarRef.current.contains(e.target as Node)) {
-      setIsFocused(false)
-    }
-  }
-
-  useEffect(() => {
-    document.addEventListener('mousedown', handleBlur)
-    return () => {
-      document.removeEventListener('mousedown', handleBlur)
-    }
-  }, [])
+  const allItems = [
+    ...suggestions,
+    ...recentSearches.map(s => ({ label: s, value: s })),
+    { label: 'Clear Search History', value: 'clear_history' },
+  ]
 
   return (
-    <div className={classes.container} ref={searchBarRef}>
-      <div className={classes.wrap}>
-        <div className={classes.search}>
-          <input
-            type="text"
-            className={classes.searchTerm}
-            placeholder="What Are You Looking For?"
-            value={query}
-            onChange={handleInputChange}
-            onKeyPress={handleKeyPress}
-            onFocus={handleFocus}
-          />
-          <button onClick={() => fetchSearchResults(query)} className={classes.searchButton}>
-            <FaSearch className={classes.searchicon} />
-          </button>
-        </div>
-      </div>
-      {/* <button onClick={onClose} className={classes.closeButton}>
-        <FaTimes className={classes.closeIcon} />
-      </button> */}
-
-      {isFocused && query.trim() !== '' && (
-        <div className={classes.resultsContainer}>
-          {error && <div className={classes.error}>{error}</div>}
-          {isLoading && <div className={classes.loading}>Searching {query}...</div>}
-          {!isLoading && results?.length > 0 && (
-            <div className={classes.searchResult}>
-              {results.map(result => (
-                <Card
-                  key={result._id}
-                  slug={result.slug}
-                  title={result.title}
-                  price={result.price}
-                  imageUrl={result.meta?.image?.imagekit?.url || '/Easy-logo.svg'}
-                />
-              ))}
-            </div>
-          )}
-        </div>
-      )}
+    <div className={classes.container}>
+      <Autocomplete
+        label="Search products"
+        variant="bordered"
+        className={classes.autocomplete}
+        defaultItems={allItems}
+        onInputChange={handleInputChange}
+        onSelectionChange={handleSelectionChange}
+        inputValue={query}
+        isLoading={isLoading}
+        allowsCustomValue
+      >
+        {item => (
+          <AutocompleteItem
+            key={item.value}
+            textValue={item.label}
+            className={item.value === 'clear_history' ? classes.clearHistory : ''}
+          >
+            {item.value === 'clear_history' ? (
+              <div className={classes.clearHistoryItem}>
+                <FaTrash className={classes.trashIcon} />
+                {item.label}
+              </div>
+            ) : (
+              item.label
+            )}
+          </AutocompleteItem>
+        )}
+      </Autocomplete>
     </div>
   )
 }

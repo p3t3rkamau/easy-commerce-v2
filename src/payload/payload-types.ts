@@ -50,6 +50,7 @@ export interface Config {
     'live-chats': LiveChat;
     EmailBulkySms: EmailBulkySm;
     coupons: Coupon;
+    searchTerms: SearchTerm;
     search: Search;
     redirects: Redirect;
     forms: Form;
@@ -1183,6 +1184,14 @@ export interface Coupon {
   applicableTo: 'products' | 'deliveryRider' | 'deliveryMatatu' | 'allProducts';
   relatedProducts?: (string | null) | Product;
   expiryDate?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+export interface SearchTerm {
+  id: string;
+  term: string;
+  count?: number | null;
+  lastSearched?: string | null;
   updatedAt: string;
   createdAt: string;
 }

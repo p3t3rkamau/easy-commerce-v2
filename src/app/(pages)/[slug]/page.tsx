@@ -27,6 +27,7 @@ import ExpandableFloatingActionButton from '../../_components/ChatwidgetComponen
 import FlexBanner from '../../_components/FlexBanner'
 import { HeaderCategories } from '../../_components/HeaderCategories'
 import { EventHero } from '../../_heros/EventHero'
+import { Scroller } from '../../AcertinityUi_components/Scroller/scroller'
 import CarouselView from '../../CoreUi_components/couresel'
 
 // import { HomeCarousel } from '../../_components/HomeCarousel/HomeCarousel'
@@ -89,7 +90,7 @@ export default async function Page({ params: { slug = 'home' } }) {
             disableTopPadding={!hero || hero?.type === 'none' || hero?.type === 'lowImpact'}
           />
           <ProductGrid />
-          <LogoSlider />
+          <Scroller />
           <ExpandableFloatingActionButton />
         </Gutter>
       </section>

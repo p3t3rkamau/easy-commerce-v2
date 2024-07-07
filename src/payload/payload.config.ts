@@ -36,6 +36,7 @@ import { Posts } from './collections/Posts'
 import Products from './collections/Products'
 // import { QuestionSets } from './collections/QuestionSets'
 import Reviews from './collections/Reviews/Reviews'
+import SearchTerms from './collections/SearchTerms'
 import SiteMedia from './collections/SiteMedia/sitemedia'
 import Users from './collections/Users'
 import Videos from './collections/Videos'
@@ -136,6 +137,7 @@ export default buildConfig({
     LiveChats,
     EMailSms,
     Coupons,
+    SearchTerms,
     // CaseStudies,
     // QuestionSets,
     // ReusableContent,

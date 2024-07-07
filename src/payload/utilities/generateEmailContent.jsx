@@ -1,4 +1,3 @@
-// utils/generateEmailContent.js
 export const generateEmailContent = order => {
   const userEmailContent = `
       <h1>Thank you for your order</h1>

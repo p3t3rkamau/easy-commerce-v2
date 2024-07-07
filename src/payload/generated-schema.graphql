@@ -63,6 +63,9 @@ type Query {
   Coupon(id: String!, draft: Boolean, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType): Coupon
   Coupons(draft: Boolean, where: Coupon_where, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType, limit: Int, page: Int, sort: String): Coupons
   docAccessCoupon(id: String!): couponsDocAccess
+  SearchTerm(id: String!, draft: Boolean, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType): SearchTerm
+  SearchTerms(draft: Boolean, where: SearchTerm_where, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType, limit: Int, page: Int, sort: String): SearchTerms
+  docAccessSearchTerm(id: String!): searchTermsDocAccess
   Search(id: String!, draft: Boolean, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType): Search
   Searches(draft: Boolean, where: Search_where, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType, limit: Int, page: Int, sort: String): Searches
   docAccessSearch(id: String!): searchDocAccess
@@ -23742,6 +23745,277 @@ type CouponsDeleteDocAccess {
   where: JSONObject
 }
 
+type SearchTerm {
+  id: String
+  term: String!
+  count: Float
+  lastSearched: DateTime
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type SearchTerms {
+  docs: [SearchTerm]
+  hasNextPage: Boolean
+  hasPrevPage: Boolean
+  limit: Int
+  nextPage: Int
+  offset: Int
+  page: Int
+  pagingCounter: Int
+  prevPage: Int
+  totalDocs: Int
+  totalPages: Int
+}
+
+input SearchTerm_where {
+  term: SearchTerm_term_operator
+  count: SearchTerm_count_operator
+  lastSearched: SearchTerm_lastSearched_operator
+  updatedAt: SearchTerm_updatedAt_operator
+  createdAt: SearchTerm_createdAt_operator
+  id: SearchTerm_id_operator
+  AND: [SearchTerm_where_and]
+  OR: [SearchTerm_where_or]
+}
+
+input SearchTerm_term_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input SearchTerm_count_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input SearchTerm_lastSearched_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input SearchTerm_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input SearchTerm_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input SearchTerm_id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input SearchTerm_where_and {
+  term: SearchTerm_term_operator
+  count: SearchTerm_count_operator
+  lastSearched: SearchTerm_lastSearched_operator
+  updatedAt: SearchTerm_updatedAt_operator
+  createdAt: SearchTerm_createdAt_operator
+  id: SearchTerm_id_operator
+  AND: [SearchTerm_where_and]
+  OR: [SearchTerm_where_or]
+}
+
+input SearchTerm_where_or {
+  term: SearchTerm_term_operator
+  count: SearchTerm_count_operator
+  lastSearched: SearchTerm_lastSearched_operator
+  updatedAt: SearchTerm_updatedAt_operator
+  createdAt: SearchTerm_createdAt_operator
+  id: SearchTerm_id_operator
+  AND: [SearchTerm_where_and]
+  OR: [SearchTerm_where_or]
+}
+
+type searchTermsDocAccess {
+  fields: SearchTermsDocAccessFields
+  create: SearchTermsCreateDocAccess
+  read: SearchTermsReadDocAccess
+  update: SearchTermsUpdateDocAccess
+  delete: SearchTermsDeleteDocAccess
+}
+
+type SearchTermsDocAccessFields {
+  term: SearchTermsDocAccessFields_term
+  count: SearchTermsDocAccessFields_count
+  lastSearched: SearchTermsDocAccessFields_lastSearched
+  updatedAt: SearchTermsDocAccessFields_updatedAt
+  createdAt: SearchTermsDocAccessFields_createdAt
+}
+
+type SearchTermsDocAccessFields_term {
+  create: SearchTermsDocAccessFields_term_Create
+  read: SearchTermsDocAccessFields_term_Read
+  update: SearchTermsDocAccessFields_term_Update
+  delete: SearchTermsDocAccessFields_term_Delete
+}
+
+type SearchTermsDocAccessFields_term_Create {
+  permission: Boolean!
+}
+
+type SearchTermsDocAccessFields_term_Read {
+  permission: Boolean!
+}
+
+type SearchTermsDocAccessFields_term_Update {
+  permission: Boolean!
+}
+
+type SearchTermsDocAccessFields_term_Delete {
+  permission: Boolean!
+}
+
+type SearchTermsDocAccessFields_count {
+  create: SearchTermsDocAccessFields_count_Create
+  read: SearchTermsDocAccessFields_count_Read
+  update: SearchTermsDocAccessFields_count_Update
+  delete: SearchTermsDocAccessFields_count_Delete
+}
+
+type SearchTermsDocAccessFields_count_Create {
+  permission: Boolean!
+}
+
+type SearchTermsDocAccessFields_count_Read {
+  permission: Boolean!
+}
+
+type SearchTermsDocAccessFields_count_Update {
+  permission: Boolean!
+}
+
+type SearchTermsDocAccessFields_count_Delete {
+  permission: Boolean!
+}
+
+type SearchTermsDocAccessFields_lastSearched {
+  create: SearchTermsDocAccessFields_lastSearched_Create
+  read: SearchTermsDocAccessFields_lastSearched_Read
+  update: SearchTermsDocAccessFields_lastSearched_Update
+  delete: SearchTermsDocAccessFields_lastSearched_Delete
+}
+
+type SearchTermsDocAccessFields_lastSearched_Create {
+  permission: Boolean!
+}
+
+type SearchTermsDocAccessFields_lastSearched_Read {
+  permission: Boolean!
+}
+
+type SearchTermsDocAccessFields_lastSearched_Update {
+  permission: Boolean!
+}
+
+type SearchTermsDocAccessFields_lastSearched_Delete {
+  permission: Boolean!
+}
+
+type SearchTermsDocAccessFields_updatedAt {
+  create: SearchTermsDocAccessFields_updatedAt_Create
+  read: SearchTermsDocAccessFields_updatedAt_Read
+  update: SearchTermsDocAccessFields_updatedAt_Update
+  delete: SearchTermsDocAccessFields_updatedAt_Delete
+}
+
+type SearchTermsDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type SearchTermsDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type SearchTermsDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type SearchTermsDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type SearchTermsDocAccessFields_createdAt {
+  create: SearchTermsDocAccessFields_createdAt_Create
+  read: SearchTermsDocAccessFields_createdAt_Read
+  update: SearchTermsDocAccessFields_createdAt_Update
+  delete: SearchTermsDocAccessFields_createdAt_Delete
+}
+
+type SearchTermsDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type SearchTermsDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type SearchTermsDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type SearchTermsDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type SearchTermsCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type SearchTermsReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type SearchTermsUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type SearchTermsDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
 type Search {
   id: String
   title: String
@@ -27230,6 +27504,7 @@ type Access {
   live_chats: live_chatsAccess
   EmailBulkySms: EmailBulkySmsAccess
   coupons: couponsAccess
+  searchTerms: searchTermsAccess
   search: searchAccess
   redirects: redirectsAccess
   forms: formsAccess
@@ -34712,6 +34987,157 @@ type CouponsDeleteAccess {
   where: JSONObject
 }
 
+type searchTermsAccess {
+  fields: SearchTermsFields
+  create: SearchTermsCreateAccess
+  read: SearchTermsReadAccess
+  update: SearchTermsUpdateAccess
+  delete: SearchTermsDeleteAccess
+}
+
+type SearchTermsFields {
+  term: SearchTermsFields_term
+  count: SearchTermsFields_count
+  lastSearched: SearchTermsFields_lastSearched
+  updatedAt: SearchTermsFields_updatedAt
+  createdAt: SearchTermsFields_createdAt
+}
+
+type SearchTermsFields_term {
+  create: SearchTermsFields_term_Create
+  read: SearchTermsFields_term_Read
+  update: SearchTermsFields_term_Update
+  delete: SearchTermsFields_term_Delete
+}
+
+type SearchTermsFields_term_Create {
+  permission: Boolean!
+}
+
+type SearchTermsFields_term_Read {
+  permission: Boolean!
+}
+
+type SearchTermsFields_term_Update {
+  permission: Boolean!
+}
+
+type SearchTermsFields_term_Delete {
+  permission: Boolean!
+}
+
+type SearchTermsFields_count {
+  create: SearchTermsFields_count_Create
+  read: SearchTermsFields_count_Read
+  update: SearchTermsFields_count_Update
+  delete: SearchTermsFields_count_Delete
+}
+
+type SearchTermsFields_count_Create {
+  permission: Boolean!
+}
+
+type SearchTermsFields_count_Read {
+  permission: Boolean!
+}
+
+type SearchTermsFields_count_Update {
+  permission: Boolean!
+}
+
+type SearchTermsFields_count_Delete {
+  permission: Boolean!
+}
+
+type SearchTermsFields_lastSearched {
+  create: SearchTermsFields_lastSearched_Create
+  read: SearchTermsFields_lastSearched_Read
+  update: SearchTermsFields_lastSearched_Update
+  delete: SearchTermsFields_lastSearched_Delete
+}
+
+type SearchTermsFields_lastSearched_Create {
+  permission: Boolean!
+}
+
+type SearchTermsFields_lastSearched_Read {
+  permission: Boolean!
+}
+
+type SearchTermsFields_lastSearched_Update {
+  permission: Boolean!
+}
+
+type SearchTermsFields_lastSearched_Delete {
+  permission: Boolean!
+}
+
+type SearchTermsFields_updatedAt {
+  create: SearchTermsFields_updatedAt_Create
+  read: SearchTermsFields_updatedAt_Read
+  update: SearchTermsFields_updatedAt_Update
+  delete: SearchTermsFields_updatedAt_Delete
+}
+
+type SearchTermsFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type SearchTermsFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type SearchTermsFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type SearchTermsFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type SearchTermsFields_createdAt {
+  create: SearchTermsFields_createdAt_Create
+  read: SearchTermsFields_createdAt_Read
+  update: SearchTermsFields_createdAt_Update
+  delete: SearchTermsFields_createdAt_Delete
+}
+
+type SearchTermsFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type SearchTermsFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type SearchTermsFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type SearchTermsFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type SearchTermsCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type SearchTermsReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type SearchTermsUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type SearchTermsDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
 type searchAccess {
   fields: SearchFields
   create: SearchCreateAccess
@@ -36798,6 +37224,9 @@ type Mutation {
   createCoupon(data: mutationCouponInput!, draft: Boolean, locale: LocaleInputType): Coupon
   updateCoupon(id: String!, autosave: Boolean, data: mutationCouponUpdateInput!, draft: Boolean, locale: LocaleInputType): Coupon
   deleteCoupon(id: String!): Coupon
+  createSearchTerm(data: mutationSearchTermInput!, draft: Boolean, locale: LocaleInputType): SearchTerm
+  updateSearchTerm(id: String!, autosave: Boolean, data: mutationSearchTermUpdateInput!, draft: Boolean, locale: LocaleInputType): SearchTerm
+  deleteSearchTerm(id: String!): SearchTerm
   createSearch(data: mutationSearchInput!, draft: Boolean, locale: LocaleInputType): Search
   updateSearch(id: String!, autosave: Boolean, data: mutationSearchUpdateInput!, draft: Boolean, locale: LocaleInputType): Search
   deleteSearch(id: String!): Search
@@ -38114,6 +38543,22 @@ enum CouponUpdate_applicableTo_MutationInput {
   deliveryRider
   deliveryMatatu
   allProducts
+}
+
+input mutationSearchTermInput {
+  term: String!
+  count: Float
+  lastSearched: String
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationSearchTermUpdateInput {
+  term: String
+  count: Float
+  lastSearched: String
+  updatedAt: String
+  createdAt: String
 }
 
 input mutationSearchInput {
