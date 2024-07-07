@@ -1,59 +1,71 @@
-'use client';
-import React, { Fragment, useState, useEffect } from 'react';
-import Link from 'next/link';
-import { Page, Settings } from '../../../../payload/payload-types';
-import { Button } from '../../../_components/Button';
-import { LoadingShimmer } from '../../../_components/LoadingShimmer';
-import { useAuth } from '../../../_providers/Auth';
-import { useCart } from '../../../_providers/Cart';
-import CartItem from '../CartItem';
-import ShippingForm from '../ShippingForm'; // Make sure to import ShippingForm from the correct path
+'use client'
+import React, { Fragment, useEffect, useState } from 'react'
+import Link from 'next/link'
 
-import classes from './index.module.scss';
+import { Page, Settings } from '../../../../payload/payload-types'
+import { Button } from '../../../_components/Button'
+import { LoadingShimmer } from '../../../_components/LoadingShimmer'
+import { useAuth } from '../../../_providers/Auth'
+import { useCart } from '../../../_providers/Cart'
+import CartItem from '../CartItem'
+import CouponForm from '../CouponForm'
+import ShippingForm from '../ShippingForm' // Make sure to import ShippingForm from the correct path
+
+import classes from './index.module.scss'
 
 const encrypt = (value: number): string => {
-  const key = 42; // Example encryption key (not secure, for demonstration only)
-  return String.fromCharCode(value ^ key);
-};
+  const key = 42 // Example encryption key (not secure, for demonstration only)
+  return String.fromCharCode(value ^ key)
+}
 
 export const CartPage: React.FC<{
-  settings: Settings;
-  page: Page;
-}> = (props) => {
-  const { settings } = props;
-  const { productsPage } = settings || {};
+  settings: Settings
+  page: Page
+}> = props => {
+  const { settings } = props
+  const { productsPage } = settings || {}
 
-  const { user } = useAuth();
-  const { cart, cartIsEmpty, cartTotal, addItemToCart, hasInitializedCart } = useCart();
-  const [shippingCost, setShippingCost] = useState(0);
-  const [deliveryType, setDeliveryType] = useState('');
-  const [location, setLocation] = useState('');
-  const [deliveryNote, setDeliveryNote] = useState('');
-  const [customLocation, setCustomLocation] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = React.useState<string | null>(null);
+  const { user } = useAuth()
+  const { cart, cartIsEmpty, cartTotal, addItemToCart, hasInitializedCart } = useCart()
+  const [shippingCost, setShippingCost] = useState(0)
+  const [deliveryType, setDeliveryType] = useState('')
+  const [location, setLocation] = useState('')
+  const [deliveryNote, setDeliveryNote] = useState('')
+  const [customLocation, setCustomLocation] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = React.useState<string | null>(null)
+  const [cost, setCost] = useState<number>(0) // Example initial cost
+  const [discountedCost, setDiscountedCost] = useState<number>(cost)
+
+  const handleCouponApply = (newCost: number) => {
+    setDiscountedCost(newCost)
+  }
 
   const handleShippingCostChange = (cost: number) => {
-    setShippingCost(cost);
-  };
+    setShippingCost(cost)
+    setCost(cost)
+    // Recalculate any dependent values here, if needed
+  }
 
   const handleDeliveryTypeChange = (type: string) => {
-    setDeliveryType(type);
-  };
+    setDeliveryType(type)
+  }
 
   const handleLocationChange = (loc: string) => {
-    setLocation(loc);
-  };
+    setLocation(loc)
+  }
 
-  const encryptedShippingCost = encrypt(shippingCost);
+  const encryptedShippingCost = encrypt(shippingCost)
 
   const handleCheckoutClick = () => {
-    setIsLoading(true);
+    setIsLoading(true)
     const checkoutUrl = user
-      ? `/checkout?deliveryType=${deliveryType}&location=${location}&shippingCost=${encryptedShippingCost}&deliveryNote=${encodeURIComponent(deliveryNote)}&customLocation=${encodeURIComponent(customLocation)}`
-      : '/login?redirect=%2Fcheckout';
-    window.location.href = checkoutUrl;
-  };
+      ? `/checkout?deliveryType=${deliveryType}&location=${location}&shippingCost=${encryptedShippingCost}&deliveryNote=${encodeURIComponent(
+          deliveryNote,
+        )}&customLocation=${encodeURIComponent(customLocation)}`
+      : '/login?redirect=%2Fcheckout'
+    window.location.href = checkoutUrl
+  }
 
   return (
     <Fragment>
@@ -104,9 +116,9 @@ export const CartPage: React.FC<{
                         product,
                         product: { id, title, meta },
                         selectedAttributes,
-                      } = item;
+                      } = item
 
-                      const metaImage = meta?.image;
+                      const metaImage = meta?.image
 
                       return (
                         <CartItem
@@ -118,9 +130,9 @@ export const CartPage: React.FC<{
                           addItemToCart={addItemToCart}
                           selectedAttributes={selectedAttributes} // Pass this to CartItem
                         />
-                      );
+                      )
                     }
-                    return null;
+                    return null
                   })}
                 </ul>
               </div>
@@ -137,6 +149,7 @@ export const CartPage: React.FC<{
                   deliveryNote={deliveryNote} // Pass deliveryNote as prop
                   customLocation={customLocation} // Pass customLocation as prop
                 />
+                <CouponForm currentCost={cost} onCouponApply={handleCouponApply} />
 
                 <div className={classes.row}>
                   <p className={classes.cartTotal}>Subtotal</p>
@@ -146,6 +159,10 @@ export const CartPage: React.FC<{
                 <div className={classes.row}>
                   <p className={classes.cartTotal}>Delivery Charge</p>
                   <p className={classes.cartTotal}>Ksh{shippingCost}</p>
+                </div>
+                <div className={classes.row}>
+                  <p className={classes.cartTotal}>Discounted Cost:</p>
+                  <p className={classes.cartTotal}>Ksh{discountedCost}</p>
                 </div>
 
                 <div className={classes.row}>
@@ -168,5 +185,5 @@ export const CartPage: React.FC<{
         </Fragment>
       )}
     </Fragment>
-  );
-};
+  )
+}

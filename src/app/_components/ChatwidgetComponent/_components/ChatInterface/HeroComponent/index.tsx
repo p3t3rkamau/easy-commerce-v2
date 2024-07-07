@@ -2,6 +2,8 @@ import React from 'react'
 import { RxAvatar } from 'react-icons/rx'
 import Image from 'next/image'
 
+import AvatarNextUi from '../../../../../NextUi_components/avatar'
+
 import styles from './index.module.scss'
 
 const HeroComponent: React.FC = () => {
@@ -11,7 +13,7 @@ const HeroComponent: React.FC = () => {
         <span className={styles.mongoDBLogo}>EasyBake</span>
       </div>
       <div className={styles.iconsContainer}>
-        <a
+        {/* <a
           href="https://wa.me/1234567890"
           target="_blank"
           rel="noopener noreferrer"
@@ -37,7 +39,8 @@ const HeroComponent: React.FC = () => {
           data-tooltip="Virginia"
         >
           <RxAvatar />
-        </a>
+        </a> */}
+        <AvatarNextUi />
       </div>
     </div>
   )

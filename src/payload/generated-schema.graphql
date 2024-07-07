@@ -60,6 +60,9 @@ type Query {
   EmailBulkySm(id: String!, draft: Boolean, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType): EmailBulkySm
   EmailBulkySms(draft: Boolean, where: EmailBulkySm_where, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType, limit: Int, page: Int, sort: String): EmailBulkySms
   docAccessEmailBulkySm(id: String!): EmailBulkySmsDocAccess
+  Coupon(id: String!, draft: Boolean, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType): Coupon
+  Coupons(draft: Boolean, where: Coupon_where, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType, limit: Int, page: Int, sort: String): Coupons
+  docAccessCoupon(id: String!): couponsDocAccess
   Search(id: String!, draft: Boolean, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType): Search
   Searches(draft: Boolean, where: Search_where, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType, limit: Int, page: Int, sort: String): Searches
   docAccessSearch(id: String!): searchDocAccess
@@ -23336,6 +23339,409 @@ type EmailBulkySmsDeleteDocAccess {
   where: JSONObject
 }
 
+type Coupon {
+  id: String
+  code: String!
+  type: Coupon_type!
+  value: Float!
+  applicableTo: Coupon_applicableTo!
+  relatedProducts(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): Product
+  expiryDate: DateTime
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+enum Coupon_type {
+  percentage
+  fixed
+}
+
+enum Coupon_applicableTo {
+  products
+  deliveryRider
+  deliveryMatatu
+  allProducts
+}
+
+type Coupons {
+  docs: [Coupon]
+  hasNextPage: Boolean
+  hasPrevPage: Boolean
+  limit: Int
+  nextPage: Int
+  offset: Int
+  page: Int
+  pagingCounter: Int
+  prevPage: Int
+  totalDocs: Int
+  totalPages: Int
+}
+
+input Coupon_where {
+  code: Coupon_code_operator
+  type: Coupon_type_operator
+  value: Coupon_value_operator
+  applicableTo: Coupon_applicableTo_operator
+  relatedProducts: Coupon_relatedProducts_operator
+  expiryDate: Coupon_expiryDate_operator
+  updatedAt: Coupon_updatedAt_operator
+  createdAt: Coupon_createdAt_operator
+  id: Coupon_id_operator
+  AND: [Coupon_where_and]
+  OR: [Coupon_where_or]
+}
+
+input Coupon_code_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Coupon_type_operator {
+  equals: Coupon_type_Input
+  not_equals: Coupon_type_Input
+  in: [Coupon_type_Input]
+  not_in: [Coupon_type_Input]
+  all: [Coupon_type_Input]
+}
+
+enum Coupon_type_Input {
+  percentage
+  fixed
+}
+
+input Coupon_value_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+}
+
+input Coupon_applicableTo_operator {
+  equals: Coupon_applicableTo_Input
+  not_equals: Coupon_applicableTo_Input
+  in: [Coupon_applicableTo_Input]
+  not_in: [Coupon_applicableTo_Input]
+  all: [Coupon_applicableTo_Input]
+}
+
+enum Coupon_applicableTo_Input {
+  products
+  deliveryRider
+  deliveryMatatu
+  allProducts
+}
+
+input Coupon_relatedProducts_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input Coupon_expiryDate_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Coupon_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Coupon_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Coupon_id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Coupon_where_and {
+  code: Coupon_code_operator
+  type: Coupon_type_operator
+  value: Coupon_value_operator
+  applicableTo: Coupon_applicableTo_operator
+  relatedProducts: Coupon_relatedProducts_operator
+  expiryDate: Coupon_expiryDate_operator
+  updatedAt: Coupon_updatedAt_operator
+  createdAt: Coupon_createdAt_operator
+  id: Coupon_id_operator
+  AND: [Coupon_where_and]
+  OR: [Coupon_where_or]
+}
+
+input Coupon_where_or {
+  code: Coupon_code_operator
+  type: Coupon_type_operator
+  value: Coupon_value_operator
+  applicableTo: Coupon_applicableTo_operator
+  relatedProducts: Coupon_relatedProducts_operator
+  expiryDate: Coupon_expiryDate_operator
+  updatedAt: Coupon_updatedAt_operator
+  createdAt: Coupon_createdAt_operator
+  id: Coupon_id_operator
+  AND: [Coupon_where_and]
+  OR: [Coupon_where_or]
+}
+
+type couponsDocAccess {
+  fields: CouponsDocAccessFields
+  create: CouponsCreateDocAccess
+  read: CouponsReadDocAccess
+  update: CouponsUpdateDocAccess
+  delete: CouponsDeleteDocAccess
+}
+
+type CouponsDocAccessFields {
+  code: CouponsDocAccessFields_code
+  type: CouponsDocAccessFields_type
+  value: CouponsDocAccessFields_value
+  applicableTo: CouponsDocAccessFields_applicableTo
+  relatedProducts: CouponsDocAccessFields_relatedProducts
+  expiryDate: CouponsDocAccessFields_expiryDate
+  updatedAt: CouponsDocAccessFields_updatedAt
+  createdAt: CouponsDocAccessFields_createdAt
+}
+
+type CouponsDocAccessFields_code {
+  create: CouponsDocAccessFields_code_Create
+  read: CouponsDocAccessFields_code_Read
+  update: CouponsDocAccessFields_code_Update
+  delete: CouponsDocAccessFields_code_Delete
+}
+
+type CouponsDocAccessFields_code_Create {
+  permission: Boolean!
+}
+
+type CouponsDocAccessFields_code_Read {
+  permission: Boolean!
+}
+
+type CouponsDocAccessFields_code_Update {
+  permission: Boolean!
+}
+
+type CouponsDocAccessFields_code_Delete {
+  permission: Boolean!
+}
+
+type CouponsDocAccessFields_type {
+  create: CouponsDocAccessFields_type_Create
+  read: CouponsDocAccessFields_type_Read
+  update: CouponsDocAccessFields_type_Update
+  delete: CouponsDocAccessFields_type_Delete
+}
+
+type CouponsDocAccessFields_type_Create {
+  permission: Boolean!
+}
+
+type CouponsDocAccessFields_type_Read {
+  permission: Boolean!
+}
+
+type CouponsDocAccessFields_type_Update {
+  permission: Boolean!
+}
+
+type CouponsDocAccessFields_type_Delete {
+  permission: Boolean!
+}
+
+type CouponsDocAccessFields_value {
+  create: CouponsDocAccessFields_value_Create
+  read: CouponsDocAccessFields_value_Read
+  update: CouponsDocAccessFields_value_Update
+  delete: CouponsDocAccessFields_value_Delete
+}
+
+type CouponsDocAccessFields_value_Create {
+  permission: Boolean!
+}
+
+type CouponsDocAccessFields_value_Read {
+  permission: Boolean!
+}
+
+type CouponsDocAccessFields_value_Update {
+  permission: Boolean!
+}
+
+type CouponsDocAccessFields_value_Delete {
+  permission: Boolean!
+}
+
+type CouponsDocAccessFields_applicableTo {
+  create: CouponsDocAccessFields_applicableTo_Create
+  read: CouponsDocAccessFields_applicableTo_Read
+  update: CouponsDocAccessFields_applicableTo_Update
+  delete: CouponsDocAccessFields_applicableTo_Delete
+}
+
+type CouponsDocAccessFields_applicableTo_Create {
+  permission: Boolean!
+}
+
+type CouponsDocAccessFields_applicableTo_Read {
+  permission: Boolean!
+}
+
+type CouponsDocAccessFields_applicableTo_Update {
+  permission: Boolean!
+}
+
+type CouponsDocAccessFields_applicableTo_Delete {
+  permission: Boolean!
+}
+
+type CouponsDocAccessFields_relatedProducts {
+  create: CouponsDocAccessFields_relatedProducts_Create
+  read: CouponsDocAccessFields_relatedProducts_Read
+  update: CouponsDocAccessFields_relatedProducts_Update
+  delete: CouponsDocAccessFields_relatedProducts_Delete
+}
+
+type CouponsDocAccessFields_relatedProducts_Create {
+  permission: Boolean!
+}
+
+type CouponsDocAccessFields_relatedProducts_Read {
+  permission: Boolean!
+}
+
+type CouponsDocAccessFields_relatedProducts_Update {
+  permission: Boolean!
+}
+
+type CouponsDocAccessFields_relatedProducts_Delete {
+  permission: Boolean!
+}
+
+type CouponsDocAccessFields_expiryDate {
+  create: CouponsDocAccessFields_expiryDate_Create
+  read: CouponsDocAccessFields_expiryDate_Read
+  update: CouponsDocAccessFields_expiryDate_Update
+  delete: CouponsDocAccessFields_expiryDate_Delete
+}
+
+type CouponsDocAccessFields_expiryDate_Create {
+  permission: Boolean!
+}
+
+type CouponsDocAccessFields_expiryDate_Read {
+  permission: Boolean!
+}
+
+type CouponsDocAccessFields_expiryDate_Update {
+  permission: Boolean!
+}
+
+type CouponsDocAccessFields_expiryDate_Delete {
+  permission: Boolean!
+}
+
+type CouponsDocAccessFields_updatedAt {
+  create: CouponsDocAccessFields_updatedAt_Create
+  read: CouponsDocAccessFields_updatedAt_Read
+  update: CouponsDocAccessFields_updatedAt_Update
+  delete: CouponsDocAccessFields_updatedAt_Delete
+}
+
+type CouponsDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type CouponsDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type CouponsDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type CouponsDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type CouponsDocAccessFields_createdAt {
+  create: CouponsDocAccessFields_createdAt_Create
+  read: CouponsDocAccessFields_createdAt_Read
+  update: CouponsDocAccessFields_createdAt_Update
+  delete: CouponsDocAccessFields_createdAt_Delete
+}
+
+type CouponsDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type CouponsDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type CouponsDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type CouponsDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type CouponsCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CouponsReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CouponsUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CouponsDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
 type Search {
   id: String
   title: String
@@ -26823,6 +27229,7 @@ type Access {
   deliveryLocations: deliveryLocationsAccess
   live_chats: live_chatsAccess
   EmailBulkySms: EmailBulkySmsAccess
+  coupons: couponsAccess
   search: searchAccess
   redirects: redirectsAccess
   forms: formsAccess
@@ -34082,6 +34489,229 @@ type EmailBulkySmsDeleteAccess {
   where: JSONObject
 }
 
+type couponsAccess {
+  fields: CouponsFields
+  create: CouponsCreateAccess
+  read: CouponsReadAccess
+  update: CouponsUpdateAccess
+  delete: CouponsDeleteAccess
+}
+
+type CouponsFields {
+  code: CouponsFields_code
+  type: CouponsFields_type
+  value: CouponsFields_value
+  applicableTo: CouponsFields_applicableTo
+  relatedProducts: CouponsFields_relatedProducts
+  expiryDate: CouponsFields_expiryDate
+  updatedAt: CouponsFields_updatedAt
+  createdAt: CouponsFields_createdAt
+}
+
+type CouponsFields_code {
+  create: CouponsFields_code_Create
+  read: CouponsFields_code_Read
+  update: CouponsFields_code_Update
+  delete: CouponsFields_code_Delete
+}
+
+type CouponsFields_code_Create {
+  permission: Boolean!
+}
+
+type CouponsFields_code_Read {
+  permission: Boolean!
+}
+
+type CouponsFields_code_Update {
+  permission: Boolean!
+}
+
+type CouponsFields_code_Delete {
+  permission: Boolean!
+}
+
+type CouponsFields_type {
+  create: CouponsFields_type_Create
+  read: CouponsFields_type_Read
+  update: CouponsFields_type_Update
+  delete: CouponsFields_type_Delete
+}
+
+type CouponsFields_type_Create {
+  permission: Boolean!
+}
+
+type CouponsFields_type_Read {
+  permission: Boolean!
+}
+
+type CouponsFields_type_Update {
+  permission: Boolean!
+}
+
+type CouponsFields_type_Delete {
+  permission: Boolean!
+}
+
+type CouponsFields_value {
+  create: CouponsFields_value_Create
+  read: CouponsFields_value_Read
+  update: CouponsFields_value_Update
+  delete: CouponsFields_value_Delete
+}
+
+type CouponsFields_value_Create {
+  permission: Boolean!
+}
+
+type CouponsFields_value_Read {
+  permission: Boolean!
+}
+
+type CouponsFields_value_Update {
+  permission: Boolean!
+}
+
+type CouponsFields_value_Delete {
+  permission: Boolean!
+}
+
+type CouponsFields_applicableTo {
+  create: CouponsFields_applicableTo_Create
+  read: CouponsFields_applicableTo_Read
+  update: CouponsFields_applicableTo_Update
+  delete: CouponsFields_applicableTo_Delete
+}
+
+type CouponsFields_applicableTo_Create {
+  permission: Boolean!
+}
+
+type CouponsFields_applicableTo_Read {
+  permission: Boolean!
+}
+
+type CouponsFields_applicableTo_Update {
+  permission: Boolean!
+}
+
+type CouponsFields_applicableTo_Delete {
+  permission: Boolean!
+}
+
+type CouponsFields_relatedProducts {
+  create: CouponsFields_relatedProducts_Create
+  read: CouponsFields_relatedProducts_Read
+  update: CouponsFields_relatedProducts_Update
+  delete: CouponsFields_relatedProducts_Delete
+}
+
+type CouponsFields_relatedProducts_Create {
+  permission: Boolean!
+}
+
+type CouponsFields_relatedProducts_Read {
+  permission: Boolean!
+}
+
+type CouponsFields_relatedProducts_Update {
+  permission: Boolean!
+}
+
+type CouponsFields_relatedProducts_Delete {
+  permission: Boolean!
+}
+
+type CouponsFields_expiryDate {
+  create: CouponsFields_expiryDate_Create
+  read: CouponsFields_expiryDate_Read
+  update: CouponsFields_expiryDate_Update
+  delete: CouponsFields_expiryDate_Delete
+}
+
+type CouponsFields_expiryDate_Create {
+  permission: Boolean!
+}
+
+type CouponsFields_expiryDate_Read {
+  permission: Boolean!
+}
+
+type CouponsFields_expiryDate_Update {
+  permission: Boolean!
+}
+
+type CouponsFields_expiryDate_Delete {
+  permission: Boolean!
+}
+
+type CouponsFields_updatedAt {
+  create: CouponsFields_updatedAt_Create
+  read: CouponsFields_updatedAt_Read
+  update: CouponsFields_updatedAt_Update
+  delete: CouponsFields_updatedAt_Delete
+}
+
+type CouponsFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type CouponsFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type CouponsFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type CouponsFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type CouponsFields_createdAt {
+  create: CouponsFields_createdAt_Create
+  read: CouponsFields_createdAt_Read
+  update: CouponsFields_createdAt_Update
+  delete: CouponsFields_createdAt_Delete
+}
+
+type CouponsFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type CouponsFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type CouponsFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type CouponsFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type CouponsCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CouponsReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CouponsUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CouponsDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
 type searchAccess {
   fields: SearchFields
   create: SearchCreateAccess
@@ -36165,6 +36795,9 @@ type Mutation {
   createEmailBulkySm(data: mutationEmailBulkySmInput!, draft: Boolean, locale: LocaleInputType): EmailBulkySm
   updateEmailBulkySm(id: String!, autosave: Boolean, data: mutationEmailBulkySmUpdateInput!, draft: Boolean, locale: LocaleInputType): EmailBulkySm
   deleteEmailBulkySm(id: String!): EmailBulkySm
+  createCoupon(data: mutationCouponInput!, draft: Boolean, locale: LocaleInputType): Coupon
+  updateCoupon(id: String!, autosave: Boolean, data: mutationCouponUpdateInput!, draft: Boolean, locale: LocaleInputType): Coupon
+  deleteCoupon(id: String!): Coupon
   createSearch(data: mutationSearchInput!, draft: Boolean, locale: LocaleInputType): Search
   updateSearch(id: String!, autosave: Boolean, data: mutationSearchUpdateInput!, draft: Boolean, locale: LocaleInputType): Search
   deleteSearch(id: String!): Search
@@ -37435,6 +38068,52 @@ input mutationEmailBulkySmUpdateInput {
   AiAgentEmail: String
   updatedAt: String
   createdAt: String
+}
+
+input mutationCouponInput {
+  code: String!
+  type: Coupon_type_MutationInput!
+  value: Float!
+  applicableTo: Coupon_applicableTo_MutationInput!
+  relatedProducts: String
+  expiryDate: String
+  updatedAt: String
+  createdAt: String
+}
+
+enum Coupon_type_MutationInput {
+  percentage
+  fixed
+}
+
+enum Coupon_applicableTo_MutationInput {
+  products
+  deliveryRider
+  deliveryMatatu
+  allProducts
+}
+
+input mutationCouponUpdateInput {
+  code: String
+  type: CouponUpdate_type_MutationInput
+  value: Float
+  applicableTo: CouponUpdate_applicableTo_MutationInput
+  relatedProducts: String
+  expiryDate: String
+  updatedAt: String
+  createdAt: String
+}
+
+enum CouponUpdate_type_MutationInput {
+  percentage
+  fixed
+}
+
+enum CouponUpdate_applicableTo_MutationInput {
+  products
+  deliveryRider
+  deliveryMatatu
+  allProducts
 }
 
 input mutationSearchInput {

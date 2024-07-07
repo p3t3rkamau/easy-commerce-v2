@@ -32,7 +32,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-, "src/payload/collections/Orders/hooks/initiateMpesaPayment.js", "src/payload/utilities/generateEmailContent.js", "src/payload/utilities/sendemail.js", "src/payload/collections/Orders/hooks/sendOrderEmails.js"  ],
+, "src/payload/collections/Orders/hooks/initiateMpesaPayment.js", "src/payload/utilities/generateEmailContent.js", "src/payload/utilities/sendemail.jsx", "src/payload/collections/Orders/hooks/sendOrderEmails.js"  ],
   "exclude": [
     "node_modules"
   ],

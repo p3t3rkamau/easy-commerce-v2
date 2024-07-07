@@ -4,6 +4,9 @@ import React, { useEffect, useState } from 'react'
 import { AttributesCollection, Product } from '../../../payload/payload-types'
 import { AddToCartButton } from '../../_components/AddToCartButton'
 import { Gutter } from '../../_components/Gutter'
+import BreadcrumbItemNextUi from '../../NextUi_components/breadcrumbs'
+import MultipleSelectNextUI from '../../NextUi_components/MultipleSelect'
+import TabsUi from '../../NextUi_components/tabs'
 import { AttributeSelector } from './AttributesSelector'
 import ProductDescription from './ProductDescription'
 import { ProductDetails } from './ProductDetail'
@@ -75,9 +78,10 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
 
   return (
     <Gutter className={classes.productHero}>
+      <BreadcrumbItemNextUi />
       <div>
         <ProductImage
-         //@ts-ignore
+          //@ts-ignore
           mainImage={mainImage}
           //@ts-ignore
           otherImages={OtherImages}
@@ -91,10 +95,11 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
           minAttributePrice={minAttributePrice}
           maxAttributePrice={maxAttributePrice}
         />
+
         <div className={classes.flexMain}>
           <div className={classes.AttributeFlex}>
             <AttributeSelector
-            // @ts-ignore
+              // @ts-ignore
               ProductsAttributes={ProductsAttributes}
               selectedAttributes={selectedAttributes}
               handleAttributeSelect={handleAttributeSelect}
@@ -108,10 +113,11 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
               className={classes.addToCartButton}
               selectedAttributes={selectedAttributes}
             />
+            <MultipleSelectNextUI />
           </div>
         </div>
         <ProductDescription description={description} />
-        <Review />
+        <TabsUi />
       </div>
     </Gutter>
   )

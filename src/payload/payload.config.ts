@@ -24,6 +24,7 @@ import AttributeCollection from './collections/Attributes'
 // import { CaseStudies } from './collections/CaseStudies'
 import Categories from './collections/Categories'
 import Comments from './collections/Comments'
+import Coupons from './collections/Coupon'
 import DeliveryLocations from './collections/DeliveryLocation'
 import { EMailSms } from './collections/Email & Sms'
 import HeaderCategories from './collections/HeaderCategories'
@@ -134,6 +135,7 @@ export default buildConfig({
     DeliveryLocations,
     LiveChats,
     EMailSms,
+    Coupons,
     // CaseStudies,
     // QuestionSets,
     // ReusableContent,

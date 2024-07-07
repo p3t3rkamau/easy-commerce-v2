@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 
+import AccordionNextUi from '../../../../NextUi_components/accordion'
+import AutoCompleteNextUi from '../../../../NextUi_components/AutoComplete/index'
 import BottomNavBar from './BottomNavBar'
 import ChatBlock from './ChatBlock'
 import ChatInput from './ChatInput'
@@ -10,6 +12,7 @@ import MessagePrompt from './MessagePrompt'
 import NoMessage from './NoMessege'
 import SearchBar from './Search/searchBar'
 import StatusBar from './StatusBar'
+import AutomaticOrderProcessor from './TextProcessor'
 import TopNavBar from './TopNavbar'
 
 import styles from './index.module.scss'
@@ -40,6 +43,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
             <HeroContent />
             <StatusBar />
             <MessagePrompt setActiveView={setActiveView} />
+            <AutoCompleteNextUi />
             <SearchBar />
           </>
         )
@@ -49,11 +53,17 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
             {/* <ArchiveBlock /> */}
             <ChatBlock />
             {/* <NoMessage /> */}
-            <ChatInput />
+            {/* <ChatInput /> */}
+            {/* <AutomaticOrderProcessor /> */}
           </>
         )
       case 'help':
-        return <DocsInput onSearch={onSearch} />
+        return (
+          <>
+            <DocsInput onSearch={onSearch} />
+            <AccordionNextUi />
+          </>
+        )
       default:
         return null
     }

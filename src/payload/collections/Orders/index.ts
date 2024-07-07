@@ -1,13 +1,14 @@
-import type { CollectionConfig } from 'payload/types';
-import { admins } from '../../access/admins';
-import { adminsOrLoggedIn } from '../../access/adminsOrLoggedIn';
-import CustomOrderReceiptButton from '../../components/Receipt/ReceiptButton';
-import { adminsOrOrderedBy } from './access/adminsOrOrderedBy';
-import { clearUserCart } from './hooks/clearUserCart';
-import { populateOrderedBy } from './hooks/populateOrderedBy';
-import { sendOrderEmails } from './hooks/sendOrderEmails';
-import { updateUserPurchases } from './hooks/updateUserPurchases';
-import calculateOrderTotal from './hooks/calculateOrderTotal';
+import type { CollectionConfig } from 'payload/types'
+
+import { admins } from '../../access/admins'
+import { adminsOrLoggedIn } from '../../access/adminsOrLoggedIn'
+import CustomOrderReceiptButton from '../../components/Receipt/ReceiptButton'
+import { adminsOrOrderedBy } from './access/adminsOrOrderedBy'
+import calculateOrderTotal from './hooks/calculateOrderTotal'
+import { clearUserCart } from './hooks/clearUserCart'
+import { populateOrderedBy } from './hooks/populateOrderedBy'
+import { sendOrderEmails } from './hooks/sendOrderEmails'
+import { updateUserPurchases } from './hooks/updateUserPurchases'
 
 export const Orders: CollectionConfig = {
   slug: 'orders',
@@ -124,4 +125,4 @@ export const Orders: CollectionConfig = {
       type: 'point',
     },
   ],
-};
+}

@@ -2,9 +2,9 @@
 import type { AfterChangeHook } from 'payload/dist/collections/config/types'
 
 import { generateEmailContent } from '../../../utilities/generateEmailContent'
-import { sendEmail } from '../../../utilities/sendemail'
+import { sendEmail } from '../../../utilities/sendemail.jsx'
 
-export const sendOrderEmails: AfterChangeHook = async ({ doc, req, operation }) => {
+export const sendOrderEmails: AfterChangeHook = async ({ doc, operation }) => {
   console.log('sendOrderEmails hook triggered') // Log when hook is triggered
 
   if (operation === 'create') {

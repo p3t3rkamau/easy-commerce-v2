@@ -1,4 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+
+const { nextui } = require('@nextui-org/react')
+
 const {
   isolateInsideOfContainer,
   isolateOutsideOfContainer,
@@ -10,8 +13,11 @@ const colors = require('tailwindcss/colors')
 const { default: flattenColorPalette } = require('tailwindcss/lib/util/flattenColorPalette')
 
 module.exports = {
-  darkMode: ['[data-theme="dark"]'],
-  content: ['./src/**/*.{tsx,ts,jsx,mdx}'],
+  darkMode: ['[data-theme="dark"]', 'class'],
+  content: [
+    './src/**/*.{tsx,ts,jsx,mdx}',
+    './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}',
+  ],
   prefix: '',
   theme: {
     container: {
@@ -87,6 +93,7 @@ module.exports = {
         mode: 'expect matched',
       }),
     }),
+    nextui(),
   ],
   blocklist: ['table'],
   preflight: false,

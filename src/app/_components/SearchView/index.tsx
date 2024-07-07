@@ -8,6 +8,7 @@ import FeaturedCards from './featuredCards'
 import Filters from './Filters'
 
 import classes from './index.module.scss'
+import LoadingCircle from '@/app/NextUi_components/loadingCircle'
 
 interface SearchViewProps {
   closeSearchView: () => void
@@ -131,7 +132,12 @@ const SearchView: React.FC<SearchViewProps> = ({ closeSearchView }) => {
       {isFocused && query.trim() !== '' && (
         <div className={classes.resultsContainer}>
           {error && <div className={classes.error}>{error}</div>}
-          {isLoading && <div className={classes.loading}>Searching {query}...</div>}
+          {isLoading && (
+            <div className={classes.loading}>
+              <LoadingCircle />
+              {/* Searching {query}... */}
+            </div>
+          )}
           {!isLoading && results?.length > 0 && (
             <div className={classes.searchResult}>
               {results.map(result => (

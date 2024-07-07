@@ -49,6 +49,7 @@ export interface Config {
     deliveryLocations: DeliveryLocation;
     'live-chats': LiveChat;
     EmailBulkySms: EmailBulkySm;
+    coupons: Coupon;
     search: Search;
     redirects: Redirect;
     forms: Form;
@@ -1171,6 +1172,17 @@ export interface EmailBulkySm {
   CustomerEmail?: string | null;
   AgentEmail?: string | null;
   AiAgentEmail?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+export interface Coupon {
+  id: string;
+  code: string;
+  type: 'percentage' | 'fixed';
+  value: number;
+  applicableTo: 'products' | 'deliveryRider' | 'deliveryMatatu' | 'allProducts';
+  relatedProducts?: (string | null) | Product;
+  expiryDate?: string | null;
   updatedAt: string;
   createdAt: string;
 }

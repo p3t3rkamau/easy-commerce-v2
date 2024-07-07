@@ -2,6 +2,7 @@
 import React from 'react'
 import Link from 'next/link'
 
+import GridLayoutNextUi from '../../../NextUi_components/grid'
 import Card from './Card'
 
 import classes from './index.module.scss'
@@ -20,7 +21,7 @@ const FeaturedCards: React.FC<FeaturedCardsProps> = ({ featuredItems }) => {
         </div>
       </div>
       <div className={classes.featuredContainer}>
-        {featuredItems.map(item => (
+        {/* {featuredItems.map(item => (
           <Card
             key={item._id}
             slug={item.slug}
@@ -28,7 +29,8 @@ const FeaturedCards: React.FC<FeaturedCardsProps> = ({ featuredItems }) => {
             price={item.price}
             imageUrl={item.meta?.image?.imagekit?.url || '/Easy-logo.svg'}
           />
-        ))}
+        ))} */}
+        <GridLayoutNextUi />
       </div>
     </>
   )

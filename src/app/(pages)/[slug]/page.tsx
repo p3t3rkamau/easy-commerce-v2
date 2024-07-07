@@ -27,6 +27,7 @@ import ExpandableFloatingActionButton from '../../_components/ChatwidgetComponen
 import FlexBanner from '../../_components/FlexBanner'
 import { HeaderCategories } from '../../_components/HeaderCategories'
 import { EventHero } from '../../_heros/EventHero'
+import CarouselView from '../../CoreUi_components/couresel'
 
 // import { HomeCarousel } from '../../_components/HomeCarousel/HomeCarousel'
 // import Promotion from '../../_components/Promotion'
@@ -74,6 +75,7 @@ export default async function Page({ params: { slug = 'home' } }) {
     <React.Fragment>
       <section>
         <Hero {...hero} />
+        <CarouselView />
         {/* <HomeCarousel /> */}
         <HeaderCategories />
         {/* <PlaceholdersAndVanishInputDemo /> */}

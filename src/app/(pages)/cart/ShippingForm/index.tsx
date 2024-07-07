@@ -1,22 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import classes from './index.module.scss';
+import React, { useEffect, useState } from 'react'
+
+import CouponForm from '../CouponForm'
+
+import classes from './index.module.scss'
 
 interface RiderOption {
-  id: string;
-  label: string;
-  value: string;
+  id: string
+  label: string
+  value: string
 }
 
 interface MatatuOption {
-  id: string;
-  label: string;
-  value: string;
+  id: string
+  label: string
+  value: string
 }
 
 interface Props {
-  onDeliveryCostChange: (cost: number) => void;
-  onDeliveryTypeChange: (type: string) => void;
-  onLocationChange: (loc: string) => void;
+  onDeliveryCostChange: (cost: number) => void
+  onDeliveryTypeChange: (type: string) => void
+  onLocationChange: (loc: string) => void
 }
 
 const ShippingForm: React.FC<Props> = ({
@@ -24,77 +27,77 @@ const ShippingForm: React.FC<Props> = ({
   onDeliveryTypeChange,
   onLocationChange,
 }) => {
-  const [deliveryType, setDeliveryType] = useState<string>('');
-  const [location, setLocation] = useState<string>('');
-  const [customLocation, setCustomLocation] = useState<string>('');
-  const [deliveryNote, setDeliveryNote] = useState<string>('');
-  const [riderOptions, setRiderOptions] = useState<RiderOption[]>([]);
-  const [matatuOptions, setMatatuOptions] = useState<MatatuOption[]>([]);
+  const [deliveryType, setDeliveryType] = useState<string>('')
+  const [location, setLocation] = useState<string>('')
+  const [customLocation, setCustomLocation] = useState<string>('')
+  const [deliveryNote, setDeliveryNote] = useState<string>('')
+  const [riderOptions, setRiderOptions] = useState<RiderOption[]>([])
+  const [matatuOptions, setMatatuOptions] = useState<MatatuOption[]>([])
 
   useEffect(() => {
     if (deliveryType === 'rider') {
-      fetchRiderOptions();
+      fetchRiderOptions()
     } else if (deliveryType === 'matatu') {
-      fetchMatatuOptions();
+      fetchMatatuOptions()
     }
-    onDeliveryTypeChange(deliveryType);
-  }, [deliveryType]);
+    onDeliveryTypeChange(deliveryType)
+  }, [deliveryType])
 
   useEffect(() => {
-    onLocationChange(location);
-  }, [location]);
+    onLocationChange(location)
+  }, [location])
 
   const fetchRiderOptions = () => {
     fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/forms/65fe8a2a2e728c6fcb994223`)
       .then(response => response.json())
       .then((data: { fields: { options: RiderOption[] }[] }) => {
-        setRiderOptions(data.fields[0].options);
+        setRiderOptions(data.fields[0].options)
       })
-      .catch(error => console.error('Error fetching rider options:', error));
-  };
+      .catch(error => console.error('Error fetching rider options:', error))
+  }
 
   const fetchMatatuOptions = () => {
     fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/forms/6686884b54645faa14f5bc62`)
       .then(response => response.json())
       .then((data: { fields: { options: MatatuOption[] }[] }) => {
-        setMatatuOptions(data.fields[0].options);
+        setMatatuOptions(data.fields[0].options)
       })
-      .catch(error => console.error('Error fetching matatu options:', error));
-  };
+      .catch(error => console.error('Error fetching matatu options:', error))
+  }
 
   useEffect(() => {
     // Calculate delivery cost based on selected options
-    const cost = calculateDeliveryCost(deliveryType, location);
-    onDeliveryCostChange(cost);
-  }, [deliveryType, location]);
+    const cost = calculateDeliveryCost(deliveryType, location)
+    onDeliveryCostChange(cost)
+  }, [deliveryType, location])
 
   const calculateDeliveryCost = (type: string, selectedLocation: string): number => {
     if (type === 'rider') {
-      const selectedOption = riderOptions.find(option => option.id === selectedLocation);
-      return selectedOption ? parseFloat(selectedOption.value) : 0;
+      const selectedOption = riderOptions.find(option => option.id === selectedLocation)
+      return selectedOption ? parseFloat(selectedOption.value) : 0
     }
     if (type === 'matatu') {
-      const selectedOption = matatuOptions.find(option => option.id === selectedLocation);
-      return selectedOption ? parseFloat(selectedOption.value) : 0;
+      const selectedOption = matatuOptions.find(option => option.id === selectedLocation)
+      return selectedOption ? parseFloat(selectedOption.value) : 0
     }
-    return 0; // For pickup
-  };
+    return 0 // For pickup
+  }
 
   const handleLocationShare = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setCustomLocation(`${position.coords.latitude},${position.coords.longitude}`);
-          setLocation(`${position.coords.latitude},${position.coords.longitude}`);
+        position => {
+          setCustomLocation(`${position.coords.latitude},${position.coords.longitude}`)
+          setLocation(`${position.coords.latitude},${position.coords.longitude}`)
         },
-        (error) => {
-          console.error("Error getting location:", error);
-        }
-      );
+        error => {
+          console.error('Error getting location:', error)
+        },
+      )
     } else {
-      alert("Geolocation is not supported by this browser.");
+      alert('Geolocation is not supported by this browser.')
     }
-  };
+  }
 
   const renderDeliveryOptions = () => {
     switch (deliveryType) {
@@ -104,10 +107,10 @@ const ShippingForm: React.FC<Props> = ({
             <select
               className={classes.deliveryDropdown}
               value={location}
-              onChange={(e) => setLocation(e.target.value)}
+              onChange={e => setLocation(e.target.value)}
             >
               <option value="">Select Delivery Location</option>
-              {riderOptions.map((option) => (
+              {riderOptions.map(option => (
                 <option key={option.id} value={option.id}>
                   {option.label}
                 </option>
@@ -118,40 +121,43 @@ const ShippingForm: React.FC<Props> = ({
             </button>
             <textarea
               className={classes.textarea}
-              
               placeholder="Delivery Note"
               value={deliveryNote}
-              onChange={(e) => setDeliveryNote(e.target.value)} />
+              onChange={e => setDeliveryNote(e.target.value)}
+            />
           </>
-        );
+        )
       case 'matatu':
         return (
-          <><select
-            className={classes.deliveryDropdown}
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-          >
-            <option value="">Select Delivery Location</option>
-            {matatuOptions.map((option) => (
-              <option key={option.id} value={option.id}>
-                {option.label}
-              </option>
-            ))}
-          </select><textarea
+          <>
+            <select
+              className={classes.deliveryDropdown}
+              value={location}
+              onChange={e => setLocation(e.target.value)}
+            >
+              <option value="">Select Delivery Location</option>
+              {matatuOptions.map(option => (
+                <option key={option.id} value={option.id}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            <textarea
               className={classes.textarea}
-              
               placeholder="Delivery Note"
               value={deliveryNote}
-              onChange={(e) => setDeliveryNote(e.target.value)} /></>
-        );
+              onChange={e => setDeliveryNote(e.target.value)}
+            />
+          </>
+        )
       case 'pickup':
         return (
           <p className={classes.paragraph}>Pick up available at CBD before 6 PM or the next day.</p>
-        );
+        )
       default:
-        return null;
+        return null
     }
-  };
+  }
 
   return (
     <div className={classes.shippingForm}>
@@ -159,7 +165,7 @@ const ShippingForm: React.FC<Props> = ({
       <select
         className={classes.deliveryDropdown}
         value={deliveryType}
-        onChange={(e) => setDeliveryType(e.target.value)}
+        onChange={e => setDeliveryType(e.target.value)}
       >
         <option value="">Select Delivery Method</option>
         <option value="rider">Delivery By Rider</option>
@@ -169,12 +175,9 @@ const ShippingForm: React.FC<Props> = ({
 
       {renderDeliveryOptions()}
 
-      
-
       <br />
-      
     </div>
-  );
-};
+  )
+}
 
-export default ShippingForm;
+export default ShippingForm

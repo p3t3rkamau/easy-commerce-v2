@@ -76,6 +76,44 @@ const start = async (): Promise<void> => {
     res.setHeader('Content-Type', 'text/plain')
     res.send(robotsTxt)
   })
+  app.post('/api/validate-coupon', async (req, res) => {
+    const { code } = req.body
+
+    try {
+      // Fetch coupon details from Payload CMS or your coupon database
+      const coupon = await payload.find({
+        collection: 'coupons', // Replace with your Payload CMS collection name for coupons
+        where: {
+          code: {
+            equals: code,
+          },
+        },
+      })
+
+      // Handle coupon not found
+      if (coupon.totalDocs === 0) {
+        return res.status(404).json({ message: 'Coupon not found' })
+      }
+
+      // Extract coupon details
+      const { type, value, applicableTo, expiryDate } = coupon.docs[0]
+
+      // Check if coupon is expired
+      if (expiryDate && new Date(expiryDate) < new Date()) {
+        return res.status(400).json({ message: 'Coupon has expired' })
+      }
+
+      // Respond with coupon details
+      res.status(200).json({
+        type,
+        value,
+        applicableTo,
+      })
+    } catch (error: unknown) {
+      console.error('Error validating coupon:', error)
+      res.status(500).json({ message: 'Internal Server Error' })
+    }
+  })
 
   app.use((req, res) => nextHandler(req, res))
 
