@@ -1,35 +1,42 @@
-export const generateEmailContent = order => {
-  const userEmailContent = `
-      <h1>Thank you for your order</h1>
-      <p>Order ID: ${order.id}</p>
-      <p>Total: ${order.total}</p>
-      <p>Items:</p>
-      <ul>
-        ${order.items
-          .map(
-            item => `
-          <li>${item.quantity} x ${item.product.name} - $${item.price}</li>
-        `,
-          )
-          .join('')}
-      </ul>
-    `
+import { ReceiptEmailHtml } from '../../app/_components/emails/ReceiptEmail'
 
-  const companyEmailContent = `
-      <h1>New Order Received</h1>
-      <p>Order ID: ${order.id}</p>
-      <p>Total: ${order.total}</p>
-      <p>Items:</p>
-      <ul>
-        ${order.items
-          .map(
-            item => `
-          <li>${item.quantity} x ${item.product.name} - $${item.price}</li>
-        `,
-          )
-          .join('')}
-      </ul>
-    `
+// Function to truncate descriptions to less than 10 words
+const truncateDescription = (description, maxWords = 10) => {
+  const words = description.split(' ')
+  if (words.length <= maxWords) {
+    return description
+  }
+  return words.slice(0, maxWords).join(' ') + '...'
+}
+
+export const generateEmailContent = order => {
+  const emailProps = {
+    email: order.orderedBy.email,
+    date: new Date(),
+    orderId: order.id,
+    productsCart: order.items.map(item => ({
+      id: item.product.id,
+      product: {
+        title: item.product.title,
+        description: truncateDescription(item.product.meta.description),
+        price: item.price,
+        imageUrl: item.product.meta.image.imagekit.url, // Update with your actual image URL field
+      },
+      quantity: item.quantity,
+    })),
+    total: order.total,
+    refId: order.refId,
+    deliveryType: order.deliveryType,
+    deliveryCost: order.deliveryCost,
+    location: order.location,
+    deliveryNote: order.deliveryNote,
+    phoneNumber: order.phoneNumber,
+  }
+
+  const userEmailContent = ReceiptEmailHtml(emailProps)
+
+  // For the company email, you can modify the content slightly or use the same
+  const companyEmailContent = ReceiptEmailHtml(emailProps)
 
   return { userEmailContent, companyEmailContent }
 }

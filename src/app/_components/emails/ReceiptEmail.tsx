@@ -16,39 +16,28 @@ import {
 } from '@react-email/components'
 import { format } from 'date-fns'
 
-import { Product } from '../../../payload/payload-types'
-import { formatPrice } from '../../_components/lib/utils'
-
-interface ProductCart {
-  product: string | Product
-  colorId: string
-  size: string
-  quantity: number
-  id?: string | null | undefined
-}
-
-interface ReceiptEmail {
-  email: string
-  date: Date
-  orderId: string
-  productsCart: ProductCart[]
-}
-
-const ReceiptEmail = ({ email, date, orderId, productsCart }: ReceiptEmail) => {
-  const total = productsCart.reduce(
-    (total, { product, quantity }) => total + (product as Product).price * quantity,
-    0,
-  )
-
+const ReceiptEmail = ({
+  email,
+  date,
+  orderId,
+  productsCart,
+  total,
+  refId,
+  deliveryType,
+  deliveryCost,
+  location,
+  deliveryNote,
+  phoneNumber,
+}) => {
   return (
     <Html>
       <Head />
-      <Preview>Your DigitalHippo Receipt</Preview>
+      <Preview>Order Confirmation from EasyBake Supplies</Preview>
 
       <Body style={main}>
         <Container style={container}>
           <Section>
-            <Text style={heading}>Receipt</Text>
+            <Text style={heading}>Order Confirmation</Text>
           </Section>
           <Section style={informationTable}>
             <Row style={informationTableRow}>
@@ -80,46 +69,41 @@ const ReceiptEmail = ({ email, date, orderId, productsCart }: ReceiptEmail) => {
               </Column>
             </Row>
           </Section>
+          <Section style={informationTable}>
+            <Row style={LogoRow}>
+              <Column style={{ width: '64px' }}>
+                <Img
+                  src="https://ik.imagekit.io/6cga8hi9z/All_Products/Easy_bake_supplies_Logo_The_Easy_Way_1_tYFeQxy3I3.png"
+                  width="64"
+                  height="64"
+                  alt="Product Image"
+                  style={LogoIcon}
+                />
+              </Column>
+            </Row>
+          </Section>
           <Section style={productTitleTable}>
             <Text style={productsTitle}>Order Summary</Text>
           </Section>
           {productsCart.map(productCart => {
-            const productItemSelectedIndex = (
-              productCart.product as Product
-            ).product_items.findIndex(productItem => productItem.id === productCart.colorId)
-
-            const { image } = (productCart.product as Product).product_items[
-              productItemSelectedIndex
-            ].images[0]
-
             return (
               <Section key={productCart.id}>
                 <Column style={{ width: '64px' }}>
-                  {typeof image !== 'string' && image.url ? (
-                    <Img
-                      src={image.url}
-                      width="64"
-                      height="64"
-                      alt="Product Image"
-                      style={productIcon}
-                    />
-                  ) : null}
+                  <Img
+                    src={productCart.product.imageUrl}
+                    width="64"
+                    height="64"
+                    alt="Product Image"
+                    style={productIcon}
+                  />
                 </Column>
                 <Column style={{ paddingLeft: '22px' }}>
-                  <Text style={productTitle}>{(productCart.product as Product).name}</Text>
-                  {(productCart.product as Product).description ? (
-                    <Text style={productDescription}>
-                      {(productCart.product as Product).description.length > 50
-                        ? (productCart.product as Product).description?.slice(0, 50) + '...'
-                        : (productCart.product as Product).description}
-                    </Text>
-                  ) : null}
+                  <Text style={productTitle}>{productCart.product.title}</Text>
+                  <Text style={productDescription}>{productCart.product.description}</Text>
                 </Column>
 
                 <Column style={productPriceWrapper} align="right">
-                  <Text style={productPrice}>
-                    {formatPrice((productCart.product as Product).price)}
-                  </Text>
+                  <Text style={productPrice}>Ksh{productCart.product.price}</Text>
                 </Column>
               </Section>
             )
@@ -128,11 +112,22 @@ const ReceiptEmail = ({ email, date, orderId, productsCart }: ReceiptEmail) => {
           <Section>
             <Column style={{ width: '64px' }}></Column>
             <Column style={{ paddingLeft: '40px', paddingTop: 20 }}>
-              <Text style={productTitle}>Transaction Fee</Text>
+              <Text style={productTitle}>Delivery Cost</Text>
             </Column>
 
             <Column style={productPriceWrapper} align="right">
-              <Text style={productPrice}>{formatPrice(1)}</Text>
+              <Text style={productPrice}>Ksh{deliveryCost}</Text>
+            </Column>
+          </Section>
+
+          <Section>
+            <Column style={{ width: '64px' }}></Column>
+            <Column style={{ paddingLeft: '40px', paddingTop: 20 }}>
+              <Text style={productTitle}>Total</Text>
+            </Column>
+
+            <Column style={productPriceWrapper} align="right">
+              <Text style={productPrice}>Ksh{total}</Text>
             </Column>
           </Section>
 
@@ -143,17 +138,47 @@ const ReceiptEmail = ({ email, date, orderId, productsCart }: ReceiptEmail) => {
             </Column>
             <Column style={productPriceVerticalLine}></Column>
             <Column style={productPriceLargeWrapper}>
-              <Text style={productPriceLarge}>{formatPrice(total)}</Text>
+              <Text style={productPriceLarge}>Ksh{total}</Text>
             </Column>
           </Section>
           <Hr style={productPriceLineBottom} />
 
+          <Section style={informationTable}>
+            <Row style={informationTableRow}>
+              <Column style={informationTableColumn}>
+                <Text style={informationTableLabel}>Mpesa Payment ID</Text>
+                <Text style={informationTableValue}>{refId}</Text>
+              </Column>
+              <Column style={informationTableColumn}>
+                <Text style={informationTableLabel}>Delivery Type</Text>
+                <Text style={informationTableValue}>{deliveryType}</Text>
+              </Column>
+              <Column style={informationTableColumn}>
+                <Text style={informationTableLabel}>Delivery Location</Text>
+                <Text style={informationTableValue}>{location}</Text>
+              </Column>
+              <Column style={informationTableColumn}>
+                <Text style={informationTableLabel}>Phone Number</Text>
+                <Text style={informationTableValue}>{phoneNumber}</Text>
+              </Column>
+            </Row>
+          </Section>
+          <Section style={informationTable}>
+            <Row style={informationTableRow}>
+              <Column style={informationTableColumn}>
+                <Text style={informationTableLabel}>Delivery Note</Text>
+                <Text style={informationTableValue}>{deliveryNote}</Text>
+              </Column>
+            </Row>
+          </Section>
+
           <Text style={footerLinksWrapper}>
             <Link href="#">Account Settings</Link> • <Link href="#">Terms of Sale</Link> •{' '}
-            <Link href="#">Privacy Policy </Link>
+            <Link href="#">Privacy Policy</Link>
           </Text>
           <Text style={footerCopyright}>
-            Copyright © 2023 DigitalHippo Inc. <br /> <Link href="#">All rights reserved</Link>
+            Copyright © 2023 EasyBake Supplies Limited. <br />{' '}
+            <Link href="#">All rights reserved</Link>
           </Text>
         </Container>
       </Body>
@@ -163,7 +188,7 @@ const ReceiptEmail = ({ email, date, orderId, productsCart }: ReceiptEmail) => {
 
 export default ReceiptEmail
 
-export const ReceiptEmailHtml = (props: ReceiptEmail) =>
+export const ReceiptEmailHtml = props =>
   render(<ReceiptEmail {...props} />, {
     pretty: true,
   })
@@ -194,7 +219,7 @@ const heading = {
 }
 
 const informationTable = {
-  borderCollapse: 'collapse' as const,
+  borderCollapse: 'collapse',
   borderSpacing: '0px',
   color: 'rgb(51,51,51)',
   backgroundColor: 'rgb(250,250,250)',
@@ -241,6 +266,17 @@ const productsTitle = {
   fontWeight: '500',
   margin: '0',
 }
+const LogoRow = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}
+const LogoIcon = {
+  margin: '10px 0 0 20px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}
 
 const productIcon = {
   margin: '0 0 0 20px',
@@ -272,7 +308,7 @@ const productPriceTotal = {
   fontSize: '10px',
   fontWeight: '600',
   padding: '0px 30px 0px 0px',
-  textAlign: 'right' as const,
+  textAlign: 'right',
 }
 
 const productPrice = {
@@ -285,8 +321,8 @@ const productPriceLarge = {
   margin: '0px 20px 0px 0px',
   fontSize: '16px',
   fontWeight: '600',
-  whiteSpace: 'nowrap' as const,
-  textAlign: 'right' as const,
+  whiteSpace: 'nowrap',
+  textAlign: 'right',
 }
 
 const productPriceWrapper = {
@@ -313,14 +349,14 @@ const productPriceLineBottom = { margin: '0 0 75px 0' }
 
 const footerLinksWrapper = {
   margin: '8px 0 0 0',
-  textAlign: 'center' as const,
+  textAlign: 'center',
   fontSize: '12px',
   color: 'rgb(102,102,102)',
 }
 
 const footerCopyright = {
   margin: '25px 0 0 0',
-  textAlign: 'center' as const,
+  textAlign: 'center',
   fontSize: '12px',
   color: 'rgb(102,102,102)',
 }

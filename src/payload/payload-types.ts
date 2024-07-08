@@ -1053,12 +1053,9 @@ export interface Order {
   orderNotes?: string | null;
   deliveryType?: string | null;
   location?: string | null;
+  locationLabel?: string | null;
   deliveryNote?: string | null;
-  /**
-   * @minItems 2
-   * @maxItems 2
-   */
-  customLocation?: [number, number] | null;
+  customLocation?: string | null;
   updatedAt: string;
   createdAt: string;
 }

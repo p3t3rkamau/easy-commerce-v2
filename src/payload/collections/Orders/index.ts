@@ -117,12 +117,16 @@ export const Orders: CollectionConfig = {
       type: 'text',
     },
     {
+      name: 'locationLabel',
+      type: 'text',
+    },
+    {
       name: 'deliveryNote',
       type: 'textarea',
     },
     {
       name: 'customLocation',
-      type: 'point',
+      type: 'text',
     },
   ],
 }

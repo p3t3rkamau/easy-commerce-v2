@@ -4,7 +4,7 @@ import type { BeforeChangeHook } from 'payload/dist/collections/config/types'
 const calculateOrderTotal: BeforeChangeHook = async ({ data }) => {
   if (!data) return data
 
-  const { deliveryType, location, items } = data
+  const { deliveryType, locationLabel, items } = data
 
   // API endpoint URLs
   const riderApiUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/forms/65fe8a2a2e728c6fcb994223`
@@ -16,12 +16,16 @@ const calculateOrderTotal: BeforeChangeHook = async ({ data }) => {
     if (deliveryType === 'rider') {
       const response = await axios.get(riderApiUrl)
       const riderOptions = response.data.fields[0].options
-      const selectedOption = riderOptions.find((option: { id: string }) => option.id === location)
+      const selectedOption = riderOptions.find(
+        (option: { id: string }) => option.id === locationLabel,
+      )
       deliveryCost = selectedOption ? parseFloat(selectedOption.value) : 0
     } else if (deliveryType === 'matatu') {
       const response = await axios.get(matatuApiUrl)
       const matatuOptions = response.data.fields[0].options
-      const selectedOption = matatuOptions.find((option: { id: string }) => option.id === location)
+      const selectedOption = matatuOptions.find(
+        (option: { id: string }) => option.id === locationLabel,
+      )
       deliveryCost = selectedOption ? parseFloat(selectedOption.value) : 0
     }
   } catch (error: unknown) {

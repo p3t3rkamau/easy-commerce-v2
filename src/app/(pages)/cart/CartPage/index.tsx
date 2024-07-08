@@ -1,3 +1,4 @@
+'use client'
 import React, { Fragment, useEffect, useState } from 'react'
 import Link from 'next/link'
 
@@ -13,7 +14,7 @@ import ShippingForm from '../ShippingForm' // Make sure to import ShippingForm f
 import classes from './index.module.scss'
 
 const encrypt = (value: number): string => {
-  const key = 42 // Example encryption key (not secure, for demonstration only)
+  const key = 42
   return String.fromCharCode(value ^ key)
 }
 
@@ -34,7 +35,7 @@ export const CartPage: React.FC<{
   const [customLocation, setCustomLocation] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = React.useState<string | null>(null)
-  const [cost, setCost] = useState<number>(0) // Example initial cost
+  const [cost, setCost] = useState<number>(0)
   const [discountedCost, setDiscountedCost] = useState<number>(cost)
 
   const handleCouponApply = (newCost: number) => {
@@ -44,7 +45,6 @@ export const CartPage: React.FC<{
   const handleShippingCostChange = (cost: number) => {
     setShippingCost(cost)
     setCost(cost)
-    // Recalculate any dependent values here, if needed
   }
 
   const handleDeliveryTypeChange = (type: string) => {
@@ -56,6 +56,14 @@ export const CartPage: React.FC<{
     setLocationLabel(locLabel)
   }
 
+  const handleDeliveryNoteChange = (note: string) => {
+    setDeliveryNote(note)
+  }
+
+  const handleCustomLocationChange = (location: string) => {
+    setCustomLocation(location)
+  }
+
   const encryptedShippingCost = encrypt(shippingCost)
 
   const handleCheckoutClick = () => {
@@ -65,7 +73,7 @@ export const CartPage: React.FC<{
           locationLabel,
         )}&shippingCost=${encryptedShippingCost}&deliveryNote=${encodeURIComponent(
           deliveryNote,
-        )}&customLocation=${encodeURIComponent(customLocation)}`
+        )}&customLocation=${encodeURIComponent(customLocation)}&LocationId=${encodeURIComponent(locationId)}`
       : '/login?redirect=%2Fcheckout'
     window.location.href = checkoutUrl
   }
@@ -149,8 +157,8 @@ export const CartPage: React.FC<{
                   onDeliveryCostChange={handleShippingCostChange}
                   onDeliveryTypeChange={handleDeliveryTypeChange}
                   onLocationChange={handleLocationChange}
-                  deliveryNote={deliveryNote} // Pass deliveryNote as prop
-                  customLocation={customLocation} // Pass customLocation as prop
+                  onDeliveryNoteChange={handleDeliveryNoteChange}
+                  onCustomLocationChange={handleCustomLocationChange}
                 />
                 <CouponForm currentCost={cost} onCouponApply={handleCouponApply} />
 

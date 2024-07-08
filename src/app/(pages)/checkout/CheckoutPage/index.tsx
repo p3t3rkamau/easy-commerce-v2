@@ -1,6 +1,7 @@
+'use client'
 import React, { Fragment, useEffect, useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 
 import { Settings } from '../../../../payload/payload-types'
 import { Button } from '../../../_components/Button'
@@ -41,7 +42,7 @@ export const CheckoutPage: React.FC<{
     const params = new URLSearchParams(window.location.search)
     const deliveryTypeParam = params.get('deliveryType') || ''
     const locationParam = params.get('location') || ''
-    const locationLabelParam = params.get('locationLabel') || ''
+    const locationLabelParam = params.get('LocationId') || ''
 
     // Decrypt shipping cost from URL parameter
     const encryptedShippingCost = params.get('shippingCost') || '0'
@@ -62,7 +63,7 @@ export const CheckoutPage: React.FC<{
   }, [])
 
   useEffect(() => {
-    if (!user && !cartIsEmpty) {
+    if (user !== null && cartIsEmpty) {
       router.push('/cart')
     }
   }, [router, user, cartIsEmpty])
@@ -138,7 +139,7 @@ export const CheckoutPage: React.FC<{
 
         <div className={classes.row}>
           <p className={classes.cartTotal}>Delivery Location</p>
-          <p className={classes.cartTotal}>{locationLabel}</p>
+          <p className={classes.cartTotal}>{location}</p>
         </div>
 
         <div className={classes.row}>

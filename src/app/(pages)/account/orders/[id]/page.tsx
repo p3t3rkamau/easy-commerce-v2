@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -8,6 +8,7 @@ import { Price } from '../../../../_components/Price'
 import { formatDateTime } from '../../../../_utilities/formatDateTime'
 import { getMeUser } from '../../../../_utilities/getMeUser'
 import { mergeOpenGraph } from '../../../../_utilities/mergeOpenGraph'
+import OrderActions from '../OrderActions'
 
 import classes from './index.module.scss'
 
@@ -54,9 +55,15 @@ export default async function Order({ params: { id } }) {
 
   return (
     <div className={classes.orderContainer}>
-      <h1 className={classes.orderTitle}>
-        Order <span className={classes.id}>{order.id}</span>
-      </h1>
+      <h5 className={classes.orderTitle}>
+        Order Id <span className={classes.id}>{order.id}</span>
+      </h5>
+      <OrderActions
+        orderDetails={orderDetails}
+        orderItems={order.items}
+        total={order.total}
+        id={order.id}
+      />
 
       <div className={classes.orderDetails}>
         {orderDetails.map(
@@ -78,38 +85,51 @@ export default async function Order({ params: { id } }) {
           </span>
         </div>
       </div>
+      <h6 className={classes.itemsTitle}>Order Items</h6>
 
-      <h2 className={classes.itemsTitle}>Order Items</h2>
-      <div className={classes.orderItems}>
+      <div className={classes.order}>
         {order.items?.map((item, index) => {
           if (typeof item.product === 'object') {
-            const { quantity, product, selectedAttributes } = item
-            const metaImage = product.meta?.image
+            const {
+              quantity,
+              product,
+              product: { id, title, meta },
+            } = item
+
+            const metaImage = meta?.image
 
             return (
-              <div className={classes.itemCard} key={index}>
-                <Link href={`/products/${product.slug}`} className={classes.mediaWrapper}>
-                  {!metaImage && <span className={classes.placeholder}>No image</span>}
-                  {metaImage && typeof metaImage !== 'string' && (
-                    <Media
-                      className={classes.media}
-                      imgClassName={classes.image}
-                      resource={metaImage}
-                      fill
-                    />
-                  )}
-                </Link>
-                <div className={classes.itemDetails}>
-                  <h3 className={classes.itemTitle}>
-                    <Link href={`/products/${product.slug}`}>{product.title}</Link>
-                  </h3>
-                  <p className={classes.itemTitle}>Attributes: {selectedAttributes}</p>
-                  <p className={classes.itemQuantity}>Quantity: {quantity}</p>
-                  <Price product={product} button={false} quantity={quantity} />
+              <>
+                <div className={classes.flex} key={index}>
+                  <Fragment>
+                    <div className={classes.row}>
+                      <Link href={`/products/${product.slug}`} className={classes.mediaWrapper}>
+                        {!metaImage && <span className={classes.placeholder}>No image</span>}
+                        {metaImage && typeof metaImage !== 'string' && (
+                          <Media
+                            className={classes.media}
+                            imgClassName={classes.image}
+                            resource={metaImage}
+                            fill
+                          />
+                        )}
+                      </Link>
+                      <div className={classes.rowContent}>
+                        <h6 className={classes.title}>
+                          <Link href={`/products/${product.slug}`} className={classes.titleLink}>
+                            {title}
+                          </Link>
+                        </h6>
+                        <p>{`Quantity: ${quantity}`}</p>
+                        <Price product={product} button={false} quantity={quantity} />
+                      </div>
+                    </div>
+                  </Fragment>
                 </div>
-              </div>
+              </>
             )
           }
+
           return null
         })}
       </div>
@@ -117,7 +137,7 @@ export default async function Order({ params: { id } }) {
   )
 }
 
-function generateMetadata({ params: { id } }): Promise<Metadata> {
+export async function generateMetadata({ params: { id } }): Promise<Metadata> {
   return {
     title: `Order ${id}`,
     description: `Order details for order ${id}.`,

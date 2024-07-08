@@ -14,12 +14,16 @@ interface Props {
   onDeliveryCostChange: (cost: number) => void
   onDeliveryTypeChange: (type: string) => void
   onLocationChange: (locId: string, locLabel: string) => void
+  onDeliveryNoteChange: (note: string) => void
+  onCustomLocationChange: (location: string) => void
 }
 
 const ShippingForm: React.FC<Props> = ({
   onDeliveryCostChange,
   onDeliveryTypeChange,
   onLocationChange,
+  onDeliveryNoteChange,
+  onCustomLocationChange,
 }) => {
   const [deliveryType, setDeliveryType] = useState<string>('')
   const [locationId, setLocationId] = useState<string>('')
@@ -45,6 +49,19 @@ const ShippingForm: React.FC<Props> = ({
     }
   }, [locationId, deliveryType])
 
+  useEffect(() => {
+    const cost = calculateDeliveryCost()
+    onDeliveryCostChange(cost)
+  }, [deliveryType, locationId])
+
+  useEffect(() => {
+    onDeliveryNoteChange(deliveryNote)
+  }, [deliveryNote])
+
+  useEffect(() => {
+    onCustomLocationChange(customLocation)
+  }, [customLocation])
+
   const fetchRiderOptions = () => {
     fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/forms/65fe8a2a2e728c6fcb994223`)
       .then(response => response.json())
@@ -62,11 +79,6 @@ const ShippingForm: React.FC<Props> = ({
       })
       .catch(error => console.error('Error fetching matatu options:', error))
   }
-
-  useEffect(() => {
-    const cost = calculateDeliveryCost()
-    onDeliveryCostChange(cost)
-  }, [deliveryType, locationId])
 
   const calculateDeliveryCost = (): number => {
     const selectedOption = getSelectedOption()
@@ -136,9 +148,9 @@ const ShippingForm: React.FC<Props> = ({
                 </option>
               ))}
             </select>
-            <button className={classes.locationButton} onClick={handleLocationShare}>
+            {/* <button className={classes.locationButton} onClick={handleLocationShare}>
               Share Current Location
-            </button>
+            </button> */}
             <textarea
               className={classes.textarea}
               placeholder="Delivery Note"

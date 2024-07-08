@@ -29,7 +29,7 @@ const transporter = nodemailer.createTransport({
     user: 'resend',
     pass: process.env.RESEND_API_KEY,
   },
-  from: 'EasyBake Supplies Limited <noreply@berleensafaris.com>', // Add this line
+  from: 'Easy Bake Supplies Limited <noreply@berleensafaris.com>', // Correctly formatted
 })
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -75,8 +75,8 @@ const start = async (): Promise<void> => {
     express: app,
     email: {
       transport: transporter,
-      fromName: 'EasyBake Supplies Limited',
-      fromAddress: 'noreply@berleensafaris.com', // Replace with your verified domain
+      fromName: 'EasyBakeSuppliesLimited',
+      fromAddress: 'Easy Bake Supplies Limited <noreply@berleensafaris.com>', // Correctly formatted
     },
     onInit: () => {
       payload.logger.info(`Payload Admin URL: ${payload.getAdminURL()}`)

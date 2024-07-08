@@ -22,7 +22,15 @@ export const ORDER = `
           price
           quantity
           selectedAttributes
+          
         }
+        phoneNumber
+        refId
+        orderNotes
+        deliveryType
+        location
+        locationLabel
+        deliveryNote
       }
     }
   }

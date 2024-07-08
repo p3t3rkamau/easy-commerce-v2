@@ -1,5 +1,7 @@
 import type { AfterChangeHook } from 'payload/dist/collections/config/types'
 
+import { generateEmailContent } from '../../../utilities/generateEmailContent.jsx'
+
 export const sendOrderEmails: AfterChangeHook = async ({ doc, operation, req }) => {
   console.log('sendOrderEmails hook triggered')
 
@@ -14,9 +16,7 @@ export const sendOrderEmails: AfterChangeHook = async ({ doc, operation, req }) 
       return
     }
 
-    const userEmailContent = `<p>Hello User,</p><p>Your order has been placed successfully.</p><p>Thank you for shopping with us!</p>`
-    const companyEmailContent = `<p>Hello Company,</p><p>A new order has been received.</p>`
-
+    const { userEmailContent, companyEmailContent } = generateEmailContent(doc)
     console.log(`Sending email to user: ${userEmail}`)
     console.log(`Sending email to company: ${companyEmail}`)
 
@@ -24,6 +24,7 @@ export const sendOrderEmails: AfterChangeHook = async ({ doc, operation, req }) 
       // Send email to user
       await req.payload.sendEmail({
         to: userEmail,
+        from: 'Easy Bake Supplies Limited <noreply@berleensafaris.com>', // Ensure correct from field
         subject: 'Your Order Confirmation',
         html: userEmailContent,
       })
@@ -32,6 +33,7 @@ export const sendOrderEmails: AfterChangeHook = async ({ doc, operation, req }) 
       // Send email to company
       await req.payload.sendEmail({
         to: companyEmail,
+        from: 'Easy Bake Supplies Limited <noreply@berleensafaris.com>', // Ensure correct from field
         subject: 'New Order Received',
         html: companyEmailContent,
       })

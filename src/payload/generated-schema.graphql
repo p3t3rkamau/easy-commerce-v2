@@ -12467,8 +12467,9 @@ type Order {
   orderNotes: String
   deliveryType: String
   location: String
+  locationLabel: String
   deliveryNote: String
-  customLocation: [Float!]
+  customLocation: String
   updatedAt: DateTime
   createdAt: DateTime
 }
@@ -12510,6 +12511,7 @@ input Order_where {
   orderNotes: Order_orderNotes_operator
   deliveryType: Order_deliveryType_operator
   location: Order_location_operator
+  locationLabel: Order_locationLabel_operator
   deliveryNote: Order_deliveryNote_operator
   customLocation: Order_customLocation_operator
   updatedAt: Order_updatedAt_operator
@@ -12658,6 +12660,17 @@ input Order_location_operator {
   exists: Boolean
 }
 
+input Order_locationLabel_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
 input Order_deliveryNote_operator {
   equals: String
   not_equals: String
@@ -12667,21 +12680,14 @@ input Order_deliveryNote_operator {
 }
 
 input Order_customLocation_operator {
-  equals: [Float]
-  not_equals: [Float]
-  greater_than_equal: [Float]
-  greater_than: [Float]
-  less_than_equal: [Float]
-  less_than: [Float]
-  near: [Float]
-  within: GeoJSONObject
-  intersects: GeoJSONObject
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
   exists: Boolean
-}
-
-input GeoJSONObject {
-  coordinates: JSON
-  type: String
 }
 
 input Order_updatedAt_operator {
@@ -12732,6 +12738,7 @@ input Order_where_and {
   orderNotes: Order_orderNotes_operator
   deliveryType: Order_deliveryType_operator
   location: Order_location_operator
+  locationLabel: Order_locationLabel_operator
   deliveryNote: Order_deliveryNote_operator
   customLocation: Order_customLocation_operator
   updatedAt: Order_updatedAt_operator
@@ -12756,6 +12763,7 @@ input Order_where_or {
   orderNotes: Order_orderNotes_operator
   deliveryType: Order_deliveryType_operator
   location: Order_location_operator
+  locationLabel: Order_locationLabel_operator
   deliveryNote: Order_deliveryNote_operator
   customLocation: Order_customLocation_operator
   updatedAt: Order_updatedAt_operator
@@ -12784,6 +12792,7 @@ type OrdersDocAccessFields {
   orderNotes: OrdersDocAccessFields_orderNotes
   deliveryType: OrdersDocAccessFields_deliveryType
   location: OrdersDocAccessFields_location
+  locationLabel: OrdersDocAccessFields_locationLabel
   deliveryNote: OrdersDocAccessFields_deliveryNote
   customLocation: OrdersDocAccessFields_customLocation
   updatedAt: OrdersDocAccessFields_updatedAt
@@ -13141,6 +13150,29 @@ type OrdersDocAccessFields_location_Update {
 }
 
 type OrdersDocAccessFields_location_Delete {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_locationLabel {
+  create: OrdersDocAccessFields_locationLabel_Create
+  read: OrdersDocAccessFields_locationLabel_Read
+  update: OrdersDocAccessFields_locationLabel_Update
+  delete: OrdersDocAccessFields_locationLabel_Delete
+}
+
+type OrdersDocAccessFields_locationLabel_Create {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_locationLabel_Read {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_locationLabel_Update {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_locationLabel_Delete {
   permission: Boolean!
 }
 
@@ -29636,6 +29668,7 @@ type OrdersFields {
   orderNotes: OrdersFields_orderNotes
   deliveryType: OrdersFields_deliveryType
   location: OrdersFields_location
+  locationLabel: OrdersFields_locationLabel
   deliveryNote: OrdersFields_deliveryNote
   customLocation: OrdersFields_customLocation
   updatedAt: OrdersFields_updatedAt
@@ -29993,6 +30026,29 @@ type OrdersFields_location_Update {
 }
 
 type OrdersFields_location_Delete {
+  permission: Boolean!
+}
+
+type OrdersFields_locationLabel {
+  create: OrdersFields_locationLabel_Create
+  read: OrdersFields_locationLabel_Read
+  update: OrdersFields_locationLabel_Update
+  delete: OrdersFields_locationLabel_Delete
+}
+
+type OrdersFields_locationLabel_Create {
+  permission: Boolean!
+}
+
+type OrdersFields_locationLabel_Read {
+  permission: Boolean!
+}
+
+type OrdersFields_locationLabel_Update {
+  permission: Boolean!
+}
+
+type OrdersFields_locationLabel_Delete {
   permission: Boolean!
 }
 
@@ -37694,8 +37750,9 @@ input mutationOrderInput {
   orderNotes: String
   deliveryType: String
   location: String
+  locationLabel: String
   deliveryNote: String
-  customLocation: [Float]
+  customLocation: String
   updatedAt: String
   createdAt: String
 }
@@ -37719,8 +37776,9 @@ input mutationOrderUpdateInput {
   orderNotes: String
   deliveryType: String
   location: String
+  locationLabel: String
   deliveryNote: String
-  customLocation: [Float]
+  customLocation: String
   updatedAt: String
   createdAt: String
 }
