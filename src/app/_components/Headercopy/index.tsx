@@ -21,12 +21,10 @@ export async function Header() {
   }
 
   const head = header
-  // console.log('header', head)
 
   return (
     <>
       <HeaderComponent header={header} />
-      {/* <SearchBar /> */}
     </>
   )
 }

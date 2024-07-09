@@ -25,7 +25,6 @@ import AttributeCollection from './collections/Attributes'
 import Categories from './collections/Categories'
 import Comments from './collections/Comments'
 import Coupons from './collections/Coupon'
-import DeliveryLocations from './collections/DeliveryLocation'
 import { EMailSms } from './collections/Email & Sms'
 import HeaderCategories from './collections/HeaderCategories'
 import { LiveChats } from './collections/LiveChats/LiveChats'
@@ -38,6 +37,7 @@ import Products from './collections/Products'
 import Reviews from './collections/Reviews/Reviews'
 import SearchTerms from './collections/SearchTerms'
 import SiteMedia from './collections/SiteMedia/sitemedia'
+import Sponsored from './collections/Trending_Promotions'
 import Users from './collections/Users'
 import Videos from './collections/Videos'
 import BeforeDashboard from './components/BeforeDashboard'
@@ -133,11 +133,12 @@ export default buildConfig({
     Alerts,
     HeaderCategories,
     AttributeCollection,
-    DeliveryLocations,
     LiveChats,
     EMailSms,
     Coupons,
     SearchTerms,
+    Sponsored,
+
     // CaseStudies,
     // QuestionSets,
     // ReusableContent,

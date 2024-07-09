@@ -2,6 +2,10 @@ import type { CollectionConfig } from 'payload/types'
 
 const Coupons: CollectionConfig = {
   slug: 'coupons',
+  admin: {
+    useAsTitle: 'title',
+    group: 'Admin',
+  },
   labels: {
     singular: 'Coupon',
     plural: 'Coupons',

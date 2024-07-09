@@ -1,0 +1,93 @@
+.container {
+  display: flex;
+  position: relative;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 3px;
+  overflow: hidden;
+  min-width: 200px;
+
+  max-width: 200px;
+  max-height: 250px;
+  min-height: 250px;
+}
+
+.imageContainer {
+  height: 150px;
+  width: 100%;
+  position: relative;
+}
+
+.image {
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  border-radius: 3px;
+}
+
+.content {
+  padding: 0;
+  flex: 1;
+}
+
+.title,
+.description {
+  margin: 4px 0;
+  padding: 13px 0;
+}
+
+.title {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.description {
+  font-size: 1em;
+  color: #666;
+  border-radius: 10px;
+}
+
+//* Loading Shimmer Effect */
+.loading .image {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: 3px;
+}
+
+.loading .title, .loading .description {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+  color: transparent;
+}
+
+/* Different Widths for Descriptions */
+.description1 {
+  width: 100%;
+}
+
+.description2 {
+  width: 90%;
+}
+
+.description3 {
+  width: 80%;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}

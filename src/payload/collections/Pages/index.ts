@@ -14,8 +14,10 @@ import { DoubleImagesBlock } from '../../blocks/DoubleMedia/ManyImages'
 import { EventArchive } from '../../blocks/EventArchive'
 import { FlashSales } from '../../blocks/FlashSales'
 import { FlexBanner } from '../../blocks/FlexBanner'
+import HolidayBanners from '../../blocks/Holiday_Banner'
 import { LastViewed } from '../../blocks/LastViewed'
 import { MediaBlock } from '../../blocks/MediaBlock'
+import PromoBanners from '../../blocks/Promotion_Banner'
 import { Recommeded } from '../../blocks/Recommended'
 import { ProductsSlider } from '../../blocks/SliderArchive'
 import { TopDealsGrid } from '../../blocks/TopDealsGridArchive'
@@ -26,10 +28,7 @@ import { slugField } from '../../fields/slug'
 import { populateArchiveBlock } from '../../hooks/populateArchiveBlock'
 import { adminsOrPublished } from './access/adminsOrPublished'
 import { revalidatePage } from './hooks/revalidatePage'
-import HolidayBanners from '../../blocks/Holiday_Banner'
-import PromoBanners from '../../blocks/Promotion_Banner'
 export const Pages: CollectionConfig = {
-  
   slug: 'pages',
   admin: {
     useAsTitle: 'title',
@@ -135,23 +134,6 @@ export const Pages: CollectionConfig = {
                 FlexBanner,
                 HolidayBanners,
                 PromoBanners,
-                // CardGrid,
-                // Banner,
-                // BlogContent,
-                // Code,
-                // BlogMarkdown,
-                // // CaseStudyCards,
-                // // CaseStudiesHighlight,
-                // CodeFeature,
-                // Accordion,
-                // ContentGrid,
-                // Form,
-                // HoverHighlights,
-                // LinkGrid,
-                // MediaContent,
-                // Slider,
-                // Steps,
-                // StickyHighlights,
               ],
             },
           ],

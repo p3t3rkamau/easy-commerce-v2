@@ -51,9 +51,6 @@ type Query {
   AttributesCollection(id: String!, draft: Boolean, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType): AttributesCollection
   AttributesCollections(draft: Boolean, where: AttributesCollection_where, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType, limit: Int, page: Int, sort: String): AttributesCollections
   docAccessAttributesCollection(id: String!): attributesCollectionDocAccess
-  DeliveryLocation(id: String!, draft: Boolean, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType): DeliveryLocation
-  DeliveryLocations(draft: Boolean, where: DeliveryLocation_where, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType, limit: Int, page: Int, sort: String): DeliveryLocations
-  docAccessDeliveryLocation(id: String!): deliveryLocationsDocAccess
   LiveChat(id: String!, draft: Boolean, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType): LiveChat
   LiveChats(draft: Boolean, where: LiveChat_where, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType, limit: Int, page: Int, sort: String): LiveChats
   docAccessLiveChat(id: String!): live_chatsDocAccess
@@ -66,6 +63,9 @@ type Query {
   SearchTerm(id: String!, draft: Boolean, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType): SearchTerm
   SearchTerms(draft: Boolean, where: SearchTerm_where, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType, limit: Int, page: Int, sort: String): SearchTerms
   docAccessSearchTerm(id: String!): searchTermsDocAccess
+  Sponsored(id: String!, draft: Boolean, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType): Sponsored
+  Sponsoreds(draft: Boolean, where: Sponsored_where, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType, limit: Int, page: Int, sort: String): Sponsoreds
+  docAccessSponsored(id: String!): sponsoredDocAccess
   Search(id: String!, draft: Boolean, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType): Search
   Searches(draft: Boolean, where: Search_where, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType, limit: Int, page: Int, sort: String): Searches
   docAccessSearch(id: String!): searchDocAccess
@@ -1149,7 +1149,7 @@ type User {
   roles: [User_roles!]
   purchases(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Product!]
   recentlyViewed(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Product!]
-  DeliveryLocation(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [DeliveryLocation!]
+  DeliveryLocation: String
   cart: User_Cart
   skipSync: Boolean
   role: User_role
@@ -1364,18 +1364,6 @@ enum User_roles {
   customer
   editor
   manager
-}
-
-type DeliveryLocation {
-  id: String
-  title: String
-  address: String!
-  AdditionalInformation: String!
-  region: String!
-  googlepin: String
-  price: Float
-  updatedAt: DateTime
-  createdAt: DateTime
 }
 
 type User_Cart {
@@ -12459,7 +12447,6 @@ type Order {
   id: String
   orderedBy(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): User
   refId: String
-  GenerateReceiptButton: String
   total: Float!
   deliveryCost: Float!
   items: [Order_Items!]
@@ -12469,7 +12456,7 @@ type Order {
   location: String
   locationLabel: String
   deliveryNote: String
-  customLocation: String
+  GenerateReceiptButton: String
   updatedAt: DateTime
   createdAt: DateTime
 }
@@ -12499,7 +12486,6 @@ type Orders {
 input Order_where {
   orderedBy: Order_orderedBy_operator
   refId: Order_refId_operator
-  GenerateReceiptButton: Order_GenerateReceiptButton_operator
   total: Order_total_operator
   deliveryCost: Order_deliveryCost_operator
   items__product: Order_items__product_operator
@@ -12513,7 +12499,7 @@ input Order_where {
   location: Order_location_operator
   locationLabel: Order_locationLabel_operator
   deliveryNote: Order_deliveryNote_operator
-  customLocation: Order_customLocation_operator
+  GenerateReceiptButton: Order_GenerateReceiptButton_operator
   updatedAt: Order_updatedAt_operator
   createdAt: Order_createdAt_operator
   id: Order_id_operator
@@ -12531,17 +12517,6 @@ input Order_orderedBy_operator {
 }
 
 input Order_refId_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input Order_GenerateReceiptButton_operator {
   equals: String
   not_equals: String
   like: String
@@ -12679,7 +12654,7 @@ input Order_deliveryNote_operator {
   exists: Boolean
 }
 
-input Order_customLocation_operator {
+input Order_GenerateReceiptButton_operator {
   equals: String
   not_equals: String
   like: String
@@ -12726,7 +12701,6 @@ input Order_id_operator {
 input Order_where_and {
   orderedBy: Order_orderedBy_operator
   refId: Order_refId_operator
-  GenerateReceiptButton: Order_GenerateReceiptButton_operator
   total: Order_total_operator
   deliveryCost: Order_deliveryCost_operator
   items__product: Order_items__product_operator
@@ -12740,7 +12714,7 @@ input Order_where_and {
   location: Order_location_operator
   locationLabel: Order_locationLabel_operator
   deliveryNote: Order_deliveryNote_operator
-  customLocation: Order_customLocation_operator
+  GenerateReceiptButton: Order_GenerateReceiptButton_operator
   updatedAt: Order_updatedAt_operator
   createdAt: Order_createdAt_operator
   id: Order_id_operator
@@ -12751,7 +12725,6 @@ input Order_where_and {
 input Order_where_or {
   orderedBy: Order_orderedBy_operator
   refId: Order_refId_operator
-  GenerateReceiptButton: Order_GenerateReceiptButton_operator
   total: Order_total_operator
   deliveryCost: Order_deliveryCost_operator
   items__product: Order_items__product_operator
@@ -12765,7 +12738,7 @@ input Order_where_or {
   location: Order_location_operator
   locationLabel: Order_locationLabel_operator
   deliveryNote: Order_deliveryNote_operator
-  customLocation: Order_customLocation_operator
+  GenerateReceiptButton: Order_GenerateReceiptButton_operator
   updatedAt: Order_updatedAt_operator
   createdAt: Order_createdAt_operator
   id: Order_id_operator
@@ -12784,7 +12757,6 @@ type ordersDocAccess {
 type OrdersDocAccessFields {
   orderedBy: OrdersDocAccessFields_orderedBy
   refId: OrdersDocAccessFields_refId
-  GenerateReceiptButton: OrdersDocAccessFields_GenerateReceiptButton
   total: OrdersDocAccessFields_total
   deliveryCost: OrdersDocAccessFields_deliveryCost
   items: OrdersDocAccessFields_items
@@ -12794,7 +12766,7 @@ type OrdersDocAccessFields {
   location: OrdersDocAccessFields_location
   locationLabel: OrdersDocAccessFields_locationLabel
   deliveryNote: OrdersDocAccessFields_deliveryNote
-  customLocation: OrdersDocAccessFields_customLocation
+  GenerateReceiptButton: OrdersDocAccessFields_GenerateReceiptButton
   updatedAt: OrdersDocAccessFields_updatedAt
   createdAt: OrdersDocAccessFields_createdAt
 }
@@ -12842,29 +12814,6 @@ type OrdersDocAccessFields_refId_Update {
 }
 
 type OrdersDocAccessFields_refId_Delete {
-  permission: Boolean!
-}
-
-type OrdersDocAccessFields_GenerateReceiptButton {
-  create: OrdersDocAccessFields_GenerateReceiptButton_Create
-  read: OrdersDocAccessFields_GenerateReceiptButton_Read
-  update: OrdersDocAccessFields_GenerateReceiptButton_Update
-  delete: OrdersDocAccessFields_GenerateReceiptButton_Delete
-}
-
-type OrdersDocAccessFields_GenerateReceiptButton_Create {
-  permission: Boolean!
-}
-
-type OrdersDocAccessFields_GenerateReceiptButton_Read {
-  permission: Boolean!
-}
-
-type OrdersDocAccessFields_GenerateReceiptButton_Update {
-  permission: Boolean!
-}
-
-type OrdersDocAccessFields_GenerateReceiptButton_Delete {
   permission: Boolean!
 }
 
@@ -13199,26 +13148,26 @@ type OrdersDocAccessFields_deliveryNote_Delete {
   permission: Boolean!
 }
 
-type OrdersDocAccessFields_customLocation {
-  create: OrdersDocAccessFields_customLocation_Create
-  read: OrdersDocAccessFields_customLocation_Read
-  update: OrdersDocAccessFields_customLocation_Update
-  delete: OrdersDocAccessFields_customLocation_Delete
+type OrdersDocAccessFields_GenerateReceiptButton {
+  create: OrdersDocAccessFields_GenerateReceiptButton_Create
+  read: OrdersDocAccessFields_GenerateReceiptButton_Read
+  update: OrdersDocAccessFields_GenerateReceiptButton_Update
+  delete: OrdersDocAccessFields_GenerateReceiptButton_Delete
 }
 
-type OrdersDocAccessFields_customLocation_Create {
+type OrdersDocAccessFields_GenerateReceiptButton_Create {
   permission: Boolean!
 }
 
-type OrdersDocAccessFields_customLocation_Read {
+type OrdersDocAccessFields_GenerateReceiptButton_Read {
   permission: Boolean!
 }
 
-type OrdersDocAccessFields_customLocation_Update {
+type OrdersDocAccessFields_GenerateReceiptButton_Update {
   permission: Boolean!
 }
 
-type OrdersDocAccessFields_customLocation_Delete {
+type OrdersDocAccessFields_GenerateReceiptButton_Delete {
   permission: Boolean!
 }
 
@@ -14643,11 +14592,13 @@ input User_recentlyViewed_operator {
 }
 
 input User_DeliveryLocation_operator {
-  equals: JSON
-  not_equals: JSON
-  in: [JSON]
-  not_in: [JSON]
-  all: [JSON]
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
   exists: Boolean
 }
 
@@ -22379,377 +22330,6 @@ type AttributesCollectionDeleteDocAccess {
   where: JSONObject
 }
 
-type DeliveryLocations {
-  docs: [DeliveryLocation]
-  hasNextPage: Boolean
-  hasPrevPage: Boolean
-  limit: Int
-  nextPage: Int
-  offset: Int
-  page: Int
-  pagingCounter: Int
-  prevPage: Int
-  totalDocs: Int
-  totalPages: Int
-}
-
-input DeliveryLocation_where {
-  title: DeliveryLocation_title_operator
-  address: DeliveryLocation_address_operator
-  AdditionalInformation: DeliveryLocation_AdditionalInformation_operator
-  region: DeliveryLocation_region_operator
-  googlepin: DeliveryLocation_googlepin_operator
-  price: DeliveryLocation_price_operator
-  updatedAt: DeliveryLocation_updatedAt_operator
-  createdAt: DeliveryLocation_createdAt_operator
-  id: DeliveryLocation_id_operator
-  AND: [DeliveryLocation_where_and]
-  OR: [DeliveryLocation_where_or]
-}
-
-input DeliveryLocation_title_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input DeliveryLocation_address_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-}
-
-input DeliveryLocation_AdditionalInformation_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-}
-
-input DeliveryLocation_region_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-}
-
-input DeliveryLocation_googlepin_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input DeliveryLocation_price_operator {
-  equals: Float
-  not_equals: Float
-  greater_than_equal: Float
-  greater_than: Float
-  less_than_equal: Float
-  less_than: Float
-  exists: Boolean
-}
-
-input DeliveryLocation_updatedAt_operator {
-  equals: DateTime
-  not_equals: DateTime
-  greater_than_equal: DateTime
-  greater_than: DateTime
-  less_than_equal: DateTime
-  less_than: DateTime
-  like: DateTime
-  exists: Boolean
-}
-
-input DeliveryLocation_createdAt_operator {
-  equals: DateTime
-  not_equals: DateTime
-  greater_than_equal: DateTime
-  greater_than: DateTime
-  less_than_equal: DateTime
-  less_than: DateTime
-  like: DateTime
-  exists: Boolean
-}
-
-input DeliveryLocation_id_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input DeliveryLocation_where_and {
-  title: DeliveryLocation_title_operator
-  address: DeliveryLocation_address_operator
-  AdditionalInformation: DeliveryLocation_AdditionalInformation_operator
-  region: DeliveryLocation_region_operator
-  googlepin: DeliveryLocation_googlepin_operator
-  price: DeliveryLocation_price_operator
-  updatedAt: DeliveryLocation_updatedAt_operator
-  createdAt: DeliveryLocation_createdAt_operator
-  id: DeliveryLocation_id_operator
-  AND: [DeliveryLocation_where_and]
-  OR: [DeliveryLocation_where_or]
-}
-
-input DeliveryLocation_where_or {
-  title: DeliveryLocation_title_operator
-  address: DeliveryLocation_address_operator
-  AdditionalInformation: DeliveryLocation_AdditionalInformation_operator
-  region: DeliveryLocation_region_operator
-  googlepin: DeliveryLocation_googlepin_operator
-  price: DeliveryLocation_price_operator
-  updatedAt: DeliveryLocation_updatedAt_operator
-  createdAt: DeliveryLocation_createdAt_operator
-  id: DeliveryLocation_id_operator
-  AND: [DeliveryLocation_where_and]
-  OR: [DeliveryLocation_where_or]
-}
-
-type deliveryLocationsDocAccess {
-  fields: DeliveryLocationsDocAccessFields
-  create: DeliveryLocationsCreateDocAccess
-  read: DeliveryLocationsReadDocAccess
-  update: DeliveryLocationsUpdateDocAccess
-  delete: DeliveryLocationsDeleteDocAccess
-}
-
-type DeliveryLocationsDocAccessFields {
-  title: DeliveryLocationsDocAccessFields_title
-  address: DeliveryLocationsDocAccessFields_address
-  AdditionalInformation: DeliveryLocationsDocAccessFields_AdditionalInformation
-  region: DeliveryLocationsDocAccessFields_region
-  googlepin: DeliveryLocationsDocAccessFields_googlepin
-  price: DeliveryLocationsDocAccessFields_price
-  updatedAt: DeliveryLocationsDocAccessFields_updatedAt
-  createdAt: DeliveryLocationsDocAccessFields_createdAt
-}
-
-type DeliveryLocationsDocAccessFields_title {
-  create: DeliveryLocationsDocAccessFields_title_Create
-  read: DeliveryLocationsDocAccessFields_title_Read
-  update: DeliveryLocationsDocAccessFields_title_Update
-  delete: DeliveryLocationsDocAccessFields_title_Delete
-}
-
-type DeliveryLocationsDocAccessFields_title_Create {
-  permission: Boolean!
-}
-
-type DeliveryLocationsDocAccessFields_title_Read {
-  permission: Boolean!
-}
-
-type DeliveryLocationsDocAccessFields_title_Update {
-  permission: Boolean!
-}
-
-type DeliveryLocationsDocAccessFields_title_Delete {
-  permission: Boolean!
-}
-
-type DeliveryLocationsDocAccessFields_address {
-  create: DeliveryLocationsDocAccessFields_address_Create
-  read: DeliveryLocationsDocAccessFields_address_Read
-  update: DeliveryLocationsDocAccessFields_address_Update
-  delete: DeliveryLocationsDocAccessFields_address_Delete
-}
-
-type DeliveryLocationsDocAccessFields_address_Create {
-  permission: Boolean!
-}
-
-type DeliveryLocationsDocAccessFields_address_Read {
-  permission: Boolean!
-}
-
-type DeliveryLocationsDocAccessFields_address_Update {
-  permission: Boolean!
-}
-
-type DeliveryLocationsDocAccessFields_address_Delete {
-  permission: Boolean!
-}
-
-type DeliveryLocationsDocAccessFields_AdditionalInformation {
-  create: DeliveryLocationsDocAccessFields_AdditionalInformation_Create
-  read: DeliveryLocationsDocAccessFields_AdditionalInformation_Read
-  update: DeliveryLocationsDocAccessFields_AdditionalInformation_Update
-  delete: DeliveryLocationsDocAccessFields_AdditionalInformation_Delete
-}
-
-type DeliveryLocationsDocAccessFields_AdditionalInformation_Create {
-  permission: Boolean!
-}
-
-type DeliveryLocationsDocAccessFields_AdditionalInformation_Read {
-  permission: Boolean!
-}
-
-type DeliveryLocationsDocAccessFields_AdditionalInformation_Update {
-  permission: Boolean!
-}
-
-type DeliveryLocationsDocAccessFields_AdditionalInformation_Delete {
-  permission: Boolean!
-}
-
-type DeliveryLocationsDocAccessFields_region {
-  create: DeliveryLocationsDocAccessFields_region_Create
-  read: DeliveryLocationsDocAccessFields_region_Read
-  update: DeliveryLocationsDocAccessFields_region_Update
-  delete: DeliveryLocationsDocAccessFields_region_Delete
-}
-
-type DeliveryLocationsDocAccessFields_region_Create {
-  permission: Boolean!
-}
-
-type DeliveryLocationsDocAccessFields_region_Read {
-  permission: Boolean!
-}
-
-type DeliveryLocationsDocAccessFields_region_Update {
-  permission: Boolean!
-}
-
-type DeliveryLocationsDocAccessFields_region_Delete {
-  permission: Boolean!
-}
-
-type DeliveryLocationsDocAccessFields_googlepin {
-  create: DeliveryLocationsDocAccessFields_googlepin_Create
-  read: DeliveryLocationsDocAccessFields_googlepin_Read
-  update: DeliveryLocationsDocAccessFields_googlepin_Update
-  delete: DeliveryLocationsDocAccessFields_googlepin_Delete
-}
-
-type DeliveryLocationsDocAccessFields_googlepin_Create {
-  permission: Boolean!
-}
-
-type DeliveryLocationsDocAccessFields_googlepin_Read {
-  permission: Boolean!
-}
-
-type DeliveryLocationsDocAccessFields_googlepin_Update {
-  permission: Boolean!
-}
-
-type DeliveryLocationsDocAccessFields_googlepin_Delete {
-  permission: Boolean!
-}
-
-type DeliveryLocationsDocAccessFields_price {
-  create: DeliveryLocationsDocAccessFields_price_Create
-  read: DeliveryLocationsDocAccessFields_price_Read
-  update: DeliveryLocationsDocAccessFields_price_Update
-  delete: DeliveryLocationsDocAccessFields_price_Delete
-}
-
-type DeliveryLocationsDocAccessFields_price_Create {
-  permission: Boolean!
-}
-
-type DeliveryLocationsDocAccessFields_price_Read {
-  permission: Boolean!
-}
-
-type DeliveryLocationsDocAccessFields_price_Update {
-  permission: Boolean!
-}
-
-type DeliveryLocationsDocAccessFields_price_Delete {
-  permission: Boolean!
-}
-
-type DeliveryLocationsDocAccessFields_updatedAt {
-  create: DeliveryLocationsDocAccessFields_updatedAt_Create
-  read: DeliveryLocationsDocAccessFields_updatedAt_Read
-  update: DeliveryLocationsDocAccessFields_updatedAt_Update
-  delete: DeliveryLocationsDocAccessFields_updatedAt_Delete
-}
-
-type DeliveryLocationsDocAccessFields_updatedAt_Create {
-  permission: Boolean!
-}
-
-type DeliveryLocationsDocAccessFields_updatedAt_Read {
-  permission: Boolean!
-}
-
-type DeliveryLocationsDocAccessFields_updatedAt_Update {
-  permission: Boolean!
-}
-
-type DeliveryLocationsDocAccessFields_updatedAt_Delete {
-  permission: Boolean!
-}
-
-type DeliveryLocationsDocAccessFields_createdAt {
-  create: DeliveryLocationsDocAccessFields_createdAt_Create
-  read: DeliveryLocationsDocAccessFields_createdAt_Read
-  update: DeliveryLocationsDocAccessFields_createdAt_Update
-  delete: DeliveryLocationsDocAccessFields_createdAt_Delete
-}
-
-type DeliveryLocationsDocAccessFields_createdAt_Create {
-  permission: Boolean!
-}
-
-type DeliveryLocationsDocAccessFields_createdAt_Read {
-  permission: Boolean!
-}
-
-type DeliveryLocationsDocAccessFields_createdAt_Update {
-  permission: Boolean!
-}
-
-type DeliveryLocationsDocAccessFields_createdAt_Delete {
-  permission: Boolean!
-}
-
-type DeliveryLocationsCreateDocAccess {
-  permission: Boolean!
-  where: JSONObject
-}
-
-type DeliveryLocationsReadDocAccess {
-  permission: Boolean!
-  where: JSONObject
-}
-
-type DeliveryLocationsUpdateDocAccess {
-  permission: Boolean!
-  where: JSONObject
-}
-
-type DeliveryLocationsDeleteDocAccess {
-  permission: Boolean!
-  where: JSONObject
-}
-
 type LiveChat {
   id: String
   Customer: String
@@ -24044,6 +23624,818 @@ type SearchTermsUpdateDocAccess {
 }
 
 type SearchTermsDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type Sponsored {
+  id: String
+  title: String
+  TrendingNow: Sponsored_TrendingNow
+  PopularProducts: Sponsored_PopularProducts
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type Sponsored_TrendingNow {
+  name: String
+  items: [Sponsored_TrendingNow_Items!]
+}
+
+type Sponsored_TrendingNow_Items {
+  enableProduct: Boolean
+  enablePages: Boolean
+  enableCustomUrl: Boolean
+  enableCategories: Boolean
+  product(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): Product
+  reference(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): Sponsored_TrendingNow_Items_Reference_Relationship
+  CustomUrl: String
+  Categories(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Category!]
+  id: String
+}
+
+type Sponsored_TrendingNow_Items_Reference_Relationship {
+  relationTo: Sponsored_TrendingNow_Items_Reference_RelationTo
+  value: Sponsored_TrendingNow_Items_Reference
+}
+
+enum Sponsored_TrendingNow_Items_Reference_RelationTo {
+  pages
+}
+
+union Sponsored_TrendingNow_Items_Reference = Page
+
+type Sponsored_PopularProducts {
+  name: String
+  items: [Sponsored_PopularProducts_Items!]
+}
+
+type Sponsored_PopularProducts_Items {
+  product(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): Product
+  id: String
+}
+
+type Sponsoreds {
+  docs: [Sponsored]
+  hasNextPage: Boolean
+  hasPrevPage: Boolean
+  limit: Int
+  nextPage: Int
+  offset: Int
+  page: Int
+  pagingCounter: Int
+  prevPage: Int
+  totalDocs: Int
+  totalPages: Int
+}
+
+input Sponsored_where {
+  title: Sponsored_title_operator
+  TrendingNow__name: Sponsored_TrendingNow__name_operator
+  TrendingNow__items__enableProduct: Sponsored_TrendingNow__items__enableProduct_operator
+  TrendingNow__items__enablePages: Sponsored_TrendingNow__items__enablePages_operator
+  TrendingNow__items__enableCustomUrl: Sponsored_TrendingNow__items__enableCustomUrl_operator
+  TrendingNow__items__enableCategories: Sponsored_TrendingNow__items__enableCategories_operator
+  TrendingNow__items__product: Sponsored_TrendingNow__items__product_operator
+  TrendingNow__items__reference: Sponsored_TrendingNow__items__reference_Relation
+  TrendingNow__items__CustomUrl: Sponsored_TrendingNow__items__CustomUrl_operator
+  TrendingNow__items__Categories: Sponsored_TrendingNow__items__Categories_operator
+  TrendingNow__items__id: Sponsored_TrendingNow__items__id_operator
+  PopularProducts__name: Sponsored_PopularProducts__name_operator
+  PopularProducts__items__product: Sponsored_PopularProducts__items__product_operator
+  PopularProducts__items__id: Sponsored_PopularProducts__items__id_operator
+  updatedAt: Sponsored_updatedAt_operator
+  createdAt: Sponsored_createdAt_operator
+  id: Sponsored_id_operator
+  AND: [Sponsored_where_and]
+  OR: [Sponsored_where_or]
+}
+
+input Sponsored_title_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Sponsored_TrendingNow__name_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Sponsored_TrendingNow__items__enableProduct_operator {
+  equals: Boolean
+  not_equals: Boolean
+  exists: Boolean
+}
+
+input Sponsored_TrendingNow__items__enablePages_operator {
+  equals: Boolean
+  not_equals: Boolean
+  exists: Boolean
+}
+
+input Sponsored_TrendingNow__items__enableCustomUrl_operator {
+  equals: Boolean
+  not_equals: Boolean
+  exists: Boolean
+}
+
+input Sponsored_TrendingNow__items__enableCategories_operator {
+  equals: Boolean
+  not_equals: Boolean
+  exists: Boolean
+}
+
+input Sponsored_TrendingNow__items__product_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input Sponsored_TrendingNow__items__reference_Relation {
+  relationTo: Sponsored_TrendingNow__items__reference_Relation_RelationTo
+  value: JSON
+}
+
+enum Sponsored_TrendingNow__items__reference_Relation_RelationTo {
+  pages
+}
+
+input Sponsored_TrendingNow__items__CustomUrl_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Sponsored_TrendingNow__items__Categories_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input Sponsored_TrendingNow__items__id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Sponsored_PopularProducts__name_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Sponsored_PopularProducts__items__product_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input Sponsored_PopularProducts__items__id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Sponsored_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Sponsored_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Sponsored_id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Sponsored_where_and {
+  title: Sponsored_title_operator
+  TrendingNow__name: Sponsored_TrendingNow__name_operator
+  TrendingNow__items__enableProduct: Sponsored_TrendingNow__items__enableProduct_operator
+  TrendingNow__items__enablePages: Sponsored_TrendingNow__items__enablePages_operator
+  TrendingNow__items__enableCustomUrl: Sponsored_TrendingNow__items__enableCustomUrl_operator
+  TrendingNow__items__enableCategories: Sponsored_TrendingNow__items__enableCategories_operator
+  TrendingNow__items__product: Sponsored_TrendingNow__items__product_operator
+  TrendingNow__items__reference: Sponsored_TrendingNow__items__reference_Relation
+  TrendingNow__items__CustomUrl: Sponsored_TrendingNow__items__CustomUrl_operator
+  TrendingNow__items__Categories: Sponsored_TrendingNow__items__Categories_operator
+  TrendingNow__items__id: Sponsored_TrendingNow__items__id_operator
+  PopularProducts__name: Sponsored_PopularProducts__name_operator
+  PopularProducts__items__product: Sponsored_PopularProducts__items__product_operator
+  PopularProducts__items__id: Sponsored_PopularProducts__items__id_operator
+  updatedAt: Sponsored_updatedAt_operator
+  createdAt: Sponsored_createdAt_operator
+  id: Sponsored_id_operator
+  AND: [Sponsored_where_and]
+  OR: [Sponsored_where_or]
+}
+
+input Sponsored_where_or {
+  title: Sponsored_title_operator
+  TrendingNow__name: Sponsored_TrendingNow__name_operator
+  TrendingNow__items__enableProduct: Sponsored_TrendingNow__items__enableProduct_operator
+  TrendingNow__items__enablePages: Sponsored_TrendingNow__items__enablePages_operator
+  TrendingNow__items__enableCustomUrl: Sponsored_TrendingNow__items__enableCustomUrl_operator
+  TrendingNow__items__enableCategories: Sponsored_TrendingNow__items__enableCategories_operator
+  TrendingNow__items__product: Sponsored_TrendingNow__items__product_operator
+  TrendingNow__items__reference: Sponsored_TrendingNow__items__reference_Relation
+  TrendingNow__items__CustomUrl: Sponsored_TrendingNow__items__CustomUrl_operator
+  TrendingNow__items__Categories: Sponsored_TrendingNow__items__Categories_operator
+  TrendingNow__items__id: Sponsored_TrendingNow__items__id_operator
+  PopularProducts__name: Sponsored_PopularProducts__name_operator
+  PopularProducts__items__product: Sponsored_PopularProducts__items__product_operator
+  PopularProducts__items__id: Sponsored_PopularProducts__items__id_operator
+  updatedAt: Sponsored_updatedAt_operator
+  createdAt: Sponsored_createdAt_operator
+  id: Sponsored_id_operator
+  AND: [Sponsored_where_and]
+  OR: [Sponsored_where_or]
+}
+
+type sponsoredDocAccess {
+  fields: SponsoredDocAccessFields
+  create: SponsoredCreateDocAccess
+  read: SponsoredReadDocAccess
+  update: SponsoredUpdateDocAccess
+  delete: SponsoredDeleteDocAccess
+}
+
+type SponsoredDocAccessFields {
+  title: SponsoredDocAccessFields_title
+  TrendingNow: SponsoredDocAccessFields_TrendingNow
+  PopularProducts: SponsoredDocAccessFields_PopularProducts
+  updatedAt: SponsoredDocAccessFields_updatedAt
+  createdAt: SponsoredDocAccessFields_createdAt
+}
+
+type SponsoredDocAccessFields_title {
+  create: SponsoredDocAccessFields_title_Create
+  read: SponsoredDocAccessFields_title_Read
+  update: SponsoredDocAccessFields_title_Update
+  delete: SponsoredDocAccessFields_title_Delete
+}
+
+type SponsoredDocAccessFields_title_Create {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_title_Read {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_title_Update {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_title_Delete {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow {
+  create: SponsoredDocAccessFields_TrendingNow_Create
+  read: SponsoredDocAccessFields_TrendingNow_Read
+  update: SponsoredDocAccessFields_TrendingNow_Update
+  delete: SponsoredDocAccessFields_TrendingNow_Delete
+  fields: SponsoredDocAccessFields_TrendingNow_Fields
+}
+
+type SponsoredDocAccessFields_TrendingNow_Create {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_Read {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_Update {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_Delete {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_Fields {
+  name: SponsoredDocAccessFields_TrendingNow_name
+  items: SponsoredDocAccessFields_TrendingNow_items
+}
+
+type SponsoredDocAccessFields_TrendingNow_name {
+  create: SponsoredDocAccessFields_TrendingNow_name_Create
+  read: SponsoredDocAccessFields_TrendingNow_name_Read
+  update: SponsoredDocAccessFields_TrendingNow_name_Update
+  delete: SponsoredDocAccessFields_TrendingNow_name_Delete
+}
+
+type SponsoredDocAccessFields_TrendingNow_name_Create {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_name_Read {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_name_Update {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_name_Delete {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items {
+  create: SponsoredDocAccessFields_TrendingNow_items_Create
+  read: SponsoredDocAccessFields_TrendingNow_items_Read
+  update: SponsoredDocAccessFields_TrendingNow_items_Update
+  delete: SponsoredDocAccessFields_TrendingNow_items_Delete
+  fields: SponsoredDocAccessFields_TrendingNow_items_Fields
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_Create {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_Read {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_Update {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_Delete {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_Fields {
+  enableProduct: SponsoredDocAccessFields_TrendingNow_items_enableProduct
+  enablePages: SponsoredDocAccessFields_TrendingNow_items_enablePages
+  enableCustomUrl: SponsoredDocAccessFields_TrendingNow_items_enableCustomUrl
+  enableCategories: SponsoredDocAccessFields_TrendingNow_items_enableCategories
+  product: SponsoredDocAccessFields_TrendingNow_items_product
+  reference: SponsoredDocAccessFields_TrendingNow_items_reference
+  CustomUrl: SponsoredDocAccessFields_TrendingNow_items_CustomUrl
+  Categories: SponsoredDocAccessFields_TrendingNow_items_Categories
+  id: SponsoredDocAccessFields_TrendingNow_items_id
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_enableProduct {
+  create: SponsoredDocAccessFields_TrendingNow_items_enableProduct_Create
+  read: SponsoredDocAccessFields_TrendingNow_items_enableProduct_Read
+  update: SponsoredDocAccessFields_TrendingNow_items_enableProduct_Update
+  delete: SponsoredDocAccessFields_TrendingNow_items_enableProduct_Delete
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_enableProduct_Create {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_enableProduct_Read {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_enableProduct_Update {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_enableProduct_Delete {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_enablePages {
+  create: SponsoredDocAccessFields_TrendingNow_items_enablePages_Create
+  read: SponsoredDocAccessFields_TrendingNow_items_enablePages_Read
+  update: SponsoredDocAccessFields_TrendingNow_items_enablePages_Update
+  delete: SponsoredDocAccessFields_TrendingNow_items_enablePages_Delete
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_enablePages_Create {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_enablePages_Read {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_enablePages_Update {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_enablePages_Delete {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_enableCustomUrl {
+  create: SponsoredDocAccessFields_TrendingNow_items_enableCustomUrl_Create
+  read: SponsoredDocAccessFields_TrendingNow_items_enableCustomUrl_Read
+  update: SponsoredDocAccessFields_TrendingNow_items_enableCustomUrl_Update
+  delete: SponsoredDocAccessFields_TrendingNow_items_enableCustomUrl_Delete
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_enableCustomUrl_Create {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_enableCustomUrl_Read {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_enableCustomUrl_Update {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_enableCustomUrl_Delete {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_enableCategories {
+  create: SponsoredDocAccessFields_TrendingNow_items_enableCategories_Create
+  read: SponsoredDocAccessFields_TrendingNow_items_enableCategories_Read
+  update: SponsoredDocAccessFields_TrendingNow_items_enableCategories_Update
+  delete: SponsoredDocAccessFields_TrendingNow_items_enableCategories_Delete
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_enableCategories_Create {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_enableCategories_Read {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_enableCategories_Update {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_enableCategories_Delete {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_product {
+  create: SponsoredDocAccessFields_TrendingNow_items_product_Create
+  read: SponsoredDocAccessFields_TrendingNow_items_product_Read
+  update: SponsoredDocAccessFields_TrendingNow_items_product_Update
+  delete: SponsoredDocAccessFields_TrendingNow_items_product_Delete
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_product_Create {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_product_Read {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_product_Update {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_product_Delete {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_reference {
+  create: SponsoredDocAccessFields_TrendingNow_items_reference_Create
+  read: SponsoredDocAccessFields_TrendingNow_items_reference_Read
+  update: SponsoredDocAccessFields_TrendingNow_items_reference_Update
+  delete: SponsoredDocAccessFields_TrendingNow_items_reference_Delete
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_reference_Create {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_reference_Read {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_reference_Update {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_reference_Delete {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_CustomUrl {
+  create: SponsoredDocAccessFields_TrendingNow_items_CustomUrl_Create
+  read: SponsoredDocAccessFields_TrendingNow_items_CustomUrl_Read
+  update: SponsoredDocAccessFields_TrendingNow_items_CustomUrl_Update
+  delete: SponsoredDocAccessFields_TrendingNow_items_CustomUrl_Delete
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_CustomUrl_Create {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_CustomUrl_Read {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_CustomUrl_Update {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_CustomUrl_Delete {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_Categories {
+  create: SponsoredDocAccessFields_TrendingNow_items_Categories_Create
+  read: SponsoredDocAccessFields_TrendingNow_items_Categories_Read
+  update: SponsoredDocAccessFields_TrendingNow_items_Categories_Update
+  delete: SponsoredDocAccessFields_TrendingNow_items_Categories_Delete
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_Categories_Create {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_Categories_Read {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_Categories_Update {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_Categories_Delete {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_id {
+  create: SponsoredDocAccessFields_TrendingNow_items_id_Create
+  read: SponsoredDocAccessFields_TrendingNow_items_id_Read
+  update: SponsoredDocAccessFields_TrendingNow_items_id_Update
+  delete: SponsoredDocAccessFields_TrendingNow_items_id_Delete
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_id_Create {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_id_Read {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_id_Update {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_TrendingNow_items_id_Delete {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_PopularProducts {
+  create: SponsoredDocAccessFields_PopularProducts_Create
+  read: SponsoredDocAccessFields_PopularProducts_Read
+  update: SponsoredDocAccessFields_PopularProducts_Update
+  delete: SponsoredDocAccessFields_PopularProducts_Delete
+  fields: SponsoredDocAccessFields_PopularProducts_Fields
+}
+
+type SponsoredDocAccessFields_PopularProducts_Create {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_PopularProducts_Read {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_PopularProducts_Update {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_PopularProducts_Delete {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_PopularProducts_Fields {
+  name: SponsoredDocAccessFields_PopularProducts_name
+  items: SponsoredDocAccessFields_PopularProducts_items
+}
+
+type SponsoredDocAccessFields_PopularProducts_name {
+  create: SponsoredDocAccessFields_PopularProducts_name_Create
+  read: SponsoredDocAccessFields_PopularProducts_name_Read
+  update: SponsoredDocAccessFields_PopularProducts_name_Update
+  delete: SponsoredDocAccessFields_PopularProducts_name_Delete
+}
+
+type SponsoredDocAccessFields_PopularProducts_name_Create {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_PopularProducts_name_Read {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_PopularProducts_name_Update {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_PopularProducts_name_Delete {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_PopularProducts_items {
+  create: SponsoredDocAccessFields_PopularProducts_items_Create
+  read: SponsoredDocAccessFields_PopularProducts_items_Read
+  update: SponsoredDocAccessFields_PopularProducts_items_Update
+  delete: SponsoredDocAccessFields_PopularProducts_items_Delete
+  fields: SponsoredDocAccessFields_PopularProducts_items_Fields
+}
+
+type SponsoredDocAccessFields_PopularProducts_items_Create {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_PopularProducts_items_Read {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_PopularProducts_items_Update {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_PopularProducts_items_Delete {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_PopularProducts_items_Fields {
+  product: SponsoredDocAccessFields_PopularProducts_items_product
+  id: SponsoredDocAccessFields_PopularProducts_items_id
+}
+
+type SponsoredDocAccessFields_PopularProducts_items_product {
+  create: SponsoredDocAccessFields_PopularProducts_items_product_Create
+  read: SponsoredDocAccessFields_PopularProducts_items_product_Read
+  update: SponsoredDocAccessFields_PopularProducts_items_product_Update
+  delete: SponsoredDocAccessFields_PopularProducts_items_product_Delete
+}
+
+type SponsoredDocAccessFields_PopularProducts_items_product_Create {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_PopularProducts_items_product_Read {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_PopularProducts_items_product_Update {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_PopularProducts_items_product_Delete {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_PopularProducts_items_id {
+  create: SponsoredDocAccessFields_PopularProducts_items_id_Create
+  read: SponsoredDocAccessFields_PopularProducts_items_id_Read
+  update: SponsoredDocAccessFields_PopularProducts_items_id_Update
+  delete: SponsoredDocAccessFields_PopularProducts_items_id_Delete
+}
+
+type SponsoredDocAccessFields_PopularProducts_items_id_Create {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_PopularProducts_items_id_Read {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_PopularProducts_items_id_Update {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_PopularProducts_items_id_Delete {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_updatedAt {
+  create: SponsoredDocAccessFields_updatedAt_Create
+  read: SponsoredDocAccessFields_updatedAt_Read
+  update: SponsoredDocAccessFields_updatedAt_Update
+  delete: SponsoredDocAccessFields_updatedAt_Delete
+}
+
+type SponsoredDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_createdAt {
+  create: SponsoredDocAccessFields_createdAt_Create
+  read: SponsoredDocAccessFields_createdAt_Read
+  update: SponsoredDocAccessFields_createdAt_Update
+  delete: SponsoredDocAccessFields_createdAt_Delete
+}
+
+type SponsoredDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type SponsoredDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type SponsoredCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type SponsoredReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type SponsoredUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type SponsoredDeleteDocAccess {
   permission: Boolean!
   where: JSONObject
 }
@@ -27532,11 +27924,11 @@ type Access {
   alerts: alertsAccess
   headercategories: headercategoriesAccess
   attributesCollection: attributesCollectionAccess
-  deliveryLocations: deliveryLocationsAccess
   live_chats: live_chatsAccess
   EmailBulkySms: EmailBulkySmsAccess
   coupons: couponsAccess
   searchTerms: searchTermsAccess
+  sponsored: sponsoredAccess
   search: searchAccess
   redirects: redirectsAccess
   forms: formsAccess
@@ -29660,7 +30052,6 @@ type ordersAccess {
 type OrdersFields {
   orderedBy: OrdersFields_orderedBy
   refId: OrdersFields_refId
-  GenerateReceiptButton: OrdersFields_GenerateReceiptButton
   total: OrdersFields_total
   deliveryCost: OrdersFields_deliveryCost
   items: OrdersFields_items
@@ -29670,7 +30061,7 @@ type OrdersFields {
   location: OrdersFields_location
   locationLabel: OrdersFields_locationLabel
   deliveryNote: OrdersFields_deliveryNote
-  customLocation: OrdersFields_customLocation
+  GenerateReceiptButton: OrdersFields_GenerateReceiptButton
   updatedAt: OrdersFields_updatedAt
   createdAt: OrdersFields_createdAt
 }
@@ -29718,29 +30109,6 @@ type OrdersFields_refId_Update {
 }
 
 type OrdersFields_refId_Delete {
-  permission: Boolean!
-}
-
-type OrdersFields_GenerateReceiptButton {
-  create: OrdersFields_GenerateReceiptButton_Create
-  read: OrdersFields_GenerateReceiptButton_Read
-  update: OrdersFields_GenerateReceiptButton_Update
-  delete: OrdersFields_GenerateReceiptButton_Delete
-}
-
-type OrdersFields_GenerateReceiptButton_Create {
-  permission: Boolean!
-}
-
-type OrdersFields_GenerateReceiptButton_Read {
-  permission: Boolean!
-}
-
-type OrdersFields_GenerateReceiptButton_Update {
-  permission: Boolean!
-}
-
-type OrdersFields_GenerateReceiptButton_Delete {
   permission: Boolean!
 }
 
@@ -30075,26 +30443,26 @@ type OrdersFields_deliveryNote_Delete {
   permission: Boolean!
 }
 
-type OrdersFields_customLocation {
-  create: OrdersFields_customLocation_Create
-  read: OrdersFields_customLocation_Read
-  update: OrdersFields_customLocation_Update
-  delete: OrdersFields_customLocation_Delete
+type OrdersFields_GenerateReceiptButton {
+  create: OrdersFields_GenerateReceiptButton_Create
+  read: OrdersFields_GenerateReceiptButton_Read
+  update: OrdersFields_GenerateReceiptButton_Update
+  delete: OrdersFields_GenerateReceiptButton_Delete
 }
 
-type OrdersFields_customLocation_Create {
+type OrdersFields_GenerateReceiptButton_Create {
   permission: Boolean!
 }
 
-type OrdersFields_customLocation_Read {
+type OrdersFields_GenerateReceiptButton_Read {
   permission: Boolean!
 }
 
-type OrdersFields_customLocation_Update {
+type OrdersFields_GenerateReceiptButton_Update {
   permission: Boolean!
 }
 
-type OrdersFields_customLocation_Delete {
+type OrdersFields_GenerateReceiptButton_Delete {
   permission: Boolean!
 }
 
@@ -34247,229 +34615,6 @@ type AttributesCollectionDeleteAccess {
   where: JSONObject
 }
 
-type deliveryLocationsAccess {
-  fields: DeliveryLocationsFields
-  create: DeliveryLocationsCreateAccess
-  read: DeliveryLocationsReadAccess
-  update: DeliveryLocationsUpdateAccess
-  delete: DeliveryLocationsDeleteAccess
-}
-
-type DeliveryLocationsFields {
-  title: DeliveryLocationsFields_title
-  address: DeliveryLocationsFields_address
-  AdditionalInformation: DeliveryLocationsFields_AdditionalInformation
-  region: DeliveryLocationsFields_region
-  googlepin: DeliveryLocationsFields_googlepin
-  price: DeliveryLocationsFields_price
-  updatedAt: DeliveryLocationsFields_updatedAt
-  createdAt: DeliveryLocationsFields_createdAt
-}
-
-type DeliveryLocationsFields_title {
-  create: DeliveryLocationsFields_title_Create
-  read: DeliveryLocationsFields_title_Read
-  update: DeliveryLocationsFields_title_Update
-  delete: DeliveryLocationsFields_title_Delete
-}
-
-type DeliveryLocationsFields_title_Create {
-  permission: Boolean!
-}
-
-type DeliveryLocationsFields_title_Read {
-  permission: Boolean!
-}
-
-type DeliveryLocationsFields_title_Update {
-  permission: Boolean!
-}
-
-type DeliveryLocationsFields_title_Delete {
-  permission: Boolean!
-}
-
-type DeliveryLocationsFields_address {
-  create: DeliveryLocationsFields_address_Create
-  read: DeliveryLocationsFields_address_Read
-  update: DeliveryLocationsFields_address_Update
-  delete: DeliveryLocationsFields_address_Delete
-}
-
-type DeliveryLocationsFields_address_Create {
-  permission: Boolean!
-}
-
-type DeliveryLocationsFields_address_Read {
-  permission: Boolean!
-}
-
-type DeliveryLocationsFields_address_Update {
-  permission: Boolean!
-}
-
-type DeliveryLocationsFields_address_Delete {
-  permission: Boolean!
-}
-
-type DeliveryLocationsFields_AdditionalInformation {
-  create: DeliveryLocationsFields_AdditionalInformation_Create
-  read: DeliveryLocationsFields_AdditionalInformation_Read
-  update: DeliveryLocationsFields_AdditionalInformation_Update
-  delete: DeliveryLocationsFields_AdditionalInformation_Delete
-}
-
-type DeliveryLocationsFields_AdditionalInformation_Create {
-  permission: Boolean!
-}
-
-type DeliveryLocationsFields_AdditionalInformation_Read {
-  permission: Boolean!
-}
-
-type DeliveryLocationsFields_AdditionalInformation_Update {
-  permission: Boolean!
-}
-
-type DeliveryLocationsFields_AdditionalInformation_Delete {
-  permission: Boolean!
-}
-
-type DeliveryLocationsFields_region {
-  create: DeliveryLocationsFields_region_Create
-  read: DeliveryLocationsFields_region_Read
-  update: DeliveryLocationsFields_region_Update
-  delete: DeliveryLocationsFields_region_Delete
-}
-
-type DeliveryLocationsFields_region_Create {
-  permission: Boolean!
-}
-
-type DeliveryLocationsFields_region_Read {
-  permission: Boolean!
-}
-
-type DeliveryLocationsFields_region_Update {
-  permission: Boolean!
-}
-
-type DeliveryLocationsFields_region_Delete {
-  permission: Boolean!
-}
-
-type DeliveryLocationsFields_googlepin {
-  create: DeliveryLocationsFields_googlepin_Create
-  read: DeliveryLocationsFields_googlepin_Read
-  update: DeliveryLocationsFields_googlepin_Update
-  delete: DeliveryLocationsFields_googlepin_Delete
-}
-
-type DeliveryLocationsFields_googlepin_Create {
-  permission: Boolean!
-}
-
-type DeliveryLocationsFields_googlepin_Read {
-  permission: Boolean!
-}
-
-type DeliveryLocationsFields_googlepin_Update {
-  permission: Boolean!
-}
-
-type DeliveryLocationsFields_googlepin_Delete {
-  permission: Boolean!
-}
-
-type DeliveryLocationsFields_price {
-  create: DeliveryLocationsFields_price_Create
-  read: DeliveryLocationsFields_price_Read
-  update: DeliveryLocationsFields_price_Update
-  delete: DeliveryLocationsFields_price_Delete
-}
-
-type DeliveryLocationsFields_price_Create {
-  permission: Boolean!
-}
-
-type DeliveryLocationsFields_price_Read {
-  permission: Boolean!
-}
-
-type DeliveryLocationsFields_price_Update {
-  permission: Boolean!
-}
-
-type DeliveryLocationsFields_price_Delete {
-  permission: Boolean!
-}
-
-type DeliveryLocationsFields_updatedAt {
-  create: DeliveryLocationsFields_updatedAt_Create
-  read: DeliveryLocationsFields_updatedAt_Read
-  update: DeliveryLocationsFields_updatedAt_Update
-  delete: DeliveryLocationsFields_updatedAt_Delete
-}
-
-type DeliveryLocationsFields_updatedAt_Create {
-  permission: Boolean!
-}
-
-type DeliveryLocationsFields_updatedAt_Read {
-  permission: Boolean!
-}
-
-type DeliveryLocationsFields_updatedAt_Update {
-  permission: Boolean!
-}
-
-type DeliveryLocationsFields_updatedAt_Delete {
-  permission: Boolean!
-}
-
-type DeliveryLocationsFields_createdAt {
-  create: DeliveryLocationsFields_createdAt_Create
-  read: DeliveryLocationsFields_createdAt_Read
-  update: DeliveryLocationsFields_createdAt_Update
-  delete: DeliveryLocationsFields_createdAt_Delete
-}
-
-type DeliveryLocationsFields_createdAt_Create {
-  permission: Boolean!
-}
-
-type DeliveryLocationsFields_createdAt_Read {
-  permission: Boolean!
-}
-
-type DeliveryLocationsFields_createdAt_Update {
-  permission: Boolean!
-}
-
-type DeliveryLocationsFields_createdAt_Delete {
-  permission: Boolean!
-}
-
-type DeliveryLocationsCreateAccess {
-  permission: Boolean!
-  where: JSONObject
-}
-
-type DeliveryLocationsReadAccess {
-  permission: Boolean!
-  where: JSONObject
-}
-
-type DeliveryLocationsUpdateAccess {
-  permission: Boolean!
-  where: JSONObject
-}
-
-type DeliveryLocationsDeleteAccess {
-  permission: Boolean!
-  where: JSONObject
-}
-
 type live_chatsAccess {
   fields: LiveChatsFields
   create: LiveChatsCreateAccess
@@ -35190,6 +35335,533 @@ type SearchTermsUpdateAccess {
 }
 
 type SearchTermsDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type sponsoredAccess {
+  fields: SponsoredFields
+  create: SponsoredCreateAccess
+  read: SponsoredReadAccess
+  update: SponsoredUpdateAccess
+  delete: SponsoredDeleteAccess
+}
+
+type SponsoredFields {
+  title: SponsoredFields_title
+  TrendingNow: SponsoredFields_TrendingNow
+  PopularProducts: SponsoredFields_PopularProducts
+  updatedAt: SponsoredFields_updatedAt
+  createdAt: SponsoredFields_createdAt
+}
+
+type SponsoredFields_title {
+  create: SponsoredFields_title_Create
+  read: SponsoredFields_title_Read
+  update: SponsoredFields_title_Update
+  delete: SponsoredFields_title_Delete
+}
+
+type SponsoredFields_title_Create {
+  permission: Boolean!
+}
+
+type SponsoredFields_title_Read {
+  permission: Boolean!
+}
+
+type SponsoredFields_title_Update {
+  permission: Boolean!
+}
+
+type SponsoredFields_title_Delete {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow {
+  create: SponsoredFields_TrendingNow_Create
+  read: SponsoredFields_TrendingNow_Read
+  update: SponsoredFields_TrendingNow_Update
+  delete: SponsoredFields_TrendingNow_Delete
+  fields: SponsoredFields_TrendingNow_Fields
+}
+
+type SponsoredFields_TrendingNow_Create {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_Read {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_Update {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_Delete {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_Fields {
+  name: SponsoredFields_TrendingNow_name
+  items: SponsoredFields_TrendingNow_items
+}
+
+type SponsoredFields_TrendingNow_name {
+  create: SponsoredFields_TrendingNow_name_Create
+  read: SponsoredFields_TrendingNow_name_Read
+  update: SponsoredFields_TrendingNow_name_Update
+  delete: SponsoredFields_TrendingNow_name_Delete
+}
+
+type SponsoredFields_TrendingNow_name_Create {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_name_Read {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_name_Update {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_name_Delete {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items {
+  create: SponsoredFields_TrendingNow_items_Create
+  read: SponsoredFields_TrendingNow_items_Read
+  update: SponsoredFields_TrendingNow_items_Update
+  delete: SponsoredFields_TrendingNow_items_Delete
+  fields: SponsoredFields_TrendingNow_items_Fields
+}
+
+type SponsoredFields_TrendingNow_items_Create {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_Read {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_Update {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_Delete {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_Fields {
+  enableProduct: SponsoredFields_TrendingNow_items_enableProduct
+  enablePages: SponsoredFields_TrendingNow_items_enablePages
+  enableCustomUrl: SponsoredFields_TrendingNow_items_enableCustomUrl
+  enableCategories: SponsoredFields_TrendingNow_items_enableCategories
+  product: SponsoredFields_TrendingNow_items_product
+  reference: SponsoredFields_TrendingNow_items_reference
+  CustomUrl: SponsoredFields_TrendingNow_items_CustomUrl
+  Categories: SponsoredFields_TrendingNow_items_Categories
+  id: SponsoredFields_TrendingNow_items_id
+}
+
+type SponsoredFields_TrendingNow_items_enableProduct {
+  create: SponsoredFields_TrendingNow_items_enableProduct_Create
+  read: SponsoredFields_TrendingNow_items_enableProduct_Read
+  update: SponsoredFields_TrendingNow_items_enableProduct_Update
+  delete: SponsoredFields_TrendingNow_items_enableProduct_Delete
+}
+
+type SponsoredFields_TrendingNow_items_enableProduct_Create {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_enableProduct_Read {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_enableProduct_Update {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_enableProduct_Delete {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_enablePages {
+  create: SponsoredFields_TrendingNow_items_enablePages_Create
+  read: SponsoredFields_TrendingNow_items_enablePages_Read
+  update: SponsoredFields_TrendingNow_items_enablePages_Update
+  delete: SponsoredFields_TrendingNow_items_enablePages_Delete
+}
+
+type SponsoredFields_TrendingNow_items_enablePages_Create {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_enablePages_Read {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_enablePages_Update {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_enablePages_Delete {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_enableCustomUrl {
+  create: SponsoredFields_TrendingNow_items_enableCustomUrl_Create
+  read: SponsoredFields_TrendingNow_items_enableCustomUrl_Read
+  update: SponsoredFields_TrendingNow_items_enableCustomUrl_Update
+  delete: SponsoredFields_TrendingNow_items_enableCustomUrl_Delete
+}
+
+type SponsoredFields_TrendingNow_items_enableCustomUrl_Create {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_enableCustomUrl_Read {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_enableCustomUrl_Update {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_enableCustomUrl_Delete {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_enableCategories {
+  create: SponsoredFields_TrendingNow_items_enableCategories_Create
+  read: SponsoredFields_TrendingNow_items_enableCategories_Read
+  update: SponsoredFields_TrendingNow_items_enableCategories_Update
+  delete: SponsoredFields_TrendingNow_items_enableCategories_Delete
+}
+
+type SponsoredFields_TrendingNow_items_enableCategories_Create {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_enableCategories_Read {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_enableCategories_Update {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_enableCategories_Delete {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_product {
+  create: SponsoredFields_TrendingNow_items_product_Create
+  read: SponsoredFields_TrendingNow_items_product_Read
+  update: SponsoredFields_TrendingNow_items_product_Update
+  delete: SponsoredFields_TrendingNow_items_product_Delete
+}
+
+type SponsoredFields_TrendingNow_items_product_Create {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_product_Read {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_product_Update {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_product_Delete {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_reference {
+  create: SponsoredFields_TrendingNow_items_reference_Create
+  read: SponsoredFields_TrendingNow_items_reference_Read
+  update: SponsoredFields_TrendingNow_items_reference_Update
+  delete: SponsoredFields_TrendingNow_items_reference_Delete
+}
+
+type SponsoredFields_TrendingNow_items_reference_Create {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_reference_Read {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_reference_Update {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_reference_Delete {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_CustomUrl {
+  create: SponsoredFields_TrendingNow_items_CustomUrl_Create
+  read: SponsoredFields_TrendingNow_items_CustomUrl_Read
+  update: SponsoredFields_TrendingNow_items_CustomUrl_Update
+  delete: SponsoredFields_TrendingNow_items_CustomUrl_Delete
+}
+
+type SponsoredFields_TrendingNow_items_CustomUrl_Create {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_CustomUrl_Read {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_CustomUrl_Update {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_CustomUrl_Delete {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_Categories {
+  create: SponsoredFields_TrendingNow_items_Categories_Create
+  read: SponsoredFields_TrendingNow_items_Categories_Read
+  update: SponsoredFields_TrendingNow_items_Categories_Update
+  delete: SponsoredFields_TrendingNow_items_Categories_Delete
+}
+
+type SponsoredFields_TrendingNow_items_Categories_Create {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_Categories_Read {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_Categories_Update {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_Categories_Delete {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_id {
+  create: SponsoredFields_TrendingNow_items_id_Create
+  read: SponsoredFields_TrendingNow_items_id_Read
+  update: SponsoredFields_TrendingNow_items_id_Update
+  delete: SponsoredFields_TrendingNow_items_id_Delete
+}
+
+type SponsoredFields_TrendingNow_items_id_Create {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_id_Read {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_id_Update {
+  permission: Boolean!
+}
+
+type SponsoredFields_TrendingNow_items_id_Delete {
+  permission: Boolean!
+}
+
+type SponsoredFields_PopularProducts {
+  create: SponsoredFields_PopularProducts_Create
+  read: SponsoredFields_PopularProducts_Read
+  update: SponsoredFields_PopularProducts_Update
+  delete: SponsoredFields_PopularProducts_Delete
+  fields: SponsoredFields_PopularProducts_Fields
+}
+
+type SponsoredFields_PopularProducts_Create {
+  permission: Boolean!
+}
+
+type SponsoredFields_PopularProducts_Read {
+  permission: Boolean!
+}
+
+type SponsoredFields_PopularProducts_Update {
+  permission: Boolean!
+}
+
+type SponsoredFields_PopularProducts_Delete {
+  permission: Boolean!
+}
+
+type SponsoredFields_PopularProducts_Fields {
+  name: SponsoredFields_PopularProducts_name
+  items: SponsoredFields_PopularProducts_items
+}
+
+type SponsoredFields_PopularProducts_name {
+  create: SponsoredFields_PopularProducts_name_Create
+  read: SponsoredFields_PopularProducts_name_Read
+  update: SponsoredFields_PopularProducts_name_Update
+  delete: SponsoredFields_PopularProducts_name_Delete
+}
+
+type SponsoredFields_PopularProducts_name_Create {
+  permission: Boolean!
+}
+
+type SponsoredFields_PopularProducts_name_Read {
+  permission: Boolean!
+}
+
+type SponsoredFields_PopularProducts_name_Update {
+  permission: Boolean!
+}
+
+type SponsoredFields_PopularProducts_name_Delete {
+  permission: Boolean!
+}
+
+type SponsoredFields_PopularProducts_items {
+  create: SponsoredFields_PopularProducts_items_Create
+  read: SponsoredFields_PopularProducts_items_Read
+  update: SponsoredFields_PopularProducts_items_Update
+  delete: SponsoredFields_PopularProducts_items_Delete
+  fields: SponsoredFields_PopularProducts_items_Fields
+}
+
+type SponsoredFields_PopularProducts_items_Create {
+  permission: Boolean!
+}
+
+type SponsoredFields_PopularProducts_items_Read {
+  permission: Boolean!
+}
+
+type SponsoredFields_PopularProducts_items_Update {
+  permission: Boolean!
+}
+
+type SponsoredFields_PopularProducts_items_Delete {
+  permission: Boolean!
+}
+
+type SponsoredFields_PopularProducts_items_Fields {
+  product: SponsoredFields_PopularProducts_items_product
+  id: SponsoredFields_PopularProducts_items_id
+}
+
+type SponsoredFields_PopularProducts_items_product {
+  create: SponsoredFields_PopularProducts_items_product_Create
+  read: SponsoredFields_PopularProducts_items_product_Read
+  update: SponsoredFields_PopularProducts_items_product_Update
+  delete: SponsoredFields_PopularProducts_items_product_Delete
+}
+
+type SponsoredFields_PopularProducts_items_product_Create {
+  permission: Boolean!
+}
+
+type SponsoredFields_PopularProducts_items_product_Read {
+  permission: Boolean!
+}
+
+type SponsoredFields_PopularProducts_items_product_Update {
+  permission: Boolean!
+}
+
+type SponsoredFields_PopularProducts_items_product_Delete {
+  permission: Boolean!
+}
+
+type SponsoredFields_PopularProducts_items_id {
+  create: SponsoredFields_PopularProducts_items_id_Create
+  read: SponsoredFields_PopularProducts_items_id_Read
+  update: SponsoredFields_PopularProducts_items_id_Update
+  delete: SponsoredFields_PopularProducts_items_id_Delete
+}
+
+type SponsoredFields_PopularProducts_items_id_Create {
+  permission: Boolean!
+}
+
+type SponsoredFields_PopularProducts_items_id_Read {
+  permission: Boolean!
+}
+
+type SponsoredFields_PopularProducts_items_id_Update {
+  permission: Boolean!
+}
+
+type SponsoredFields_PopularProducts_items_id_Delete {
+  permission: Boolean!
+}
+
+type SponsoredFields_updatedAt {
+  create: SponsoredFields_updatedAt_Create
+  read: SponsoredFields_updatedAt_Read
+  update: SponsoredFields_updatedAt_Update
+  delete: SponsoredFields_updatedAt_Delete
+}
+
+type SponsoredFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type SponsoredFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type SponsoredFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type SponsoredFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type SponsoredFields_createdAt {
+  create: SponsoredFields_createdAt_Create
+  read: SponsoredFields_createdAt_Read
+  update: SponsoredFields_createdAt_Update
+  delete: SponsoredFields_createdAt_Delete
+}
+
+type SponsoredFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type SponsoredFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type SponsoredFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type SponsoredFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type SponsoredCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type SponsoredReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type SponsoredUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type SponsoredDeleteAccess {
   permission: Boolean!
   where: JSONObject
 }
@@ -37268,9 +37940,6 @@ type Mutation {
   createAttributesCollection(data: mutationAttributesCollectionInput!, draft: Boolean, locale: LocaleInputType): AttributesCollection
   updateAttributesCollection(id: String!, autosave: Boolean, data: mutationAttributesCollectionUpdateInput!, draft: Boolean, locale: LocaleInputType): AttributesCollection
   deleteAttributesCollection(id: String!): AttributesCollection
-  createDeliveryLocation(data: mutationDeliveryLocationInput!, draft: Boolean, locale: LocaleInputType): DeliveryLocation
-  updateDeliveryLocation(id: String!, autosave: Boolean, data: mutationDeliveryLocationUpdateInput!, draft: Boolean, locale: LocaleInputType): DeliveryLocation
-  deleteDeliveryLocation(id: String!): DeliveryLocation
   createLiveChat(data: mutationLiveChatInput!, draft: Boolean, locale: LocaleInputType): LiveChat
   updateLiveChat(id: String!, autosave: Boolean, data: mutationLiveChatUpdateInput!, draft: Boolean, locale: LocaleInputType): LiveChat
   deleteLiveChat(id: String!): LiveChat
@@ -37283,6 +37952,9 @@ type Mutation {
   createSearchTerm(data: mutationSearchTermInput!, draft: Boolean, locale: LocaleInputType): SearchTerm
   updateSearchTerm(id: String!, autosave: Boolean, data: mutationSearchTermUpdateInput!, draft: Boolean, locale: LocaleInputType): SearchTerm
   deleteSearchTerm(id: String!): SearchTerm
+  createSponsored(data: mutationSponsoredInput!, draft: Boolean, locale: LocaleInputType): Sponsored
+  updateSponsored(id: String!, autosave: Boolean, data: mutationSponsoredUpdateInput!, draft: Boolean, locale: LocaleInputType): Sponsored
+  deleteSponsored(id: String!): Sponsored
   createSearch(data: mutationSearchInput!, draft: Boolean, locale: LocaleInputType): Search
   updateSearch(id: String!, autosave: Boolean, data: mutationSearchUpdateInput!, draft: Boolean, locale: LocaleInputType): Search
   deleteSearch(id: String!): Search
@@ -37742,7 +38414,6 @@ enum ProductUpdate__status_MutationInput {
 input mutationOrderInput {
   orderedBy: String
   refId: String
-  GenerateReceiptButton: String
   total: Float!
   deliveryCost: Float!
   items: [mutationOrder_ItemsInput]
@@ -37752,7 +38423,7 @@ input mutationOrderInput {
   location: String
   locationLabel: String
   deliveryNote: String
-  customLocation: String
+  GenerateReceiptButton: String
   updatedAt: String
   createdAt: String
 }
@@ -37768,7 +38439,6 @@ input mutationOrder_ItemsInput {
 input mutationOrderUpdateInput {
   orderedBy: String
   refId: String
-  GenerateReceiptButton: String
   total: Float
   deliveryCost: Float
   items: [mutationOrderUpdate_ItemsInput]
@@ -37778,7 +38448,7 @@ input mutationOrderUpdateInput {
   location: String
   locationLabel: String
   deliveryNote: String
-  customLocation: String
+  GenerateReceiptButton: String
   updatedAt: String
   createdAt: String
 }
@@ -37902,7 +38572,7 @@ input mutationUserInput {
   roles: [User_roles_MutationInput]
   purchases: [String]
   recentlyViewed: [String]
-  DeliveryLocation: [String]
+  DeliveryLocation: String
   cart: mutationUser_CartInput
   skipSync: Boolean
   role: User_role_MutationInput
@@ -37951,7 +38621,7 @@ input mutationUserUpdateInput {
   roles: [UserUpdate_roles_MutationInput]
   purchases: [String]
   recentlyViewed: [String]
-  DeliveryLocation: [String]
+  DeliveryLocation: String
   cart: mutationUserUpdate_CartInput
   skipSync: Boolean
   role: UserUpdate_role_MutationInput
@@ -38499,28 +39169,6 @@ enum AttributesCollectionUpdate_Attribute_Property_type_MutationInput {
   brand
 }
 
-input mutationDeliveryLocationInput {
-  title: String
-  address: String!
-  AdditionalInformation: String!
-  region: String!
-  googlepin: String
-  price: Float
-  updatedAt: String
-  createdAt: String
-}
-
-input mutationDeliveryLocationUpdateInput {
-  title: String
-  address: String
-  AdditionalInformation: String
-  region: String
-  googlepin: String
-  price: Float
-  updatedAt: String
-  createdAt: String
-}
-
 input mutationLiveChatInput {
   Customer: String
   Agent: String
@@ -38617,6 +39265,94 @@ input mutationSearchTermUpdateInput {
   lastSearched: String
   updatedAt: String
   createdAt: String
+}
+
+input mutationSponsoredInput {
+  title: String
+  TrendingNow: mutationSponsored_TrendingNowInput
+  PopularProducts: mutationSponsored_PopularProductsInput
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationSponsored_TrendingNowInput {
+  name: String
+  items: [mutationSponsored_TrendingNow_ItemsInput]
+}
+
+input mutationSponsored_TrendingNow_ItemsInput {
+  enableProduct: Boolean
+  enablePages: Boolean
+  enableCustomUrl: Boolean
+  enableCategories: Boolean
+  product: String
+  reference: Sponsored_TrendingNow_Items_ReferenceRelationshipInput
+  CustomUrl: String
+  Categories: [String]
+  id: String
+}
+
+input Sponsored_TrendingNow_Items_ReferenceRelationshipInput {
+  relationTo: Sponsored_TrendingNow_Items_ReferenceRelationshipInputRelationTo
+  value: JSON
+}
+
+enum Sponsored_TrendingNow_Items_ReferenceRelationshipInputRelationTo {
+  pages
+}
+
+input mutationSponsored_PopularProductsInput {
+  name: String
+  items: [mutationSponsored_PopularProducts_ItemsInput]
+}
+
+input mutationSponsored_PopularProducts_ItemsInput {
+  product: String
+  id: String
+}
+
+input mutationSponsoredUpdateInput {
+  title: String
+  TrendingNow: mutationSponsoredUpdate_TrendingNowInput
+  PopularProducts: mutationSponsoredUpdate_PopularProductsInput
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationSponsoredUpdate_TrendingNowInput {
+  name: String
+  items: [mutationSponsoredUpdate_TrendingNow_ItemsInput]
+}
+
+input mutationSponsoredUpdate_TrendingNow_ItemsInput {
+  enableProduct: Boolean
+  enablePages: Boolean
+  enableCustomUrl: Boolean
+  enableCategories: Boolean
+  product: String
+  reference: SponsoredUpdate_TrendingNow_Items_ReferenceRelationshipInput
+  CustomUrl: String
+  Categories: [String]
+  id: String
+}
+
+input SponsoredUpdate_TrendingNow_Items_ReferenceRelationshipInput {
+  relationTo: SponsoredUpdate_TrendingNow_Items_ReferenceRelationshipInputRelationTo
+  value: JSON
+}
+
+enum SponsoredUpdate_TrendingNow_Items_ReferenceRelationshipInputRelationTo {
+  pages
+}
+
+input mutationSponsoredUpdate_PopularProductsInput {
+  name: String
+  items: [mutationSponsoredUpdate_PopularProducts_ItemsInput]
+}
+
+input mutationSponsoredUpdate_PopularProducts_ItemsInput {
+  product: String
+  id: String
 }
 
 input mutationSearchInput {

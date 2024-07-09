@@ -131,13 +131,12 @@ const Users: CollectionConfig = {
     {
       name: 'DeliveryLocation',
       label: 'DeliveryLocation',
-      type: 'relationship',
-      relationTo: 'deliveryLocations',
-      hasMany: true,
+      type: 'text',
       admin: {
         position: 'sidebar',
       },
     },
+    //prefill delivery location using hook
     {
       label: 'Cart',
       name: 'cart',

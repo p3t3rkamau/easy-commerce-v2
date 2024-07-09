@@ -1,13 +1,13 @@
 'use client'
 
 import React from 'react'
+import { Image } from '@nextui-org/react'
 import Link from 'next/link'
 
 import { Post, Product } from '../../../payload/payload-types'
 import { AddToCartButton } from '../AddToCartButton'
 import { Media } from '../Media'
 import { Price } from '../Price'
-import {Image} from "@nextui-org/react";
 
 import classes from './index.module.scss'
 

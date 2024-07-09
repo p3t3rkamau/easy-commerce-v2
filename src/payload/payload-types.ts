@@ -46,11 +46,11 @@ export interface Config {
     alerts: Alert;
     headercategories: Headercategory;
     attributesCollection: AttributesCollection;
-    deliveryLocations: DeliveryLocation;
     'live-chats': LiveChat;
     EmailBulkySms: EmailBulkySm;
     coupons: Coupon;
     searchTerms: SearchTerm;
+    sponsored: Sponsored;
     search: Search;
     redirects: Redirect;
     forms: Form;
@@ -966,7 +966,7 @@ export interface User {
   roles?: ('admin' | 'customer' | 'editor' | 'manager')[] | null;
   purchases?: (string | Product)[] | null;
   recentlyViewed?: (string | Product)[] | null;
-  DeliveryLocation?: (string | DeliveryLocation)[] | null;
+  DeliveryLocation?: string | null;
   cart?: {
     items?: CartItems;
     createdOn?: string | null;
@@ -984,17 +984,6 @@ export interface User {
   loginAttempts?: number | null;
   lockUntil?: string | null;
   password: string | null;
-}
-export interface DeliveryLocation {
-  id: string;
-  title?: string | null;
-  address: string;
-  AdditionalInformation: string;
-  region: string;
-  googlepin?: string | null;
-  price?: number | null;
-  updatedAt: string;
-  createdAt: string;
 }
 export interface AttributesCollection {
   id: string;
@@ -1029,7 +1018,6 @@ export interface Order {
   id: string;
   orderedBy?: (string | null) | User;
   refId?: string | null;
-  GenerateReceiptButton?: string | null;
   total: number;
   deliveryCost: number;
   items?:
@@ -1055,7 +1043,7 @@ export interface Order {
   location?: string | null;
   locationLabel?: string | null;
   deliveryNote?: string | null;
-  customLocation?: string | null;
+  GenerateReceiptButton?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1189,6 +1177,40 @@ export interface SearchTerm {
   term: string;
   count?: number | null;
   lastSearched?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+export interface Sponsored {
+  id: string;
+  title?: string | null;
+  TrendingNow?: {
+    name?: string | null;
+    items?:
+      | {
+          enableProduct?: boolean | null;
+          enablePages?: boolean | null;
+          enableCustomUrl?: boolean | null;
+          enableCategories?: boolean | null;
+          product?: (string | null) | Product;
+          reference?: {
+            relationTo: 'pages';
+            value: string | Page;
+          } | null;
+          CustomUrl?: string | null;
+          Categories?: (string | Category)[] | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  PopularProducts?: {
+    name?: string | null;
+    items?:
+      | {
+          product: string | Product;
+          id?: string | null;
+        }[]
+      | null;
+  };
   updatedAt: string;
   createdAt: string;
 }

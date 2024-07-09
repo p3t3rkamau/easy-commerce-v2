@@ -1,0 +1,40 @@
+.trending,
+.popularProducts {
+  margin-bottom: 20px;
+}
+
+.trending ul {
+  list-style: none;
+  
+  display: flex;
+  flex-wrap: wrap;
+
+
+}
+
+.trending h5, .popularProducts h5{
+  color: var(--theme-elevation-1000)
+}
+
+.trending li {
+  margin: 0px 4px 0px 4px;
+  font-size: 12px;
+  border-radius: 8px;
+  padding: 2px 4px;
+  color: rgb(99, 88, 88);
+  background-color: rgb(240, 237, 237);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.searchicon{
+  font-size: 14px;
+
+}
+.popularProductsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}

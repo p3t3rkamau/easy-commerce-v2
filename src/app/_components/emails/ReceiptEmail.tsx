@@ -28,6 +28,7 @@ const ReceiptEmail = ({
   location,
   deliveryNote,
   phoneNumber,
+  orderNotes,
 }) => {
   return (
     <Html>
@@ -38,6 +39,19 @@ const ReceiptEmail = ({
         <Container style={container}>
           <Section>
             <Text style={heading}>Order Confirmation</Text>
+          </Section>
+          <Section style={LogoRow}>
+            <Row>
+              <Column style={ColumnStyle}>
+                <Img
+                  src="https://ik.imagekit.io/6cga8hi9z/All_Products/Easy_bake_supplies_Logo_The_Easy_Way_1_tYFeQxy3I3.png"
+                  width="54"
+                  height="64"
+                  alt="Product Image"
+                  style={LogoIcon}
+                />
+              </Column>
+            </Row>
           </Section>
           <Section style={informationTable}>
             <Row style={informationTableRow}>
@@ -69,19 +83,7 @@ const ReceiptEmail = ({
               </Column>
             </Row>
           </Section>
-          <Section style={informationTable}>
-            <Row style={LogoRow}>
-              <Column style={{ width: '64px' }}>
-                <Img
-                  src="https://ik.imagekit.io/6cga8hi9z/All_Products/Easy_bake_supplies_Logo_The_Easy_Way_1_tYFeQxy3I3.png"
-                  width="64"
-                  height="64"
-                  alt="Product Image"
-                  style={LogoIcon}
-                />
-              </Column>
-            </Row>
-          </Section>
+
           <Section style={productTitleTable}>
             <Text style={productsTitle}>Order Summary</Text>
           </Section>
@@ -91,7 +93,7 @@ const ReceiptEmail = ({
                 <Column style={{ width: '64px' }}>
                   <Img
                     src={productCart.product.imageUrl}
-                    width="64"
+                    width="54"
                     height="64"
                     alt="Product Image"
                     style={productIcon}
@@ -168,6 +170,14 @@ const ReceiptEmail = ({
               <Column style={informationTableColumn}>
                 <Text style={informationTableLabel}>Delivery Note</Text>
                 <Text style={informationTableValue}>{deliveryNote}</Text>
+              </Column>
+            </Row>
+          </Section>
+          <Section style={informationTable}>
+            <Row style={informationTableRow}>
+              <Column style={informationTableColumn}>
+                <Text style={informationTableLabel}>Delivery Note</Text>
+                <Text style={informationTableValue}>{orderNotes}</Text>
               </Column>
             </Row>
           </Section>
@@ -268,14 +278,21 @@ const productsTitle = {
 }
 const LogoRow = {
   display: 'flex',
-  alignItems: 'center',
   justifyContent: 'center',
+  alignItems: 'center',
+  height: '100%', // Ensure it takes the full height of the parent
 }
+
 const LogoIcon = {
-  margin: '10px 0 0 20px',
+  display: 'block',
+  margin: '0 auto', // Center the image horizontally within the Column
+  objectFit: 'cover',
+}
+
+const ColumnStyle = {
   display: 'flex',
-  alignItems: 'center',
   justifyContent: 'center',
+  alignItems: 'center',
 }
 
 const productIcon = {

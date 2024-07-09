@@ -4,6 +4,7 @@ const SearchTerms: CollectionConfig = {
   slug: 'searchTerms',
   admin: {
     useAsTitle: 'term',
+    hidden: true,
   },
   fields: [
     {

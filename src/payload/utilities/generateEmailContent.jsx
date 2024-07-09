@@ -31,6 +31,7 @@ export const generateEmailContent = order => {
     location: order.location,
     deliveryNote: order.deliveryNote,
     phoneNumber: order.phoneNumber,
+    orderNote: order.orderNotes,
   }
 
   const userEmailContent = ReceiptEmailHtml(emailProps)

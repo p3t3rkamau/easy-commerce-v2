@@ -26,7 +26,7 @@ const HeaderComponent = ({ header }: { header: Header }) => {
         <Link href="/">
           <Image src="/Easy-logo.svg" alt="logo" width={60} height={50} />
         </Link>
-        <div>
+        <div className={classes.searchbar}>
           <SearchBar />
         </div>
 

@@ -8,6 +8,7 @@ import calculateOrderTotal from './hooks/calculateOrderTotal'
 import { clearUserCart } from './hooks/clearUserCart'
 import { populateOrderedBy } from './hooks/populateOrderedBy'
 import { sendOrderEmails } from './hooks/sendOrderEmails'
+import sendOrderToWhatsApp from './hooks/sendWhatsappMess'
 import { updateUserPurchases } from './hooks/updateUserPurchases'
 
 export const Orders: CollectionConfig = {
@@ -19,7 +20,7 @@ export const Orders: CollectionConfig = {
   },
   hooks: {
     beforeChange: [calculateOrderTotal], // Added beforeChange hook
-    afterChange: [updateUserPurchases, clearUserCart, sendOrderEmails],
+    afterChange: [updateUserPurchases, clearUserCart, sendOrderEmails, sendOrderToWhatsApp],
   },
   access: {
     read: adminsOrOrderedBy,
@@ -37,6 +38,7 @@ export const Orders: CollectionConfig = {
       },
     },
     {
+      label: 'Mpesa Ref Id',
       name: 'refId',
       type: 'text',
       admin: {
@@ -45,23 +47,13 @@ export const Orders: CollectionConfig = {
       },
     },
     {
-      name: 'GenerateReceiptButton', // Custom field name for the button
-      type: 'text', // Using text type as a placeholder for the button
-      admin: {
-        readOnly: true,
-        position: 'sidebar',
-        components: {
-          Field: CustomOrderReceiptButton, // Using the custom button component
-        },
-      },
-    },
-    {
       name: 'total',
       type: 'number',
       required: true,
       min: 0,
       admin: {
-        readOnly: true, // Make it read-only in the admin UI
+        readOnly: true,
+        position: 'sidebar',
       },
     },
     {
@@ -70,7 +62,8 @@ export const Orders: CollectionConfig = {
       required: true,
       min: 0,
       admin: {
-        readOnly: true, // Make it read-only in the admin UI
+        readOnly: true,
+        position: 'sidebar',
       },
     },
     {
@@ -103,6 +96,9 @@ export const Orders: CollectionConfig = {
     {
       name: 'phoneNumber',
       type: 'text',
+      admin: {
+        position: 'sidebar',
+      },
     },
     {
       name: 'orderNotes',
@@ -111,22 +107,38 @@ export const Orders: CollectionConfig = {
     {
       name: 'deliveryType',
       type: 'text',
+      admin: {
+        position: 'sidebar',
+      },
     },
     {
       name: 'location',
       type: 'text',
+      admin: {
+        position: 'sidebar',
+      },
     },
     {
       name: 'locationLabel',
       type: 'text',
+      admin: {
+        hidden: true,
+      },
     },
     {
       name: 'deliveryNote',
       type: 'textarea',
     },
     {
-      name: 'customLocation',
-      type: 'text',
+      name: 'GenerateReceiptButton', // Custom field name for the button
+      type: 'text', // Using text type as a placeholder for the button
+      admin: {
+        readOnly: true,
+        position: 'sidebar',
+        components: {
+          Field: CustomOrderReceiptButton, // Using the custom button component
+        },
+      },
     },
   ],
 }

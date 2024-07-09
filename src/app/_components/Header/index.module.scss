@@ -11,13 +11,18 @@
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: calc(var(--base) / 2) var(--base);
+  // gap: calc(var(--base) / 2) var(--base);
+  gap: 10px;
   align-items: center;
   @include small-break{
     gap: 10px;
   }
 }
-
+.searchbar{
+  small-break{
+    display: none;
+  }
+}
 .logo {
   width: 150px;
   @include small-break{

@@ -50,6 +50,7 @@ export default async function Order({ params: { id } }) {
     { label: 'Delivery Cost', value: order.deliveryCost },
     { label: 'Phone Number', value: order.phoneNumber },
     { label: 'Delivery Note', value: order.deliveryNote },
+    { label: 'Order Note', value: order.orderNotes },
     { label: 'Ordered On', value: formatDateTime(order.createdAt) },
   ]
 

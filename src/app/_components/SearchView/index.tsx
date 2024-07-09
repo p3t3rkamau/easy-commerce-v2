@@ -7,8 +7,9 @@ import Card from '../SearchBar/SearchResults'
 import FeaturedCards from './featuredCards'
 import Filters from './Filters'
 
-import classes from './index.module.scss'
 import LoadingCircle from '@/app/NextUi_components/loadingCircle'
+
+import classes from './index.module.scss'
 
 interface SearchViewProps {
   closeSearchView: () => void
@@ -148,7 +149,6 @@ const SearchView: React.FC<SearchViewProps> = ({ closeSearchView }) => {
                   title={result.title}
                   price={result.price}
                   imageUrl={result.meta?.image || '/Easy-logo.svg'}
-                  
                 />
               ))}
             </div>

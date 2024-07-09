@@ -28,7 +28,7 @@ import FlexBanner from '../../_components/FlexBanner'
 import { HeaderCategories } from '../../_components/HeaderCategories'
 import { EventHero } from '../../_heros/EventHero'
 import { Scroller } from '../../AcertinityUi_components/Scroller/scroller'
-import CarouselView from '../../CoreUi_components/couresel'
+import CarouselView from '../../CoreUi_components/couresel.jsx'
 
 // import { HomeCarousel } from '../../_components/HomeCarousel/HomeCarousel'
 // import Promotion from '../../_components/Promotion'
@@ -76,7 +76,6 @@ export default async function Page({ params: { slug = 'home' } }) {
     <React.Fragment>
       <section>
         <Hero {...hero} />
-        <CarouselView />
         {/* <HomeCarousel /> */}
         <HeaderCategories />
         {/* <PlaceholdersAndVanishInputDemo /> */}
