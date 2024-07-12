@@ -24,7 +24,12 @@ const HeaderComponent = ({ header }: { header: Header }) => {
     >
       <Gutter className={classes.wrap}>
         <Link href="/">
-          <Image src="/Easy-logo.svg" alt="logo" width={60} height={50} />
+          <Image
+            src="https://ik.imagekit.io/6cga8hi9z/All_Products/Easy_bake_supplies_Logo_The_Easy_Way_1_9sawEYJgS.webp"
+            alt="logo"
+            width={60}
+            height={40}
+          />
         </Link>
         <div className={classes.searchbar}>
           <SearchBar />

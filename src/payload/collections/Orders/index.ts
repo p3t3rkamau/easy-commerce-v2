@@ -88,7 +88,7 @@ export const Orders: CollectionConfig = {
         },
         {
           name: 'selectedAttributes',
-          type: 'json',
+          type: 'text',
           label: 'Selected Attributes',
         },
       ],

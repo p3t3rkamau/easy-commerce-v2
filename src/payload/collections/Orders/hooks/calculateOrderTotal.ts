@@ -48,3 +48,4 @@ const calculateOrderTotal: BeforeChangeHook = async ({ data }) => {
 }
 
 export default calculateOrderTotal
+// TDOD: update product cost depending on whether a product has attributes

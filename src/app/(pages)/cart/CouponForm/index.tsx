@@ -27,7 +27,12 @@ const CouponForm: React.FC<Props> = ({ onCouponApply, currentCost }) => {
 
       let discountedCost = currentCost
 
-      if (applicableTo === 'all' || applicableTo === 'products') {
+      if (
+        applicableTo === 'deliveryRider' ||
+        applicableTo === 'products' ||
+        applicableTo === 'deliveryMatatu' ||
+        applicableTo === 'allProducts'
+      ) {
         if (type === 'percentage') {
           discountedCost = currentCost * (1 - value / 100)
         } else if (type === 'fixed') {

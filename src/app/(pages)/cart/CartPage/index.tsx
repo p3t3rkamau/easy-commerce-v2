@@ -1,4 +1,5 @@
 'use client'
+
 import React, { Fragment, useEffect, useState } from 'react'
 import Link from 'next/link'
 
@@ -10,6 +11,7 @@ import { useCart } from '../../../_providers/Cart'
 import CartItem from '../CartItem'
 import CouponForm from '../CouponForm'
 import ShippingForm from '../ShippingForm' // Make sure to import ShippingForm from the correct path
+import EmptyCartMessage from './EmptyCartPage' // Import EmptyCartMessage component
 
 import classes from './index.module.scss'
 
@@ -21,10 +23,8 @@ const encrypt = (value: number): string => {
 export const CartPage: React.FC<{
   settings: Settings
   page: Page
-}> = props => {
-  const { settings } = props
+}> = ({ settings, page }) => {
   const { productsPage } = settings || {}
-
   const { user } = useAuth()
   const { cart, cartIsEmpty, cartTotal, addItemToCart, hasInitializedCart } = useCart()
   const [shippingCost, setShippingCost] = useState(0)
@@ -34,48 +34,55 @@ export const CartPage: React.FC<{
   const [deliveryNote, setDeliveryNote] = useState('')
   const [customLocation, setCustomLocation] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = React.useState<string | null>(null)
   const [cost, setCost] = useState<number>(0)
-  const [discountedCost, setDiscountedCost] = useState<number>(cost)
+  const [discountedCost, setDiscountedCost] = useState<number>(0) // Initialize discountedCost to 0
+
+  useEffect(() => {
+    setCost(cartTotal.raw) // Initialize cost with cart total
+  }, [cartTotal])
 
   const handleCouponApply = (newCost: number) => {
-    setDiscountedCost(newCost)
+    setDiscountedCost(newCost) // Update discounted cost on coupon apply
   }
 
   const handleShippingCostChange = (cost: number) => {
-    setShippingCost(cost)
-    setCost(cost)
+    setShippingCost(cost) // Update shipping cost
   }
 
   const handleDeliveryTypeChange = (type: string) => {
-    setDeliveryType(type)
+    setDeliveryType(type) // Update delivery type
   }
 
   const handleLocationChange = (locId: string, locLabel: string) => {
-    setLocationId(locId)
-    setLocationLabel(locLabel)
+    setLocationId(locId) // Update location ID
+    setLocationLabel(locLabel) // Update location label
   }
 
   const handleDeliveryNoteChange = (note: string) => {
-    setDeliveryNote(note)
+    setDeliveryNote(note) // Update delivery note
   }
 
   const handleCustomLocationChange = (location: string) => {
-    setCustomLocation(location)
+    setCustomLocation(location) // Update custom location
   }
 
-  const encryptedShippingCost = encrypt(shippingCost)
+  const encryptedShippingCost = encrypt(shippingCost) // Encrypt shipping cost for security
 
   const handleCheckoutClick = () => {
-    setIsLoading(true)
+    setIsLoading(true) // Set loading state for checkout process
+
+    // Construct checkout URL based on user authentication status
     const checkoutUrl = user
       ? `/checkout?deliveryType=${deliveryType}&location=${encodeURIComponent(
           locationLabel,
         )}&shippingCost=${encryptedShippingCost}&deliveryNote=${encodeURIComponent(
           deliveryNote,
-        )}&customLocation=${encodeURIComponent(customLocation)}&LocationId=${encodeURIComponent(locationId)}`
+        )}&customLocation=${encodeURIComponent(customLocation)}&LocationId=${encodeURIComponent(
+          locationId,
+        )}`
       : '/login?redirect=%2Fcheckout'
-    window.location.href = checkoutUrl
+
+    window.location.href = checkoutUrl // Redirect to checkout URL
   }
 
   return (
@@ -89,21 +96,7 @@ export const CartPage: React.FC<{
         <Fragment>
           {cartIsEmpty ? (
             <div className={classes.empty}>
-              Your cart is empty.
-              {typeof productsPage === 'object' && productsPage?.slug && (
-                <Fragment>
-                  {' '}
-                  <Link href={`/${productsPage.slug}`}>Click here</Link>
-                  {` to shop.`}
-                </Fragment>
-              )}
-              {!user && (
-                <Fragment>
-                  {' '}
-                  <Link href={`/login?redirect=%2Fcart`}>Log in</Link>
-                  {` to view a saved cart.`}
-                </Fragment>
-              )}
+              <EmptyCartMessage cartIsEmpty={cartIsEmpty} productsPage={productsPage} user={user} />
             </div>
           ) : (
             <div className={classes.cartWrapper}>
@@ -179,7 +172,10 @@ export const CartPage: React.FC<{
                 <div className={classes.row}>
                   <p className={classes.cartTotal}>Grand Total</p>
                   <p className={classes.cartTotal}>
-                    Ksh{parseInt(cartTotal.raw.toString()) + parseInt(shippingCost.toFixed(2))}
+                    Ksh
+                    {parseInt(cartTotal.raw.toString()) +
+                      parseInt(shippingCost.toFixed(2)) -
+                      parseInt(discountedCost.toFixed(2))}
                   </p>
                 </div>
 

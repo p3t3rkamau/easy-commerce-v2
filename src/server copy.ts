@@ -1,81 +1,246 @@
-// import type { inferAsyncReturnType } from '@trpc/server'
-// import * as trpcExpress from '@trpc/server/adapters/express'
-// import bodyParser from 'body-parser'
-// import express from 'express'
-// import type { IncomingMessage } from 'http'
-// import nextBuild from 'next/dist/build'
-// import path from 'path'
+import axios from 'axios'
+import cors from 'cors'
+import dotenv from 'dotenv'
+import express from 'express'
+import next from 'next'
+import nextBuild from 'next/dist/build'
+import NodeCache from 'node-cache'
+import nodemailer from 'nodemailer'
+import path from 'path'
+import payload from 'payload'
 
-// import { getPayloadClient } from './get-payload'
-// import { nextApp, nextHandler } from './next-utils'
-// import { appRouter } from './trpc'
-// import { stripeWebhookHandler } from './webhooks'
+import generateSitemap from '../genarateSitemap'
 
-// const app = express()
-// const PORT = Number(process.env.PORT) || 3000
+dotenv.config({
+  path: path.resolve(__dirname, '../.env'),
+})
 
-// // passing the req and res as a context
-// const createContext = ({ req, res }: trpcExpress.CreateExpressContextOptions) => ({
-//   req,
-//   res,
-// })
+const app = express()
+const cache = new NodeCache()
+const PORT = process.env.PORT || 3002
+app.use(cors())
+app.use(express.json())
 
-// export type ExpressContext = inferAsyncReturnType<typeof createContext>
+const transporter = nodemailer.createTransport({
+  host: 'smtp.resend.com',
+  secure: true,
+  port: 465,
+  auth: {
+    user: 'resend',
+    pass: process.env.RESEND_API_KEY,
+  },
+  from: 'Easy Bake Supplies Limited <noreply@berleensafaris.com>', // Correctly formatted
+})
 
-// // we need to check if the message actually comes form stripe
-// export type WebHookRequest = IncomingMessage & { rawBody: Buffer }
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+const saveSearchTerm = async (term: string) => {
+  try {
+    const existingTerm = await payload.find({
+      collection: 'searchTerms',
+      where: {
+        term: {
+          equals: term,
+        },
+      },
+    })
+    if (existingTerm.totalDocs > 0) {
+      await payload.update({
+        collection: 'searchTerms',
+        id: existingTerm.docs[0].id,
+        data: {
+          count: existingTerm.docs[0].count + 1,
+          // @ts-expect-error
+          lastSearched: new Date(),
+        },
+      })
+    } else {
+      await payload.create({
+        collection: 'searchTerms',
+        data: {
+          term,
+          count: 1,
+          // @ts-expect-error
+          lastSearched: new Date(),
+        },
+      })
+    }
+  } catch (error: unknown) {
+    console.error('Error saving search term:', error)
+  }
+}
 
-// const start = async () => {
-//   // we configure to listen when we recive a payment. We create a webhook middleware
-//   const webhookMiddleware = bodyParser.json({
-//     verify: (req: WebHookRequest, _, buffer) => {
-//       req.rawBody = buffer
-//     },
-//   })
+const start = async (): Promise<void> => {
+  await payload.init({
+    secret: process.env.PAYLOAD_SECRET || '',
+    express: app,
+    email: {
+      transport: transporter,
+      fromName: 'EasyBakeSuppliesLimited',
+      fromAddress: 'Easy Bake Supplies Limited <noreply@berleensafaris.com>', // Correctly formatted
+    },
+    onInit: () => {
+      payload.logger.info(`Payload Admin URL: ${payload.getAdminURL()}`)
+    },
+  })
 
-//   app.post('/api/webhooks/stripe', webhookMiddleware, stripeWebhookHandler)
+  // if (process.env.PAYLOAD_SEED === 'true') {
+  //   await seed(payload)
+  //   process.exit()
+  // }
+  if (process.env.NEXT_BUILD) {
+    app.listen(PORT, async () => {
+      payload.logger.info(`Next.js is now building...`)
+      // @ts-expect-error
+      await nextBuild(path.join(__dirname, '../'))
+      process.exit()
+    })
 
-//   const payload = await getPayloadClient({
-//     initOptions: {
-//       express: app,
-//       onInit: async cms => {
-//         cms.logger.info(`Admin URL ${cms.getAdminURL()}`)
-//       },
-//     },
-//   })
+    return
+  }
 
-//   if (process.env.NEXT_BUILD) {
-//     app.listen(PORT, async () => {
-//       payload.logger.info('Next.js is building for production')
+  const nextApp = next({
+    dev: process.env.NODE_ENV !== 'production',
+  })
 
-//       // @ts-expect-error
-//       await nextBuild(path.join(__dirname, '../'))
+  app.get('/test', (req, res) => {
+    res.send('All Systems Operational')
+  })
 
-//       process.exit()
-//     })
+  app.get('/robots.txt', (req, res) => {
+    const robotsTxt = `
+      User-agent: *
+      Disallow: /admin/
+      
+      Sitemap: ${process.env.NEXT_PUBLIC_SERVER_URL}/sitemap.xml
+    `
+    res.setHeader('Content-Type', 'text/plain')
+    res.send(robotsTxt)
+  })
+  app.post('/api/validate-coupon', async (req, res) => {
+    const { code } = req.body
 
-//     return
-//   }
+    try {
+      // Fetch coupon details from Payload CMS or your coupon database
+      const coupon = await payload.find({
+        collection: 'coupons', // Replace with your Payload CMS collection name for coupons
+        where: {
+          code: {
+            equals: code,
+          },
+        },
+      })
 
-//   // this is a middleware. Whichever request goes to this endpoind, it forward it and handle it using this middleware
-//   app.use(
-//     '/api/trpc',
-//     trpcExpress.createExpressMiddleware({
-//       router: appRouter,
-//       createContext,
-//     }),
-//   )
+      // Handle coupon not found
+      if (coupon.totalDocs === 0) {
+        return res.status(404).json({ message: 'Coupon not found' })
+      }
 
-//   // using express middleware, it manage all the reqs and res and send them to nextjs
-//   app.use((req, res) => nextHandler(req, res))
+      // Extract coupon details
+      const { type, value, applicableTo, expiryDate } = coupon.docs[0]
 
-//   nextApp.prepare().then(() => {
-//     payload.logger.info('Next.js started')
+      // Check if coupon is expired
+      if (expiryDate && new Date(expiryDate) < new Date()) {
+        return res.status(400).json({ message: 'Coupon has expired' })
+      }
 
-//     app.listen(PORT, async () => {
-//       payload.logger.info(`Next.js App URL: ${process.env.NEXT_PUBLIC_SERVER_URL}`)
-//     })
-//   })
-// }
+      // Respond with coupon details
+      res.status(200).json({
+        type,
+        value,
+        applicableTo,
+      })
+    } catch (error: unknown) {
+      console.error('Error validating coupon:', error)
+      res.status(500).json({ message: 'Internal Server Error' })
+    }
+  })
 
-// start()
+  app.use((req, res) => nextHandler(req, res))
+
+  const nextHandler = nextApp.getRequestHandler()
+  app.get('/sitemap.xml', async (req, res) => {
+    try {
+      const sitemap = await generateSitemap() // Generate the sitemap
+      res.setHeader('Content-Type', 'application/xml')
+      res.send(sitemap) // Use send instead of write/end for simplicity
+    } catch (error: unknown) {
+      console.error('Error generating sitemap:', error)
+      res.status(500).send('Internal Server Error')
+    }
+  })
+
+  await nextApp.prepare()
+
+  app.listen(PORT, async () => {
+    payload.logger.info(`Next.js App URL: ${process.env.PAYLOAD_PUBLIC_SERVER_URL}`)
+  })
+}
+
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+const searchMongoDB = async searchQuery => {
+  try {
+    const requestBody = {
+      collection: 'products',
+      database: 'test',
+      dataSource: 'Cluster0',
+      filter: { title: { $regex: searchQuery, $options: 'i' } },
+      projection: {
+        title: 1,
+        slug: 1,
+        price: 1,
+        meta: 1,
+      },
+    }
+
+    const response = await axios.post(process.env.API_LINK, requestBody, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Request-Headers': '*',
+        'api-key': process.env.API_KEY,
+      },
+    })
+
+    const searchResults = response.data.documents || []
+    return searchResults
+  } catch (error: unknown) {
+    console.error('Error searching products:', error)
+    throw error
+  }
+}
+
+app.post('/api/search', async (req, res) => {
+  const { query } = req.body
+
+  try {
+    const cachedResults = cache.get(query)
+    if (cachedResults) {
+      await saveSearchTerm(query)
+      return res.json({ success: true, results: cachedResults })
+    }
+
+    const results = await searchMongoDB(query)
+    cache.set(query, results, 3600) // Cache for 1 hour
+    await saveSearchTerm(query)
+    return res.json({ success: true, results })
+  } catch (error: unknown) {
+    if (!res.headersSent) {
+      res.status(500).json({ success: false, error: error })
+    } else {
+      console.error('Headers already sent, cannot respond with error:', error)
+    }
+  }
+})
+
+app.post('/api/save-search', async (req, res) => {
+  const { term } = req.body
+
+  try {
+    await saveSearchTerm(term)
+    res.status(200).json({ message: 'Search term saved successfully' })
+  } catch (error: unknown) {
+    console.error('Error saving search term:', error)
+    res.status(500).json({ message: 'Error saving search term' })
+  }
+})
+
+start()

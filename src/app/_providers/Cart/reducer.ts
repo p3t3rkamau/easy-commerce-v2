@@ -69,8 +69,10 @@ export const cartReducer = (cart: CartType, action: CartAction): CartType => {
       const productId =
         typeof incomingItem.product === 'string' ? incomingItem.product : incomingItem?.product?.id
 
-      const indexInCart = cart?.items?.findIndex(({ product }) =>
-        typeof product === 'string' ? product === productId : product?.id === productId,
+      const indexInCart = cart?.items?.findIndex(
+        ({ product, selectedAttributes }) =>
+          (typeof product === 'string' ? product === productId : product?.id === productId) &&
+          JSON.stringify(selectedAttributes) === JSON.stringify(incomingItem.selectedAttributes),
       ) // eslint-disable-line function-paren-newline
 
       let withAddedItem = [...(cart?.items || [])]
@@ -82,7 +84,7 @@ export const cartReducer = (cart: CartType, action: CartAction): CartType => {
       if (typeof indexInCart === 'number' && indexInCart > -1) {
         withAddedItem[indexInCart] = {
           ...withAddedItem[indexInCart],
-          quantity: (incomingItem.quantity || 0) > 0 ? incomingItem.quantity : undefined,
+          quantity: (withAddedItem[indexInCart].quantity || 0) + (incomingItem.quantity || 0),
         }
       }
 

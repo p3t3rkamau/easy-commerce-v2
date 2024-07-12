@@ -1,4 +1,4 @@
-export const generateWhatsAppMessage = (order: any): string => {
+export const generateClientWhatsAppMessage = (order: any): string => {
   const orderDetails = order.items
     .map((item: any) => {
       return `
@@ -9,7 +9,7 @@ export const generateWhatsAppMessage = (order: any): string => {
     .join('\n')
 
   return `
-📦 New Order Received:
+📦 Order Confirmation:
 -------------------------
 🆔 Order ID: ${order.id}
 📅 Date: ${new Date().toLocaleDateString()}

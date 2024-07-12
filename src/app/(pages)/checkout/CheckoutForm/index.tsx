@@ -52,7 +52,7 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({
               product: typeof product === 'object' ? product.id : product,
               quantity,
               price: typeof product === 'object' ? product.price : undefined,
-              selectedAttributes: typeof product === 'object' ? selectedAttributes : undefined,
+              selectedAttributes,
             })),
             phoneNumber,
             refId,

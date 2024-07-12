@@ -26,6 +26,7 @@ import Categories from './collections/Categories'
 import Comments from './collections/Comments'
 import Coupons from './collections/Coupon'
 import { EMailSms } from './collections/Email & Sms'
+import FeedBackForm from './collections/Feedback'
 import HeaderCategories from './collections/HeaderCategories'
 import { LiveChats } from './collections/LiveChats/LiveChats'
 import { Media } from './collections/Media'
@@ -138,6 +139,7 @@ export default buildConfig({
     Coupons,
     SearchTerms,
     Sponsored,
+    FeedBackForm,
 
     // CaseStudies,
     // QuestionSets,

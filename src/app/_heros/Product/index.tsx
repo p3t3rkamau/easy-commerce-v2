@@ -1,4 +1,5 @@
 'use client'
+
 import React, { useEffect, useState } from 'react'
 
 import { AttributesCollection, Product } from '../../../payload/payload-types'
@@ -112,7 +113,7 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
               product={product}
               quantity={quantity}
               className={classes.addToCartButton}
-              selectedAttributes={selectedAttributes}
+              selectedAttributes={selectedAttributes} // Pass selected attributes here
             />
             <MultipleSelectNextUI />
           </div>

@@ -32,7 +32,7 @@ export const CheckoutItem = ({
           <div className={classes.attributes}>
             {Object.entries(selectedAttributes).map(([key, value]) => (
               <p key={key} className={classes.attribute}>
-                {key}: {value}
+                {key}: {String(value)}
               </p>
             ))}
           </div>

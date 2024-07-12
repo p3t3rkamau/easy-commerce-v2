@@ -1,6 +1,4 @@
-import { headers } from 'next/headers'
-
-import type { Footer, Header, Settings } from '../../payload/payload-types'
+import type { Footer, Header, Headercategory, Settings } from '../../payload/payload-types'
 import {
   FOOTER_QUERY,
   HEADER_CATEGORIES_QUERY,
@@ -105,6 +103,10 @@ export async function fetchHeaderCategories(): Promise<any> {
         throw new Error(res?.errors[0]?.message || 'Error fetching header categories')
       return res.data
     })
+    .catch(error => {
+      console.error('Fetch error:', error)
+      throw error
+    })
 
   console.log(headerCategories) // Log the fetched header categories to the console
 
@@ -116,7 +118,7 @@ export const fetchGlobals = async (): Promise<{
   header: Header
   footer: Footer
 
-  headerCategories: any
+  headerCategories: Headercategory
 }> => {
   // initiate requests in parallel, then wait for them to resolve
   // this will eagerly start the fetch requests at the same time

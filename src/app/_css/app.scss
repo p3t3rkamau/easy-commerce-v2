@@ -24,6 +24,17 @@
   --bot-message-color: #fff;
   --input-background-color: #f0f0f0;
 
+
+    --modal-backdrop-bg: rgba(0, 0, 0, 0.5);
+    --modal-bg: #ffffff;
+    --modal-padding: 20px;
+    --modal-border-radius: 10px;
+    --modal-width: 90%;
+    --modal-max-width: 500px;
+    --modal-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --modal-close-btn-size: 25px;
+    --modal-close-btn-color: #333;
+
   @include large-break {
     --gutter-h: 144px;
     --block-padding: 96px;

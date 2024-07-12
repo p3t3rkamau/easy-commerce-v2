@@ -1,0 +1,27 @@
+.empty {
+    text-align: center;
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .emptyImage img {
+    width: 350px; /* Adjust image size as needed */
+    height: auto;
+    margin-bottom: 10px;
+  }
+  
+  .empty p {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  
+  .empty .link {
+    color: #0070f3; /* Example link color, adjust as needed */
+    text-decoration: underline;
+  }
+  
+  /* Additional styling can be added based on your design requirements */
+  

@@ -15,6 +15,7 @@ import {
   PROMO_BANNER_BLOCK,
   RECOMMENDED_ARCHIVE_BLOCK,
 } from './blocks'
+import { HEADER_CATEGORIES } from './globals'
 // import { FORM_FIELDS } from './form'
 import { LINK_FIELDS } from './link'
 import { MEDIA } from './media'
@@ -108,6 +109,23 @@ export const PAGE = `
             }
           } 
         }
+        HeaderCategories{
+          Category
+          Subcategory {
+            id
+            Name
+            SubcategoryImage {
+              imagekit {
+                url
+              }
+            }
+            Attribute {
+              id
+              Name
+            }
+          }
+        }
+        
       }
     }
   }

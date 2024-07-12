@@ -176,7 +176,7 @@ const ReceiptEmail = ({
           <Section style={informationTable}>
             <Row style={informationTableRow}>
               <Column style={informationTableColumn}>
-                <Text style={informationTableLabel}>Delivery Note</Text>
+                <Text style={informationTableLabel}>Order Note</Text>
                 <Text style={informationTableValue}>{orderNotes}</Text>
               </Column>
             </Row>

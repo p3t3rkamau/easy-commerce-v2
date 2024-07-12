@@ -96,6 +96,22 @@ export const Pages: CollectionConfig = {
       },
     },
     {
+      name: 'HeaderCategories',
+      type: 'relationship',
+      relationTo: 'headercategories',
+      hasMany: true,
+      filterOptions: ({ id }) => {
+        return {
+          id: {
+            not_in: [id],
+          },
+        }
+      },
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
       type: 'tabs',
       tabs: [
         {

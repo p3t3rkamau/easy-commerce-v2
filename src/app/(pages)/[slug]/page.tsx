@@ -25,7 +25,8 @@ import ProductGrid from '../../_components/CardGrid/ProductGrid'
 import CategoriesComponent from '../../_components/Categories'
 import ExpandableFloatingActionButton from '../../_components/ChatwidgetComponent/_components/FloatingAction/ExpandableFloatingActionButton'
 import FlexBanner from '../../_components/FlexBanner'
-import { HeaderCategories } from '../../_components/HeaderCategories'
+import { HeaderCategoriesLayout } from '../../_components/HeaderCategories'
+import TopBar from '../../_components/Topbar'
 import { EventHero } from '../../_heros/EventHero'
 import { Scroller } from '../../AcertinityUi_components/Scroller/scroller'
 import CarouselView from '../../CoreUi_components/couresel.jsx'
@@ -33,6 +34,7 @@ import CarouselView from '../../CoreUi_components/couresel.jsx'
 // import { HomeCarousel } from '../../_components/HomeCarousel/HomeCarousel'
 // import Promotion from '../../_components/Promotion'
 import classes from './index.module.scss'
+import FeedbackPopup from '@/app/_components/FeedbackForm'
 
 export default async function Page({ params: { slug = 'home' } }) {
   const { isEnabled: isDraftMode } = draftMode()
@@ -48,7 +50,7 @@ export default async function Page({ params: { slug = 'home' } }) {
     })
 
     categories = await fetchDocs<Category>('categories')
-    // console.log(page)
+    console.log(page)
   } catch (error) {
     // when deploying this template on Payload Cloud, this page needs to build before the APIs are live
     // so swallow the error here and simply render the page with fallback data where necessary
@@ -67,7 +69,7 @@ export default async function Page({ params: { slug = 'home' } }) {
     return notFound()
   }
 
-  const { hero, layout, Categories, heroImage } = page
+  const { hero, layout, Categories, heroImage, HeaderCategories } = page
   // console.log('slug:', slug)
   // console.log('layout:', layout)
   const noCategories = !Categories || Categories.length === 0
@@ -75,9 +77,9 @@ export default async function Page({ params: { slug = 'home' } }) {
   return (
     <React.Fragment>
       <section>
+        <HeaderCategoriesLayout HeaderCategories={HeaderCategories} />
         <Hero {...hero} />
         {/* <HomeCarousel /> */}
-        <HeaderCategories />
         {/* <PlaceholdersAndVanishInputDemo /> */}
         <EventHero {...heroImage} />
         <FlexBanner />
@@ -90,6 +92,7 @@ export default async function Page({ params: { slug = 'home' } }) {
           />
           <ProductGrid />
           <Scroller />
+          <FeedbackPopup />
           <ExpandableFloatingActionButton />
         </Gutter>
       </section>

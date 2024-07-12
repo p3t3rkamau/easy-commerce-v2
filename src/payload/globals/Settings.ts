@@ -1,3 +1,4 @@
+import { TelephoneField } from '@nouance/payload-better-fields-plugin'
 import type { GlobalConfig } from 'payload/types'
 
 export const Settings: GlobalConfig = {
@@ -18,5 +19,12 @@ export const Settings: GlobalConfig = {
       relationTo: 'pages',
       label: 'Products page',
     },
+    ...TelephoneField({
+      label: 'Sales WhatsApp Number',
+      name: 'WhatsAppNumber',
+      admin: {
+        placeholder: '+254 789 653678',
+      },
+    }),
   ],
 }

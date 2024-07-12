@@ -1,4 +1,5 @@
 'use client'
+
 import React, { Fragment, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -38,22 +39,18 @@ export const CheckoutPage: React.FC<{
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    // Extract parameters from URL
     const params = new URLSearchParams(window.location.search)
     const deliveryTypeParam = params.get('deliveryType') || ''
     const locationParam = params.get('location') || ''
     const locationLabelParam = params.get('LocationId') || ''
 
-    // Decrypt shipping cost from URL parameter
     const encryptedShippingCost = params.get('shippingCost') || '0'
     const decryptedCost = decrypt(encryptedShippingCost)
     const shippingCostParam = parseFloat(decryptedCost.toString())
 
-    // Optional: Fetch delivery note and custom location from URL parameters
     const deliveryNoteParam = params.get('deliveryNote') || ''
     const customLocationParam = params.get('customLocation') || ''
 
-    // Update state with extracted values
     setDeliveryType(deliveryTypeParam)
     setLocation(locationParam)
     setLocationLabel(locationLabelParam)
@@ -62,11 +59,11 @@ export const CheckoutPage: React.FC<{
     setCustomLocation(decodeURIComponent(customLocationParam))
   }, [])
 
-  useEffect(() => {
-    if (user !== null && cartIsEmpty) {
-      router.push('/cart')
-    }
-  }, [router, user, cartIsEmpty])
+  // useEffect(() => {
+  //   if (user !== null && cartIsEmpty) {
+  //     router.push('/cart')
+  //   }
+  // }, [router, user, cartIsEmpty])
 
   if (!user) return null
 
@@ -158,7 +155,7 @@ export const CheckoutPage: React.FC<{
         </div>
 
         <div className={classes.row}>
-          <p className={classes.cartTotal}>Custom Location</p>
+          <p className={classes.cartTotal}>Discount</p>
           <p className={classes.cartTotal}>{customLocation}</p>
         </div>
 
@@ -173,7 +170,7 @@ export const CheckoutPage: React.FC<{
       <CheckoutForm
         deliveryType={deliveryType}
         location={location}
-        locationLabel={locationLabel} // Pass locationLabel to CheckoutForm
+        locationLabel={locationLabel}
         subtotal={cartTotal.raw}
         deliveryNote={deliveryNote}
         customLocation={customLocation}

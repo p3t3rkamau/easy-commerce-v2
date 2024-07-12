@@ -7,9 +7,9 @@ export const HEADER = `
 		}
   }
 `
-export const HEADER_CATEGORIES_QUERY = `
-  query GetHeaderCategories {
-    _id
+
+export const HEADER_CATEGORIES = `
+  Headercategory {
     Category
     Subcategory {
       id
@@ -25,6 +25,12 @@ export const HEADER_CATEGORIES_QUERY = `
       }
     }
   }
+`
+
+export const HEADER_CATEGORIES_QUERY = `
+query Headercategories {
+  ${HEADER_CATEGORIES}
+}
 `
 
 export const HEADER_QUERY = `

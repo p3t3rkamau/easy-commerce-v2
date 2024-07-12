@@ -1,67 +1,96 @@
 'use client'
-
-import React, { useEffect, useState } from 'react'
-
-import { Headercategory } from '../../../payload/payload-types'
-import { fetchHeaderCategories } from '../../_api/fetchGlobals'
+import React, { useState } from 'react'
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
 
 import classes from './index.module.scss'
 
-export const HeaderCategories: React.FC = () => {
-  const [categories, setCategories] = useState<Headercategory[]>([])
-  const [activeCategory, setActiveCategory] = useState<string | null>(null)
+interface Attribute {
+  id: string
+  Name: string
+}
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await fetchHeaderCategories()
-        setCategories(data.categories)
-      } catch (error) {
-        console.error('Error fetching header categories:', error)
-      }
+interface Subcategory {
+  id: string
+  Name: string
+  SubcategoryImage: {
+    imagekit: {
+      url: string
     }
-    fetchData()
-  }, [])
+  }
+  Attribute: {
+    id: string
+    Name: string
+  }
+}
+
+interface Category {
+  Category: string
+  Subcategory: Subcategory[]
+}
+
+interface HeaderCategoriesLayoutProps {
+  HeaderCategories: Category[]
+}
+
+export const HeaderCategoriesLayout: React.FC<HeaderCategoriesLayoutProps> = ({
+  HeaderCategories,
+}) => {
+  const [activeCategory, setActiveCategory] = useState<string | null>(null)
 
   const handleCategoryClick = (categoryName: string) => {
     setActiveCategory(prev => (prev === categoryName ? null : categoryName))
   }
 
   return (
-    <>
+    <div className={classes.headerContainer}>
       <div className={classes.headerCategories}>
-        {categories.map((category, categoryIndex) => (
-          <div key={categoryIndex} className={classes.category}>
-            <div
-              className={`${classes.categoryName} ${
-                activeCategory === category.Category ? classes.active : ''
-              }`}
-              onClick={() => handleCategoryClick(category.Category)}
-            >
-              {category.Category}
-            </div>
-            {activeCategory === category.Category && (
-              <div className={classes.subcategoriesContainer}>
-                <div className={classes.subcategories}>
-                  {category.Subcategory.map((subcategory, subcategoryIndex) => (
-                    <div key={subcategoryIndex} className={classes.subcategory}>
-                      <img
-                        src={subcategory.SubcategoryImage} // Adjust this if you have a specific way to handle the image URL
-                        alt={subcategory.Name}
-                        className={classes.subcategoryImage}
-                      />
-                      <div className={classes.subcategoryName}>{subcategory.Name}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+        {HeaderCategories.map((category: Category, categoryIndex: number) => (
+          <div
+            key={categoryIndex}
+            className={`${classes.category} ${
+              activeCategory === category.Category ? classes.active : ''
+            }`}
+            onClick={() => handleCategoryClick(category.Category)}
+          >
+            {category.Category}
+            {activeCategory === category.Category ? (
+              <FaChevronUp className={classes.icon} />
+            ) : (
+              <FaChevronDown className={classes.icon} />
             )}
           </div>
         ))}
       </div>
-      <div className={classes.scallopEdge}></div>
-    </>
+      {HeaderCategories.map((category: Category, categoryIndex: number) => (
+        <div
+          key={categoryIndex}
+          className={`${classes.dropdown} ${
+            activeCategory === category.Category ? classes.show : ''
+          }`}
+        >
+          <div className={classes.subcategoriesContainer}>
+            {category.Subcategory.map((subcategory: Subcategory, subcategoryIndex: number) => (
+              <div key={subcategoryIndex} className={classes.subcategory}>
+                <img
+                  src={subcategory.SubcategoryImage.imagekit.url}
+                  alt={subcategory.Name}
+                  className={classes.subcategoryImage}
+                />
+                <div className={classes.subcategoryName}>{subcategory.Name}</div>
+                <div className={classes.attributesContainer}>
+                  {subcategory.Attribute.map((attribute: Attribute, attributeIndex: number) => (
+                    <div key={attributeIndex} className={classes.attributeName}>
+                      {attribute.Name}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
   )
 }
 
-export default HeaderCategories
+export default HeaderCategoriesLayout

@@ -63,32 +63,74 @@ const Sponsored: CollectionConfig = {
               ],
             },
             {
-              name: 'product',
-              label: 'Document to link to Product',
-              type: 'relationship',
-              relationTo: 'products',
-              admin: {
-                condition: (_, siblingData) => siblingData.enableProduct,
-              },
+              type: 'row',
+              fields: [
+                {
+                  name: 'ProductLabel',
+                  label: 'Product Label',
+                  type: 'text',
+                  admin: {
+                    condition: (_, siblingData) => siblingData.enableProduct,
+                  },
+                },
+                {
+                  name: 'product',
+                  label: 'Document to link to Product',
+                  type: 'relationship',
+                  relationTo: 'products',
+                  admin: {
+                    condition: (_, siblingData) => siblingData.enableProduct,
+                  },
+                },
+              ],
             },
+
             {
-              name: 'reference',
-              label: 'Document to link to',
-              type: 'relationship',
-              relationTo: ['pages'],
-              maxDepth: 1,
-              admin: {
-                condition: (_, siblingData) => siblingData.enablePages,
-              },
+              type: 'row',
+              fields: [
+                {
+                  name: 'PagesLabel',
+                  label: 'Pages Label',
+                  type: 'text',
+                  admin: {
+                    condition: (_, siblingData) => siblingData.enablePages,
+                  },
+                },
+                {
+                  name: 'reference',
+                  label: 'Document to link to',
+                  type: 'relationship',
+                  relationTo: ['pages'],
+                  maxDepth: 1,
+                  admin: {
+                    condition: (_, siblingData) => siblingData.enablePages,
+                  },
+                },
+              ],
             },
+
             {
-              name: 'CustomUrl',
-              label: 'Custom URL',
-              type: 'text',
-              admin: {
-                condition: (_, siblingData) => siblingData.enableCustomUrl,
-              },
+              type: 'row',
+              fields: [
+                {
+                  name: 'CustomUrlLabel',
+                  label: 'Url Label',
+                  type: 'text',
+                  admin: {
+                    condition: (_, siblingData) => siblingData.enableCustomUrl,
+                  },
+                },
+                {
+                  name: 'CustomUrl',
+                  label: 'Custom Value',
+                  type: 'text',
+                  admin: {
+                    condition: (_, siblingData) => siblingData.enableCustomUrl,
+                  },
+                },
+              ],
             },
+
             {
               name: 'Categories',
               label: 'Document to link to Categories',
@@ -131,6 +173,26 @@ const Sponsored: CollectionConfig = {
               required: true,
             },
           ],
+        },
+      ],
+    },
+    {
+      name: 'Categories',
+      type: 'group',
+      fields: [
+        {
+          name: 'Categories',
+          label: 'Document to link to Categories',
+          type: 'relationship',
+          relationTo: 'categories',
+          hasMany: true,
+          filterOptions: ({ id }) => {
+            return {
+              id: {
+                not_in: [id],
+              },
+            }
+          },
         },
       ],
     },

@@ -51,6 +51,7 @@ export interface Config {
     coupons: Coupon;
     searchTerms: SearchTerm;
     sponsored: Sponsored;
+    feedbackform: Feedbackform;
     search: Search;
     redirects: Redirect;
     forms: Form;
@@ -69,6 +70,7 @@ export interface Page {
   title: string;
   publishedOn?: string | null;
   Categories?: (string | Category)[] | null;
+  HeaderCategories?: (string | Headercategory)[] | null;
   hero: {
     type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact' | 'customHero';
     richText: {
@@ -1014,6 +1016,13 @@ export interface Review {
   updatedAt: string;
   createdAt: string;
 }
+export interface Headercategory {
+  id: string;
+  Category: string;
+  Subcategory?: SubCategory;
+  updatedAt: string;
+  createdAt: string;
+}
 export interface Order {
   id: string;
   orderedBy?: (string | null) | User;
@@ -1025,15 +1034,7 @@ export interface Order {
         product: string | Product;
         price?: number | null;
         quantity?: number | null;
-        selectedAttributes?:
-          | {
-              [k: string]: unknown;
-            }
-          | unknown[]
-          | string
-          | number
-          | boolean
-          | null;
+        selectedAttributes?: string | null;
         id?: string | null;
       }[]
     | null;
@@ -1136,13 +1137,6 @@ export interface Alert {
   updatedAt: string;
   createdAt: string;
 }
-export interface Headercategory {
-  id: string;
-  Category: string;
-  Subcategory?: SubCategory;
-  updatedAt: string;
-  createdAt: string;
-}
 export interface LiveChat {
   id: string;
   Customer?: string | null;
@@ -1191,11 +1185,14 @@ export interface Sponsored {
           enablePages?: boolean | null;
           enableCustomUrl?: boolean | null;
           enableCategories?: boolean | null;
+          ProductLabel?: string | null;
           product?: (string | null) | Product;
+          PagesLabel?: string | null;
           reference?: {
             relationTo: 'pages';
             value: string | Page;
           } | null;
+          CustomUrlLabel?: string | null;
           CustomUrl?: string | null;
           Categories?: (string | Category)[] | null;
           id?: string | null;
@@ -1211,6 +1208,17 @@ export interface Sponsored {
         }[]
       | null;
   };
+  Categories?: {
+    Categories?: (string | Category)[] | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+export interface Feedbackform {
+  id: string;
+  questionId: number;
+  responseType: 'multipleChoice' | 'text';
+  response: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -1421,6 +1429,7 @@ export interface PayloadMigration {
 export interface Settings {
   id: string;
   productsPage?: (string | null) | Page;
+  WhatsAppNumber?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }

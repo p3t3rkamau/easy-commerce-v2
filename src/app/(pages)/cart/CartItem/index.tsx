@@ -15,23 +15,20 @@ const CartItem = ({ product, title, metaImage, qty, addItemToCart, selectedAttri
 
   const decrementQty = () => {
     const updatedQty = quantity > 1 ? quantity - 1 : 1
-
     setQuantity(updatedQty)
-    addItemToCart({ product, quantity: Number(updatedQty) })
+    addItemToCart({ product, quantity: Number(updatedQty), selectedAttributes })
   }
 
   const incrementQty = () => {
     const updatedQty = quantity + 1
-
     setQuantity(updatedQty)
-    addItemToCart({ product, quantity: Number(updatedQty) })
+    addItemToCart({ product, quantity: Number(updatedQty), selectedAttributes })
   }
 
   const enterQty = (e: React.ChangeEvent<HTMLInputElement>) => {
     const updatedQty = Number(e.target.value)
-
     setQuantity(updatedQty)
-    addItemToCart({ product, quantity: Number(updatedQty) })
+    addItemToCart({ product, quantity: Number(updatedQty), selectedAttributes })
   }
 
   return (
@@ -46,7 +43,7 @@ const CartItem = ({ product, title, metaImage, qty, addItemToCart, selectedAttri
       <div className={classes.itemDetails}>
         <div className={classes.titleWrapper}>
           <h6>{title}</h6>
-          <Price product={product} button={false} />
+          <Price product={product} button={false} quantity={quantity} />
         </div>
 
         {/* Display selected attributes */}
@@ -91,7 +88,12 @@ const CartItem = ({ product, title, metaImage, qty, addItemToCart, selectedAttri
       </div>
 
       <div className={classes.subtotalWrapper}>
-        <Price product={product} button={false} quantity={quantity} />
+        <Price
+          product={product}
+          button={false}
+          quantity={quantity}
+          selectedAttributes={selectedAttributes}
+        />
         <RemoveFromCartButton product={product} />
       </div>
     </li>
