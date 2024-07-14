@@ -56,7 +56,12 @@ const FooterComponent = ({ footer }: { footer: Footer }) => {
           <div className={classes.wrap}>
             <div className={classes.footerLogo}>
               <Link href="/">
-                <Image src="/Easy-logo.svg" alt="logo" width={100} height={50} />
+                <Image
+                  src="https://ik.imagekit.io/6cga8hi9z/All_Products/Easy_bake_supplies_Logo_The_Easy_Way_1_9sawEYJgS.webp"
+                  alt="logo"
+                  width={100}
+                  height={50}
+                />
               </Link>
             </div>
             <div className={classes.footerWrapper}>

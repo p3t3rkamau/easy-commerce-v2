@@ -13,7 +13,7 @@ export const AddToCartButton: React.FC<{
   quantity?: number
   className?: string
   appearance?: Props['appearance']
-  selectedAttributes?: { [key: string]: string }
+  selectedAttributes?: { [key: string]: { value: string; quantity: number }[] }
   attributePrices?: { [key: string]: number | undefined }
 }> = ({
   product,
@@ -26,9 +26,9 @@ export const AddToCartButton: React.FC<{
   const { cart, addItemToCart, isProductInCart, hasInitializedCart } = useCart()
   const [isInCart, setIsInCart] = useState<boolean>(false)
   const [showModal, setShowModal] = useState<boolean>(false)
-  const [selectedAttributes, setSelectedAttributes] = useState<{ [key: string]: string }>(
-    initialSelectedAttributes || {},
-  )
+  const [selectedAttributes, setSelectedAttributes] = useState<{
+    [key: string]: { value: string; quantity: number }[]
+  }>(initialSelectedAttributes || {})
   const [currentQuantity, setCurrentQuantity] = useState<number>(quantity)
   const router = useRouter()
 
@@ -42,13 +42,13 @@ export const AddToCartButton: React.FC<{
     // Check if all required attributes are selected
     if (product.ProductsAttributes && product.ProductsAttributes.length > 0) {
       const allAttributesSelected = product.ProductsAttributes.every(
-        attribute => selectedAttributes && selectedAttributes[attribute.Attribute_Name],
+        attribute => selectedAttributes && selectedAttributes[attribute.Attribute_Name]?.length > 0,
       )
 
-      if (!allAttributesSelected) {
-        setShowModal(true)
-        return
-      }
+      // if (!allAttributesSelected) {
+      //   setShowModal(true)
+      //   return
+      // }
     }
 
     if (!isInCart) {
@@ -107,3 +107,5 @@ export const AddToCartButton: React.FC<{
     </>
   )
 }
+
+export default AddToCartButton

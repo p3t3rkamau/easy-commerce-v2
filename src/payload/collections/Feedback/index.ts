@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload/types'
 
-const FeedBackForm: CollectionConfig = {
+const FeedbackForm: CollectionConfig = {
   slug: 'feedbackform',
   admin: {
     useAsTitle: 'title',
@@ -35,7 +35,13 @@ const FeedBackForm: CollectionConfig = {
       type: 'text',
       required: true,
     },
+    {
+      name: 'count',
+      type: 'number',
+      required: true,
+      defaultValue: 0,
+    },
   ],
 }
 
-export default FeedBackForm
+export default FeedbackForm

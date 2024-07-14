@@ -1219,6 +1219,7 @@ export interface Feedbackform {
   questionId: number;
   responseType: 'multipleChoice' | 'text';
   response: string;
+  count: number;
   updatedAt: string;
   createdAt: string;
 }

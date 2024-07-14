@@ -62,16 +62,20 @@ export const CartProvider = props => {
 
         if (parsedCart?.items && parsedCart?.items?.length > 0) {
           const initialCart = await Promise.all(
-            parsedCart.items.map(async ({ product, quantity }) => {
-              const res = await fetch(
-                `${process.env.NEXT_PUBLIC_SERVER_URL}/api/products/${product}`,
-              )
-              const data = await res.json()
-              return {
-                product: data,
-                quantity,
-              }
-            }),
+            parsedCart.items.map(
+              async ({ product, quantity, selectedAttributes, attributePrices }) => {
+                const res = await fetch(
+                  `${process.env.NEXT_PUBLIC_SERVER_URL}/api/products/${product}`,
+                )
+                const data = await res.json()
+                return {
+                  product: data,
+                  quantity,
+                  selectedAttributes,
+                  attributePrices,
+                }
+              },
+            ),
           )
 
           dispatchCart({
@@ -128,7 +132,7 @@ export const CartProvider = props => {
             quantity: typeof item?.quantity === 'number' ? item?.quantity : 0,
           }
         })
-        .filter(Boolean) as CartItem[],
+        .filter(Boolean) as unknown as CartItem[],
     }
 
     if (user) {
@@ -170,7 +174,8 @@ export const CartProvider = props => {
           itemsInCart.find(({ product }) =>
             typeof product === 'string'
               ? product === incomingProduct.id
-              : product?.id === incomingProduct.id,),
+              : product?.id === incomingProduct.id,
+          ),
         )
       }
       return isInCart
@@ -210,14 +215,16 @@ export const CartProvider = props => {
     const calculateTotal = () => {
       let rawTotal = 0
 
-      cart.items.forEach(({ product, quantity, selectedAttributes, attributePrices }) => {
-        let productTotal = product.price * quantity
+      cart.items.forEach(({ product, quantity }) => {
+        let productTotal = (product as Product).price * quantity
 
-        if (selectedAttributes && attributePrices) {
-          Object.keys(selectedAttributes).forEach(attr => {
-            const attributePrice = attributePrices[attr]
+        if ((product as Product).selectedAttributes && (product as Product).attributePrices) {
+          Object.keys((product as Product).selectedAttributes).forEach(attr => {
+            const attributePrice = (product as Product).attributePrices[attr]
             if (attributePrice !== undefined) {
-              productTotal += attributePrice * quantity
+              ;(product as Product).selectedAttributes[attr].forEach(attribute => {
+                productTotal += attributePrice * attribute.quantity
+              })
             }
           })
         }

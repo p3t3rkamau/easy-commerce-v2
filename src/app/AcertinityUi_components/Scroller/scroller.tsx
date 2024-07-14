@@ -1,7 +1,7 @@
 'use client'
 import Marquee from 'react-fast-marquee'
 
-import { NextjsIcon, ResendIcon, StripeIcon, TailwindcssIcon } from './icons'
+import { HandSvg, LionSvg, NextjsIcon, ResendIcon, StripeIcon, TailwindcssIcon } from './icons'
 
 const languages = [
   {
@@ -22,6 +22,16 @@ const languages = [
   {
     label: 'NextJS',
     icon: NextjsIcon,
+    className: 'w-36 p-5 h-auto aspect-square',
+  },
+  {
+    label: 'Lion',
+    icon: LionSvg,
+    className: 'w-36 p-5 h-auto aspect-square',
+  },
+  {
+    label: 'Hand',
+    icon: HandSvg,
     className: 'w-36 p-5 h-auto aspect-square',
   },
 ]

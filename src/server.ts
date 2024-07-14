@@ -1,4 +1,5 @@
 import axios from 'axios'
+import bodyParser from 'body-parser'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import express from 'express'
@@ -20,7 +21,7 @@ const cache = new NodeCache()
 const PORT = process.env.PORT || 3002
 app.use(cors())
 app.use(express.json())
-
+app.use(bodyParser.json())
 const transporter = nodemailer.createTransport({
   host: 'smtp.resend.com',
   secure: true,
@@ -31,6 +32,74 @@ const transporter = nodemailer.createTransport({
   },
   from: 'Easy Bake Supplies Limited <noreply@berleensafaris.com>', // Correctly formatted
 })
+
+app.post('/api/feedbackform', async (req, res) => {
+  const feedbackResponses = req.body
+
+  try {
+    await retryTransaction(async () => {
+      await Promise.all(
+        feedbackResponses.map(async response => {
+          const existingResponse = await payload.find({
+            collection: 'feedbackform',
+            where: {
+              questionId: response.questionId,
+              response: response.response,
+            },
+          })
+
+          if (existingResponse.totalDocs > 0) {
+            const existingDoc = existingResponse.docs[0]
+            await payload.update({
+              collection: 'feedbackform',
+              id: existingDoc.id,
+              data: {
+                count: existingDoc.count + 1,
+              },
+            })
+          } else {
+            await payload.create({
+              collection: 'feedbackform',
+              data: {
+                ...response,
+                count: 1,
+              },
+            })
+          }
+        }),
+      )
+    })
+
+    res.status(200).send({ message: 'Feedback submitted successfully!' })
+  } catch (error: unknown) {
+    console.error('Error submitting feedback:', error)
+    res.status(500).send({ error: 'Failed to submit feedback.' })
+  }
+})
+
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+async function retryTransaction(transactionFunction: () => Promise<void>, maxRetries = 3) {
+  let retryCount = 0
+  while (retryCount < maxRetries) {
+    try {
+      await transactionFunction()
+      break // Transaction succeeded, exit loop
+    } catch (error: unknown) {
+      // @ts-expect-error
+      if (error && error.code === 112) {
+        // WriteConflict error code
+        retryCount++
+        console.log(`Retrying transaction (attempt ${retryCount}/${maxRetries})...`)
+        await new Promise(resolve => setTimeout(resolve, Math.pow(2, retryCount) * 1000)) // Exponential backoff
+      } else {
+        throw error // Re-throw other errors
+      }
+    }
+  }
+  if (retryCount === maxRetries) {
+    throw new Error(`Transaction failed after ${maxRetries} attempts.`)
+  }
+}
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const saveSearchTerm = async (term: string) => {

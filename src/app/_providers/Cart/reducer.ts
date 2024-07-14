@@ -1,6 +1,11 @@
 import type { CartItems, Product, User } from '../../../payload/payload-types'
 
-export type CartItem = CartItems[0]
+export interface CartItem {
+  product: Product
+  quantity: number
+  selectedAttributes: { [key: string]: Array<{ value: string; quantity: number }> }
+  attributePrices?: { [key: string]: number | undefined }
+}
 
 type CartType = User['cart']
 
@@ -38,18 +43,18 @@ export const cartReducer = (cart: CartType, action: CartAction): CartType => {
         ...(cart?.items || []),
         ...(incomingCart?.items || []),
       ].reduce((acc: CartItem[], item) => {
-        // remove duplicates
         const productId = typeof item.product === 'string' ? item.product : item?.product?.id
 
-        const indexInAcc = acc.findIndex(({ product }) =>
-          typeof product === 'string' ? product === productId : product?.id === productId,
-        ) // eslint-disable-line function-paren-newline
+        const indexInAcc = acc.findIndex(
+          ({ product, selectedAttributes }) =>
+            (typeof product === 'string' ? product === productId : product?.id === productId) &&
+            JSON.stringify(selectedAttributes) === JSON.stringify(item.selectedAttributes),
+        )
 
         if (indexInAcc > -1) {
           acc[indexInAcc] = {
             ...acc[indexInAcc],
-            // customize the merge logic here, e.g.:
-            // quantity: acc[indexInAcc].quantity + item.quantity
+            quantity: acc[indexInAcc].quantity + item.quantity,
           }
         } else {
           acc.push(item)
@@ -64,7 +69,6 @@ export const cartReducer = (cart: CartType, action: CartAction): CartType => {
     }
 
     case 'ADD_ITEM': {
-      // if the item is already in the cart, increase the quantity
       const { payload: incomingItem } = action
       const productId =
         typeof incomingItem.product === 'string' ? incomingItem.product : incomingItem?.product?.id
@@ -73,18 +77,16 @@ export const cartReducer = (cart: CartType, action: CartAction): CartType => {
         ({ product, selectedAttributes }) =>
           (typeof product === 'string' ? product === productId : product?.id === productId) &&
           JSON.stringify(selectedAttributes) === JSON.stringify(incomingItem.selectedAttributes),
-      ) // eslint-disable-line function-paren-newline
+      )
 
       let withAddedItem = [...(cart?.items || [])]
 
       if (indexInCart === -1) {
         withAddedItem.push(incomingItem)
-      }
-
-      if (typeof indexInCart === 'number' && indexInCart > -1) {
+      } else if (typeof indexInCart === 'number' && indexInCart > -1) {
         withAddedItem[indexInCart] = {
           ...withAddedItem[indexInCart],
-          quantity: (withAddedItem[indexInCart].quantity || 0) + (incomingItem.quantity || 0),
+          quantity: withAddedItem[indexInCart].quantity + incomingItem.quantity,
         }
       }
 
@@ -102,7 +104,7 @@ export const cartReducer = (cart: CartType, action: CartAction): CartType => {
         typeof product === 'string'
           ? product === incomingProduct.id
           : product?.id === incomingProduct.id,
-      ) // eslint-disable-line function-paren-newline
+      )
 
       if (typeof indexInCart === 'number' && withDeletedItem.items && indexInCart > -1)
         withDeletedItem.items.splice(indexInCart, 1)

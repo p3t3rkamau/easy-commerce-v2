@@ -1,49 +1,107 @@
-@import '../../../_css/common.scss';
+/* index.module.scss */
 
 .attributeSelect {
-    margin-bottom: 20px;
-    @include small-break{
-      margin: 0;
-    }
-  
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-      @include small-break{
-        margin-bottom: 0;
-      }
-    }
-  
-    .select {
-      width: 60%;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 14px;
-      @include small-break{
-        width: 100%;
-        padding: 4px;
-      }
-    }
-  
-    
-  }
-  .colorOptions {
-    display: flex;
-    gap: 0.5rem; // Adjust the gap between color options as needed
-    margin-bottom: 1rem;
+  margin-bottom: 20px;
+}
 
+.attributeTitle {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.colorOptions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.colorOptionWrapper {
+  position: relative;
+  cursor: pointer;
+}
+
+.colorOption {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+.colorOption:hover {
+  border-color: #333;
+}
+
+.selected {
+  border-color: #4caf50;
+}
+
+.quantityInput {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  padding: 5px;
+  font-size: 14px;
+}
+
+.selectWrapper {
+  position: relative;
+}
+
+.customDropdown {
+  position: relative;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.dropdownHeader {
+  background-color: #f0f0f0;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.dropdownOptions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  background-color: white;
+  z-index: 1000;
+}
+
+.dropdownOption {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.dropdownOption:hover {
+  background-color: #f9f9f9;
+}
+
+.selectedOption {
+  background-color: #4caf50;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .colorOptions {
+    flex-direction: column;
   }
-  
-  .colorOption {
-    width: 30px; // Adjust the width as needed
-    height: 30px; // Adjust the height as needed
-    border-radius: 50%; // Make it a circle
-    cursor: pointer;
-    border: 1px solid rgb(179, 172, 172); // Add border for selected state
-  
-    &.selected {
-      border: 2px solid #9b03af; // Change to your desired selected border color
-    }
+
+  .quantityInput {
+    position: static;
+    transform: none;
+    margin-top: 5px;
   }
+}

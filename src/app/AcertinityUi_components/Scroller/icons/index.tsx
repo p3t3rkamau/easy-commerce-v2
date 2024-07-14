@@ -1,6 +1,6 @@
 import type { SVGProps } from 'react'
 import React from 'react'
-
+import Image from 'next/image'
 export function StripeIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" {...props}>
@@ -71,4 +71,12 @@ export function Error404(props: SVGProps<SVGSVGElement>) {
       ></path>
     </svg>
   )
+}
+
+export function LionSvg(props: SVGProps<SVGSVGElement>) {
+  return <Image src="/assets/icons/lion.svg" alt="" width={200} height={200} />
+}
+
+export function HandSvg(props: SVGProps<SVGSVGElement>) {
+  return <Image src="/assets/icons/cart.svg" alt="" width={200} height={200} />
 }

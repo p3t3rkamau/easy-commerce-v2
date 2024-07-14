@@ -49,7 +49,7 @@ const HeaderCategories: CollectionConfig = {
           type: 'array', // required
           label: 'Attribute',
           minRows: 1,
-          maxRows: 15,
+          maxRows: 25,
           interfaceName: 'Attribute', // optional
           labels: {
             singular: 'Attribute',

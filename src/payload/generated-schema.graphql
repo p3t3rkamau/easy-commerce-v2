@@ -24685,6 +24685,7 @@ type Feedbackform {
   questionId: Float!
   responseType: Feedbackform_responseType!
   response: String!
+  count: Float!
   updatedAt: DateTime
   createdAt: DateTime
 }
@@ -24712,6 +24713,7 @@ input Feedbackform_where {
   questionId: Feedbackform_questionId_operator
   responseType: Feedbackform_responseType_operator
   response: Feedbackform_response_operator
+  count: Feedbackform_count_operator
   updatedAt: Feedbackform_updatedAt_operator
   createdAt: Feedbackform_createdAt_operator
   id: Feedbackform_id_operator
@@ -24748,6 +24750,15 @@ input Feedbackform_response_operator {
   in: [String]
   not_in: [String]
   all: [String]
+}
+
+input Feedbackform_count_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
 }
 
 input Feedbackform_updatedAt_operator {
@@ -24787,6 +24798,7 @@ input Feedbackform_where_and {
   questionId: Feedbackform_questionId_operator
   responseType: Feedbackform_responseType_operator
   response: Feedbackform_response_operator
+  count: Feedbackform_count_operator
   updatedAt: Feedbackform_updatedAt_operator
   createdAt: Feedbackform_createdAt_operator
   id: Feedbackform_id_operator
@@ -24798,6 +24810,7 @@ input Feedbackform_where_or {
   questionId: Feedbackform_questionId_operator
   responseType: Feedbackform_responseType_operator
   response: Feedbackform_response_operator
+  count: Feedbackform_count_operator
   updatedAt: Feedbackform_updatedAt_operator
   createdAt: Feedbackform_createdAt_operator
   id: Feedbackform_id_operator
@@ -24817,6 +24830,7 @@ type FeedbackformDocAccessFields {
   questionId: FeedbackformDocAccessFields_questionId
   responseType: FeedbackformDocAccessFields_responseType
   response: FeedbackformDocAccessFields_response
+  count: FeedbackformDocAccessFields_count
   updatedAt: FeedbackformDocAccessFields_updatedAt
   createdAt: FeedbackformDocAccessFields_createdAt
 }
@@ -24887,6 +24901,29 @@ type FeedbackformDocAccessFields_response_Update {
 }
 
 type FeedbackformDocAccessFields_response_Delete {
+  permission: Boolean!
+}
+
+type FeedbackformDocAccessFields_count {
+  create: FeedbackformDocAccessFields_count_Create
+  read: FeedbackformDocAccessFields_count_Read
+  update: FeedbackformDocAccessFields_count_Update
+  delete: FeedbackformDocAccessFields_count_Delete
+}
+
+type FeedbackformDocAccessFields_count_Create {
+  permission: Boolean!
+}
+
+type FeedbackformDocAccessFields_count_Read {
+  permission: Boolean!
+}
+
+type FeedbackformDocAccessFields_count_Update {
+  permission: Boolean!
+}
+
+type FeedbackformDocAccessFields_count_Delete {
   permission: Boolean!
 }
 
@@ -36568,6 +36605,7 @@ type FeedbackformFields {
   questionId: FeedbackformFields_questionId
   responseType: FeedbackformFields_responseType
   response: FeedbackformFields_response
+  count: FeedbackformFields_count
   updatedAt: FeedbackformFields_updatedAt
   createdAt: FeedbackformFields_createdAt
 }
@@ -36638,6 +36676,29 @@ type FeedbackformFields_response_Update {
 }
 
 type FeedbackformFields_response_Delete {
+  permission: Boolean!
+}
+
+type FeedbackformFields_count {
+  create: FeedbackformFields_count_Create
+  read: FeedbackformFields_count_Read
+  update: FeedbackformFields_count_Update
+  delete: FeedbackformFields_count_Delete
+}
+
+type FeedbackformFields_count_Create {
+  permission: Boolean!
+}
+
+type FeedbackformFields_count_Read {
+  permission: Boolean!
+}
+
+type FeedbackformFields_count_Update {
+  permission: Boolean!
+}
+
+type FeedbackformFields_count_Delete {
   permission: Boolean!
 }
 
@@ -40245,6 +40306,7 @@ input mutationFeedbackformInput {
   questionId: Float!
   responseType: String!
   response: String!
+  count: Float!
   updatedAt: String
   createdAt: String
 }
@@ -40253,6 +40315,7 @@ input mutationFeedbackformUpdateInput {
   questionId: Float
   responseType: String
   response: String
+  count: Float
   updatedAt: String
   createdAt: String
 }
