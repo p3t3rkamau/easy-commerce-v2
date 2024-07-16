@@ -1,19 +1,16 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 
-import { ShadCnSelect }from '../../../components/Shadcn-ui/select'
 import { AttributesCollection, Product } from '../../../payload/payload-types'
 import { AddToCartButton } from '../../_components/AddToCartButton'
 import { Gutter } from '../../_components/Gutter'
 import BreadcrumbItemNextUi from '../../NextUi_components/breadcrumbs'
-import MultipleSelectNextUI from '../../NextUi_components/MultipleSelect'
 import TabsUi from '../../NextUi_components/tabs'
 import { AttributeSelector } from './AttributesSelector'
 import ProductDescription from './ProductDescription'
 import { ProductDetails } from './ProductDetail'
 import ProductImage from './ProductImage'
 import { QuantitySelector } from './QuantitySelector'
-import Review from './Reviews'
 
 import classes from './index.module.scss'
 
@@ -34,8 +31,10 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
   const [maxAttributePrice, setMaxAttributePrice] = useState<number | null>(null)
   const [selectedAttributePrice, setSelectedAttributePrice] = useState<number | null>(null)
 
+  const hasAttributes = ProductsAttributes && ProductsAttributes.length > 0
+
   useEffect(() => {
-    if (ProductsAttributes && ProductsAttributes.length > 0) {
+    if (hasAttributes) {
       const prices = ProductsAttributes.flatMap(attr =>
         // @ts-ignore
         attr.Attribute_Property?.map(prop => prop.price).filter(price => price !== undefined),
@@ -46,7 +45,7 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
         setMaxAttributePrice(Math.max(...prices))
       }
     }
-  }, [ProductsAttributes])
+  }, [ProductsAttributes, hasAttributes])
 
   const handleSmallImageClick = (image: any) => {
     setMainImage(image)
@@ -101,17 +100,29 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
     }
   }
 
+  const isAtLeastOneAttributeSelected = () => {
+    return Object.values(selectedAttributes).some(attrs => attrs.length > 0)
+  }
+
   const handleWhatsAppCheckout = () => {
-    let formattedMessage = `Hello EasyBake, I want to order ${quantity} of ${title}`
-    if (selectedAttributes && Object.keys(selectedAttributes).length > 0) {
+    if (hasAttributes && !isAtLeastOneAttributeSelected()) {
+      alert('Please select at least one attribute before checking out.')
+      return
+    }
+
+    let formattedMessage = `Hello EasyBake, I want to order `
+    if (hasAttributes) {
       const selectedAttrs = Object.entries(selectedAttributes)
         .map(([attrName, values]) => {
           const attrValues = values.map(attr => `${attr.value} (${attr.quantity})`).join(', ')
           return `${attrName}: ${attrValues}`
         })
         .join(' ')
-      formattedMessage += ` ${selectedAttrs}`
+      formattedMessage += `${selectedAttrs} of ${title}`
+    } else {
+      formattedMessage += `${quantity} of ${title}`
     }
+
     if (selectedAttributePrice) {
       formattedMessage += ` @ KES ${selectedAttributePrice}`
     } else if (minAttributePrice !== null && maxAttributePrice !== null) {
@@ -119,14 +130,10 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
     }
     formattedMessage += ` ( ${url} )`
 
-    // Assuming you have a function to send this message via WhatsApp API
     sendWhatsAppMessage(formattedMessage)
   }
 
   const sendWhatsAppMessage = (message: string) => {
-    // Replace with your actual WhatsApp API integration logic
-    console.log('Sending WhatsApp message:', message)
-    // Example of how you might open a link with WhatsApp URL scheme
     window.open(
       `https://api.whatsapp.com/send?phone=0795820643&text=${encodeURIComponent(message)}`,
       '_blank',
@@ -135,7 +142,6 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
 
   return (
     <Gutter className={classes.productHero}>
-      <div className=" text-red-500">hello</div>
       <BreadcrumbItemNextUi productname={slug} />
       <div>
         <ProductImage
@@ -154,27 +160,37 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
 
         <div className={classes.flexMain}>
           <div className={classes.AttributeFlex}>
-            <AttributeSelector
-              ProductsAttributes={ProductsAttributes}
-              selectedAttributes={selectedAttributes}
-              handleAttributeSelect={handleAttributeSelect}
-            />
+            {hasAttributes && (
+              <AttributeSelector
+                ProductsAttributes={ProductsAttributes}
+                selectedAttributes={selectedAttributes}
+                handleAttributeSelect={handleAttributeSelect}
+              />
+            )}
           </div>
           <div className={classes.priceFlex}>
-            <QuantitySelector quantity={quantity} setQuantity={handleQuantityChange} />
+            {!hasAttributes && (
+              <QuantitySelector quantity={quantity} setQuantity={handleQuantityChange} />
+            )}
             <AddToCartButton
               product={product}
-              quantity={quantity}
-              className={classes.addToCartButton}
-              selectedAttributes={selectedAttributes} // Pass selected attributes here
+              quantity={hasAttributes ? 1 : quantity}
+              className={`${classes.addToCartButton} bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded`}
+              selectedAttributes={selectedAttributes}
             />
-            <button className={classes.whatsappButton} onClick={handleWhatsAppCheckout}>
+            <button
+              className={`${classes.whatsappButton} bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded`}
+              onClick={handleWhatsAppCheckout}
+            >
               Checkout via WhatsApp
             </button>
-            <button className={classes.whatsappButton}>Buy Now</button>
+            <button
+              className={`${classes.whatsappButton} bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded`}
+            >
+              Buy Now
+            </button>
           </div>
         </div>
-        {/* <ShadCnSelect /> */}
         <ProductDescription description={description} />
         <TabsUi />
       </div>

@@ -1,92 +1,204 @@
 'use client'
+
 import React, { useState } from 'react'
+import Carousel from 'react-grid-carousel'
+import styled from 'styled-components'
 
 import { Page, Product } from '../../../payload/payload-types'
-import { Chevron } from '../../_components/Chevron'
-import SliderArchive from './Slider'
 
 import classes from './index.module.scss'
 
 type EventBlock = Extract<Page['layout'][number], { blockType: 'Event-Archive' }>
 
+const Container = styled.div`
+  position: relative;
+  width: 100%;
+  padding: 0 0 10px 0;
+`
+const RowWrapper = styled.div`
+  max-width: 100%;
+  margin: 0px auto;
+  border-radius: 8px;
+  background: wheat;
+
+  @media screen and (max-width: 767px) {
+    margin: 10px;
+  }
+`
+const Row = styled.div`
+  max-width: 100%;
+  margin: 0 auto;
+`
+
+const ArrowBtn = styled.span`
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  right: ${({ type }) => (type === 'right' ? '-40px' : 'unset')};
+  left: ${({ type }) => (type === 'left' ? '-40px' : 'unset')};
+  width: 45px;
+  height: 45px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+
+  &::after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: ${({ type }) =>
+      type === 'right'
+        ? 'translate(-75%, -50%) rotate(45deg)'
+        : 'translate(-25%, -50%) rotate(-135deg)'};
+    width: 10px;
+    height: 10px;
+    border-top: 2px solid #666;
+    border-right: 2px solid #666;
+  }
+
+  &:hover::after {
+    border-color: #333;
+  }
+`
+
+const CardContainer = styled.div`
+  margin: 4px 0;
+  border-radius: 6px;
+  border: 1px solid #eaeaea;
+  overflow: hidden;
+  cursor: pointer;
+  transition: box-shadow 0.25s;
+  max-width: 180px;
+  min-width: 180px;
+  min-height: 250px;
+  max-height: 250px;
+  @media screen and (max-width: 767px) {
+    margin: 10px;
+    max-height: 260px;
+    min-height: 150px;
+    max-width: 160px;
+    min-width: 160px;
+  }
+
+  :hover {
+    box-shadow: 0 0 2px 0 #00000063;
+  }
+`
+
+const Img = styled.div`
+  height: 160px;
+  margin-bottom: 4px;
+  background-image: ${({ img }) => `url(${img})`};
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+`
+
+const Title = styled.div`
+  margin: 0 5px 5px;
+  font-size: 15px;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`
+
+const Description = styled.div`
+  margin: 0 5px 5px;
+  font-size: 12px;
+  color: #999;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`
+
+const RowHead = styled.div`
+  padding: 10px;
+  background-color: ${({ background }) => background};
+  color: ${({ color }) => color};
+  font-size: 18px;
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+`
+
 const EventArchiveBlock: React.FC<EventBlock & { className?: string }> = props => {
   const { Heading, BackgroundColor, TextColor, selectedDocs, className } = props
-  // console.log('SliderArchiveBlock Props:', props)
 
   // Type guard function to check if a doc is a Product
   function isProduct(doc: any): doc is Product {
     return typeof doc === 'object' && 'id' in doc
   }
-
-  // Filter out invalid docs using the type guard
   const validDocs = selectedDocs?.filter(isProduct) || []
 
-  // Pagination state
-  const [page, setPage] = useState(1)
-  const itemsPerPage = 5 // Number of items to show per page
-  const totalPages = Math.ceil(validDocs?.length / itemsPerPage)
-
-  // Event handlers for next and previous buttons
-  const handleNext = () => {
-    if (page < totalPages) {
-      setPage(page + 1)
-    }
-  }
-
-  const handlePrev = () => {
-    if (page > 1) {
-      setPage(page - 1)
-    }
-  }
-
-  // Get the items for the current page
-  const startIndex = (page - 1) * itemsPerPage
-  const endIndex = startIndex + itemsPerPage
-  const itemsToShow = validDocs?.slice(startIndex, endIndex)
-
-  // Log the validDocs to verify
-  // console.log('Valid Products:', validDocs)
-  // console.log('Items to Show:', itemsToShow)
-  // console.log('Current Page:', page, 'Total Pages:', totalPages)
-
   return (
-    <div>
-      <div
-        className={`${classes.headerContainer} ${className}`}
-        style={{ backgroundColor: BackgroundColor, color: TextColor }}
-      >
-        <div>{Heading}</div>
-        <div className={classes.seeAll}>
-          <div>See All </div>
-          <div>
-            <span className={classes.arrow}>&#8594;</span>
+    <RowWrapper>
+      <Container>
+        <RowHead background={BackgroundColor} color={TextColor}>
+          <div
+            className={`${classes.headerContainer} ${className}`}
+            style={{ backgroundColor: BackgroundColor, color: TextColor }}
+          >
+            <div>{Heading}</div>
+            <div className={classes.seeAll}>
+              <div>See All </div>
+              <div>
+                <span className={classes.arrow}>&#8594;</span>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div className={classes.sliderFlex}>
-        <div className={classes.ButtonContainer}>
-          <button
-            className={`${classes.button1} ${classes.button} ${className}`}
-            onClick={handlePrev}
-            disabled={page === 1}
+        </RowHead>
+        <Row>
+          <Carousel
+            cols={5}
+            rows={1}
+            gap={10}
+            loop
+            showDots
+            responsiveLayout={[
+              {
+                breakpoint: 1920,
+                cols: 8,
+              },
+              {
+                breakpoint: 1500,
+                cols: 5,
+                loop: true,
+              },
+              {
+                breakpoint: 990,
+                cols: 3,
+              },
+              {
+                breakpoint: 670,
+                cols: 2,
+              },
+              {
+                breakpoint: 400,
+                cols: 2,
+              },
+            ]}
+            mobileBreakpoint={400}
+            arrowRight={<ArrowBtn type="right" />}
+            arrowLeft={<ArrowBtn type="left" />}
           >
-            <Chevron rotate={90} className={classes.icon} />
-          </button>
-        </div>
-        <div className={classes.flex}>
-          <SliderArchive selectedDocs={itemsToShow} />
-        </div>
-        <div className={classes.ButtonContainer}>
-          <button
-            className={`${classes.button2} ${classes.button} ${className}`}
-            onClick={handleNext}
-            disabled={page === totalPages}
-          >
-            <Chevron rotate={-90} className={classes.icon} />
-          </button>
-        </div>
-      </div>
-    </div>
+            {validDocs.map((product, index) => (
+              <Carousel.Item key={index}>
+                <CardContainer>
+                  <Img img={product?.meta?.image?.imagekit.url} />
+                  <Title>{product.title}</Title>
+                  <Description>{product.description}</Description>
+                </CardContainer>
+              </Carousel.Item>
+            ))}
+          </Carousel>
+        </Row>
+      </Container>
+    </RowWrapper>
   )
 }
 

@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 
 import { AttributesCollection } from '../../../../payload/payload-types'
 
+import 'tailwindcss/tailwind.css'
+
 interface AttributeSelectorProps {
   ProductsAttributes: AttributesCollection[]
   selectedAttributes: { [key: string]: { value: string; quantity: number }[] }
@@ -13,123 +15,139 @@ export const AttributeSelector: React.FC<AttributeSelectorProps> = ({
   selectedAttributes,
   handleAttributeSelect,
 }) => {
-  const [quantities, setQuantities] = useState<{ [key: string]: { [value: string]: number } }>({})
-  const [isDropdownOpen, setDropdownOpen] = useState<string | null>(null)
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null)
 
   const isSelected = (attributeName: string, value: string) => {
     return selectedAttributes[attributeName]?.some(attr => attr.value === value)
   }
 
-  const handleQuantityChange = (attributeName: string, value: string, quantity: number) => {
-    setQuantities(prev => ({
-      ...prev,
-      [attributeName]: {
-        ...prev[attributeName],
-        [value]: quantity,
-      },
-    }))
-    handleAttributeSelect(attributeName, value, quantity)
-  }
-
-  const handleSelectOrDeselect = (attributeName: string, value: string) => {
-    if (isSelected(attributeName, value)) {
-      handleQuantityChange(attributeName, value, 0) // Deselect by setting quantity to 0
-    } else {
-      handleQuantityChange(attributeName, value, 1) // Select with default quantity 1
-    }
-  }
-
   const toggleDropdown = (attributeName: string) => {
-    setDropdownOpen(isDropdownOpen === attributeName ? null : attributeName)
+    setOpenDropdown(openDropdown === attributeName ? null : attributeName)
+  }
+
+  const toggleAttribute = (attributeName: string, value: string) => {
+    const currentQuantity =
+      selectedAttributes[attributeName]?.find(attr => attr.value === value)?.quantity || 0
+    handleAttributeSelect(attributeName, value, currentQuantity === 0 ? 1 : 0)
+  }
+
+  const handleQuantityChange = (attributeName: string, value: string, change: number) => {
+    const currentQuantity =
+      selectedAttributes[attributeName]?.find(attr => attr.value === value)?.quantity || 0
+    const newQuantity = Math.max(0, currentQuantity + change)
+    handleAttributeSelect(attributeName, value, newQuantity)
   }
 
   return (
-    <div>
-      {ProductsAttributes &&
-        ProductsAttributes.map((attribute, index) => (
-          <div key={index} className="mb-4">
-            <div className="font-bold text-lg mb-2">{`Select ${attribute.title}`}</div>
-            {attribute.Attribute_Property?.some(property => property.type === 'color') ? (
-              <div className="flex flex-wrap gap-2">
-                {attribute.Attribute_Property?.map((property, idx) =>
-                  property.type === 'color' ? (
-                    <div key={idx} className="relative cursor-pointer">
-                      <div
-                        className={`w-8 h-8 rounded-full border-2 transition ${
-                          isSelected(attribute.Attribute_Name, property.colourValue)
-                            ? 'border-green-500'
-                            : 'border-transparent'
-                        }`}
-                        style={{ backgroundColor: property.colourValue }}
-                        onClick={() =>
-                          handleSelectOrDeselect(attribute.Attribute_Name, property.colourValue)
-                        }
-                      ></div>
-                      {isSelected(attribute.Attribute_Name, property.colourValue) && (
-                        <input
-                          type="number"
-                          min="1"
-                          value={quantities[attribute.Attribute_Name]?.[property.colourValue] || 1}
-                          onChange={e =>
-                            handleQuantityChange(
-                              attribute.Attribute_Name,
-                              property.colourValue,
-                              parseInt(e.target.value, 10),
-                            )
+    <div className="space-y-4">
+      {ProductsAttributes.map((attribute, index) => (
+        <div key={index} className="relative">
+          {/* <h3 className="font-bold text-lg mb-2">{attribute.title}</h3> */}
+          {attribute.Attribute_Property?.some(property => property.type === 'color') ? (
+            <div className="flex flex-wrap gap-2">
+              {attribute.Attribute_Property?.filter(property => property.type === 'color').map(
+                (property, idx) => (
+                  <div key={idx} className="flex items-center space-x-2">
+                    <div
+                      className={`w-8 h-8 rounded-full cursor-pointer border-2 ${
+                        isSelected(attribute.Attribute_Name, property.colourValue)
+                          ? 'border-white'
+                          : 'border-transparent'
+                      }`}
+                      style={{ backgroundColor: property.colourValue }}
+                      onClick={() =>
+                        toggleAttribute(attribute.Attribute_Name, property.colourValue)
+                      }
+                    />
+                    {isSelected(attribute.Attribute_Name, property.colourValue) && (
+                      <div className="flex items-center bg-gray-700 rounded-full px-2 py-1">
+                        <button
+                          onClick={() =>
+                            handleQuantityChange(attribute.Attribute_Name, property.colourValue, -1)
                           }
-                          className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-12 p-1 text-sm"
-                        />
+                          className="text-white px-1"
+                        >
+                          -
+                        </button>
+                        <span className="text-white mx-2">
+                          {selectedAttributes[attribute.Attribute_Name]?.find(
+                            attr => attr.value === property.colourValue,
+                          )?.quantity || 1}
+                        </span>
+                        <button
+                          onClick={() =>
+                            handleQuantityChange(attribute.Attribute_Name, property.colourValue, 1)
+                          }
+                          className="text-white px-1"
+                        >
+                          +
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ),
+              )}
+            </div>
+          ) : (
+            <>
+              <button
+                className="w-full text-left bg-gray-200 rounded-full px-6 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                onClick={() => toggleDropdown(attribute.Attribute_Name)}
+              >
+                {selectedAttributes[attribute.Attribute_Name]?.length > 0
+                  ? selectedAttributes[attribute.Attribute_Name]
+                      .map(attr => `${attr.value} (${attr.quantity})`)
+                      .join(', ')
+                  : 'Select'}
+              </button>
+              {openDropdown === attribute.Attribute_Name && (
+                <div className="absolute z-10 w-full mt-1 bg-gray-100 border border-gray-300 rounded-lg shadow-lg overflow-hidden">
+                  {attribute.Attribute_Property?.map((property, idx) => (
+                    <div
+                      key={idx}
+                      className={`px-4 py-2 flex items-center justify-between cursor-pointer ${
+                        isSelected(attribute.Attribute_Name, property.Value)
+                          ? 'bg-gray-300'
+                          : 'hover:bg-gray-200'
+                      }`}
+                      onClick={() => toggleAttribute(attribute.Attribute_Name, property.Value)}
+                    >
+                      <span>{property.label}</span>
+                      {isSelected(attribute.Attribute_Name, property.Value) && (
+                        <div className="flex items-center space-x-2">
+                          <button
+                            onClick={e => {
+                              e.stopPropagation()
+                              handleQuantityChange(attribute.Attribute_Name, property.Value, -1)
+                            }}
+                            className="text-lg font-bold"
+                          >
+                            -
+                          </button>
+                          <span>
+                            {selectedAttributes[attribute.Attribute_Name]?.find(
+                              attr => attr.value === property.Value,
+                            )?.quantity || 0}
+                          </span>
+                          <button
+                            onClick={e => {
+                              e.stopPropagation()
+                              handleQuantityChange(attribute.Attribute_Name, property.Value, 1)
+                            }}
+                            className="text-lg font-bold"
+                          >
+                            +
+                          </button>
+                        </div>
                       )}
                     </div>
-                  ) : null,
-                )}
-              </div>
-            ) : (
-              <div className="relative">
-                <div
-                  className="border border-gray-300 rounded-md px-4 py-2 bg-white cursor-pointer"
-                  onClick={() => toggleDropdown(attribute.Attribute_Name)}
-                >
-                  {`Select ${attribute.title}`}
+                  ))}
                 </div>
-                {isDropdownOpen === attribute.Attribute_Name && (
-                  <div className="absolute top-full left-0 w-full bg-white border border-gray-300 rounded-md mt-1 z-10 max-h-60 overflow-y-auto">
-                    {attribute.Attribute_Property?.map((property, idx) => (
-                      <div
-                        key={idx}
-                        className={`px-4 py-2 cursor-pointer transition ${
-                          isSelected(attribute.Attribute_Name, property.Value)
-                            ? 'bg-green-500 text-white'
-                            : 'hover:bg-gray-100'
-                        }`}
-                        onClick={() =>
-                          handleSelectOrDeselect(attribute.Attribute_Name, property.Value)
-                        }
-                      >
-                        <span>{property.label}</span>
-                        {isSelected(attribute.Attribute_Name, property.Value) && (
-                          <input
-                            type="number"
-                            min="1"
-                            value={quantities[attribute.Attribute_Name]?.[property.Value] || 1}
-                            onChange={e =>
-                              handleQuantityChange(
-                                attribute.Attribute_Name,
-                                property.Value,
-                                parseInt(e.target.value, 10),
-                              )
-                            }
-                            className="ml-2 w-12 p-1 text-sm"
-                          />
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-        ))}
+              )}
+            </>
+          )}
+        </div>
+      ))}
     </div>
   )
 }
