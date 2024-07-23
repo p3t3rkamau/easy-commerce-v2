@@ -1,0 +1,35 @@
+.topNav {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .navItem {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  
+    &:hover {
+      background-color: #e7e0e9;
+    }
+  
+    &.active {
+      background-color: var(--theme-elevation-1000);
+      font-weight: bold;
+      color: #fff;
+    }
+  }
+  
+  .icon {
+    font-size: 24px;
+    margin-bottom: 5px;
+  }

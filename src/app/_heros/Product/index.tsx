@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { AttributesCollection, Product } from '../../../payload/payload-types'
 import { AddToCartButton } from '../../_components/AddToCartButton'
 import { Gutter } from '../../_components/Gutter'
+import CustomerFeedback from '../../_components/Reviews/index'
 import BreadcrumbItemNextUi from '../../NextUi_components/breadcrumbs'
 import TabsUi from '../../NextUi_components/tabs'
 import { AttributeSelector } from './AttributesSelector'
@@ -142,6 +143,7 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
 
   return (
     <Gutter className={classes.productHero}>
+      <div>hello</div>
       <BreadcrumbItemNextUi productname={slug} />
       <div>
         <ProductImage
@@ -191,8 +193,48 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
             </button>
           </div>
         </div>
-        <ProductDescription description={description} />
-        <TabsUi />
+        {/* <ProductDescription description={description} /> */}
+        <TabsUi description={description} />
+      </div>
+      <div>
+        <CustomerFeedback
+          productName="Puratos"
+          averageRating={4.6}
+          totalRatings={48}
+          ratingCounts={{
+            5: 39,
+            4: 5,
+            3: 2,
+            2: 0,
+            1: 2,
+          }}
+          reviews={[
+            {
+              rating: 4,
+              title: 'HP charger',
+              content: 'Good n working I recommend anyone.',
+              author: 'ERICK',
+              date: '17-07-2024',
+              verified: true,
+            },
+            {
+              rating: 5,
+              title: 'It is a great product',
+              content: 'It is a great product',
+              author: 'misogynist',
+              date: '31-05-2024',
+              verified: true,
+            },
+            {
+              rating: 5,
+              title: 'perfect',
+              content: 'perfect',
+              author: 'Anonymous',
+              date: '15-06-2024',
+              verified: false,
+            },
+          ]}
+        />
       </div>
     </Gutter>
   )

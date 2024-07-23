@@ -1,0 +1,27 @@
+.verifiedRatings {
+    flex: 1;
+    background-color: #f7f7f7;
+    padding: 20px;
+    border-radius: 5px;
+  }
+  
+  .averageRating {
+    font-size: 36px;
+    font-weight: bold;
+    margin: 10px 0;
+  }
+  
+  .rating {
+    color: var(--theme-elevation-1000);
+  }
+  
+  .outOf {
+    color: #888;
+    font-size: 24px;
+  }
+  
+  .stars {
+    color: var(--theme-elevation-1000);
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
