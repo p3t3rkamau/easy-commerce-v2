@@ -1,8 +1,19 @@
 import React from 'react'
 import { Card, CardBody, CardHeader, Tab, Tabs } from '@nextui-org/react'
 
-export default function TabsUi() {
+import ProductDescription from '../_heros/Product/ProductDescription' // Adjust the import path as necessary
+
+interface TabsUiProps {
+  description: string
+}
+
+const TabsUi: React.FC<TabsUiProps> = ({ description }) => {
   let tabs = [
+    {
+      id: 'description',
+      label: 'Description',
+      content: <ProductDescription description={description} />,
+    },
     {
       id: 'photos',
       label: 'Photos',
@@ -37,3 +48,5 @@ export default function TabsUi() {
     </div>
   )
 }
+
+export default TabsUi
