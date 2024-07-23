@@ -2,6 +2,7 @@
 
 import React from 'react'
 import Carousel from 'react-grid-carousel'
+import Link from 'next/link'
 import styled from 'styled-components'
 
 import { Page, Product } from '../../../payload/payload-types'
@@ -92,7 +93,7 @@ const CardContainer = styled.div`
 const Img = styled.div`
   height: 160px;
   margin-bottom: 4px;
-  background-image: ${({ img }) => `url(${img})`};
+  background-image: ${({ $img }) => `url(${$img})`};
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -201,14 +202,16 @@ const LastViewedArchive: React.FC<LastViewedBlock & { className?: string }> = pr
           >
             {validDocs.map((product, index) => (
               <Carousel.Item key={index}>
-                <CardContainer>
-                  <Img img={product?.meta?.image?.imagekit.url} />
-                  <Title>{product.title}</Title>
-                  <Star>★★★★★</Star>
-                  <Price>
-                    USD <span>{product.price}</span>
-                  </Price>
-                </CardContainer>
+                <Link href={`/products/${product.slug}`} passHref>
+                  <CardContainer>
+                    <Img $img={product?.meta?.image?.imagekit.url} />
+                    <Title>{product.title}</Title>
+                    <Star>★★★★★</Star>
+                    <Price>
+                      USD <span>{product.price}</span>
+                    </Price>
+                  </CardContainer>
+                </Link>
               </Carousel.Item>
             ))}
           </Carousel>

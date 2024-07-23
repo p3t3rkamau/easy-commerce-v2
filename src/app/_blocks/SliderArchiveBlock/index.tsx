@@ -7,6 +7,7 @@ import { Page, Product } from '../../../payload/payload-types'
 import { Chevron } from '../../_components/Chevron'
 
 import classes from './index.module.scss'
+import Link from 'next/link'
 
 type ProductSliderBlock = Extract<Page['layout'][number], { blockType: 'products-slider' }>
 
@@ -91,7 +92,7 @@ const CardContainer = styled.div`
 const Img = styled.div`
   height: 160px;
   margin-bottom: 4px;
-  background-image: ${({ img }) => `url(${img})`};
+  background-image: ${({ $img }) => `url(${$img})`};
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -201,14 +202,17 @@ const SliderArchiveBlock: React.FC<ProductSliderBlock & { className?: string }> 
           >
             {validDocs.map((product, index) => (
               <Carousel.Item key={index}>
-                <CardContainer>
-                  <Img img={product?.meta?.image?.imagekit.url} />
-                  <Title>{product.title}</Title>
-                  <Star>★★★★★</Star>
-                  <Price>
-                    USD <span>{product.price}</span>
-                  </Price>
-                </CardContainer>
+                <Link href={`/products/${product.slug}`} passHref>
+                  <CardContainer>
+                    <Img $img={product?.meta?.image?.imagekit.url} />
+
+                    <Title>{product.title}</Title>
+                    <Star>★★★★★</Star>
+                    <Price>
+                      USD <span>{product.price}</span>
+                    </Price>
+                  </CardContainer>
+                </Link>
               </Carousel.Item>
             ))}
           </Carousel>

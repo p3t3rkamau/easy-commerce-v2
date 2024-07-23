@@ -8,6 +8,7 @@ import { Page, Product } from '../../../payload/payload-types'
 import { Chevron } from '../../_components/Chevron'
 
 import classes from './index.module.scss'
+import Link from 'next/link'
 
 type RecommendedBlock = Extract<Page['layout'][number], { blockType: 'recommended' }>
 
@@ -92,7 +93,7 @@ const CardContainer = styled.div`
 const Img = styled.div`
   height: 160px;
   margin-bottom: 4px;
-  background-image: ${({ img }) => `url(${img})`};
+  background-image: ${({ $img }) => `url(${$img})`};
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -128,8 +129,6 @@ const Price = styled.div`
 `
 const RowHead = styled.div`
   padding: 10px;
-  background-color: red;
-  color: white;
   font-size: 18px;
   font-weight: bold;
   border-bottom: 1px solid #eee;
@@ -154,7 +153,7 @@ const RecommededArchive: React.FC<RecommendedBlock & { className?: string }> = p
         <RowHead>
           <div
             className={`${classes.headerContainer} ${className}`}
-            style={{ backgroundColor: 'blue', color: 'white' }}
+            style={{ backgroundColor: 'wheat', color: 'black' }}
           >
             <div>Recommended</div>
             <div className={classes.seeAll}>
@@ -201,14 +200,16 @@ const RecommededArchive: React.FC<RecommendedBlock & { className?: string }> = p
           >
             {validDocs.map((product, index) => (
               <Carousel.Item key={index}>
-                <CardContainer>
-                  <Img img={product?.meta?.image?.imagekit.url} />
-                  <Title>{product.title}</Title>
-                  <Star>★★★★★</Star>
-                  <Price>
-                    USD <span>{product.price}</span>
-                  </Price>
-                </CardContainer>
+                <Link href={`/products/${product.slug}`} passHref>
+                  <CardContainer>
+                    <Img $img={product?.meta?.image?.imagekit.url} />
+                    <Title>{product.title}</Title>
+                    <Star>★★★★★</Star>
+                    <Price>
+                      USD <span>{product.price}</span>
+                    </Price>
+                  </CardContainer>
+                </Link>
               </Carousel.Item>
             ))}
           </Carousel>

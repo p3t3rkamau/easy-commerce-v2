@@ -8,6 +8,7 @@ import { Page, Product } from '../../../payload/payload-types'
 import { Chevron } from '../../_components/Chevron'
 
 import classes from './index.module.scss'
+import Link from 'next/link'
 
 type TopDealsBlock = Extract<Page['layout'][number], { blockType: 'Deals-archive' }>
 
@@ -88,11 +89,10 @@ const CardContainer = styled.div`
     box-shadow: 0 0 2px 0 #00000063;
   }
 `
-
 const Img = styled.div`
   height: 160px;
   margin-bottom: 4px;
-  background-image: ${({ img }) => `url(${img})`};
+  background-image: ${({ $img }) => `url(${$img})`};
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -128,8 +128,8 @@ const Price = styled.div`
 `
 const RowHead = styled.div`
   padding: 10px;
-  background-color: red;
-  color: white;
+  background-color: ${({ background }) => background};
+  color: ${({ color }) => color};
   font-size: 18px;
   font-weight: bold;
   border-bottom: 1px solid #eee;
@@ -151,11 +151,8 @@ const TopDealsArchive: React.FC<TopDealsBlock & { className?: string }> = props 
   return (
     <RowWrapper>
       <Container>
-        <RowHead>
-          <div
-            className={`${classes.headerContainer} ${className}`}
-            style={{ backgroundColor: BackgroundColor, color: TextColor }}
-          >
+        <RowHead background={BackgroundColor} color={TextColor}>
+          <div className={`${classes.headerContainer} ${className}`}>
             <div>{Heading}</div>
             <div className={classes.seeAll}>
               <div>See All </div>
@@ -201,14 +198,16 @@ const TopDealsArchive: React.FC<TopDealsBlock & { className?: string }> = props 
           >
             {validDocs.map((product, index) => (
               <Carousel.Item key={index}>
-                <CardContainer>
-                  <Img img={product?.meta?.image?.imagekit.url} />
-                  <Title>{product.title}</Title>
-                  <Star>★★★★★</Star>
-                  <Price>
-                    USD <span>{product.price}</span>
-                  </Price>
-                </CardContainer>
+                <Link href={`/products/${product.slug}`} passHref>
+                  <CardContainer>
+                    <Img $img={product?.meta?.image?.imagekit.url} />
+                    <Title>{product.title}</Title>
+                    <Star>★★★★★</Star>
+                    <Price>
+                      USD <span>{product.price}</span>
+                    </Price>
+                  </CardContainer>
+                </Link>
               </Carousel.Item>
             ))}
           </Carousel>
