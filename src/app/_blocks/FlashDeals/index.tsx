@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import Carousel from 'react-grid-carousel'
+import Link from 'next/link'
 import styled from 'styled-components'
 
 import { Page, Product } from '../../../payload/payload-types'
@@ -15,6 +16,7 @@ const Container = styled.div`
   width: 100%;
   padding: 0 0 10px 0;
 `
+
 const RowWrapper = styled.div`
   max-width: 100%;
   margin: 0px auto;
@@ -25,6 +27,7 @@ const RowWrapper = styled.div`
     margin: 10px;
   }
 `
+
 const Row = styled.div`
   max-width: 100%;
   margin: 0 auto;
@@ -91,7 +94,7 @@ const CardContainer = styled.div`
 const Img = styled.div`
   height: 160px;
   margin-bottom: 4px;
-  background-image: ${({ img }) => `url(${img})`};
+  background-image: ${({ $img }) => `url(${$img})`};
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -125,6 +128,7 @@ const Price = styled.div`
     color: #26bec9;
   }
 `
+
 const RowHead = styled.div`
   padding: 10px;
   background-color: ${({ background }) => background};
@@ -134,6 +138,22 @@ const RowHead = styled.div`
   border-bottom: 1px solid #eee;
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
+`
+
+const ProgressBar = styled.div`
+  position: relative;
+  height: 10px;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  overflow: hidden;
+  margin: 5px 0;
+
+  & > div {
+    position: absolute;
+    height: 100%;
+    width: ${({ $percentage }) => `${$percentage}%`};
+    background-color: #76c7c0;
+  }
 `
 
 const FlashDealsArchive: React.FC<FlashDealsBlock & { className?: string }> = props => {
@@ -177,7 +197,6 @@ const FlashDealsArchive: React.FC<FlashDealsBlock & { className?: string }> = pr
 
   // Filter out invalid docs using the type guard
   const validDocs = selectedDocs?.filter(isProduct) || []
-
   return (
     <RowWrapper>
       <Container>
@@ -235,18 +254,32 @@ const FlashDealsArchive: React.FC<FlashDealsBlock & { className?: string }> = pr
             arrowRight={<ArrowBtn type="right" />}
             arrowLeft={<ArrowBtn type="left" />}
           >
-            {validDocs.map((product, index) => (
-              <Carousel.Item key={index}>
-                <CardContainer>
-                  <Img img={product?.meta?.image?.imagekit.url} />
-                  <Title>{product.title}</Title>
-                  <Star>★★★★★</Star>
-                  <Price>
-                    USD <span>{product.price}</span>
-                  </Price>
-                </CardContainer>
-              </Carousel.Item>
-            ))}
+            {validDocs.map((product, index) => {
+              // Demo data for units left
+              const totalUnits = 100
+              const unitsLeft = Math.floor(Math.random() * totalUnits)
+              const percentageLeft = (unitsLeft / totalUnits) * 100
+
+              return (
+                <Carousel.Item key={index}>
+                  <Link href={`/products/${product.slug}`} passHref>
+                    <CardContainer>
+                      <Img $img={product?.meta?.image?.imagekit.url} />
+                      <Title>{product.title}</Title>
+                      <Price>
+                        USD <span>{product.price}</span>
+                      </Price>
+                      <ProgressBar $percentage={percentageLeft}>
+                        <div />
+                      </ProgressBar>
+                      <div style={{ textAlign: 'center', fontSize: '12px' }}>
+                        {unitsLeft} units left
+                      </div>
+                    </CardContainer>
+                  </Link>
+                </Carousel.Item>
+              )
+            })}
           </Carousel>
         </Row>
       </Container>
