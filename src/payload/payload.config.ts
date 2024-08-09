@@ -26,12 +26,14 @@ import Categories from './collections/Categories'
 import Comments from './collections/Comments'
 import Coupons from './collections/Coupon'
 import { EMailSms } from './collections/Email & Sms'
+import { Employees } from './collections/Employees'
 import FeedBackForm from './collections/Feedback'
 import HeaderCategories from './collections/HeaderCategories'
 import { LiveChats } from './collections/LiveChats/LiveChats'
 import { Media } from './collections/Media'
 import { Orders } from './collections/Orders'
 import { Pages } from './collections/Pages'
+import { Payments } from './collections/Payments'
 import { Posts } from './collections/Posts'
 import Products from './collections/Products'
 // import { QuestionSets } from './collections/QuestionSets'
@@ -140,6 +142,8 @@ export default buildConfig({
     SearchTerms,
     Sponsored,
     FeedBackForm,
+    Employees,
+    Payments,
 
     // CaseStudies,
     // QuestionSets,

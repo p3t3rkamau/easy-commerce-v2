@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import './emails.scss' // Assuming you have some CSS styles
+// import './emails.scss' // Assuming you have some CSS styles
 
 const EmailInterface = ({ field }) => {
   const [emails, setEmails] = useState([])

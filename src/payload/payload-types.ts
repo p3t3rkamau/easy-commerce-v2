@@ -52,6 +52,8 @@ export interface Config {
     searchTerms: SearchTerm;
     sponsored: Sponsored;
     feedbackform: Feedbackform;
+    employees: Employee;
+    payments: Payment;
     search: Search;
     redirects: Redirect;
     forms: Form;
@@ -119,13 +121,13 @@ export interface Page {
         | null;
       SliderImages?:
         | {
-            media: string | Media;
+            media?: string | Media | null;
             id?: string | null;
           }[]
         | null;
     };
-    PotraitImage: {
-      media: string | Media;
+    PotraitImage?: {
+      media?: string | Media | null;
     };
     SideImages?: {
       Images?:
@@ -133,7 +135,7 @@ export interface Page {
             richText: {
               [k: string]: unknown;
             }[];
-            media: string | Media;
+            media?: string | Media | null;
             id?: string | null;
           }[]
         | null;
@@ -965,7 +967,7 @@ export interface User {
   title?: string | null;
   name?: string | null;
   photo?: string | Media | null;
-  roles?: ('admin' | 'customer' | 'editor' | 'manager')[] | null;
+  roles?: ('admin' | 'customer' | 'editor' | 'manager' | 'employee')[] | null;
   purchases?: (string | Product)[] | null;
   recentlyViewed?: (string | Product)[] | null;
   DeliveryLocation?: string | null;
@@ -1008,11 +1010,12 @@ export interface AttributesCollection {
 }
 export interface Review {
   id: string;
-  title?: string | null;
-  user?: (string | null) | User;
-  name?: string | null;
-  message?: string | null;
-  rating: '0' | '0.5' | '1' | '1.5' | '2' | '2.5' | '3' | '3.5' | '4' | '4.5' | '5';
+  title: string;
+  product: string | Product;
+  rating: '1' | '2' | '3' | '4' | '5';
+  content: string;
+  author: string;
+  verifiedPurchase?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1220,6 +1223,26 @@ export interface Feedbackform {
   responseType: 'multipleChoice' | 'text';
   response: string;
   count: number;
+  updatedAt: string;
+  createdAt: string;
+}
+export interface Employee {
+  id: string;
+  name: string;
+  phoneNumber: string;
+  paymentAmount: number;
+  deductions?: number | null;
+  deductionReasons?: string | null;
+  tax?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+export interface Payment {
+  id: string;
+  paymentDate: string;
+  status?: ('pending' | 'completed' | 'failed') | null;
+  employee: string | Employee;
+  amount: number;
   updatedAt: string;
   createdAt: string;
 }

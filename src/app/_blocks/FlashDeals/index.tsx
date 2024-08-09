@@ -131,7 +131,7 @@ const Price = styled.div`
 
 const RowHead = styled.div`
   padding: 10px;
-  background-color: ${({ background }) => background};
+  background-color: ${({ background }) => `${background}`};
   color: ${({ color }) => color};
   font-size: 18px;
   font-weight: bold;

@@ -1,7 +1,7 @@
 import React from 'react'
 
-import MessageInterface from './chat.jsx'
-import EmailInterface from './Email/index.jsx'
+import MessageInterface from './chat'
+import EmailInterface from './Email'
 
 const CustomMessageComponent = () => <MessageInterface field={undefined} />
 const CustomEmailComponent = () => <EmailInterface field={undefined} />

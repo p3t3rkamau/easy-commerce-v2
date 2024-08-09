@@ -53,6 +53,7 @@ const ReceiptEmail = ({
               </Column>
             </Row>
           </Section>
+          {/* @ts-ignore  */}
           <Section style={informationTable}>
             <Row style={informationTableRow}>
               <Column style={informationTableColumn}>
@@ -83,7 +84,7 @@ const ReceiptEmail = ({
               </Column>
             </Row>
           </Section>
-
+          {/* @ts-ignore  */}
           <Section style={productTitleTable}>
             <Text style={productsTitle}>Order Summary</Text>
           </Section>
@@ -136,15 +137,17 @@ const ReceiptEmail = ({
           <Hr style={productPriceLine} />
           <Section align="right">
             <Column style={tableCell} align="right">
+              {/* @ts-ignore  */}
               <Text style={productPriceTotal}>TOTAL</Text>
             </Column>
             <Column style={productPriceVerticalLine}></Column>
             <Column style={productPriceLargeWrapper}>
+              {/* @ts-ignore  */}
               <Text style={productPriceLarge}>Ksh{total}</Text>
             </Column>
           </Section>
           <Hr style={productPriceLineBottom} />
-
+          {/* @ts-ignore  */}
           <Section style={informationTable}>
             <Row style={informationTableRow}>
               <Column style={informationTableColumn}>
@@ -165,6 +168,7 @@ const ReceiptEmail = ({
               </Column>
             </Row>
           </Section>
+          {/* @ts-ignore  */}
           <Section style={informationTable}>
             <Row style={informationTableRow}>
               <Column style={informationTableColumn}>
@@ -173,6 +177,7 @@ const ReceiptEmail = ({
               </Column>
             </Row>
           </Section>
+          {/* @ts-ignore  */}
           <Section style={informationTable}>
             <Row style={informationTableRow}>
               <Column style={informationTableColumn}>
@@ -181,11 +186,12 @@ const ReceiptEmail = ({
               </Column>
             </Row>
           </Section>
-
+          {/* @ts-ignore  */}
           <Text style={footerLinksWrapper}>
             <Link href="#">Account Settings</Link> • <Link href="#">Terms of Sale</Link> •{' '}
             <Link href="#">Privacy Policy</Link>
           </Text>
+          {/* @ts-ignore  */}
           <Text style={footerCopyright}>
             Copyright © 2023 EasyBake Supplies Limited. <br />{' '}
             <Link href="#">All rights reserved</Link>
@@ -286,7 +292,6 @@ const LogoRow = {
 const LogoIcon = {
   display: 'block',
   margin: '0 auto', // Center the image horizontally within the Column
-  objectFit: 'cover',
 }
 
 const ColumnStyle = {

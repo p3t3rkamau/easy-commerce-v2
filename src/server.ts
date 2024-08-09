@@ -140,7 +140,7 @@ const saveSearchTerm = async (term: string) => {
 
 const start = async (): Promise<void> => {
   await payload.init({
-    secret: process.env.PAYLOAD_SECRET || '',
+    secret: process.env.PAYLOAD_SECRET || '8feae4b0-081c-4408-967e-01e3cdc38d98',
     express: app,
     email: {
       transport: transporter,
@@ -170,7 +170,7 @@ const start = async (): Promise<void> => {
   const nextApp = next({
     dev: process.env.NODE_ENV !== 'production',
   })
-
+  const nextHandler = nextApp.getRequestHandler()
   app.get('/test', (req, res) => {
     res.send('All Systems Operational')
   })
@@ -226,7 +226,6 @@ const start = async (): Promise<void> => {
 
   app.use((req, res) => nextHandler(req, res))
 
-  const nextHandler = nextApp.getRequestHandler()
   app.get('/sitemap.xml', async (req, res) => {
     try {
       const sitemap = await generateSitemap() // Generate the sitemap
@@ -237,7 +236,7 @@ const start = async (): Promise<void> => {
       res.status(500).send('Internal Server Error')
     }
   })
-
+  // TODO: Add more routes as needed
   await nextApp.prepare()
 
   app.listen(PORT, async () => {

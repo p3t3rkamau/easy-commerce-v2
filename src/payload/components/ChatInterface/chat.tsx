@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import './index.scss' // Assuming you have some CSS styles
+// import './index.scss' // Assuming you have some CSS styles
 
 const MessageInterface = ({ field }) => {
   const [messages, setMessages] = useState([])

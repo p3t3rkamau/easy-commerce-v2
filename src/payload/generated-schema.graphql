@@ -69,6 +69,12 @@ type Query {
   Feedbackform(id: String!, draft: Boolean, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType): Feedbackform
   Feedbackforms(draft: Boolean, where: Feedbackform_where, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType, limit: Int, page: Int, sort: String): Feedbackforms
   docAccessFeedbackform(id: String!): feedbackformDocAccess
+  Employee(id: String!, draft: Boolean, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType): Employee
+  Employees(draft: Boolean, where: Employee_where, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType, limit: Int, page: Int, sort: String): Employees
+  docAccessEmployee(id: String!): employeesDocAccess
+  Payment(id: String!, draft: Boolean, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType): Payment
+  Payments(draft: Boolean, where: Payment_where, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType, limit: Int, page: Int, sort: String): Payments
+  docAccessPayment(id: String!): paymentsDocAccess
   Search(id: String!, draft: Boolean, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType): Search
   Searches(draft: Boolean, where: Search_where, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType, limit: Int, page: Int, sort: String): Searches
   docAccessSearch(id: String!): searchDocAccess
@@ -1368,6 +1374,7 @@ enum User_roles {
   customer
   editor
   manager
+  employee
 }
 
 type User_Cart {
@@ -3659,26 +3666,21 @@ enum Product_brands {
 
 type Review {
   id: String
-  title: String
-  user(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): User
-  name: String
-  message: String
+  title: String!
+  product(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): Product!
   rating: Review_rating!
+  content: String!
+  author: String!
+  verifiedPurchase: Boolean
   updatedAt: DateTime
   createdAt: DateTime
 }
 
 enum Review_rating {
-  _0
-  _0_5
   _1
-  _1_5
   _2
-  _2_5
   _3
-  _3_5
   _4
-  _4_5
   _5
 }
 
@@ -6989,6 +6991,7 @@ input Page_heroImage__SliderHero__links__id_operator {
 input Page_heroImage__SliderHero__SliderImages__media_operator {
   equals: String
   not_equals: String
+  exists: Boolean
 }
 
 input Page_heroImage__SliderHero__SliderImages__id_operator {
@@ -7005,6 +7008,7 @@ input Page_heroImage__SliderHero__SliderImages__id_operator {
 input Page_heroImage__PotraitImage__media_operator {
   equals: String
   not_equals: String
+  exists: Boolean
 }
 
 input Page_heroImage__SideImages__Images__richText_operator {
@@ -7017,6 +7021,7 @@ input Page_heroImage__SideImages__Images__richText_operator {
 input Page_heroImage__SideImages__Images__media_operator {
   equals: String
   not_equals: String
+  exists: Boolean
 }
 
 input Page_heroImage__SideImages__Images__id_operator {
@@ -10503,6 +10508,7 @@ input versionsPage_version__heroImage__SliderHero__links__id_operator {
 input versionsPage_version__heroImage__SliderHero__SliderImages__media_operator {
   equals: String
   not_equals: String
+  exists: Boolean
 }
 
 input versionsPage_version__heroImage__SliderHero__SliderImages__id_operator {
@@ -10519,6 +10525,7 @@ input versionsPage_version__heroImage__SliderHero__SliderImages__id_operator {
 input versionsPage_version__heroImage__PotraitImage__media_operator {
   equals: String
   not_equals: String
+  exists: Boolean
 }
 
 input versionsPage_version__heroImage__SideImages__Images__richText_operator {
@@ -10531,6 +10538,7 @@ input versionsPage_version__heroImage__SideImages__Images__richText_operator {
 input versionsPage_version__heroImage__SideImages__Images__media_operator {
   equals: String
   not_equals: String
+  exists: Boolean
 }
 
 input versionsPage_version__heroImage__SideImages__Images__id_operator {
@@ -14841,6 +14849,7 @@ enum User_roles_Input {
   customer
   editor
   manager
+  employee
 }
 
 input User_purchases_operator {
@@ -15583,10 +15592,11 @@ type Reviews {
 
 input Review_where {
   title: Review_title_operator
-  user: Review_user_operator
-  name: Review_name_operator
-  message: Review_message_operator
+  product: Review_product_operator
   rating: Review_rating_operator
+  content: Review_content_operator
+  author: Review_author_operator
+  verifiedPurchase: Review_verifiedPurchase_operator
   updatedAt: Review_updatedAt_operator
   createdAt: Review_createdAt_operator
   id: Review_id_operator
@@ -15602,10 +15612,9 @@ input Review_title_operator {
   in: [String]
   not_in: [String]
   all: [String]
-  exists: Boolean
 }
 
-input Review_user_operator {
+input Review_product_operator {
   equals: JSON
   not_equals: JSON
   in: [JSON]
@@ -15613,7 +15622,30 @@ input Review_user_operator {
   all: [JSON]
 }
 
-input Review_name_operator {
+input Review_rating_operator {
+  equals: Review_rating_Input
+  not_equals: Review_rating_Input
+  in: [Review_rating_Input]
+  not_in: [Review_rating_Input]
+  all: [Review_rating_Input]
+}
+
+enum Review_rating_Input {
+  _1
+  _2
+  _3
+  _4
+  _5
+}
+
+input Review_content_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+}
+
+input Review_author_operator {
   equals: String
   not_equals: String
   like: String
@@ -15621,36 +15653,12 @@ input Review_name_operator {
   in: [String]
   not_in: [String]
   all: [String]
+}
+
+input Review_verifiedPurchase_operator {
+  equals: Boolean
+  not_equals: Boolean
   exists: Boolean
-}
-
-input Review_message_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  exists: Boolean
-}
-
-input Review_rating_operator {
-  equals: Review_rating_Input
-  not_equals: Review_rating_Input
-  like: Review_rating_Input
-  contains: Review_rating_Input
-}
-
-enum Review_rating_Input {
-  _0
-  _0_5
-  _1
-  _1_5
-  _2
-  _2_5
-  _3
-  _3_5
-  _4
-  _4_5
-  _5
 }
 
 input Review_updatedAt_operator {
@@ -15688,10 +15696,11 @@ input Review_id_operator {
 
 input Review_where_and {
   title: Review_title_operator
-  user: Review_user_operator
-  name: Review_name_operator
-  message: Review_message_operator
+  product: Review_product_operator
   rating: Review_rating_operator
+  content: Review_content_operator
+  author: Review_author_operator
+  verifiedPurchase: Review_verifiedPurchase_operator
   updatedAt: Review_updatedAt_operator
   createdAt: Review_createdAt_operator
   id: Review_id_operator
@@ -15701,10 +15710,11 @@ input Review_where_and {
 
 input Review_where_or {
   title: Review_title_operator
-  user: Review_user_operator
-  name: Review_name_operator
-  message: Review_message_operator
+  product: Review_product_operator
   rating: Review_rating_operator
+  content: Review_content_operator
+  author: Review_author_operator
+  verifiedPurchase: Review_verifiedPurchase_operator
   updatedAt: Review_updatedAt_operator
   createdAt: Review_createdAt_operator
   id: Review_id_operator
@@ -15722,10 +15732,11 @@ type ReviewsDocAccess {
 
 type ReviewsDocAccessFields {
   title: ReviewsDocAccessFields_title
-  user: ReviewsDocAccessFields_user
-  name: ReviewsDocAccessFields_name
-  message: ReviewsDocAccessFields_message
+  product: ReviewsDocAccessFields_product
   rating: ReviewsDocAccessFields_rating
+  content: ReviewsDocAccessFields_content
+  author: ReviewsDocAccessFields_author
+  verifiedPurchase: ReviewsDocAccessFields_verifiedPurchase
   updatedAt: ReviewsDocAccessFields_updatedAt
   createdAt: ReviewsDocAccessFields_createdAt
 }
@@ -15753,72 +15764,26 @@ type ReviewsDocAccessFields_title_Delete {
   permission: Boolean!
 }
 
-type ReviewsDocAccessFields_user {
-  create: ReviewsDocAccessFields_user_Create
-  read: ReviewsDocAccessFields_user_Read
-  update: ReviewsDocAccessFields_user_Update
-  delete: ReviewsDocAccessFields_user_Delete
+type ReviewsDocAccessFields_product {
+  create: ReviewsDocAccessFields_product_Create
+  read: ReviewsDocAccessFields_product_Read
+  update: ReviewsDocAccessFields_product_Update
+  delete: ReviewsDocAccessFields_product_Delete
 }
 
-type ReviewsDocAccessFields_user_Create {
+type ReviewsDocAccessFields_product_Create {
   permission: Boolean!
 }
 
-type ReviewsDocAccessFields_user_Read {
+type ReviewsDocAccessFields_product_Read {
   permission: Boolean!
 }
 
-type ReviewsDocAccessFields_user_Update {
+type ReviewsDocAccessFields_product_Update {
   permission: Boolean!
 }
 
-type ReviewsDocAccessFields_user_Delete {
-  permission: Boolean!
-}
-
-type ReviewsDocAccessFields_name {
-  create: ReviewsDocAccessFields_name_Create
-  read: ReviewsDocAccessFields_name_Read
-  update: ReviewsDocAccessFields_name_Update
-  delete: ReviewsDocAccessFields_name_Delete
-}
-
-type ReviewsDocAccessFields_name_Create {
-  permission: Boolean!
-}
-
-type ReviewsDocAccessFields_name_Read {
-  permission: Boolean!
-}
-
-type ReviewsDocAccessFields_name_Update {
-  permission: Boolean!
-}
-
-type ReviewsDocAccessFields_name_Delete {
-  permission: Boolean!
-}
-
-type ReviewsDocAccessFields_message {
-  create: ReviewsDocAccessFields_message_Create
-  read: ReviewsDocAccessFields_message_Read
-  update: ReviewsDocAccessFields_message_Update
-  delete: ReviewsDocAccessFields_message_Delete
-}
-
-type ReviewsDocAccessFields_message_Create {
-  permission: Boolean!
-}
-
-type ReviewsDocAccessFields_message_Read {
-  permission: Boolean!
-}
-
-type ReviewsDocAccessFields_message_Update {
-  permission: Boolean!
-}
-
-type ReviewsDocAccessFields_message_Delete {
+type ReviewsDocAccessFields_product_Delete {
   permission: Boolean!
 }
 
@@ -15842,6 +15807,75 @@ type ReviewsDocAccessFields_rating_Update {
 }
 
 type ReviewsDocAccessFields_rating_Delete {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_content {
+  create: ReviewsDocAccessFields_content_Create
+  read: ReviewsDocAccessFields_content_Read
+  update: ReviewsDocAccessFields_content_Update
+  delete: ReviewsDocAccessFields_content_Delete
+}
+
+type ReviewsDocAccessFields_content_Create {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_content_Read {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_content_Update {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_content_Delete {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_author {
+  create: ReviewsDocAccessFields_author_Create
+  read: ReviewsDocAccessFields_author_Read
+  update: ReviewsDocAccessFields_author_Update
+  delete: ReviewsDocAccessFields_author_Delete
+}
+
+type ReviewsDocAccessFields_author_Create {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_author_Read {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_author_Update {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_author_Delete {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_verifiedPurchase {
+  create: ReviewsDocAccessFields_verifiedPurchase_Create
+  read: ReviewsDocAccessFields_verifiedPurchase_Read
+  update: ReviewsDocAccessFields_verifiedPurchase_Update
+  delete: ReviewsDocAccessFields_verifiedPurchase_Delete
+}
+
+type ReviewsDocAccessFields_verifiedPurchase_Create {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_verifiedPurchase_Read {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_verifiedPurchase_Update {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_verifiedPurchase_Delete {
   permission: Boolean!
 }
 
@@ -24993,6 +25027,706 @@ type FeedbackformDeleteDocAccess {
   where: JSONObject
 }
 
+type Employee {
+  id: String
+  name: String!
+  phoneNumber: String!
+  paymentAmount: Float!
+  deductions: Float
+  deductionReasons: String
+  tax: Float
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type Employees {
+  docs: [Employee]
+  hasNextPage: Boolean
+  hasPrevPage: Boolean
+  limit: Int
+  nextPage: Int
+  offset: Int
+  page: Int
+  pagingCounter: Int
+  prevPage: Int
+  totalDocs: Int
+  totalPages: Int
+}
+
+input Employee_where {
+  name: Employee_name_operator
+  phoneNumber: Employee_phoneNumber_operator
+  paymentAmount: Employee_paymentAmount_operator
+  deductions: Employee_deductions_operator
+  deductionReasons: Employee_deductionReasons_operator
+  tax: Employee_tax_operator
+  updatedAt: Employee_updatedAt_operator
+  createdAt: Employee_createdAt_operator
+  id: Employee_id_operator
+  AND: [Employee_where_and]
+  OR: [Employee_where_or]
+}
+
+input Employee_name_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Employee_phoneNumber_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Employee_paymentAmount_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+}
+
+input Employee_deductions_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Employee_deductionReasons_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Employee_tax_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Employee_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Employee_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Employee_id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Employee_where_and {
+  name: Employee_name_operator
+  phoneNumber: Employee_phoneNumber_operator
+  paymentAmount: Employee_paymentAmount_operator
+  deductions: Employee_deductions_operator
+  deductionReasons: Employee_deductionReasons_operator
+  tax: Employee_tax_operator
+  updatedAt: Employee_updatedAt_operator
+  createdAt: Employee_createdAt_operator
+  id: Employee_id_operator
+  AND: [Employee_where_and]
+  OR: [Employee_where_or]
+}
+
+input Employee_where_or {
+  name: Employee_name_operator
+  phoneNumber: Employee_phoneNumber_operator
+  paymentAmount: Employee_paymentAmount_operator
+  deductions: Employee_deductions_operator
+  deductionReasons: Employee_deductionReasons_operator
+  tax: Employee_tax_operator
+  updatedAt: Employee_updatedAt_operator
+  createdAt: Employee_createdAt_operator
+  id: Employee_id_operator
+  AND: [Employee_where_and]
+  OR: [Employee_where_or]
+}
+
+type employeesDocAccess {
+  fields: EmployeesDocAccessFields
+  create: EmployeesCreateDocAccess
+  read: EmployeesReadDocAccess
+  update: EmployeesUpdateDocAccess
+  delete: EmployeesDeleteDocAccess
+}
+
+type EmployeesDocAccessFields {
+  name: EmployeesDocAccessFields_name
+  phoneNumber: EmployeesDocAccessFields_phoneNumber
+  paymentAmount: EmployeesDocAccessFields_paymentAmount
+  deductions: EmployeesDocAccessFields_deductions
+  deductionReasons: EmployeesDocAccessFields_deductionReasons
+  tax: EmployeesDocAccessFields_tax
+  updatedAt: EmployeesDocAccessFields_updatedAt
+  createdAt: EmployeesDocAccessFields_createdAt
+}
+
+type EmployeesDocAccessFields_name {
+  create: EmployeesDocAccessFields_name_Create
+  read: EmployeesDocAccessFields_name_Read
+  update: EmployeesDocAccessFields_name_Update
+  delete: EmployeesDocAccessFields_name_Delete
+}
+
+type EmployeesDocAccessFields_name_Create {
+  permission: Boolean!
+}
+
+type EmployeesDocAccessFields_name_Read {
+  permission: Boolean!
+}
+
+type EmployeesDocAccessFields_name_Update {
+  permission: Boolean!
+}
+
+type EmployeesDocAccessFields_name_Delete {
+  permission: Boolean!
+}
+
+type EmployeesDocAccessFields_phoneNumber {
+  create: EmployeesDocAccessFields_phoneNumber_Create
+  read: EmployeesDocAccessFields_phoneNumber_Read
+  update: EmployeesDocAccessFields_phoneNumber_Update
+  delete: EmployeesDocAccessFields_phoneNumber_Delete
+}
+
+type EmployeesDocAccessFields_phoneNumber_Create {
+  permission: Boolean!
+}
+
+type EmployeesDocAccessFields_phoneNumber_Read {
+  permission: Boolean!
+}
+
+type EmployeesDocAccessFields_phoneNumber_Update {
+  permission: Boolean!
+}
+
+type EmployeesDocAccessFields_phoneNumber_Delete {
+  permission: Boolean!
+}
+
+type EmployeesDocAccessFields_paymentAmount {
+  create: EmployeesDocAccessFields_paymentAmount_Create
+  read: EmployeesDocAccessFields_paymentAmount_Read
+  update: EmployeesDocAccessFields_paymentAmount_Update
+  delete: EmployeesDocAccessFields_paymentAmount_Delete
+}
+
+type EmployeesDocAccessFields_paymentAmount_Create {
+  permission: Boolean!
+}
+
+type EmployeesDocAccessFields_paymentAmount_Read {
+  permission: Boolean!
+}
+
+type EmployeesDocAccessFields_paymentAmount_Update {
+  permission: Boolean!
+}
+
+type EmployeesDocAccessFields_paymentAmount_Delete {
+  permission: Boolean!
+}
+
+type EmployeesDocAccessFields_deductions {
+  create: EmployeesDocAccessFields_deductions_Create
+  read: EmployeesDocAccessFields_deductions_Read
+  update: EmployeesDocAccessFields_deductions_Update
+  delete: EmployeesDocAccessFields_deductions_Delete
+}
+
+type EmployeesDocAccessFields_deductions_Create {
+  permission: Boolean!
+}
+
+type EmployeesDocAccessFields_deductions_Read {
+  permission: Boolean!
+}
+
+type EmployeesDocAccessFields_deductions_Update {
+  permission: Boolean!
+}
+
+type EmployeesDocAccessFields_deductions_Delete {
+  permission: Boolean!
+}
+
+type EmployeesDocAccessFields_deductionReasons {
+  create: EmployeesDocAccessFields_deductionReasons_Create
+  read: EmployeesDocAccessFields_deductionReasons_Read
+  update: EmployeesDocAccessFields_deductionReasons_Update
+  delete: EmployeesDocAccessFields_deductionReasons_Delete
+}
+
+type EmployeesDocAccessFields_deductionReasons_Create {
+  permission: Boolean!
+}
+
+type EmployeesDocAccessFields_deductionReasons_Read {
+  permission: Boolean!
+}
+
+type EmployeesDocAccessFields_deductionReasons_Update {
+  permission: Boolean!
+}
+
+type EmployeesDocAccessFields_deductionReasons_Delete {
+  permission: Boolean!
+}
+
+type EmployeesDocAccessFields_tax {
+  create: EmployeesDocAccessFields_tax_Create
+  read: EmployeesDocAccessFields_tax_Read
+  update: EmployeesDocAccessFields_tax_Update
+  delete: EmployeesDocAccessFields_tax_Delete
+}
+
+type EmployeesDocAccessFields_tax_Create {
+  permission: Boolean!
+}
+
+type EmployeesDocAccessFields_tax_Read {
+  permission: Boolean!
+}
+
+type EmployeesDocAccessFields_tax_Update {
+  permission: Boolean!
+}
+
+type EmployeesDocAccessFields_tax_Delete {
+  permission: Boolean!
+}
+
+type EmployeesDocAccessFields_updatedAt {
+  create: EmployeesDocAccessFields_updatedAt_Create
+  read: EmployeesDocAccessFields_updatedAt_Read
+  update: EmployeesDocAccessFields_updatedAt_Update
+  delete: EmployeesDocAccessFields_updatedAt_Delete
+}
+
+type EmployeesDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type EmployeesDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type EmployeesDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type EmployeesDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type EmployeesDocAccessFields_createdAt {
+  create: EmployeesDocAccessFields_createdAt_Create
+  read: EmployeesDocAccessFields_createdAt_Read
+  update: EmployeesDocAccessFields_createdAt_Update
+  delete: EmployeesDocAccessFields_createdAt_Delete
+}
+
+type EmployeesDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type EmployeesDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type EmployeesDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type EmployeesDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type EmployeesCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type EmployeesReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type EmployeesUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type EmployeesDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type Payment {
+  id: String
+  paymentDate: DateTime!
+  status: Payment_status
+  employee(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): Employee!
+  amount: Float!
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+enum Payment_status {
+  pending
+  completed
+  failed
+}
+
+type Payments {
+  docs: [Payment]
+  hasNextPage: Boolean
+  hasPrevPage: Boolean
+  limit: Int
+  nextPage: Int
+  offset: Int
+  page: Int
+  pagingCounter: Int
+  prevPage: Int
+  totalDocs: Int
+  totalPages: Int
+}
+
+input Payment_where {
+  paymentDate: Payment_paymentDate_operator
+  status: Payment_status_operator
+  employee: Payment_employee_operator
+  amount: Payment_amount_operator
+  updatedAt: Payment_updatedAt_operator
+  createdAt: Payment_createdAt_operator
+  id: Payment_id_operator
+  AND: [Payment_where_and]
+  OR: [Payment_where_or]
+}
+
+input Payment_paymentDate_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+}
+
+input Payment_status_operator {
+  equals: Payment_status_Input
+  not_equals: Payment_status_Input
+  in: [Payment_status_Input]
+  not_in: [Payment_status_Input]
+  all: [Payment_status_Input]
+  exists: Boolean
+}
+
+enum Payment_status_Input {
+  pending
+  completed
+  failed
+}
+
+input Payment_employee_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input Payment_amount_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+}
+
+input Payment_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Payment_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Payment_id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Payment_where_and {
+  paymentDate: Payment_paymentDate_operator
+  status: Payment_status_operator
+  employee: Payment_employee_operator
+  amount: Payment_amount_operator
+  updatedAt: Payment_updatedAt_operator
+  createdAt: Payment_createdAt_operator
+  id: Payment_id_operator
+  AND: [Payment_where_and]
+  OR: [Payment_where_or]
+}
+
+input Payment_where_or {
+  paymentDate: Payment_paymentDate_operator
+  status: Payment_status_operator
+  employee: Payment_employee_operator
+  amount: Payment_amount_operator
+  updatedAt: Payment_updatedAt_operator
+  createdAt: Payment_createdAt_operator
+  id: Payment_id_operator
+  AND: [Payment_where_and]
+  OR: [Payment_where_or]
+}
+
+type paymentsDocAccess {
+  fields: PaymentsDocAccessFields
+  create: PaymentsCreateDocAccess
+  read: PaymentsReadDocAccess
+  update: PaymentsUpdateDocAccess
+  delete: PaymentsDeleteDocAccess
+}
+
+type PaymentsDocAccessFields {
+  paymentDate: PaymentsDocAccessFields_paymentDate
+  status: PaymentsDocAccessFields_status
+  employee: PaymentsDocAccessFields_employee
+  amount: PaymentsDocAccessFields_amount
+  updatedAt: PaymentsDocAccessFields_updatedAt
+  createdAt: PaymentsDocAccessFields_createdAt
+}
+
+type PaymentsDocAccessFields_paymentDate {
+  create: PaymentsDocAccessFields_paymentDate_Create
+  read: PaymentsDocAccessFields_paymentDate_Read
+  update: PaymentsDocAccessFields_paymentDate_Update
+  delete: PaymentsDocAccessFields_paymentDate_Delete
+}
+
+type PaymentsDocAccessFields_paymentDate_Create {
+  permission: Boolean!
+}
+
+type PaymentsDocAccessFields_paymentDate_Read {
+  permission: Boolean!
+}
+
+type PaymentsDocAccessFields_paymentDate_Update {
+  permission: Boolean!
+}
+
+type PaymentsDocAccessFields_paymentDate_Delete {
+  permission: Boolean!
+}
+
+type PaymentsDocAccessFields_status {
+  create: PaymentsDocAccessFields_status_Create
+  read: PaymentsDocAccessFields_status_Read
+  update: PaymentsDocAccessFields_status_Update
+  delete: PaymentsDocAccessFields_status_Delete
+}
+
+type PaymentsDocAccessFields_status_Create {
+  permission: Boolean!
+}
+
+type PaymentsDocAccessFields_status_Read {
+  permission: Boolean!
+}
+
+type PaymentsDocAccessFields_status_Update {
+  permission: Boolean!
+}
+
+type PaymentsDocAccessFields_status_Delete {
+  permission: Boolean!
+}
+
+type PaymentsDocAccessFields_employee {
+  create: PaymentsDocAccessFields_employee_Create
+  read: PaymentsDocAccessFields_employee_Read
+  update: PaymentsDocAccessFields_employee_Update
+  delete: PaymentsDocAccessFields_employee_Delete
+}
+
+type PaymentsDocAccessFields_employee_Create {
+  permission: Boolean!
+}
+
+type PaymentsDocAccessFields_employee_Read {
+  permission: Boolean!
+}
+
+type PaymentsDocAccessFields_employee_Update {
+  permission: Boolean!
+}
+
+type PaymentsDocAccessFields_employee_Delete {
+  permission: Boolean!
+}
+
+type PaymentsDocAccessFields_amount {
+  create: PaymentsDocAccessFields_amount_Create
+  read: PaymentsDocAccessFields_amount_Read
+  update: PaymentsDocAccessFields_amount_Update
+  delete: PaymentsDocAccessFields_amount_Delete
+}
+
+type PaymentsDocAccessFields_amount_Create {
+  permission: Boolean!
+}
+
+type PaymentsDocAccessFields_amount_Read {
+  permission: Boolean!
+}
+
+type PaymentsDocAccessFields_amount_Update {
+  permission: Boolean!
+}
+
+type PaymentsDocAccessFields_amount_Delete {
+  permission: Boolean!
+}
+
+type PaymentsDocAccessFields_updatedAt {
+  create: PaymentsDocAccessFields_updatedAt_Create
+  read: PaymentsDocAccessFields_updatedAt_Read
+  update: PaymentsDocAccessFields_updatedAt_Update
+  delete: PaymentsDocAccessFields_updatedAt_Delete
+}
+
+type PaymentsDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type PaymentsDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type PaymentsDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type PaymentsDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type PaymentsDocAccessFields_createdAt {
+  create: PaymentsDocAccessFields_createdAt_Create
+  read: PaymentsDocAccessFields_createdAt_Read
+  update: PaymentsDocAccessFields_createdAt_Update
+  delete: PaymentsDocAccessFields_createdAt_Delete
+}
+
+type PaymentsDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type PaymentsDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type PaymentsDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type PaymentsDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type PaymentsCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type PaymentsReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type PaymentsUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type PaymentsDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
 type Search {
   id: String
   title: String
@@ -28508,6 +29242,8 @@ type Access {
   searchTerms: searchTermsAccess
   sponsored: sponsoredAccess
   feedbackform: feedbackformAccess
+  employees: employeesAccess
+  payments: paymentsAccess
   search: searchAccess
   redirects: redirectsAccess
   forms: formsAccess
@@ -32443,10 +33179,11 @@ type ReviewsAccess {
 
 type ReviewsFields {
   title: ReviewsFields_title
-  user: ReviewsFields_user
-  name: ReviewsFields_name
-  message: ReviewsFields_message
+  product: ReviewsFields_product
   rating: ReviewsFields_rating
+  content: ReviewsFields_content
+  author: ReviewsFields_author
+  verifiedPurchase: ReviewsFields_verifiedPurchase
   updatedAt: ReviewsFields_updatedAt
   createdAt: ReviewsFields_createdAt
 }
@@ -32474,72 +33211,26 @@ type ReviewsFields_title_Delete {
   permission: Boolean!
 }
 
-type ReviewsFields_user {
-  create: ReviewsFields_user_Create
-  read: ReviewsFields_user_Read
-  update: ReviewsFields_user_Update
-  delete: ReviewsFields_user_Delete
+type ReviewsFields_product {
+  create: ReviewsFields_product_Create
+  read: ReviewsFields_product_Read
+  update: ReviewsFields_product_Update
+  delete: ReviewsFields_product_Delete
 }
 
-type ReviewsFields_user_Create {
+type ReviewsFields_product_Create {
   permission: Boolean!
 }
 
-type ReviewsFields_user_Read {
+type ReviewsFields_product_Read {
   permission: Boolean!
 }
 
-type ReviewsFields_user_Update {
+type ReviewsFields_product_Update {
   permission: Boolean!
 }
 
-type ReviewsFields_user_Delete {
-  permission: Boolean!
-}
-
-type ReviewsFields_name {
-  create: ReviewsFields_name_Create
-  read: ReviewsFields_name_Read
-  update: ReviewsFields_name_Update
-  delete: ReviewsFields_name_Delete
-}
-
-type ReviewsFields_name_Create {
-  permission: Boolean!
-}
-
-type ReviewsFields_name_Read {
-  permission: Boolean!
-}
-
-type ReviewsFields_name_Update {
-  permission: Boolean!
-}
-
-type ReviewsFields_name_Delete {
-  permission: Boolean!
-}
-
-type ReviewsFields_message {
-  create: ReviewsFields_message_Create
-  read: ReviewsFields_message_Read
-  update: ReviewsFields_message_Update
-  delete: ReviewsFields_message_Delete
-}
-
-type ReviewsFields_message_Create {
-  permission: Boolean!
-}
-
-type ReviewsFields_message_Read {
-  permission: Boolean!
-}
-
-type ReviewsFields_message_Update {
-  permission: Boolean!
-}
-
-type ReviewsFields_message_Delete {
+type ReviewsFields_product_Delete {
   permission: Boolean!
 }
 
@@ -32563,6 +33254,75 @@ type ReviewsFields_rating_Update {
 }
 
 type ReviewsFields_rating_Delete {
+  permission: Boolean!
+}
+
+type ReviewsFields_content {
+  create: ReviewsFields_content_Create
+  read: ReviewsFields_content_Read
+  update: ReviewsFields_content_Update
+  delete: ReviewsFields_content_Delete
+}
+
+type ReviewsFields_content_Create {
+  permission: Boolean!
+}
+
+type ReviewsFields_content_Read {
+  permission: Boolean!
+}
+
+type ReviewsFields_content_Update {
+  permission: Boolean!
+}
+
+type ReviewsFields_content_Delete {
+  permission: Boolean!
+}
+
+type ReviewsFields_author {
+  create: ReviewsFields_author_Create
+  read: ReviewsFields_author_Read
+  update: ReviewsFields_author_Update
+  delete: ReviewsFields_author_Delete
+}
+
+type ReviewsFields_author_Create {
+  permission: Boolean!
+}
+
+type ReviewsFields_author_Read {
+  permission: Boolean!
+}
+
+type ReviewsFields_author_Update {
+  permission: Boolean!
+}
+
+type ReviewsFields_author_Delete {
+  permission: Boolean!
+}
+
+type ReviewsFields_verifiedPurchase {
+  create: ReviewsFields_verifiedPurchase_Create
+  read: ReviewsFields_verifiedPurchase_Read
+  update: ReviewsFields_verifiedPurchase_Update
+  delete: ReviewsFields_verifiedPurchase_Delete
+}
+
+type ReviewsFields_verifiedPurchase_Create {
+  permission: Boolean!
+}
+
+type ReviewsFields_verifiedPurchase_Read {
+  permission: Boolean!
+}
+
+type ReviewsFields_verifiedPurchase_Update {
+  permission: Boolean!
+}
+
+type ReviewsFields_verifiedPurchase_Delete {
   permission: Boolean!
 }
 
@@ -36768,6 +37528,404 @@ type FeedbackformDeleteAccess {
   where: JSONObject
 }
 
+type employeesAccess {
+  fields: EmployeesFields
+  create: EmployeesCreateAccess
+  read: EmployeesReadAccess
+  update: EmployeesUpdateAccess
+  delete: EmployeesDeleteAccess
+}
+
+type EmployeesFields {
+  name: EmployeesFields_name
+  phoneNumber: EmployeesFields_phoneNumber
+  paymentAmount: EmployeesFields_paymentAmount
+  deductions: EmployeesFields_deductions
+  deductionReasons: EmployeesFields_deductionReasons
+  tax: EmployeesFields_tax
+  updatedAt: EmployeesFields_updatedAt
+  createdAt: EmployeesFields_createdAt
+}
+
+type EmployeesFields_name {
+  create: EmployeesFields_name_Create
+  read: EmployeesFields_name_Read
+  update: EmployeesFields_name_Update
+  delete: EmployeesFields_name_Delete
+}
+
+type EmployeesFields_name_Create {
+  permission: Boolean!
+}
+
+type EmployeesFields_name_Read {
+  permission: Boolean!
+}
+
+type EmployeesFields_name_Update {
+  permission: Boolean!
+}
+
+type EmployeesFields_name_Delete {
+  permission: Boolean!
+}
+
+type EmployeesFields_phoneNumber {
+  create: EmployeesFields_phoneNumber_Create
+  read: EmployeesFields_phoneNumber_Read
+  update: EmployeesFields_phoneNumber_Update
+  delete: EmployeesFields_phoneNumber_Delete
+}
+
+type EmployeesFields_phoneNumber_Create {
+  permission: Boolean!
+}
+
+type EmployeesFields_phoneNumber_Read {
+  permission: Boolean!
+}
+
+type EmployeesFields_phoneNumber_Update {
+  permission: Boolean!
+}
+
+type EmployeesFields_phoneNumber_Delete {
+  permission: Boolean!
+}
+
+type EmployeesFields_paymentAmount {
+  create: EmployeesFields_paymentAmount_Create
+  read: EmployeesFields_paymentAmount_Read
+  update: EmployeesFields_paymentAmount_Update
+  delete: EmployeesFields_paymentAmount_Delete
+}
+
+type EmployeesFields_paymentAmount_Create {
+  permission: Boolean!
+}
+
+type EmployeesFields_paymentAmount_Read {
+  permission: Boolean!
+}
+
+type EmployeesFields_paymentAmount_Update {
+  permission: Boolean!
+}
+
+type EmployeesFields_paymentAmount_Delete {
+  permission: Boolean!
+}
+
+type EmployeesFields_deductions {
+  create: EmployeesFields_deductions_Create
+  read: EmployeesFields_deductions_Read
+  update: EmployeesFields_deductions_Update
+  delete: EmployeesFields_deductions_Delete
+}
+
+type EmployeesFields_deductions_Create {
+  permission: Boolean!
+}
+
+type EmployeesFields_deductions_Read {
+  permission: Boolean!
+}
+
+type EmployeesFields_deductions_Update {
+  permission: Boolean!
+}
+
+type EmployeesFields_deductions_Delete {
+  permission: Boolean!
+}
+
+type EmployeesFields_deductionReasons {
+  create: EmployeesFields_deductionReasons_Create
+  read: EmployeesFields_deductionReasons_Read
+  update: EmployeesFields_deductionReasons_Update
+  delete: EmployeesFields_deductionReasons_Delete
+}
+
+type EmployeesFields_deductionReasons_Create {
+  permission: Boolean!
+}
+
+type EmployeesFields_deductionReasons_Read {
+  permission: Boolean!
+}
+
+type EmployeesFields_deductionReasons_Update {
+  permission: Boolean!
+}
+
+type EmployeesFields_deductionReasons_Delete {
+  permission: Boolean!
+}
+
+type EmployeesFields_tax {
+  create: EmployeesFields_tax_Create
+  read: EmployeesFields_tax_Read
+  update: EmployeesFields_tax_Update
+  delete: EmployeesFields_tax_Delete
+}
+
+type EmployeesFields_tax_Create {
+  permission: Boolean!
+}
+
+type EmployeesFields_tax_Read {
+  permission: Boolean!
+}
+
+type EmployeesFields_tax_Update {
+  permission: Boolean!
+}
+
+type EmployeesFields_tax_Delete {
+  permission: Boolean!
+}
+
+type EmployeesFields_updatedAt {
+  create: EmployeesFields_updatedAt_Create
+  read: EmployeesFields_updatedAt_Read
+  update: EmployeesFields_updatedAt_Update
+  delete: EmployeesFields_updatedAt_Delete
+}
+
+type EmployeesFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type EmployeesFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type EmployeesFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type EmployeesFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type EmployeesFields_createdAt {
+  create: EmployeesFields_createdAt_Create
+  read: EmployeesFields_createdAt_Read
+  update: EmployeesFields_createdAt_Update
+  delete: EmployeesFields_createdAt_Delete
+}
+
+type EmployeesFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type EmployeesFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type EmployeesFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type EmployeesFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type EmployeesCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type EmployeesReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type EmployeesUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type EmployeesDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type paymentsAccess {
+  fields: PaymentsFields
+  create: PaymentsCreateAccess
+  read: PaymentsReadAccess
+  update: PaymentsUpdateAccess
+  delete: PaymentsDeleteAccess
+}
+
+type PaymentsFields {
+  paymentDate: PaymentsFields_paymentDate
+  status: PaymentsFields_status
+  employee: PaymentsFields_employee
+  amount: PaymentsFields_amount
+  updatedAt: PaymentsFields_updatedAt
+  createdAt: PaymentsFields_createdAt
+}
+
+type PaymentsFields_paymentDate {
+  create: PaymentsFields_paymentDate_Create
+  read: PaymentsFields_paymentDate_Read
+  update: PaymentsFields_paymentDate_Update
+  delete: PaymentsFields_paymentDate_Delete
+}
+
+type PaymentsFields_paymentDate_Create {
+  permission: Boolean!
+}
+
+type PaymentsFields_paymentDate_Read {
+  permission: Boolean!
+}
+
+type PaymentsFields_paymentDate_Update {
+  permission: Boolean!
+}
+
+type PaymentsFields_paymentDate_Delete {
+  permission: Boolean!
+}
+
+type PaymentsFields_status {
+  create: PaymentsFields_status_Create
+  read: PaymentsFields_status_Read
+  update: PaymentsFields_status_Update
+  delete: PaymentsFields_status_Delete
+}
+
+type PaymentsFields_status_Create {
+  permission: Boolean!
+}
+
+type PaymentsFields_status_Read {
+  permission: Boolean!
+}
+
+type PaymentsFields_status_Update {
+  permission: Boolean!
+}
+
+type PaymentsFields_status_Delete {
+  permission: Boolean!
+}
+
+type PaymentsFields_employee {
+  create: PaymentsFields_employee_Create
+  read: PaymentsFields_employee_Read
+  update: PaymentsFields_employee_Update
+  delete: PaymentsFields_employee_Delete
+}
+
+type PaymentsFields_employee_Create {
+  permission: Boolean!
+}
+
+type PaymentsFields_employee_Read {
+  permission: Boolean!
+}
+
+type PaymentsFields_employee_Update {
+  permission: Boolean!
+}
+
+type PaymentsFields_employee_Delete {
+  permission: Boolean!
+}
+
+type PaymentsFields_amount {
+  create: PaymentsFields_amount_Create
+  read: PaymentsFields_amount_Read
+  update: PaymentsFields_amount_Update
+  delete: PaymentsFields_amount_Delete
+}
+
+type PaymentsFields_amount_Create {
+  permission: Boolean!
+}
+
+type PaymentsFields_amount_Read {
+  permission: Boolean!
+}
+
+type PaymentsFields_amount_Update {
+  permission: Boolean!
+}
+
+type PaymentsFields_amount_Delete {
+  permission: Boolean!
+}
+
+type PaymentsFields_updatedAt {
+  create: PaymentsFields_updatedAt_Create
+  read: PaymentsFields_updatedAt_Read
+  update: PaymentsFields_updatedAt_Update
+  delete: PaymentsFields_updatedAt_Delete
+}
+
+type PaymentsFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type PaymentsFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type PaymentsFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type PaymentsFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type PaymentsFields_createdAt {
+  create: PaymentsFields_createdAt_Create
+  read: PaymentsFields_createdAt_Read
+  update: PaymentsFields_createdAt_Update
+  delete: PaymentsFields_createdAt_Delete
+}
+
+type PaymentsFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type PaymentsFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type PaymentsFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type PaymentsFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type PaymentsCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type PaymentsReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type PaymentsUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type PaymentsDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
 type searchAccess {
   fields: SearchFields
   create: SearchCreateAccess
@@ -38884,6 +40042,12 @@ type Mutation {
   createFeedbackform(data: mutationFeedbackformInput!, draft: Boolean, locale: LocaleInputType): Feedbackform
   updateFeedbackform(id: String!, autosave: Boolean, data: mutationFeedbackformUpdateInput!, draft: Boolean, locale: LocaleInputType): Feedbackform
   deleteFeedbackform(id: String!): Feedbackform
+  createEmployee(data: mutationEmployeeInput!, draft: Boolean, locale: LocaleInputType): Employee
+  updateEmployee(id: String!, autosave: Boolean, data: mutationEmployeeUpdateInput!, draft: Boolean, locale: LocaleInputType): Employee
+  deleteEmployee(id: String!): Employee
+  createPayment(data: mutationPaymentInput!, draft: Boolean, locale: LocaleInputType): Payment
+  updatePayment(id: String!, autosave: Boolean, data: mutationPaymentUpdateInput!, draft: Boolean, locale: LocaleInputType): Payment
+  deletePayment(id: String!): Payment
   createSearch(data: mutationSearchInput!, draft: Boolean, locale: LocaleInputType): Search
   updateSearch(id: String!, autosave: Boolean, data: mutationSearchUpdateInput!, draft: Boolean, locale: LocaleInputType): Search
   deleteSearch(id: String!): Search
@@ -38967,7 +40131,7 @@ enum Page_Hero_Links_Link_appearance_MutationInput {
 
 input mutationPage_HeroImageInput {
   SliderHero: mutationPage_HeroImage_SliderHeroInput!
-  PotraitImage: mutationPage_HeroImage_PotraitImageInput!
+  PotraitImage: mutationPage_HeroImage_PotraitImageInput
   SideImages: mutationPage_HeroImage_SideImagesInput
 }
 
@@ -39008,12 +40172,12 @@ enum Page_HeroImage_SliderHero_Links_Link_appearance_MutationInput {
 }
 
 input mutationPage_HeroImage_SliderHero_SliderImagesInput {
-  media: String!
+  media: String
   id: String
 }
 
 input mutationPage_HeroImage_PotraitImageInput {
-  media: String!
+  media: String
 }
 
 input mutationPage_HeroImage_SideImagesInput {
@@ -39022,7 +40186,7 @@ input mutationPage_HeroImage_SideImagesInput {
 
 input mutationPage_HeroImage_SideImages_ImagesInput {
   richText: JSON!
-  media: String!
+  media: String
   id: String
 }
 
@@ -39106,7 +40270,7 @@ enum PageUpdate_Hero_Links_Link_appearance_MutationInput {
 
 input mutationPageUpdate_HeroImageInput {
   SliderHero: mutationPageUpdate_HeroImage_SliderHeroInput!
-  PotraitImage: mutationPageUpdate_HeroImage_PotraitImageInput!
+  PotraitImage: mutationPageUpdate_HeroImage_PotraitImageInput
   SideImages: mutationPageUpdate_HeroImage_SideImagesInput
 }
 
@@ -39147,12 +40311,12 @@ enum PageUpdate_HeroImage_SliderHero_Links_Link_appearance_MutationInput {
 }
 
 input mutationPageUpdate_HeroImage_SliderHero_SliderImagesInput {
-  media: String!
+  media: String
   id: String
 }
 
 input mutationPageUpdate_HeroImage_PotraitImageInput {
-  media: String!
+  media: String
 }
 
 input mutationPageUpdate_HeroImage_SideImagesInput {
@@ -39161,7 +40325,7 @@ input mutationPageUpdate_HeroImage_SideImagesInput {
 
 input mutationPageUpdate_HeroImage_SideImages_ImagesInput {
   richText: JSON!
-  media: String!
+  media: String
   id: String
 }
 
@@ -39524,6 +40688,7 @@ enum User_roles_MutationInput {
   customer
   editor
   manager
+  employee
 }
 
 input mutationUser_CartInput {
@@ -39573,6 +40738,7 @@ enum UserUpdate_roles_MutationInput {
   customer
   editor
   manager
+  employee
 }
 
 input mutationUserUpdate_CartInput {
@@ -39617,23 +40783,41 @@ type usersResetPassword {
 }
 
 input mutationReviewInput {
-  title: String
-  user: String
-  name: String
-  message: String
-  rating: String!
+  title: String!
+  product: String
+  rating: Review_rating_MutationInput!
+  content: String!
+  author: String!
+  verifiedPurchase: Boolean
   updatedAt: String
   createdAt: String
 }
 
+enum Review_rating_MutationInput {
+  _1
+  _2
+  _3
+  _4
+  _5
+}
+
 input mutationReviewUpdateInput {
   title: String
-  user: String
-  name: String
-  message: String
-  rating: String
+  product: String
+  rating: ReviewUpdate_rating_MutationInput
+  content: String
+  author: String
+  verifiedPurchase: Boolean
   updatedAt: String
   createdAt: String
+}
+
+enum ReviewUpdate_rating_MutationInput {
+  _1
+  _2
+  _3
+  _4
+  _5
 }
 
 input mutationSiteMediaInput {
@@ -40318,6 +41502,58 @@ input mutationFeedbackformUpdateInput {
   count: Float
   updatedAt: String
   createdAt: String
+}
+
+input mutationEmployeeInput {
+  name: String!
+  phoneNumber: String!
+  paymentAmount: Float!
+  deductions: Float
+  deductionReasons: String
+  tax: Float
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationEmployeeUpdateInput {
+  name: String
+  phoneNumber: String
+  paymentAmount: Float
+  deductions: Float
+  deductionReasons: String
+  tax: Float
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationPaymentInput {
+  paymentDate: String!
+  status: Payment_status_MutationInput
+  employee: String
+  amount: Float!
+  updatedAt: String
+  createdAt: String
+}
+
+enum Payment_status_MutationInput {
+  pending
+  completed
+  failed
+}
+
+input mutationPaymentUpdateInput {
+  paymentDate: String
+  status: PaymentUpdate_status_MutationInput
+  employee: String
+  amount: Float
+  updatedAt: String
+  createdAt: String
+}
+
+enum PaymentUpdate_status_MutationInput {
+  pending
+  completed
+  failed
 }
 
 input mutationSearchInput {

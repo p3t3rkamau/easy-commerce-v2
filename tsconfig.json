@@ -32,7 +32,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-, "src/payload/collections/Orders/hooks/initiateMpesaPayment.js", "src/payload/utilities/generateEmailContent.jsx", "src/payload/utilities/sendemail.jsx", "src/payload/collections/Orders/hooks/sendOrderEmails.js", "src/app/CoreUi_components/couresel.jsx"  ],
+, "src/payload/collections/Orders/hooks/initiateMpesaPayment.js"],
   "exclude": [
     "node_modules"
   ],
@@ -40,5 +40,5 @@
     "transpileOnly": true,
     "swc": true,
     "require": ["tsconfig-paths/register"]
-  }
+  },
 }

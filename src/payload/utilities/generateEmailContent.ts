@@ -1,14 +1,15 @@
 import { ReceiptEmailHtml } from '../../app/_components/emails/ReceiptEmail'
 
 // Function to truncate descriptions to less than 10 words
-const truncateDescription = (description, maxWords = 10) => {
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+const truncateDescription = (description: string, maxWords = 10) => {
   const words = description.split(' ')
   if (words.length <= maxWords) {
     return description
   }
   return words.slice(0, maxWords).join(' ') + '...'
 }
-
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const generateEmailContent = order => {
   const emailProps = {
     email: order.orderedBy.email,
