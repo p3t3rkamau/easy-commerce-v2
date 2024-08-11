@@ -16,9 +16,9 @@ import SliderArchiveBlock from '../../_blocks/SliderArchiveBlock'
 import TopDealsArchive from '../../_blocks/TopDealsArchive'
 import { toKebabCase } from '../../_utilities/toKebabCase'
 import { BackgroundColor } from '../BackgroundColor/index'
-import { VerticalPadding, VerticalPaddingOptions } from '../VerticalPadding/index'
+import { HolidayBannersComponent } from '../Holiday_Banner/index'
 import { PromoBanner } from '../Promo_Banner/index'
-import { HolidayBanners } from '../Holiday_Banner/index'
+import { VerticalPadding, VerticalPaddingOptions } from '../VerticalPadding/index'
 
 const blockComponents = {
   cta: CallToActionBlock,
@@ -35,7 +35,7 @@ const blockComponents = {
   recommended: RecommededArchive,
   'last-viewed': LastViewed,
   promoBanner: PromoBanner,
-  holiday: HolidayBanners,
+  holiday: HolidayBannersComponent,
 }
 
 export const Blocks: React.FC<{

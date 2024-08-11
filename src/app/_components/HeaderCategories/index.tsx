@@ -44,7 +44,7 @@ export const HeaderCategoriesLayout: React.FC<HeaderCategoriesLayoutProps> = ({
   return (
     <div className={classes.headerContainer}>
       <div className={classes.headerCategories}>
-        {HeaderCategories.map((category: Category, categoryIndex: number) => (
+        {HeaderCategories?.map((category: Category, categoryIndex: number) => (
           <div
             key={categoryIndex}
             className={`${classes.category} ${
@@ -61,7 +61,7 @@ export const HeaderCategoriesLayout: React.FC<HeaderCategoriesLayoutProps> = ({
           </div>
         ))}
       </div>
-      {HeaderCategories.map((category: Category, categoryIndex: number) => (
+      {HeaderCategories?.map((category: Category, categoryIndex: number) => (
         <div
           key={categoryIndex}
           className={`${classes.dropdown} ${
@@ -69,7 +69,7 @@ export const HeaderCategoriesLayout: React.FC<HeaderCategoriesLayoutProps> = ({
           }`}
         >
           <div className={classes.subcategoriesContainer}>
-            {category.Subcategory.map((subcategory: Subcategory, subcategoryIndex: number) => (
+            {category?.Subcategory?.map((subcategory: Subcategory, subcategoryIndex: number) => (
               <div key={subcategoryIndex} className={classes.subcategory}>
                 <img
                   src={subcategory.SubcategoryImage.imagekit.url}
