@@ -79,11 +79,11 @@ export default async function Page({ params: { slug = 'home' } }) {
       <section>
         <HeaderCategoriesLayout HeaderCategories={HeaderCategories} />
         <Banner/>
-        <Hero {...hero} />
+        {/* <Hero {...hero} /> */}
         {/* <HomeCarousel /> */}
         {/* <PlaceholdersAndVanishInputDemo /> */}
-        <EventHero {...heroImage} />
-        <FlexBanner />
+        {/* <EventHero {...heroImage} />
+        <FlexBanner /> */}
 
         <Gutter className={classes.home}>
           {!noCategories && <CategoriesComponent categories={Categories} />}

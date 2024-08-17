@@ -27,7 +27,7 @@ export default function Banner() {
           <SwiperSlide key={i}>
             <Image
               alt={item}
-              src={`/assets/images/${item}`}
+              src={`https://ik.imagekit.io/6cga8hi9z/All_Products/hero-1_IO0teecFS1.png`}
               width={1300}
               height={1300}
               className="w-full h-auto object-contain"
