@@ -43,5 +43,11 @@ export const profileNavItems = [
     icon: '/assets/icons/logout.svg',
   },
 ]
-
+export const homeBanners = [
+  "banner.webp",
+  "banner.webp",
+  "banner.webp",
+  "banner.webp",
+  "banner.webp",
+];
 export const noHeaderFooterUrls = ['/create-account', '/login', '/recover-password']

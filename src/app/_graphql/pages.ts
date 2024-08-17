@@ -60,7 +60,7 @@ export const PAGE = `
           ${GRIDLAYOUT_ARCHIVE_BLOCK}
           ${FLEX_BANNER_BLOCK}
           ${CTA_WITH_IMAGE}
-          ${HOLIDAY_BANNER_BLOCK}
+         
           
         }
         ${META}
