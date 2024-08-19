@@ -1,3 +1,4 @@
+/* Trending Component */
 .trending,
 .popularProducts {
   margin-bottom: 20px;
@@ -5,36 +6,60 @@
 
 .trending ul {
   list-style: none;
-  
   display: flex;
   flex-wrap: wrap;
-
-
-}
-
-.trending h5, .popularProducts h5{
-  color: var(--theme-elevation-1000)
+  padding: 0;
 }
 
 .trending li {
-  margin: 0px 4px 0px 4px;
+  margin: 4px;
   font-size: 12px;
   border-radius: 8px;
-  padding: 2px 4px;
+  padding: 8px 12px;
   color: rgb(99, 88, 88);
   background-color: rgb(240, 237, 237);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 4px;
+  width: 100%; /* Make each item take full width on mobile */
 }
 
-.searchicon{
-  font-size: 14px;
-
-}
 .popularProductsList {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Responsive grid */
   gap: 10px;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .trending li {
+    font-size: 10px;
+    padding: 6px 8px;
+  }
+
+  .searchicon {
+    font-size: 12px;
+  }
+
+  .trending h5,
+  .popularProducts h5 {
+    font-size: 14px;
+  }
+
+  .popularProductsList {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }
+}
+
+/* Further adjustments for very small screens */
+@media (max-width: 480px) {
+  .trending li {
+    font-size: 9px;
+    padding: 4px 6px;
+  }
+
+  .searchicon {
+    font-size: 10px;
+  }
 }

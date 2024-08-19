@@ -1,3 +1,4 @@
+@import '../../../_css/common.scss';
 .container {
   display: flex;
   position: relative;
@@ -17,6 +18,12 @@
   max-width: 200px;
   max-height: 250px;
   min-height: 250px;
+  @include small-break {
+    max-height: 200px;
+    min-height: 150px;
+    max-width: 160px;
+    min-width: 160px;
+  }
 }
 
 .imageContainer {

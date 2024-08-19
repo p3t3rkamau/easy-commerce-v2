@@ -1,13 +1,12 @@
-// SearchView.tsx
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { FaSearch, FaTimes } from 'react-icons/fa'
 import axios from 'axios'
 
+import LoadingCard from '../SearchBar/LoadingCard'
 import Card from '../SearchBar/SearchResults'
+import Trending from '../SearchBar/Sponsored'
 import FeaturedCards from './featuredCards'
 import Filters from './Filters'
-
-import LoadingCircle from '@/app/NextUi_components/loadingCircle'
 
 import classes from './index.module.scss'
 
@@ -56,8 +55,17 @@ const SearchView: React.FC<SearchViewProps> = ({ closeSearchView }) => {
 
     try {
       const response = await axios.post('/api/search', { query: searchQuery })
-      setResults(response.data.results)
-      console.log(response.data.results)
+      const fetchedResults = response.data.results
+      const enrichedResults = await Promise.all(
+        fetchedResults.map(async result => {
+          const imageResponse = await axios.get(`/api/products/${result._id}`)
+          return {
+            ...result,
+            imageUrl: imageResponse.data.meta.image.imagekit.url,
+          }
+        }),
+      )
+      setResults(enrichedResults)
     } catch (error) {
       setError('Error searching products')
       console.error('Error searching products:', error)
@@ -83,29 +91,10 @@ const SearchView: React.FC<SearchViewProps> = ({ closeSearchView }) => {
     }
   }, [])
 
-  // Mock data for featured items
-  const featuredItems = [
-    {
-      _id: '1',
-      slug: 'featured-1',
-      title: 'Featured Product 1',
-      price: 100,
-      meta: { image: { imagekit: { url: '/assets/images/image-1.svg' } } },
-    },
-    {
-      _id: '2',
-      slug: 'featured-2',
-      title: 'Featured Product 2',
-      price: 200,
-      meta: { image: { imagekit: { url: '/assets/images/image-2.svg' } } },
-    },
-  ]
-
   return (
     <div className={classes.searchView} ref={searchBarRef}>
       <div className={classes.searchFlex}>
         <div className={classes.greetings}>Hello, Peter</div>
-        {/* TODO: add user name in the greetings */}
         <div>
           <button onClick={closeSearchView} className={classes.closeButton}>
             <FaTimes />
@@ -128,16 +117,15 @@ const SearchView: React.FC<SearchViewProps> = ({ closeSearchView }) => {
           <FaSearch className={classes.searchIcon} />
         </button>
       </div>
-      <FeaturedCards featuredItems={featuredItems} />
-      <Filters />
+      {/* <FeaturedCards featuredItems={featuredItems} />
+      <Filters /> */}
 
       {isFocused && query.trim() !== '' && (
         <div className={classes.resultsContainer}>
           {error && <div className={classes.error}>{error}</div>}
           {isLoading && (
             <div className={classes.loading}>
-              <LoadingCircle />
-              {/* Searching {query}... */}
+              <LoadingCard imageUrl={''} />
             </div>
           )}
           {!isLoading && results?.length > 0 && (
@@ -148,11 +136,16 @@ const SearchView: React.FC<SearchViewProps> = ({ closeSearchView }) => {
                   slug={result.slug}
                   title={result.title}
                   price={result.price}
-                  imageUrl={result.meta?.image || '/Easy-logo.svg'}
+                  imageUrl={result.imageUrl || '/Easy-logo.svg'}
                 />
               ))}
             </div>
           )}
+        </div>
+      )}
+      {isFocused && query.trim() === '' && (
+        <div className={classes.suggestionsContainer}>
+          <Trending />
         </div>
       )}
     </div>
