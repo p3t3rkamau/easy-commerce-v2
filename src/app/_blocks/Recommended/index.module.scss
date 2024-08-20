@@ -1,127 +1,66 @@
-@use '../../_css/common.scss' as *;
-@import '../../_css/type.scss';
+.rowWrapper {
+  max-width: 100%;
+  margin: 0px auto;
+  border-radius: 8px;
+  background: wheat;
 
-.flex {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  overflow: scroll;
-  transition: 2s ease;
-}
-.ButtonContainer{
-  position: relative;
-}
-
-.sliderArchive {
-  display: flex;
-  overflow-x: scroll;
-}
-.sliderFlex{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.flex::-webkit-scrollbar {
-  display: none;
-}
-
-
-.pagination {
-  @extend %label;
-  display: flex;
-  align-items: center;
-  gap: 150px;
-}
-
-.button2 {
-  all: unset;
-  cursor: pointer;
-  right: -50px;
-  top: 60%;
-  position: absolute;
-  display: flex;
-  padding: calc(var(--base) / 2);
-  color: var(--color-elevation-500);
-  border: 1px solid var(--theme-elevation-200);
-  border-radius: 50%;
-
-  &:disabled {
-    cursor: not-allowed;
-    color: var(--theme-elevation-200);
-    border-color: var(--theme-elevation-150);
-    border-radius: 50%;
-  }
-}
-
-.button1 {
-  all: unset;
-  cursor: pointer;
-  left: -50px;
-  top: 60%;
-  position: absolute;
-  display: flex;
-  padding: calc(var(--base) / 2);
-  color: var(--color-elevation-500);
-  border: 1px solid var(--theme-elevation-200);
-  border-radius: 50%;
-
-  &:disabled {
-    cursor: not-allowed;
-    color: var(--theme-elevation-200);
-    border-color: var(--theme-elevation-150);
-    border-radius: 50%;
-  }
-}
-
-.icon {
-  width: 20px;
-  height: 20px;
-  &:hover{
-    scale: 1.1;
-    transition: .2s ease;
-  }
-}
-
-.pageRange {
-
-  // border: 1px solid black;
-  @include small-break {
-    display: none;
-    gap: 200px;
-  }
-}
-
-.ButtonContainer {
-  // border: 1px solid black;
-  z-index: 20;
-  @include small-break{
-    display: none;
+  @media screen and (max-width: 767px) {
+    margin: 10px;
   }
 }
 
 .container {
   position: relative;
+  width: 100%;
+  padding: 0 0 10px 0;
 }
 
-.btn1 {
-  left: -50px;
-  position: relative;
-  top: 45%;
+.rowHead {
+  padding: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
 
-  @include small-break {
-    left: -20px;
+.arrowBtn {
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  width: 45px;
+  height: 45px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  
+  &::after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    border-top: 2px solid #666;
+    border-right: 2px solid #666;
+  }
+
+  &.right::after {
+    transform: translate(-75%, -50%) rotate(45deg);
+  }
+
+  &.left::after {
+    transform: translate(-25%, -50%) rotate(-135deg);
+  }
+
+  &:hover::after {
+    border-color: #333;
   }
 }
 
-.btn2 {
-  right: -50px;
-  position: relative;
-  top: 45%;
-
-  @include small-break {
-    right: -20px;
-  }
-}
+// Add more SCSS for other elements like .cardContainer, .img, .title, etc.
 
 .headerContainer{
   // background-color: rgb(90, 17, 124);
