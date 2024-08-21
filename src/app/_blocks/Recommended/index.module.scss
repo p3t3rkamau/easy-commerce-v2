@@ -15,16 +15,13 @@
   padding: 0 0 10px 0;
 }
 
-.rowHead {
-  padding: 10px;
-  font-size: 18px;
-  font-weight: bold;
-  border-bottom: 1px solid #eee;
-  border-top-right-radius: 10px;
-  border-top-left-radius: 10px;
+.row {
+  max-width: 100%;
+  margin: 0 auto;
 }
 
-.arrowBtn {
+.arrowBtnRight,
+.arrowBtnLeft {
   display: inline-block;
   position: absolute;
   top: 50%;
@@ -34,7 +31,7 @@
   border-radius: 50%;
   box-shadow: 0 3px 15px rgba(0, 0, 0, 0.15);
   cursor: pointer;
-  
+
   &::after {
     content: '';
     display: inline-block;
@@ -45,14 +42,7 @@
     height: 10px;
     border-top: 2px solid #666;
     border-right: 2px solid #666;
-  }
-
-  &.right::after {
-    transform: translate(-75%, -50%) rotate(45deg);
-  }
-
-  &.left::after {
-    transform: translate(-25%, -50%) rotate(-135deg);
+    transform: translate(-50%, -50%);
   }
 
   &:hover::after {
@@ -60,7 +50,92 @@
   }
 }
 
-// Add more SCSS for other elements like .cardContainer, .img, .title, etc.
+.arrowBtnRight {
+  right: -40px;
+
+  &::after {
+    transform: translate(-75%, -50%) rotate(45deg);
+  }
+}
+
+.arrowBtnLeft {
+  left: -40px;
+
+  &::after {
+    transform: translate(-25%, -50%) rotate(-135deg);
+  }
+}
+
+.cardContainer {
+  margin: 4px 0;
+  border-radius: 6px;
+  border: 1px solid #eaeaea;
+  overflow: hidden;
+  cursor: pointer;
+  transition: box-shadow 0.25s;
+  max-width: 180px;
+  min-width: 180px;
+  min-height: 250px;
+  max-height: 250px;
+
+  @media screen and (max-width: 767px) {
+    margin: 10px;
+    max-height: 260px;
+    min-height: 150px;
+    max-width: 160px;
+    min-width: 160px;
+  }
+
+  &:hover {
+    box-shadow: 0 0 2px 0 #00000063;
+  }
+}
+
+.img {
+  height: 160px;
+  margin-bottom: 4px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.title {
+  margin: 0 5px 5px;
+  font-size: 15px;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.star {
+  float: left;
+  margin: 10px;
+  color: #26bec9;
+  font-size: 15px;
+}
+
+.price {
+  font-size: 12px;
+  font-weight: 400;
+  color: #999;
+  float: right;
+  margin: 10px;
+
+  span {
+    font-size: 15px;
+    color: #26bec9;
+  }
+}
+
+.rowHead {
+  padding: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
 
 .headerContainer{
   // background-color: rgb(90, 17, 124);
@@ -69,6 +144,7 @@
   align-items: flex-start;
   justify-content: space-between;
   padding: 0 10px;
+  border-radius: 10px;
 }
 .seeAll{
  
@@ -84,41 +160,3 @@
   font-weight: 700;
 }
 
-// .container {
-//   overflow: hidden;
-//   position: relative;
-// }
-
-// .headerContainer {
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-//   margin-bottom: 10px;
-// }
-
-// .ButtonContainer {
-//   position: absolute;
-//   top: 50%;
-//   transform: translateY(-50%);
-//   display: flex;
-//   justify-content: space-between;
-//   width: 100%;
-// }
-
-// .flex {
-//   display: flex;
-//   transition: transform 0.5s ease-in-out;
-// }
-
-// .card {
-//   flex: 0 0 25%; // Adjust based on products per page
-//   box-sizing: border-box;
-//   padding: 10px;
-// }
-
-// .button {
-//   background: none;
-//   border: none;
-//   cursor: pointer;
-//   padding: 10px;
-// }

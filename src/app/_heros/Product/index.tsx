@@ -37,7 +37,6 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
   useEffect(() => {
     if (hasAttributes) {
       const prices = ProductsAttributes.flatMap(attr =>
-        // @ts-ignore
         attr.Attribute_Property?.map(prop => prop.price).filter(price => price !== undefined),
       ).filter(price => price !== undefined) as number[]
 
@@ -66,7 +65,6 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
       }
 
       const attribute = ProductsAttributes.find(
-        // @ts-expect-error
         attr => attr.Attribute_Name === attributeName,
       ) as AttributesCollection
 
@@ -97,7 +95,7 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
     if (newQuantity >= 1) {
       setQuantity(newQuantity)
     } else {
-      setQuantity(1) // Ensure quantity doesn't go below 1
+      setQuantity(1)
     }
   }
 
@@ -143,16 +141,14 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
 
   return (
     <Gutter className={classes.productHero}>
-      <div>hello</div>
       <BreadcrumbItemNextUi productname={slug} />
-      <div>
+      <div className={classes.productContainer}>
         <ProductImage
           mainImage={mainImage}
           otherImages={OtherImages}
           onImageClick={handleSmallImageClick}
         />
-      </div>
-      <div>
+
         <ProductDetails
           product={product}
           selectedAttributePrice={selectedAttributePrice}
@@ -177,65 +173,55 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
             <AddToCartButton
               product={product}
               quantity={hasAttributes ? 1 : quantity}
-              className={`${classes.addToCartButton} bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded`}
+              className={`${classes.addToCartButton}`}
               selectedAttributes={selectedAttributes}
             />
-            <button
-              className={`${classes.whatsappButton} bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded`}
-              onClick={handleWhatsAppCheckout}
-            >
+            <button className={classes.whatsappButton} onClick={handleWhatsAppCheckout}>
               Checkout via WhatsApp
             </button>
-            <button
-              className={`${classes.whatsappButton} bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded`}
-            >
-              Buy Now
-            </button>
+            <button className={classes.buyNowButton}>Buy Now</button>
           </div>
         </div>
-        {/* <ProductDescription description={description} /> */}
         <TabsUi description={description} />
       </div>
-      <div>
-        <CustomerFeedback
-          productName="Puratos"
-          averageRating={4.6}
-          totalRatings={48}
-          ratingCounts={{
-            5: 39,
-            4: 5,
-            3: 2,
-            2: 0,
-            1: 2,
-          }}
-          reviews={[
-            {
-              rating: 4,
-              title: 'HP charger',
-              content: 'Good n working I recommend anyone.',
-              author: 'ERICK',
-              date: '17-07-2024',
-              verified: true,
-            },
-            {
-              rating: 5,
-              title: 'It is a great product',
-              content: 'It is a great product',
-              author: 'misogynist',
-              date: '31-05-2024',
-              verified: true,
-            },
-            {
-              rating: 5,
-              title: 'perfect',
-              content: 'perfect',
-              author: 'Anonymous',
-              date: '15-06-2024',
-              verified: false,
-            },
-          ]}
-        />
-      </div>
+      <CustomerFeedback
+        productName={title}
+        averageRating={4.6}
+        totalRatings={48}
+        ratingCounts={{
+          5: 39,
+          4: 5,
+          3: 2,
+          2: 0,
+          1: 2,
+        }}
+        reviews={[
+          {
+            rating: 4,
+            title: 'HP charger',
+            content: 'Good n working I recommend anyone.',
+            author: 'ERICK',
+            date: '17-07-2024',
+            verified: true,
+          },
+          {
+            rating: 5,
+            title: 'It is a great product',
+            content: 'It is a great product',
+            author: 'misogynist',
+            date: '31-05-2024',
+            verified: true,
+          },
+          {
+            rating: 5,
+            title: 'perfect',
+            content: 'perfect',
+            author: 'Anonymous',
+            date: '15-06-2024',
+            verified: false,
+          },
+        ]}
+      />
     </Gutter>
   )
 }
