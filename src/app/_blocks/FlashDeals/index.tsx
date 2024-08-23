@@ -51,20 +51,17 @@ const FlashDealsArchive: React.FC<FlashDealsBlock & { className?: string }> = pr
   return (
     <div className={`${classes.rowWrapper}`}>
       <div className={classes.container}>
-        <div
-          className={`${classes.rowHead} ${className}`}
+      <div
+          className={classes.rowHead}
           style={{ backgroundColor: BackgroundColor, color: TextColor }}
         >
-          <div>{Heading}</div>
-          <div>
-            <span>
-              Time Left: <span className={classes.bold}>{timeRemaining}</span>
-            </span>
-          </div>
-          <div className={classes.seeAll}>
-            <div>See All</div>
-            <div>
-              <span className={classes.arrow}>&#8594;</span>
+          <div className={`${classes.headerContainer} ${className}`}>
+            <div>{Heading}</div>
+            <div className={classes.seeAll}>
+              <div>See All</div>
+              <div>
+                <span className={classes.arrow}>&#8594;</span>
+              </div>
             </div>
           </div>
         </div>
