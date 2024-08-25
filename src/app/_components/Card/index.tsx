@@ -33,7 +33,14 @@ export const Card: React.FC<{
 
   return (
     <Link href={href}>
-      <div className={classes.card}>
+      <div className={classes.card} style={{ position: 'relative' }}>
+        <FavoriteButton
+          className={classes.favIcon}
+          productId={slug}
+          productName={titleToUse}
+          productPrice={doc.price}
+        />
+
         <div className={classes.mediaWrapper}>
           {newTag && (
             <div className={classes.newTag}>
@@ -50,13 +57,6 @@ export const Card: React.FC<{
 
         <div className={classes.content}>
           <span className={classes.title}>{titleToUse}</span>
-          <FavoriteButton
-            className={classes.favIcon}
-            productId={slug}
-            productName={titleToUse}
-            productPrice={doc.price}
-          />
-
           {relationTo === 'products' ? (
             <>
               <div className={classes.price}>
