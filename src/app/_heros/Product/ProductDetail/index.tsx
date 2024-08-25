@@ -26,32 +26,36 @@ export const ProductDetails: React.FC<ProductDetailsProps> = ({
 
   const displayPrice = () => {
     if (selectedAttributePrice !== null) {
-      return `$${selectedAttributePrice.toFixed(2)}`
+      return `Ksh${selectedAttributePrice.toFixed(2)}`
     }
     if (minAttributePrice !== null && maxAttributePrice !== null) {
       return minAttributePrice === maxAttributePrice
-        ? `$${minAttributePrice.toFixed(2)}`
-        : `$${minAttributePrice.toFixed(2)} - $${maxAttributePrice.toFixed(2)}`
+        ? `Ksh${minAttributePrice.toFixed(2)}`
+        : `Ksh${minAttributePrice.toFixed(2)} - Ksh${maxAttributePrice.toFixed(2)}`
     }
-    return `$${normalPrice.toFixed(2)}`
+    return `Ksh${normalPrice.toFixed(2)}`
   }
 
   return (
     <div className={classes.details}>
-      <h1 className={classes.title}>{title}</h1>
+      <h3 className={classes.title}>{title}</h3>
       <div className={classes.ratingContainer}>
         <div className={classes.stars}>
           {[...Array(5)].map((_, index) => (
             <FaStar
               key={index}
-              className={index < Math.floor(averageRating) ? classes.starFilled : classes.starEmpty}
+              style={{
+                color: index < Math.floor(averageRating) ? '#ffc107' : '#e0e0e0',
+              }}
             />
           ))}
         </div>
-        <span className={classes.reviewCount}>({totalReviews} Reviews)</span>
-        <span className={classes.stock}>{OutOfStock ? 'Out of Stock' : 'In Stock'}</span>
+        <div className={classes.flex}>
+          <span className={classes.reviewCount}>({totalReviews} Reviews)</span>
+          <span className={classes.stock}>{OutOfStock ? 'Out of Stock' : 'In Stock'}</span>
+        </div>
       </div>
-      <p className={classes.price}>{displayPrice()}</p>
+      <h5 className={classes.price}>{displayPrice()}</h5>
     </div>
   )
 }
