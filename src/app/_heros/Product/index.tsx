@@ -1,15 +1,11 @@
 'use client'
-
 import React, { useEffect, useState } from 'react'
 
 import { Product } from '../../../payload/payload-types'
 import { AddToCartButton } from '../../_components/AddToCartButton'
 import { Gutter } from '../../_components/Gutter'
-import CustomerFeedback from '../../_components/Reviews/index'
-import { ReviewsSummary } from '../../_components/Reviews/ReviewSummary'
 import { useAttributeHandler } from '../../_utilities/attributeHandler'
 import { handleWhatsAppCheckout } from '../../_utilities/whatsappCheckout'
-import { demoProductData } from '../../constants/index'
 import BreadcrumbItemNextUi from '../../NextUi_components/breadcrumbs'
 import TabsUi from '../../NextUi_components/tabs'
 import { AttributeSelector } from './AttributesSelector'
@@ -21,12 +17,22 @@ import { QuantitySelector } from './QuantitySelector'
 
 import classes from './index.module.scss'
 
+// Function to generate a unique key for each item based on product ID and attributes
+const generateKey = (productId, selectedAttributes) => {
+  return `product-${productId}-${JSON.stringify(selectedAttributes)}`
+}
+
+// Function to save price to local storage
+const savePriceToLocalStorage = (productId, selectedAttributes, price) => {
+  const key = generateKey(productId, selectedAttributes)
+  localStorage.setItem(key, price.toString())
+}
+
 export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
   const {
-    meta: { image: metaImage, description, url },
+    meta: { image: metaImage, description, url, slug },
     OtherImages,
     ProductsAttributes,
-    slug,
   } = product
 
   const [mainImage, setMainImage] = useState(metaImage) // Initially set to the main image
@@ -35,7 +41,7 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
   const [quantity, setQuantity] = useState(1) // Initialize quantity to 1
   const [minAttributePrice, setMinAttributePrice] = useState<number | null>(null)
   const [maxAttributePrice, setMaxAttributePrice] = useState<number | null>(null)
-  const [totalPrice, setTotalPrice] = useState<number | null>(null) // New state for total price
+  const [totalPrice, setTotalPrice] = useState<number | null>(0) // Initialize to 0
 
   const hasAttributes = ProductsAttributes && ProductsAttributes.length > 0
 
@@ -58,11 +64,22 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
 
   // Update total price when quantity or attribute price changes
   useEffect(() => {
-    if (!hasAttributes) {
-      const price = selectedAttributePrice || minAttributePrice || 0
-      setTotalPrice(price * quantity)
+    const price = selectedAttributePrice || minAttributePrice || 0
+    const computedTotalPrice = price * quantity
+    setTotalPrice(isNaN(computedTotalPrice) ? 0 : computedTotalPrice)
+
+    // Save price to local storage
+    if (hasAttributes) {
+      savePriceToLocalStorage(product.id, selectedAttributes, computedTotalPrice)
     }
-  }, [selectedAttributePrice, quantity, minAttributePrice, hasAttributes])
+  }, [
+    selectedAttributePrice,
+    quantity,
+    minAttributePrice,
+    hasAttributes,
+    selectedAttributes,
+    product.id,
+  ])
 
   const handleSmallImageClick = (image: any) => {
     setMainImage(image) // Update the main image state when small image is clicked
@@ -81,10 +98,6 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
     // Handle postal code logic here
   }
 
-  // Extract demo data values
-  const { title, price, OutOfStock, averageRating, totalReviews, ratingCounts, reviews } =
-    demoProductData
-
   return (
     <Gutter className={classes.productHero}>
       <BreadcrumbItemNextUi productname={slug} />
@@ -94,19 +107,19 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
             mainImage={mainImage}
             otherImages={OtherImages}
             onImageClick={handleSmallImageClick}
-            productName={title}
-            productPrice={totalPrice?.toString() || ''}
+            productName={product.title}
+            productPrice={totalPrice?.toFixed(2) || '0.00'} // Format price to 2 decimal places
             productUrl={url}
           />
         </div>
         <div className={classes.productDetailsSection}>
           <ProductDetails
             product={product}
-            selectedAttributePrice={null}
-            minAttributePrice={null}
-            maxAttributePrice={null}
-            averageRating={averageRating}
-            totalReviews={totalReviews}
+            selectedAttributePrice={selectedAttributePrice}
+            minAttributePrice={minAttributePrice}
+            maxAttributePrice={maxAttributePrice}
+            averageRating={product.averageRating}
+            totalReviews={product.totalReviews}
           />
           <div className={classes.attributesAndQuantity}>
             {hasAttributes && (
@@ -126,6 +139,7 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
               quantity={quantity}
               className={classes.addToCartButton}
               selectedAttributes={selectedAttributes}
+              attributePrices={{}} // Pass empty object or update if needed
             />
             <button className={classes.buyNowButton}>Buy Now</button>
             <button
@@ -135,12 +149,12 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
                   hasAttributes,
                   isAtLeastOneAttributeSelected,
                   selectedAttributes,
-                  title,
+                  title: product.title,
                   quantity,
                   selectedAttributePrice,
                   minAttributePrice,
                   maxAttributePrice,
-                  url,
+                  url: product.url,
                 })
               }
             >
@@ -152,15 +166,6 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
       </div>
       <div className={classes.productTabs}>
         <TabsUi description={description} />
-      </div>
-      <div className={classes.reviewsSection}>
-        <CustomerFeedback
-          productName={title}
-          averageRating={averageRating}
-          totalRatings={totalReviews}
-          ratingCounts={ratingCounts}
-          reviews={reviews}
-        />
       </div>
     </Gutter>
   )
