@@ -4,20 +4,15 @@ import { Metadata } from 'next'
 import { useToast } from '../../../app/_providers/Toast/ToastContext'
 import { Gutter } from '../../_components/Gutter'
 import HelpCenter from '../../_components/HelpPage/index'
+import TriggerToast from '../../_components/Toast/triggertoast'
 import { mergeOpenGraph } from '../../_utilities/mergeOpenGraph'
 
 import classes from './index.module.scss'
 
 export default async function Help() {
-  const { addToast } = useToast()
-
-  const showToast = () => {
-    addToast('This is a toast message!')
-  }
   return (
     <Gutter className={classes.logout}>
       <HelpCenter />
-      <button onClick={showToast}>Show Toast</button>
     </Gutter>
   )
 }

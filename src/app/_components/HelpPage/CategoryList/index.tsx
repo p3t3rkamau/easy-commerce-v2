@@ -7,17 +7,7 @@ interface CategoryListProps {
   active: string
 }
 
-const categories = [
-  'Payments',
-  'Buy Now Pay Later',
-  'Vouchers',
-  'Delivery',
-  'Returns & Refunds',
-  'Products',
-  'Account',
-  'Sell on Jumia',
-  'Jumia Express',
-]
+const categories = ['Payments', 'Vouchers', 'Delivery', 'Returns & Refunds', 'Products', 'Account']
 
 const CategoryList: React.FC<CategoryListProps> = ({ onSelectCategory, active }) => {
   return (

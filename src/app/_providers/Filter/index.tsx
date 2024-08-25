@@ -1,10 +1,10 @@
 'use client'
 
-import { createContext, ReactNode, SetStateAction, useContext, useState, useEffect } from 'react'
+import { createContext, ReactNode, SetStateAction, useContext, useEffect, useState } from 'react'
 
 interface Product {
-  id: string;
-  price: number;
+  id: string
+  price: number
 }
 
 interface IContextType {
@@ -42,7 +42,9 @@ export const FilterProvider = ({ children }: { children: React.ReactNode }) => {
     // Fetch all products when the component mounts
     const fetchProducts = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/products?limit=1000`)
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/products?limit=1000`,
+        )
         const data = await response.json()
         setAllProducts(data.docs.map((product: any) => ({ id: product.id, price: product.price })))
       } catch (error) {
@@ -55,7 +57,7 @@ export const FilterProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     // Filter products based on price range
     const filteredProducts = allProducts.filter(
-      product => product.price >= priceRange.min && product.price <= priceRange.max
+      product => product.price >= priceRange.min && product.price <= priceRange.max,
     )
     setPriceFilteredProducts(filteredProducts.map(product => product.id))
   }, [priceRange, allProducts])

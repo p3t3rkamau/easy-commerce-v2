@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { Product } from '../../../payload/payload-types'
 import { AddToCartButton } from '../../_components/AddToCartButton'
 import { Gutter } from '../../_components/Gutter'
+import TriggerToast from '../../_components/Toast/triggertoast'
 import { useAttributeHandler } from '../../_utilities/attributeHandler'
 import { handleWhatsAppCheckout } from '../../_utilities/whatsappCheckout'
 import BreadcrumbItemNextUi from '../../NextUi_components/breadcrumbs'
@@ -167,6 +168,7 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
       <div className={classes.productTabs}>
         <TabsUi description={description} />
       </div>
+      <TriggerToast />
     </Gutter>
   )
 }
