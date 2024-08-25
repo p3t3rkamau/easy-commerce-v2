@@ -1,138 +1,82 @@
 .productHero {
-  padding: 2rem;
-  background-color: #fff;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .productContainer {
   display: flex;
-  gap: 2rem;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
-.flexMain {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+.productImageSection {
+  flex: 1;
+  min-width: 300px;
 }
 
-.AttributeFlex {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-
-  .attribute-item {
-    border: 1px solid #e0e0e0;
-    border-radius: 6px;
-    padding: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    .attribute-name {
-      font-weight: bold;
-    }
-
-    .attribute-controls {
-      display: flex;
-      gap: 0.5rem;
-
-      button {
-        background-color: #f0f0f0;
-        border: none;
-        padding: 8px 12px;
-        border-radius: 4px;
-
-        &:hover {
-          background-color: #007bff;
-          color: white;
-        }
-      }
-    }
-  }
+.productDetailsSection {
+  flex: 1;
+  min-width: 300px;
 }
 
-.priceFlex {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-
-  .addToCartButton,
-  .whatsappButton,
-  .buyNowButton {
-    padding: 12px 20px;
-    font-size: 16px;
-    border-radius: 8px;
-    transition: background-color 0.3s ease;
-    font-weight: bold;
-    cursor: pointer;
-
-    &:hover {
-      opacity: 0.9;
-    }
-  }
-
-  .addToCartButton {
-    background-color: #ff4d4d;
-    color: white;
-  }
-
-  .whatsappButton {
-    background-color: #25d366;
-    color: white;
-  }
-
-  .buyNowButton {
-    background-color: #007bff;
-    color: white;
-  }
+.attributesAndQuantity {
+  margin-top: 20px;
 }
 
-.QuantitySelector {
+.actionButtons {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
-
-  button {
-    background-color: #e0e0e0;
-    border: none;
-    padding: 10px;
-    border-radius: 4px;
-
-    &:hover {
-      background-color: #007bff;
-      color: white;
-    }
-  }
-
-  input {
-    width: 40px;
-    text-align: center;
-    padding: 8px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-  }
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
 }
 
-.ProductImage {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
+.addToCartButton,
+.buyNowButton,
+.whatsappButton {
+  flex: 1;
+  min-width: 120px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
 
-  img {
+.addToCartButton {
+  background-color: #9747ff;
+  color: white;
+}
+
+.buyNowButton {
+  background-color: #ffd814;
+  color: black;
+}
+
+.whatsappButton {
+  background-color: #25d366;
+  color: white;
+}
+
+.productTabs {
+  margin-top: 40px;
+}
+
+.reviewsSection {
+  margin-top: 40px;
+}
+
+@media (max-width: 768px) {
+  .productContainer {
+    flex-direction: column;
+  }
+
+  .productImageSection,
+  .productDetailsSection {
     width: 100%;
-    height: auto;
-    border-radius: 8px;
   }
 
-  .thumbnail {
-    width: 80px;
-    height: 80px;
-    cursor: pointer;
-    border: 2px solid transparent;
-    border-radius: 8px;
-
-    &:hover {
-      border-color: #007bff;
-    }
+  .actionButtons {
+    flex-direction: column;
   }
 }
