@@ -1,16 +1,13 @@
-
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
 import { Page, Settings } from '../../../payload/payload-types'
-import { staticCart } from '../../../payload/seed/cart-static'
+import StaticCart from '../../../payload/seed/cart-static'
 import { fetchDoc } from '../../_api/fetchDoc'
 import { fetchSettings } from '../../_api/fetchGlobals'
 import { Blocks } from '../../_components/Blocks'
 import { Gutter } from '../../_components/Gutter'
-import { Hero } from '../../_components/Hero'
-import { Message } from '../../_components/Message'
 import { generateMeta } from '../../_utilities/generateMeta'
 import { CartPage } from './CartPage'
 
@@ -39,7 +36,7 @@ export default async function Cart() {
   // you should delete this code once you have a cart page in the CMS
   // this is really only useful for those who are demoing this template
   if (!page) {
-    page = staticCart
+    page = StaticCart
   }
 
   if (!page) {
@@ -84,7 +81,7 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 
   if (!page) {
-    page = staticCart
+    page = StaticCart
   }
 
   return generateMeta({ doc: page })
