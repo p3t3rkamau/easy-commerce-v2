@@ -1,6 +1,4 @@
-'use client'
-
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -10,25 +8,47 @@ import { RemoveFromCartButton } from '../../../_components/RemoveFromCartButton'
 
 import classes from './index.module.scss'
 
+// Function to generate a unique key for each item based on product ID and attributes
+const generateKey = (productId, selectedAttributes) => {
+  return `product-${productId}-${JSON.stringify(selectedAttributes)}`
+}
+
+// Function to retrieve price from local storage
+const getPriceFromLocalStorage = (productId, selectedAttributes) => {
+  const key = generateKey(productId, selectedAttributes)
+  const storedPriceStr = localStorage.getItem(key)
+  return storedPriceStr ? Number(storedPriceStr) : null
+}
+
 const CartItem = ({ product, title, metaImage, qty, addItemToCart, selectedAttributes }) => {
   const [quantity, setQuantity] = useState(qty)
+  const [storedPrice, setStoredPrice] = useState<number | null>(null)
 
-  const decrementQty = () => {
-    const updatedQty = quantity > 1 ? quantity - 1 : 1
-    setQuantity(updatedQty)
-    addItemToCart({ product, quantity: Number(updatedQty), selectedAttributes })
-  }
+  useEffect(() => {
+    if (selectedAttributes) {
+      const price = getPriceFromLocalStorage(product.id, selectedAttributes)
+      setStoredPrice(price)
+    }
+  }, [product.id, selectedAttributes])
 
-  const incrementQty = () => {
-    const updatedQty = quantity + 1
-    setQuantity(updatedQty)
-    addItemToCart({ product, quantity: Number(updatedQty), selectedAttributes })
-  }
-
-  const enterQty = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const updatedQty = Number(e.target.value)
-    setQuantity(updatedQty)
-    addItemToCart({ product, quantity: Number(updatedQty), selectedAttributes })
+  // Calculate the price based on attributes or use the stored price
+  const calculatePrice = () => {
+    if (selectedAttributes && storedPrice !== null) {
+      return storedPrice * quantity
+    } else {
+      let basePrice = product.price || 0
+      if (selectedAttributes) {
+        Object.entries(selectedAttributes).forEach(([key, attributes]) => {
+          attributes.forEach(attribute => {
+            const attributePrice = product.attributePrices?.[key] || 0
+            if (attributePrice) {
+              basePrice += attributePrice * attribute.quantity
+            }
+          })
+        })
+      }
+      return basePrice * quantity
+    }
   }
 
   return (
@@ -43,57 +63,63 @@ const CartItem = ({ product, title, metaImage, qty, addItemToCart, selectedAttri
       <div className={classes.itemDetails}>
         <div className={classes.titleWrapper}>
           <h6>{title}</h6>
-          <Price product={product} button={false} quantity={quantity} />
+          <Price
+            product={product}
+            quantity={quantity}
+            button={false}
+            selectedAttributes={selectedAttributes}
+          />
         </div>
 
         {/* Display selected attributes */}
         {selectedAttributes && Object.entries(selectedAttributes).length > 0 && (
           <div className={classes.attributes}>
-            {Object.entries(selectedAttributes).map(([key, value]) => (
+            {Object.entries(selectedAttributes).map(([key, values]) => (
               <p key={key} className={classes.attribute}>
-                {key}: {value}
+                {values.map(({ value, quantity }) => `${value} (${quantity})`).join(', ')}
               </p>
             ))}
           </div>
         )}
 
-        <div className={classes.quantity}>
-          <div className={classes.quantityBtn} onClick={decrementQty}>
-            <Image
-              src="/assets/icons/minus.svg"
-              alt="minus"
-              width={24}
-              height={24}
-              className={classes.qtnBt}
-            />
-          </div>
+        {/* Remove quantity controls for products with attributes */}
+        {!selectedAttributes && (
+          <div className={classes.quantity}>
+            <div
+              className={classes.quantityBtn}
+              onClick={() => setQuantity(q => Math.max(1, q - 1))}
+            >
+              <Image
+                src="/assets/icons/minus.svg"
+                alt="minus"
+                width={24}
+                height={24}
+                className={classes.qtnBt}
+              />
+            </div>
 
-          <input
-            type="text"
-            className={classes.quantityInput}
-            value={quantity}
-            onChange={enterQty}
-          />
-
-          <div className={classes.quantityBtn} onClick={incrementQty}>
-            <Image
-              src="/assets/icons/plus.svg"
-              alt="plus"
-              width={24}
-              height={24}
-              className={classes.qtnBt}
+            <input
+              type="text"
+              className={classes.quantityInput}
+              value={quantity}
+              onChange={e => setQuantity(Number(e.target.value) || 1)} // Default to 1 if invalid
             />
+
+            <div className={classes.quantityBtn} onClick={() => setQuantity(q => q + 1)}>
+              <Image
+                src="/assets/icons/plus.svg"
+                alt="plus"
+                width={24}
+                height={24}
+                className={classes.qtnBt}
+              />
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       <div className={classes.subtotalWrapper}>
-        <Price
-          product={product}
-          button={false}
-          quantity={quantity}
-          selectedAttributes={selectedAttributes}
-        />
+        <span className={classes.price}>Ksh{calculatePrice().toFixed(2)}</span>
         <RemoveFromCartButton product={product} />
       </div>
     </li>
