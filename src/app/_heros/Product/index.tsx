@@ -1,13 +1,19 @@
 'use client'
+
 import React, { useEffect, useState } from 'react'
 
-import { AttributesCollection, Product } from '../../../payload/payload-types'
+import { Product } from '../../../payload/payload-types'
 import { AddToCartButton } from '../../_components/AddToCartButton'
 import { Gutter } from '../../_components/Gutter'
 import CustomerFeedback from '../../_components/Reviews/index'
+import { ReviewsSummary } from '../../_components/Reviews/ReviewSummary'
+import { useAttributeHandler } from '../../_utilities/attributeHandler'
+import { handleWhatsAppCheckout } from '../../_utilities/whatsappCheckout'
+import { demoProductData } from '../../constants/index'
 import BreadcrumbItemNextUi from '../../NextUi_components/breadcrumbs'
 import TabsUi from '../../NextUi_components/tabs'
 import { AttributeSelector } from './AttributesSelector'
+import DeliveryInfo from './DeliveryInfor'
 import ProductDescription from './ProductDescription'
 import { ProductDetails } from './ProductDetail'
 import ProductImage from './ProductImage'
@@ -17,23 +23,23 @@ import classes from './index.module.scss'
 
 export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
   const {
-    meta: { title, image: metaImage, description, url },
+    meta: { image: metaImage, description, url },
     OtherImages,
     ProductsAttributes,
     slug,
   } = product
 
-  const [mainImage, setMainImage] = useState(metaImage)
-  const [selectedAttributes, setSelectedAttributes] = useState<{
-    [key: string]: { value: string; quantity: number }[]
-  }>({})
-  const [quantity, setQuantity] = useState(1)
+  const [mainImage, setMainImage] = useState(metaImage) // Initially set to the main image
+  const { selectedAttributes, selectedAttributePrice, handleAttributeSelect } =
+    useAttributeHandler(ProductsAttributes)
+  const [quantity, setQuantity] = useState(1) // Initialize quantity to 1
   const [minAttributePrice, setMinAttributePrice] = useState<number | null>(null)
   const [maxAttributePrice, setMaxAttributePrice] = useState<number | null>(null)
-  const [selectedAttributePrice, setSelectedAttributePrice] = useState<number | null>(null)
+  const [totalPrice, setTotalPrice] = useState<number | null>(null) // New state for total price
 
   const hasAttributes = ProductsAttributes && ProductsAttributes.length > 0
 
+  // Calculate min and max attribute prices
   useEffect(() => {
     if (hasAttributes) {
       const prices = ProductsAttributes.flatMap(attr =>
@@ -43,121 +49,66 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
       if (prices.length > 0) {
         setMinAttributePrice(Math.min(...prices))
         setMaxAttributePrice(Math.max(...prices))
+      } else {
+        setMinAttributePrice(null)
+        setMaxAttributePrice(null)
       }
     }
   }, [ProductsAttributes, hasAttributes])
 
+  // Update total price when quantity or attribute price changes
+  useEffect(() => {
+    if (!hasAttributes) {
+      const price = selectedAttributePrice || minAttributePrice || 0
+      setTotalPrice(price * quantity)
+    }
+  }, [selectedAttributePrice, quantity, minAttributePrice, hasAttributes])
+
   const handleSmallImageClick = (image: any) => {
-    setMainImage(image)
-  }
-
-  const handleAttributeSelect = (attributeName: string, value: string, quantity: number) => {
-    setSelectedAttributes(prevAttributes => {
-      const currentAttributes = prevAttributes[attributeName] || []
-      const attributeIndex = currentAttributes.findIndex(attr => attr.value === value)
-      let newAttributes
-
-      if (attributeIndex >= 0) {
-        newAttributes = currentAttributes.map((attr, idx) =>
-          idx === attributeIndex ? { ...attr, quantity } : attr,)
-      } else {
-        newAttributes = [...currentAttributes, { value, quantity }]
-      }
-
-      const attribute = ProductsAttributes.find(
-        attr => attr.Attribute_Name === attributeName,
-      ) as AttributesCollection
-
-      const selectedProperties = attribute?.Attribute_Property?.filter(prop =>
-        newAttributes.map(attr => attr.value).includes(prop.Value),)
-
-      if (selectedProperties && selectedProperties.length > 0) {
-        const totalSelectedPrice = selectedProperties.reduce(
-          (total, prop) =>
-            total +
-            (prop.price || 0) *
-              (newAttributes.find(attr => attr.value === prop.Value)?.quantity || 0),
-          0,
-        )
-        setSelectedAttributePrice(totalSelectedPrice)
-      } else {
-        setSelectedAttributePrice(null)
-      }
-
-      return {
-        ...prevAttributes,
-        [attributeName]: newAttributes,
-      }
-    })
+    setMainImage(image) // Update the main image state when small image is clicked
   }
 
   const handleQuantityChange = (newQuantity: number) => {
-    if (newQuantity >= 1) {
-      setQuantity(newQuantity)
-    } else {
-      setQuantity(1)
-    }
+    setQuantity(Math.max(newQuantity, 1)) // Ensure quantity is always 1 or more
   }
 
   const isAtLeastOneAttributeSelected = () => {
     return Object.values(selectedAttributes).some(attrs => attrs.length > 0)
   }
 
-  const handleWhatsAppCheckout = () => {
-    if (hasAttributes && !isAtLeastOneAttributeSelected()) {
-      alert('Please select at least one attribute before checking out.')
-      return
-    }
-
-    let formattedMessage = `Hello EasyBake, I want to order `
-    if (hasAttributes) {
-      const selectedAttrs = Object.entries(selectedAttributes)
-        .map(([attrName, values]) => {
-          const attrValues = values.map(attr => `${attr.value} (${attr.quantity})`).join(', ')
-          return `${attrName}: ${attrValues}`
-        })
-        .join(' ')
-      formattedMessage += `${selectedAttrs} of ${title}`
-    } else {
-      formattedMessage += `${quantity} of ${title}`
-    }
-
-    if (selectedAttributePrice) {
-      formattedMessage += ` @ KES ${selectedAttributePrice}`
-    } else if (minAttributePrice !== null && maxAttributePrice !== null) {
-      formattedMessage += ` @ KES ${minAttributePrice} - ${maxAttributePrice}`
-    }
-    formattedMessage += ` ( ${url} )`
-
-    sendWhatsAppMessage(formattedMessage)
+  const handleEnterPostalCode = (code: string) => {
+    console.log('Entered postal code:', code)
+    // Handle postal code logic here
   }
 
-  const sendWhatsAppMessage = (message: string) => {
-    window.open(
-      `https://api.whatsapp.com/send?phone=0795820643&text=${encodeURIComponent(message)}`,
-      '_blank',
-    )
-  }
+  // Extract demo data values
+  const { title, price, OutOfStock, averageRating, totalReviews, ratingCounts, reviews } =
+    demoProductData
 
   return (
     <Gutter className={classes.productHero}>
       <BreadcrumbItemNextUi productname={slug} />
       <div className={classes.productContainer}>
-        <ProductImage
-          mainImage={mainImage}
-          otherImages={OtherImages}
-          onImageClick={handleSmallImageClick}
-        />
-
-        <ProductDetails
-          product={product}
-          selectedAttributePrice={selectedAttributePrice}
-          minAttributePrice={minAttributePrice}
-          maxAttributePrice={maxAttributePrice}
-        />
-
-        <div className={classes.flexMain}>
-          <div className={classes.AttributeFlex}>
+        <div className={classes.productImageSection}>
+          <ProductImage
+            mainImage={mainImage}
+            otherImages={OtherImages}
+            onImageClick={handleSmallImageClick}
+            productName={title}
+            productPrice={totalPrice?.toString() || ''}
+            productUrl={url}
+          />
+        </div>
+        <div className={classes.productDetailsSection}>
+          <ProductDetails
+            product={product}
+            selectedAttributePrice={null}
+            minAttributePrice={null}
+            maxAttributePrice={null}
+            averageRating={averageRating}
+            totalReviews={totalReviews}
+          />
+          <div className={classes.attributesAndQuantity}>
             {hasAttributes && (
               <AttributeSelector
                 ProductsAttributes={ProductsAttributes}
@@ -165,65 +116,52 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
                 handleAttributeSelect={handleAttributeSelect}
               />
             )}
-          </div>
-          <div className={classes.priceFlex}>
             {!hasAttributes && (
               <QuantitySelector quantity={quantity} setQuantity={handleQuantityChange} />
             )}
+          </div>
+          <div className={classes.actionButtons}>
             <AddToCartButton
               product={product}
-              quantity={hasAttributes ? 1 : quantity}
-              className={`${classes.addToCartButton}`}
+              quantity={quantity}
+              className={classes.addToCartButton}
               selectedAttributes={selectedAttributes}
             />
-            <button className={classes.whatsappButton} onClick={handleWhatsAppCheckout}>
-              Checkout via WhatsApp
-            </button>
             <button className={classes.buyNowButton}>Buy Now</button>
+            <button
+              className={classes.whatsappButton}
+              onClick={() =>
+                handleWhatsAppCheckout({
+                  hasAttributes,
+                  isAtLeastOneAttributeSelected,
+                  selectedAttributes,
+                  title,
+                  quantity,
+                  selectedAttributePrice,
+                  minAttributePrice,
+                  maxAttributePrice,
+                  url,
+                })
+              }
+            >
+              Checkout with WhatsApp
+            </button>
           </div>
+          <DeliveryInfo onEnterPostalCode={handleEnterPostalCode} />
         </div>
+      </div>
+      <div className={classes.productTabs}>
         <TabsUi description={description} />
       </div>
-      <CustomerFeedback
-        productName={title}
-        averageRating={4.6}
-        totalRatings={48}
-        ratingCounts={{
-          5: 39,
-          4: 5,
-          3: 2,
-          2: 0,
-          1: 2,
-        }}
-        reviews={[
-          {
-            rating: 4,
-            title: 'HP charger',
-            content: 'Good n working I recommend anyone.',
-            author: 'ERICK',
-            date: '17-07-2024',
-            verified: true,
-          },
-          {
-            rating: 5,
-            title: 'It is a great product',
-            content: 'It is a great product',
-            author: 'misogynist',
-            date: '31-05-2024',
-            verified: true,
-          },
-          {
-            rating: 5,
-            title: 'perfect',
-            content: 'perfect',
-            author: 'Anonymous',
-            date: '15-06-2024',
-            verified: false,
-          },
-        ]}
-      />
+      <div className={classes.reviewsSection}>
+        <CustomerFeedback
+          productName={title}
+          averageRating={averageRating}
+          totalRatings={totalReviews}
+          ratingCounts={ratingCounts}
+          reviews={reviews}
+        />
+      </div>
     </Gutter>
   )
 }
-
-export default ProductHero
