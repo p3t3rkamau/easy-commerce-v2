@@ -5,15 +5,6 @@ import { Card } from '../../_components/Card'
 import { Gutter } from '../../_components/Gutter'
 import { mergeOpenGraph } from '../../_utilities/mergeOpenGraph'
 
-export const metadata: Metadata = {
-  title: 'Favorite Items',
-  description: 'A list of your favorite products',
-  openGraph: mergeOpenGraph({
-    title: 'Favorites Page',
-    url: '/favorites',
-  }),
-}
-
 interface FavoriteItem {
   slug: string
   title: string
@@ -42,4 +33,12 @@ export default async function Favorite() {
       </div>
     </Gutter>
   )
+}
+export const metadata: Metadata = {
+  title: 'Favorite Items',
+  description: 'A list of your favorite products',
+  openGraph: mergeOpenGraph({
+    title: 'Favorites Page',
+    url: '/favorites',
+  }),
 }

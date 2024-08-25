@@ -35,10 +35,11 @@ export const Card: React.FC<{
     <Link href={href}>
       <div className={classes.card} style={{ position: 'relative' }}>
         <FavoriteButton
-          className={classes.favIcon}
-          productId={slug}
+          className={classes.favIcon} // Pass className here
           productName={titleToUse}
           productPrice={doc.price}
+          productUrl={href}
+          mainImage={doc.meta.image} // Ensure to pass mainImage if needed
         />
 
         <div className={classes.mediaWrapper}>

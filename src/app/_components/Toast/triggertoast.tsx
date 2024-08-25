@@ -6,6 +6,7 @@ const TriggerToast: React.FC = () => {
   const { addToast } = useToast()
 
   const triggerToast = () => {
+    console.log('toast triggered')
     addToast('This is a toast from Help page!')
   }
 

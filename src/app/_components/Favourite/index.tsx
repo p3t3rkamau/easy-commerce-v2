@@ -8,6 +8,7 @@ interface FavoriteButtonProps {
   productPrice: string
   productUrl: string
   mainImage: any
+  className?: string // Add className to the interface
 }
 
 interface ProductDetails {

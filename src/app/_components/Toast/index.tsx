@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
-import classes from './index.module.scss' // Import your SCSS file
+import styles from './index.module.scss' // Import SCSS styles
 
 interface ToastProps {
   message: string
@@ -8,13 +8,25 @@ interface ToastProps {
 }
 
 const Toast: React.FC<ToastProps> = ({ message, onClose }) => {
-  useEffect(() => {
-    const timer = setTimeout(onClose, 3000) // Toast disappears after 3 seconds
+  const [visible, setVisible] = useState(false)
 
-    return () => clearTimeout(timer) // Cleanup timer on unmount
+  useEffect(() => {
+    setVisible(true)
+    const timer = setTimeout(() => {
+      setVisible(false)
+      setTimeout(onClose, 300) // Delay removal to allow exit animation
+    }, 3000) // Display toast for 3 seconds
+    return () => clearTimeout(timer)
   }, [onClose])
 
-  return <div className={classes.toast}>{message}</div>
+  return (
+    <div className={`${styles.toast} ${visible ? styles.show : ''}`}>
+      {message}
+      <button className={styles.toastClose} onClick={onClose}>
+        ×
+      </button>
+    </div>
+  )
 }
 
 export default Toast
