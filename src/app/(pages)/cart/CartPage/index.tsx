@@ -1,5 +1,4 @@
 'use client'
-
 import React, { Fragment, useEffect, useState } from 'react'
 import Link from 'next/link'
 
@@ -38,7 +37,9 @@ export const CartPage: React.FC<{
   const [discountedCost, setDiscountedCost] = useState<number>(0) // Initialize discountedCost to 0
 
   useEffect(() => {
-    setCost(cartTotal.raw) // Initialize cost with cart total
+    if (cartTotal.raw !== undefined) {
+      setCost(cartTotal.raw) // Initialize cost with cart total
+    }
   }, [cartTotal])
 
   const handleCouponApply = (newCost: number) => {
@@ -83,6 +84,14 @@ export const CartPage: React.FC<{
       : '/login?redirect=%2Fcheckout'
 
     window.location.href = checkoutUrl // Redirect to checkout URL
+  }
+
+  // Ensure all calculations are done safely
+  const grandTotal = () => {
+    const cartTotalRaw = parseFloat(cartTotal.raw.toString()) || 0
+    const shipping = parseFloat(shippingCost.toFixed(2)) || 0
+    const discount = parseFloat(discountedCost.toFixed(2)) || 0
+    return cartTotalRaw + shipping - discount
   }
 
   return (
@@ -157,26 +166,21 @@ export const CartPage: React.FC<{
 
                 <div className={classes.row}>
                   <p className={classes.cartTotal}>Subtotal</p>
-                  <p className={classes.cartTotal}>{cartTotal.formatted}</p>
+                  <p className={classes.cartTotal}>Ksh{cartTotal.formatted}</p>
                 </div>
 
                 <div className={classes.row}>
                   <p className={classes.cartTotal}>Delivery Charge</p>
-                  <p className={classes.cartTotal}>Ksh{shippingCost}</p>
+                  <p className={classes.cartTotal}>Ksh{shippingCost.toFixed(2)}</p>
                 </div>
                 <div className={classes.row}>
                   <p className={classes.cartTotal}>Discounted Cost:</p>
-                  <p className={classes.cartTotal}>Ksh{discountedCost}</p>
+                  <p className={classes.cartTotal}>Ksh{discountedCost.toFixed(2)}</p>
                 </div>
 
                 <div className={classes.row}>
                   <p className={classes.cartTotal}>Grand Total</p>
-                  <p className={classes.cartTotal}>
-                    Ksh
-                    {parseInt(cartTotal.raw.toString()) +
-                      parseInt(shippingCost.toFixed(2)) -
-                      parseInt(discountedCost.toFixed(2))}
-                  </p>
+                  <p className={classes.cartTotal}>Ksh{grandTotal().toFixed(2)}</p>
                 </div>
 
                 <Button
