@@ -50,8 +50,13 @@ export const Card: React.FC<{
 
         <div className={classes.content}>
           <span className={classes.title}>{titleToUse}</span>
-          <FavoriteButton productId={slug} productName={titleToUse} productPrice={doc.price} />{' '}
-          {/* Include the favorite button */}
+          <FavoriteButton
+            className={classes.favIcon}
+            productId={slug}
+            productName={titleToUse}
+            productPrice={doc.price}
+          />
+
           {relationTo === 'products' ? (
             <>
               <div className={classes.price}>
