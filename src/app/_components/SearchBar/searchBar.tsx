@@ -1,7 +1,9 @@
+'use client'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { FaSearch } from 'react-icons/fa'
 import axios from 'axios'
 
+import ErrorDisplay from './ErrorDisplay'
 import LoadingCard from './LoadingCard'
 import Card from './SearchResults'
 import Trending from './Sponsored'
@@ -107,7 +109,7 @@ const SearchBar: React.FC = () => {
 
       {isFocused && query.trim() !== '' && (
         <div className={classes.resultsContainer}>
-          {error && <div className={classes.error}>{error}</div>}
+          {error && <ErrorDisplay />} {/* Use the ErrorDisplay component here */}
           {isLoading && (
             <div className={classes.loading}>
               <LoadingCard imageUrl={''} />
