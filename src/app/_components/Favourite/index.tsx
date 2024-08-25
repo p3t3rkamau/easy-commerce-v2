@@ -23,6 +23,7 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
   productPrice,
   productUrl,
   mainImage,
+  className = '', // Default to empty string if not provided
 }) => {
   const [isFavorite, setIsFavorite] = useState<boolean>(false)
 
@@ -44,18 +45,18 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
         url: productUrl,
         imageUrl: mainImage?.media?.imagekit?.url || '/Easy-logo.svg',
       }
-      localStorage.setItem('favoriteItems', JSON.stringify([...favoriteItems, newFavoriteItem]))
+      favoriteItems = [...favoriteItems, newFavoriteItem]
     } else {
       favoriteItems = favoriteItems.filter(item => item.url !== productUrl)
-      localStorage.setItem('favoriteItems', JSON.stringify(favoriteItems))
     }
 
+    localStorage.setItem('favoriteItems', JSON.stringify(favoriteItems))
     setIsFavorite(!isFavorite)
   }
 
   return (
     <button
-      className={`${classes.favoriteButton} ${isFavorite ? classes.favorite : ''}`}
+      className={`${classes.favoriteButton} ${isFavorite ? classes.favorite : ''} ${className}`}
       onClick={toggleFavorite}
     >
       {isFavorite ? <MdFavorite /> : <MdFavoriteBorder />}
