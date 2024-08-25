@@ -1,5 +1,6 @@
 import type { CartItems, Product, User } from '../../../payload/payload-types'
 
+// Define the structure of a CartItem
 export interface CartItem {
   product: Product
   quantity: number
@@ -7,29 +8,27 @@ export interface CartItem {
   attributePrices?: { [key: string]: number | undefined }
 }
 
+// Define the type for the cart, which is tied to the User's cart
 type CartType = User['cart']
 
+// Define the possible actions for the cart reducer
 type CartAction =
-  | {
-      type: 'SET_CART'
-      payload: CartType
-    }
-  | {
-      type: 'MERGE_CART'
-      payload: CartType
-    }
-  | {
-      type: 'ADD_ITEM'
-      payload: CartItem
-    }
-  | {
-      type: 'DELETE_ITEM'
-      payload: Product
-    }
-  | {
-      type: 'CLEAR_CART'
-    }
+  | { type: 'SET_CART'; payload: CartType }
+  | { type: 'MERGE_CART'; payload: CartType }
+  | { type: 'ADD_ITEM'; payload: CartItem }
+  | { type: 'DELETE_ITEM'; payload: Product }
+  | { type: 'CLEAR_CART' }
 
+// Utility function to get product ID
+const getProductId = (product: Product | string) =>
+  typeof product === 'string' ? product : product.id
+
+// Utility function to compare products and selected attributes
+const isSameCartItem = (item1: CartItem, item2: CartItem) =>
+  getProductId(item1.product) === getProductId(item2.product) &&
+  JSON.stringify(item1.selectedAttributes) === JSON.stringify(item2.selectedAttributes)
+
+// Cart reducer function
 export const cartReducer = (cart: CartType, action: CartAction): CartType => {
   switch (action.type) {
     case 'SET_CART': {
@@ -37,79 +36,57 @@ export const cartReducer = (cart: CartType, action: CartAction): CartType => {
     }
 
     case 'MERGE_CART': {
-      const { payload: incomingCart } = action
-
-      const syncedItems: CartItem[] = [
+      const mergedItems: CartItem[] = [
         ...(cart?.items || []),
-        ...(incomingCart?.items || []),
-      ].reduce((acc: CartItem[], item) => {
-        const productId = typeof item.product === 'string' ? item.product : item?.product?.id
+        ...(action.payload.items || []),
+      ].reduce((acc: CartItem[], currentItem) => {
+        const existingIndex = acc.findIndex(item => isSameCartItem(item, currentItem))
 
-        const indexInAcc = acc.findIndex(
-          ({ product, selectedAttributes }) =>
-            (typeof product === 'string' ? product === productId : product?.id === productId) &&
-            JSON.stringify(selectedAttributes) === JSON.stringify(item.selectedAttributes),
-        )
-
-        if (indexInAcc > -1) {
-          acc[indexInAcc] = {
-            ...acc[indexInAcc],
-            quantity: acc[indexInAcc].quantity + item.quantity,
-          }
+        if (existingIndex > -1) {
+          // Combine quantities and attribute prices
+          acc[existingIndex].quantity += currentItem.quantity
         } else {
-          acc.push(item)
+          acc.push(currentItem)
         }
+
         return acc
       }, [])
 
       return {
         ...cart,
-        items: syncedItems,
+        items: mergedItems,
       }
     }
 
     case 'ADD_ITEM': {
-      const { payload: incomingItem } = action
-      const productId =
-        typeof incomingItem.product === 'string' ? incomingItem.product : incomingItem?.product?.id
+      const newItem = action.payload
+      const existingIndex = cart?.items?.findIndex(item => isSameCartItem(item, newItem))
 
-      const indexInCart = cart?.items?.findIndex(
-        ({ product, selectedAttributes }) =>
-          (typeof product === 'string' ? product === productId : product?.id === productId) &&
-          JSON.stringify(selectedAttributes) === JSON.stringify(incomingItem.selectedAttributes),
-      )
-
-      let withAddedItem = [...(cart?.items || [])]
-
-      if (indexInCart === -1) {
-        withAddedItem.push(incomingItem)
-      } else if (typeof indexInCart === 'number' && indexInCart > -1) {
-        withAddedItem[indexInCart] = {
-          ...withAddedItem[indexInCart],
-          quantity: withAddedItem[indexInCart].quantity + incomingItem.quantity,
-        }
-      }
+      const updatedItems =
+        existingIndex === -1
+          ? [...(cart?.items || []), newItem]
+          : cart.items.map((item, index) =>
+              index === existingIndex
+                ? { ...item, quantity: item.quantity + newItem.quantity }
+                : item,)
 
       return {
         ...cart,
-        items: withAddedItem,
+        items: updatedItems,
       }
     }
 
     case 'DELETE_ITEM': {
-      const { payload: incomingProduct } = action
-      const withDeletedItem = { ...cart }
+      const productIdToRemove = getProductId(action.payload)
 
-      const indexInCart = cart?.items?.findIndex(({ product }) =>
-        typeof product === 'string'
-          ? product === incomingProduct.id
-          : product?.id === incomingProduct.id,
+      const updatedItems = cart.items.filter(
+        item => getProductId(item.product) !== productIdToRemove,
       )
 
-      if (typeof indexInCart === 'number' && withDeletedItem.items && indexInCart > -1)
-        withDeletedItem.items.splice(indexInCart, 1)
-
-      return withDeletedItem
+      return {
+        ...cart,
+        items: updatedItems,
+      }
     }
 
     case 'CLEAR_CART': {
