@@ -1,15 +1,35 @@
-import { Button } from '../_components/Button'
+import React from 'react'
+import Link from 'next/link'
+
 import { Gutter } from '../_components/Gutter'
-import { VerticalPadding } from '../_components/VerticalPadding'
+import SearchBar from '../_components/SearchBar/searchBar' // Adjust the import path as needed
+
+import styles from './NotFound.module.scss'
 
 export default function NotFound() {
   return (
-    <Gutter>
-      <VerticalPadding top="none" bottom="large">
-        <h1 style={{ marginBottom: 0 }}>404</h1>
-        <p>This page could not be found.</p>
-        <Button href="/" label="Go Home" appearance="primary" />
-      </VerticalPadding>
-    </Gutter>
+    <div className={styles.notFoundContainer}>
+      <Gutter>
+        <div className={styles.content}>
+          <h1 className={styles.errorCode}>404</h1>
+          <div className={styles.errorMessage}>
+            <h2>
+              <span className={styles.warningIcon}>⚠</span> Oops! Page not found.
+            </h2>
+            <p>The page you are looking for was not found.</p>
+            <p>
+              You may return to{' '}
+              <Link href="/" className={styles.link}>
+                home page
+              </Link>{' '}
+              or try using the search form.
+            </p>
+          </div>
+          <div className={styles.searchForm}>
+            <SearchBar />
+          </div>
+        </div>
+      </Gutter>
+    </div>
   )
 }
