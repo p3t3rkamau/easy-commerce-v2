@@ -1,4 +1,5 @@
 'use client'
+
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
@@ -56,6 +57,9 @@ export const AddToCartButton: React.FC<{
         attributePrices: { totalPrice: storedTotalPrice }, // Update with stored total price
       })
       router.push('/cart') // Navigate to the cart after adding
+    } else {
+      // Navigate to cart directly if the product is already in the cart
+      router.push('/cart')
     }
   }
 
@@ -63,22 +67,22 @@ export const AddToCartButton: React.FC<{
 
   return (
     <Button
-      href={isInCart ? '/cart' : undefined}
-      type={!isInCart ? 'button' : undefined}
-      label={isOutOfStock ? 'Out of Stock' : isInCart ? `✓ View in cart` : `Add to cart`}
-      el={isInCart ? 'link' : undefined}
+      href={isInCart ? undefined : undefined} // href removed to prevent interference with click handling
+      type="button" // Always set as button since click will handle both add to cart and navigation
+      label={isOutOfStock ? 'Out of Stock' : isInCart ? `View in cart` : `Add to cart`}
+      el="button" // Always a button since we handle navigation manually
       appearance={appearance}
       className={[
         className,
         classes.addToCartButton,
-        isInCart && classes.green,
-        !hasInitializedCart && classes.hidden,
-        isOutOfStock ? classes.disabledButton : '',
+        isInCart && classes.green, // Green class for items already in cart
+        !hasInitializedCart && classes.hidden, // Hidden if cart is not initialized
+        isOutOfStock ? classes.disabledButton : '', // Disabled styling for out of stock
       ]
         .filter(Boolean)
         .join(' ')}
-      onClick={handleAddToCart}
-      disabled={isOutOfStock}
+      onClick={handleAddToCart} // onClick handles both adding to cart and navigation
+      disabled={isOutOfStock} // Disable button if out of stock
     />
   )
 }
