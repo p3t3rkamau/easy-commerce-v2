@@ -4,14 +4,14 @@ import { draftMode } from 'next/headers'
 import { notFound } from 'next/navigation'
 
 import { Category, Page } from '../../../payload/payload-types'
-import { staticHome } from '../../../payload/seed/home-static'
+import StaticHome from '../../../payload/seed/home-static'
 import { fetchDoc } from '../../_api/fetchDoc'
 import { fetchDocs } from '../../_api/fetchDocs'
+import Banner from '../../_components/Banner/Banner'
 import { Blocks } from '../../_components/Blocks'
 import { Gutter } from '../../_components/Gutter'
 import { Hero } from '../../_components/Hero'
 import { generateMeta } from '../../_utilities/generateMeta'
-import Banner from '../../_components/Banner/Banner'
 // Payload Cloud caches all files through Cloudflare, so we don't need Next.js to cache them as well
 // This means that we can turn off Next.js data caching and instead rely solely on the Cloudflare CDN
 // To do this, we include the `no-cache` header on the fetch requests used to get the data for this page
@@ -31,10 +31,11 @@ import { EventHero } from '../../_heros/EventHero'
 import { Scroller } from '../../AcertinityUi_components/Scroller/scroller'
 import CarouselView from '../../CoreUi_components/couresel.jsx'
 
+import FeedbackPopup from '@/app/_components/FeedbackForm'
+
 // import { HomeCarousel } from '../../_components/HomeCarousel/HomeCarousel'
 // import Promotion from '../../_components/Promotion'
 import classes from './index.module.scss'
-import FeedbackPopup from '@/app/_components/FeedbackForm'
 
 export default async function Page({ params: { slug = 'home' } }) {
   const { isEnabled: isDraftMode } = draftMode()
@@ -62,7 +63,7 @@ export default async function Page({ params: { slug = 'home' } }) {
   // you should delete this code once you have a home page in the CMS
   // this is really only useful for those who are demoing this template
   if (!page && slug === 'home') {
-    page = staticHome
+    page = StaticHome
   }
 
   if (!page) {
@@ -78,7 +79,7 @@ export default async function Page({ params: { slug = 'home' } }) {
     <React.Fragment>
       <section>
         <HeaderCategoriesLayout HeaderCategories={HeaderCategories} />
-        <Banner/>
+        <Banner />
         {/* <Hero {...hero} /> */}
         {/* <HomeCarousel /> */}
         {/* <PlaceholdersAndVanishInputDemo /> */}
