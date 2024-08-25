@@ -1,5 +1,4 @@
-.details {
-    font-family: Arial, sans-serif;
+
     
     .title {
       font-size: 1.5rem;
@@ -11,6 +10,12 @@
       align-items: center;
       gap: 0.5rem;
       margin-bottom: 0.5rem;
+    }
+    .flex{
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      gap: 5px;
     }
   
     .stars {
@@ -39,6 +44,7 @@
       font-size: 1.5rem;
       font-weight: bold;
       margin-top: 0.5rem;
+      color: var(--theme-elevation-1000);
     }
-  }
+  
   

@@ -14,15 +14,6 @@
   padding: 16px;
   background-color: var(--color-dark-50);
 }
-.attributes {
-  margin-top: 5px;
-}
-
-.attribute {
-  font-size: 0.8rem;
-  color: #666;
-  margin: 2px 0;
-}
 
 .media {
   position: relative;
@@ -98,4 +89,29 @@
     justify-content: space-between;
     align-items: end;
   }
+}
+
+/* New styles for attributes */
+.attributes {
+  margin-top: 5px;
+  display: table;
+  width: 100%;
+}
+
+.attribute {
+  display: table-row;
+  font-size: 0.8rem;
+  color: #666;
+  margin: 2px 0;
+}
+
+.attributeKey {
+  display: table-cell;
+  font-weight: bold;
+  padding-right: 8px;
+}
+
+.attributeValue {
+  display: table-cell;
+  color: #888;
 }
