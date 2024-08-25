@@ -1,11 +1,10 @@
 'use client'
-
 import React from 'react'
-import { Image } from '@nextui-org/react'
 import Link from 'next/link'
 
 import { Post, Product } from '../../../payload/payload-types'
 import { AddToCartButton } from '../AddToCartButton'
+import FavoriteButton from '../Favourite' // Import the favorite button component
 import { Media } from '../Media'
 import { Price } from '../Price'
 
@@ -51,6 +50,8 @@ export const Card: React.FC<{
 
         <div className={classes.content}>
           <span className={classes.title}>{titleToUse}</span>
+          <FavoriteButton productId={slug} productName={titleToUse} productPrice={doc.price} />{' '}
+          {/* Include the favorite button */}
           {relationTo === 'products' ? (
             <>
               <div className={classes.price}>
