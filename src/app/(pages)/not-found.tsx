@@ -25,9 +25,6 @@ export default function NotFound() {
               or try using the search form.
             </p>
           </div>
-          <div className={styles.searchForm}>
-            <SearchBar />
-          </div>
         </div>
       </Gutter>
     </div>
