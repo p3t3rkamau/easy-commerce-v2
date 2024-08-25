@@ -8,17 +8,28 @@ interface QuantitySelectorProps {
 }
 
 export const QuantitySelector: React.FC<QuantitySelectorProps> = ({ quantity, setQuantity }) => {
+  const decreaseQuantity = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1)
+    }
+  }
+
+  const increaseQuantity = () => {
+    setQuantity(quantity + 1)
+  }
+
   return (
     <div className={classes.quantityWrapper}>
-      <label htmlFor="quantity">Quantity:</label>
-      <input
-        type="number"
-        id="quantity"
-        min="1"
-        value={quantity}
-        onChange={e => setQuantity(Number(e.target.value))}
-        className={classes.quantityInput}
-      />
+      <span className={classes.label}>Quantity:</span>
+      <div className={classes.quantityControl}>
+        <button onClick={decreaseQuantity} className={classes.button}>
+          -
+        </button>
+        <input type="text" value={quantity} readOnly className={classes.quantityInput} />
+        <button onClick={increaseQuantity} className={classes.button}>
+          +
+        </button>
+      </div>
     </div>
   )
 }
