@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import type { AttributesCollection } from '../../../payload/payload-types'
+import type { AttributesCollection } from '../../payload/payload-types'
 
 export const useAttributeHandler = (ProductsAttributes: AttributesCollection[]) => {
   const [selectedAttributes, setSelectedAttributes] = useState<{
@@ -30,18 +30,17 @@ export const useAttributeHandler = (ProductsAttributes: AttributesCollection[]) 
         newAttributes.map(attr => attr.value).includes(prop.Value),
       )
 
-      if (selectedProperties && selectedProperties.length > 0) {
-        const totalSelectedPrice = selectedProperties.reduce(
+      // Calculate total price of selected attributes
+      const totalSelectedPrice =
+        selectedProperties?.reduce(
           (total, prop) =>
             total +
             (prop.price || 0) *
               (newAttributes.find(attr => attr.value === prop.Value)?.quantity || 0),
           0,
-        )
-        setSelectedAttributePrice(totalSelectedPrice)
-      } else {
-        setSelectedAttributePrice(null)
-      }
+        ) || 0
+
+      setSelectedAttributePrice(totalSelectedPrice)
 
       return {
         ...prevAttributes,
