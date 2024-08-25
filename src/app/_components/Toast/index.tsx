@@ -1,4 +1,3 @@
-'use client'
 import React, { useEffect } from 'react'
 
 import classes from './index.module.scss' // Import your SCSS file
