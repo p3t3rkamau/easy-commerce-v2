@@ -1,27 +1,26 @@
 'use client'
-
-import React, { Fragment, useEffect } from 'react'
-import { useSearchParams } from 'next/navigation'
-
-import { Button } from '../../../_components/Button'
-import { Message } from '../../../_components/Message'
-import { useCart } from '../../../_providers/Cart'
-
-import classes from './index.module.scss'
+import React, { Fragment, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { Button } from '../../../_components/Button';
+import { Message } from '../../../_components/Message';
+import { useCart } from '../../../_providers/Cart';
+import ConfettiEffect from '../../../_components/Confetti'; // Import the confetti component
+import classes from './index.module.scss';
 
 export const OrderConfirmationPage: React.FC<{}> = () => {
-  const searchParams = useSearchParams()
-  const orderID = searchParams.get('order_id')
-  const error = searchParams.get('error')
+  const searchParams = useSearchParams();
+  const orderID = searchParams.get('order_id');
+  const error = searchParams.get('error');
 
-  const { clearCart } = useCart()
+  const { clearCart } = useCart();
 
   useEffect(() => {
-    clearCart()
-  }, [clearCart])
+    clearCart();
+  }, [clearCart]);
 
   return (
     <div>
+      {!error && <ConfettiEffect />} {/* Show confetti if no error */}
       {error ? (
         <Fragment>
           <Message error={error} />
@@ -54,5 +53,5 @@ export const OrderConfirmationPage: React.FC<{}> = () => {
         </Fragment>
       )}
     </div>
-  )
-}
+  );
+};

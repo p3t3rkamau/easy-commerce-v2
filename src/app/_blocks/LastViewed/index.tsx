@@ -65,7 +65,7 @@ const LastViewedArchive: React.FC<LastViewedBlock & { className?: string }> = pr
                     <div className={classes.title}>{product.title}</div>
                     <div className={classes.star}>★★★★★</div>
                     <div className={classes.price}>
-                      USD <span>{product.price}</span>
+                      Ksh <span>{product.price}</span>
                     </div>
                   </div>
                 </Link>
