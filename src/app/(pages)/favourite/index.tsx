@@ -22,7 +22,7 @@ export default async function Favorite() {
   return (
     <Gutter>
       <h1>Your Favorites</h1>
-      <div className="grid">
+      {/* <div className="grid">
         {favorites.length > 0 ? (
           favorites.map((product: FavoriteItem, index: number) => (
             <Card key={index} product={product} />
@@ -30,7 +30,7 @@ export default async function Favorite() {
         ) : (
           <p>No favorite items found.</p>
         )}
-      </div>
+      </div> */}
     </Gutter>
   )
 }

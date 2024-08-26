@@ -625,6 +625,7 @@ export interface Product {
   ProductsAttributes?: (string | AttributesCollection)[] | null;
   categories?: (string | Category)[] | null;
   relatedProducts: (string | Product)[];
+  favouriteProducts: (string | Product)[];
   slug?: string | null;
   OtherImages?:
     | {

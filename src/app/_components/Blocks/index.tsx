@@ -6,6 +6,10 @@ import { CallToActionBlock } from '../../_blocks/CallToAction'
 import CallToActionWithImage from '../../_blocks/CallToActionWithImage'
 import { ContentBlock } from '../../_blocks/Content'
 import EventArchiveBlock from '../../_blocks/EventArchive'
+import {
+  FavoriteProductsBlock,
+  FavouriteProductsProps,
+} from '../../_blocks/FavouriteProducts/index'
 import FlashDealsArchive from '../../_blocks/FlashDeals'
 import LastViewed from '../../_blocks/LastViewed'
 import { MediaBlock } from '../../_blocks/MediaBlock'
@@ -36,10 +40,11 @@ const blockComponents = {
   'last-viewed': LastViewed,
   promoBanner: PromoBanner,
   holiday: HolidayBannersComponent,
+  favouriteProducts: FavoriteProductsBlock,
 }
 
 export const Blocks: React.FC<{
-  blocks: (Page['layout'][0] | RelatedProductsProps | RelatedPostsProps)[]
+  blocks: (Page['layout'][0] | RelatedProductsProps | RelatedPostsProps | FavouriteProductsProps)[]
   disableTopPadding?: boolean
   disableBottomPadding?: boolean
 }> = props => {

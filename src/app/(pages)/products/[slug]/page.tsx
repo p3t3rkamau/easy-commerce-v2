@@ -6,11 +6,11 @@ import { notFound } from 'next/navigation'
 import { Product, Product as ProductType } from '../../../../payload/payload-types'
 import { fetchDoc } from '../../../_api/fetchDoc'
 import { fetchDocs } from '../../../_api/fetchDocs'
+import { FavoriteProductsBlock } from '../../../_blocks/FavouriteProducts/index'
 import { Blocks } from '../../../_components/Blocks'
 // import { PaywallBlocks } from '../../../_components/PaywallBlocks'
 import { ProductHero } from '../../../_heros/Product'
 import { generateMeta } from '../../../_utilities/generateMeta'
-
 // Force this page to be dynamic so that Next.js does not cache it
 // See the note in '../../../[slug]/page.tsx' about this
 export const dynamic = 'force-dynamic'
@@ -57,6 +57,21 @@ export default async function Product({ params: { slug } }) {
               },
             ],
             docs: relatedProducts,
+          },
+          {
+            blockType: 'favouriteProducts',
+            blockName: 'Favorite Products',
+            introContent: [
+              {
+                type: 'h3',
+                children: [
+                  {
+                    text: 'Your Favorite Products',
+                  },
+                ],
+              },
+            ],
+            docs: FavoriteProductsBlock,
           },
         ]}
       />
