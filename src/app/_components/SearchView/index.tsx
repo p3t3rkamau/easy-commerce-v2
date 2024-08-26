@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { FaSearch, FaTimes } from 'react-icons/fa'
 import axios from 'axios'
 
+import ErrorDisplay from '../SearchBar/ErrorDisplay'
 import LoadingCard from '../SearchBar/LoadingCard'
 import Card from '../SearchBar/SearchResults'
 import Trending from '../SearchBar/Sponsored'
@@ -122,7 +123,7 @@ const SearchView: React.FC<SearchViewProps> = ({ closeSearchView }) => {
 
       {isFocused && query.trim() !== '' && (
         <div className={classes.resultsContainer}>
-          {error && <div className={classes.error}>{error}</div>}
+          {error && <ErrorDisplay />} {/* Use the ErrorDisplay component here */}
           {isLoading && (
             <div className={classes.loading}>
               <LoadingCard imageUrl={''} />

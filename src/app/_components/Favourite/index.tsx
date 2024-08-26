@@ -7,30 +7,25 @@ interface FavoriteButtonProps {
   productName: string
   productPrice: string
   productUrl: string
-  mainImage: any
-  className?: string // Add className to the interface
+  className?: string
 }
 
 interface ProductDetails {
   name: string
   price: string
   url: string
-  imageUrl: string
 }
 
 const FavoriteButton: React.FC<FavoriteButtonProps> = ({
   productName,
   productPrice,
   productUrl,
-  mainImage,
-  className = '', // Default to empty string if not provided
+  className = '',
 }) => {
   const [isFavorite, setIsFavorite] = useState<boolean>(false)
 
   useEffect(() => {
-    const favoriteItems: ProductDetails[] = JSON.parse(
-      localStorage.getItem('favoriteItems') || '[]',
-    )
+    const favoriteItems: ProductDetails[] = JSON.parse(localStorage.getItem('favoriteItems') || '[]')
     const isProductFavorite = favoriteItems.some(item => item.url === productUrl)
     setIsFavorite(isProductFavorite)
   }, [productUrl])
@@ -43,7 +38,6 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
         name: productName,
         price: productPrice,
         url: productUrl,
-        imageUrl: mainImage?.media?.imagekit?.url || '/Easy-logo.svg',
       }
       favoriteItems = [...favoriteItems, newFavoriteItem]
     } else {

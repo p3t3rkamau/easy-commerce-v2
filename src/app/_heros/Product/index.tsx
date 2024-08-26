@@ -142,7 +142,7 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
               selectedAttributes={selectedAttributes}
               attributePrices={{}} // Pass empty object or update if needed
             />
-            <button className={classes.buyNowButton}>Buy Now</button>
+
             <button
               className={classes.whatsappButton}
               onClick={() =>

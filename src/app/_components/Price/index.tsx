@@ -27,7 +27,7 @@ export const Price: React.FC<{
   }
 
   const formatPrice = (amount: number) => {
-    return `${amount.toFixed(2)}`
+    return `${amount.toFixed()}`
   }
 
   return (

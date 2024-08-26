@@ -33,7 +33,7 @@ export const ProductDetails: React.FC<ProductDetailsProps> = ({
         ? `Ksh${minAttributePrice.toFixed(2)}`
         : `Ksh${minAttributePrice.toFixed(2)} - Ksh${maxAttributePrice.toFixed(2)}`
     }
-    return `Ksh${normalPrice.toFixed(2)}`
+    return `Ksh${normalPrice.toFixed()}`
   }
 
   return (
