@@ -39,7 +39,7 @@ export const Card: React.FC<{
           productName={titleToUse}
           productPrice={doc.price}
           productUrl={href}
-          mainImage={doc.meta.image} // Ensure to pass mainImage if needed
+          mainImage={doc?.meta?.image} // Ensure to pass mainImage if needed
         />
 
         <div className={classes.mediaWrapper}>
