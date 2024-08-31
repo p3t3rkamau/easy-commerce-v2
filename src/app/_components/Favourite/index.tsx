@@ -1,47 +1,51 @@
 import React, { useEffect, useState } from 'react'
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 
+import { Product } from '../../../payload/payload-types'
+
 import classes from './index.module.scss'
 
 interface FavoriteButtonProps {
-  productName: string
-  productPrice: string
-  productUrl: string
+  product: Product
   className?: string
 }
 
 interface ProductDetails {
-  name: string
-  price: string
-  url: string
+  uniqueId: string
+  title: string
+  price: number
+  slug: string
 }
 
-const FavoriteButton: React.FC<FavoriteButtonProps> = ({
-  productName,
-  productPrice,
-  productUrl,
-  className = '',
-}) => {
+const generateUniqueId = (title: string, price: number, slug?: string): string => {
+  return `${title}-${price}-${slug || ''}`.replace(/\s+/g, '-').toLowerCase()
+}
+
+const FavoriteButton: React.FC<FavoriteButtonProps> = ({ product, className = '' }) => {
+  const uniqueId = generateUniqueId(product?.title, product?.price, product?.slug)
   const [isFavorite, setIsFavorite] = useState<boolean>(false)
 
   useEffect(() => {
-    const favoriteItems: ProductDetails[] = JSON.parse(localStorage.getItem('favoriteItems') || '[]')
-    const isProductFavorite = favoriteItems.some(item => item.url === productUrl)
+    const favoriteItems: ProductDetails[] = JSON.parse(
+      localStorage.getItem('favoriteItems') || '[]',
+    )
+    const isProductFavorite = favoriteItems.some(item => item.uniqueId === uniqueId)
     setIsFavorite(isProductFavorite)
-  }, [productUrl])
+  }, [uniqueId])
 
   const toggleFavorite = () => {
     let favoriteItems: ProductDetails[] = JSON.parse(localStorage.getItem('favoriteItems') || '[]')
 
     if (!isFavorite) {
       const newFavoriteItem: ProductDetails = {
-        name: productName,
-        price: productPrice,
-        url: productUrl,
+        uniqueId,
+        title: product?.title,
+        price: product?.price,
+        slug: product?.slug || '', // default empty string if slug is not present
       }
       favoriteItems = [...favoriteItems, newFavoriteItem]
     } else {
-      favoriteItems = favoriteItems.filter(item => item.url !== productUrl)
+      favoriteItems = favoriteItems.filter(item => item.uniqueId !== uniqueId)
     }
 
     localStorage.setItem('favoriteItems', JSON.stringify(favoriteItems))
