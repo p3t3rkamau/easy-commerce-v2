@@ -10,7 +10,6 @@ import { fetchDocs } from '../../_api/fetchDocs'
 import Banner from '../../_components/Banner/Banner'
 import { Blocks } from '../../_components/Blocks'
 import { Gutter } from '../../_components/Gutter'
-import { Hero } from '../../_components/Hero'
 import { generateMeta } from '../../_utilities/generateMeta'
 // Payload Cloud caches all files through Cloudflare, so we don't need Next.js to cache them as well
 // This means that we can turn off Next.js data caching and instead rely solely on the Cloudflare CDN
@@ -20,16 +19,11 @@ import { generateMeta } from '../../_utilities/generateMeta'
 // If you are not using Payload Cloud then this line can be removed, see `../../../README.md#cache`
 export const dynamic = 'force-dynamic'
 
-import LogoSlider from '../../_components/BrandSlider'
 import ProductGrid from '../../_components/CardGrid/ProductGrid'
 import CategoriesComponent from '../../_components/Categories'
 import ExpandableFloatingActionButton from '../../_components/ChatwidgetComponent/_components/FloatingAction/ExpandableFloatingActionButton'
-import FlexBanner from '../../_components/FlexBanner'
 import { HeaderCategoriesLayout } from '../../_components/HeaderCategories'
-import TopBar from '../../_components/Topbar'
-import { EventHero } from '../../_heros/EventHero'
 import { Scroller } from '../../AcertinityUi_components/Scroller/scroller'
-import CarouselView from '../../CoreUi_components/couresel.jsx'
 
 import FeedbackPopup from '@/app/_components/FeedbackForm'
 
