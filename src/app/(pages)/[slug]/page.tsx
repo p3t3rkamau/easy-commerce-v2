@@ -124,7 +124,7 @@ export async function generateMetadata({ params: { slug = 'home' } }): Promise<M
   }
 
   if (!page && slug === 'home') {
-    page = staticHome
+    page = StaticHome
   }
 
   return generateMeta({ doc: page })
