@@ -5,16 +5,14 @@ import { useToast } from '../../_providers/Toast/ToastContext' // Adjust the pat
 const TriggerToast: React.FC = () => {
   const { addToast } = useToast()
 
-  const triggerToast = () => {
-    console.log('toast triggered')
-    addToast('This is a toast from Help page!')
+  const showActionToast = () => {
+    addToast('Action toast with a button!', 'info', {
+      label: 'Undo',
+      onClick: () => alert('Undo action performed!'),
+    })
   }
 
-  return (
-    <div>
-      <button onClick={triggerToast}>Show Toast</button>
-    </div>
-  )
+  return <button onClick={showActionToast}>Show Action Toast</button>
 }
 
 export default TriggerToast

@@ -30,7 +30,7 @@ const transporter = nodemailer.createTransport({
     user: 'resend',
     pass: process.env.RESEND_API_KEY,
   },
-  from: 'Easy Bake Supplies Limited <noreply@berleensafaris.com>', // Correctly formatted
+  // from: 'Easy Bake Supplies Limited <noreply@berleensafaris.com>',
 })
 
 app.post('/api/feedbackform', async (req, res) => {
@@ -145,7 +145,7 @@ const start = async (): Promise<void> => {
     email: {
       transport: transporter,
       fromName: 'EasyBakeSuppliesLimited',
-      fromAddress: 'Easy Bake Supplies Limited <noreply@berleensafaris.com>', // Correctly formatted
+      fromAddress: 'noreply@berleensafaris.com',
     },
     onInit: () => {
       payload.logger.info(`Payload Admin URL: ${payload.getAdminURL()}`)
@@ -236,7 +236,32 @@ const start = async (): Promise<void> => {
       res.status(500).send('Internal Server Error')
     }
   })
-  // TODO: Add more routes as needed
+  app.post('/api/users/reset-password', async (req, res) => {
+    try {
+      const { token, password } = req.body
+      const result = await payload.resetPassword({
+        collection: 'users',
+        token,
+        password,
+      })
+
+      res.json(result)
+    } catch (error: unknown) {
+      res.status(500).json({ error: error })
+    }
+  })
+  app.post('/api/users/forgot-password', async (req, res) => {
+    try {
+      const { email } = req.body
+      await payload.forgotPassword({
+        collection: 'users',
+        data: { email },
+      })
+      res.json({ message: 'Password reset email sent successfully' })
+    } catch (error: unknown) {
+      res.status(500).json({ error: error })
+    }
+  })
   await nextApp.prepare()
 
   app.listen(PORT, async () => {

@@ -146,7 +146,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/forgot-password`, {
         method: 'POST',
-        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -156,44 +155,56 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       })
 
       if (res.ok) {
-        const { data, errors } = await res.json()
-        if (errors) throw new Error(errors[0].message)
-        setUser(data?.loginUser?.user)
+        const result = await res.json()
+        if (result.errors) throw new Error(result.errors[0].message)
+        console.log('Password reset email sent successfully')
+        // You might want to update your UI to show a success message here
       } else {
-        throw new Error('Invalid login')
+        throw new Error('Failed to send password reset email')
       }
     } catch (e) {
-      throw new Error('An error occurred while attempting to login.')
+      console.error('Error in forgotPassword:', e)
+      throw new Error('An error occurred while attempting to send password reset email.')
     }
   }, [])
 
-  const resetPassword = useCallback<ResetPassword>(async args => {
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/reset-password`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          password: args.password,
-          passwordConfirm: args.passwordConfirm,
-          token: args.token,
-        }),
-      })
+  const resetPassword = useCallback<ResetPassword>(
+    async args => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/reset-password`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            password: args.password,
+            passwordConfirm: args.passwordConfirm,
+            token: args.token,
+          }),
+        })
 
-      if (res.ok) {
-        const { data, errors } = await res.json()
-        if (errors) throw new Error(errors[0].message)
-        setUser(data?.loginUser?.user)
-        setStatus(data?.loginUser?.user ? 'loggedIn' : undefined)
-      } else {
-        throw new Error('Invalid login')
+        if (res.ok) {
+          const result = await res.json()
+          if (result.errors) throw new Error(result.errors[0].message)
+
+          if (result.user) {
+            setUser(result.user)
+            setStatus('loggedIn')
+            console.log('Password reset successful')
+            // You might want to update your UI to show a success message here
+          } else {
+            throw new Error('Password reset was unsuccessful')
+          }
+        } else {
+          throw new Error('Invalid password reset')
+        }
+      } catch (e) {
+        console.error('Error in resetPassword:', e)
+        throw new Error('An error occurred while attempting to reset password.')
       }
-    } catch (e) {
-      throw new Error('An error occurred while attempting to login.')
-    }
-  }, [])
+    },
+    [setUser, setStatus],
+  )
 
   return (
     <Context.Provider

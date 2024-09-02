@@ -36,7 +36,7 @@ const SearchView: React.FC<SearchViewProps> = ({ closeSearchView }) => {
     if (value.trim() !== '') {
       debounceTimeoutRef.current = setTimeout(() => {
         fetchSearchResults(value)
-      }, 3000)
+      }, 1000)
     } else {
       setResults([])
     }
@@ -92,6 +92,10 @@ const SearchView: React.FC<SearchViewProps> = ({ closeSearchView }) => {
     }
   }, [])
 
+  const handleCardClick = () => {
+    closeSearchView()
+  }
+
   return (
     <div className={classes.searchView} ref={searchBarRef}>
       <div className={classes.searchFlex}>
@@ -138,6 +142,7 @@ const SearchView: React.FC<SearchViewProps> = ({ closeSearchView }) => {
                   title={result.title}
                   price={result.price}
                   imageUrl={result.imageUrl || '/Easy-logo.svg'}
+                  onCardClick={handleCardClick}
                 />
               ))}
             </div>

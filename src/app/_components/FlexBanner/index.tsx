@@ -1,61 +1,55 @@
-import React from 'react'
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
-import Image from 'next/image'
-import Link from 'next/link'
+'use client'
 
-import { Button } from '../Button'
+import React from 'react'
+
+import { Page } from '../../../payload/payload-types'
+import { Gutter } from '../../_components/Gutter'
+import { CMSLink } from '../../_components/Link'
+import { Media } from '../../_components/Media'
+import RichText from '../../_components/RichText'
 
 import classes from './index.module.scss'
 
-const FlexBanner: React.FC = () => {
-  return (
-    <div className={classes.container}>
-      <div className={classes.imageSlider}>
-        <div className={classes.imageContainer}>
-          <Image
-            src="/assets/images/image-4.svg"
-            className={classes.mainImage}
-            alt="Holiday Prep"
-            width={600}
-            height={600}
-          />
-          <div className={classes.overlay}></div>
-        </div>
-        <div className={classes.contentContainer}>
-          <div className={classes.mainTitle}>
-            <span>Holiday Prep</span>
-          </div>
-          <div className={classes.subTitle}>
-            <span className={classes.text}>Find it all now and don't miss out</span>
-          </div>
-          <div className={classes.heroButton}>
-            <Button el="link" href="/products" label="Shop Now" appearance="secondary" />
-          </div>
-        </div>
-      </div>
+type FlexBannerProps = Extract<Page['layout'][0], { blockType: 'FlexBanner' }> & {
+  id?: string
+}
 
-      <div className={classes.imageSlider}>
-        <div className={classes.imageContainer}>
-          <Image
-            src="/assets/images/image-3.svg"
-            className={classes.mainImage}
-            alt="Holiday Prep"
-            width={600}
-            height={600}
-          />
-          <div className={classes.overlay}></div>
-        </div>
-        <div className={classes.contentContainer}>
-          <div className={classes.mainTitle}>
-            <span>Holiday Prep</span>
-          </div>
-          <div className={classes.subTitle}>
-            <span className={classes.text}>Find it all now and don't miss out</span>
-          </div>
-          <div className={classes.heroButton}>
-            <Button el="link" href="/products" label="Explore" appearance="secondary" />
-          </div>
-        </div>
+export const FlexBanner: React.FC<FlexBannerProps> = props => {
+  const { FlexBanners } = props
+
+  return (
+    <div className={classes.flexBanner}>
+      <div className={classes.flexContainer}>
+        {FlexBanners?.HorizontalBanners?.map((banner, index) => (
+          <Gutter key={banner.id || index}>
+            <div className={classes.bannerContainer}>
+              <div className={classes.imageContainer}>
+                <Media resource={banner.media} imgClassName={classes.mainImage} />
+                <div className={classes.overlay}></div>
+                <div className={classes.contentContainer}>
+                  <RichText content={banner.richText} />
+
+                  {banner.links?.length > 0 && (
+                    <div className={classes.links}>
+                      {banner.links.map((linkItem, linkIndex) => (
+                        <CMSLink
+                          key={linkItem.id || linkIndex}
+                          type={linkItem.link.type}
+                          url={linkItem.link.url}
+                          newTab={linkItem.link.newTab}
+                          reference={linkItem.link.reference}
+                          label={linkItem.link.label}
+                          appearance={linkItem.link.appearance}
+                          className={classes.link}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </Gutter>
+        ))}
       </div>
     </div>
   )

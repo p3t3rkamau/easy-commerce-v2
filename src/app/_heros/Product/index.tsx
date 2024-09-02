@@ -168,7 +168,6 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
       <div className={classes.productTabs}>
         <TabsUi description={description} />
       </div>
-      <TriggerToast />
     </Gutter>
   )
 }

@@ -9,6 +9,7 @@ export const Price: React.FC<{
   quantity?: number
   button?: 'addToCart' | 'removeFromCart' | false
   selectedAttributes?: { [key: string]: { value: string; quantity: number } }
+  className: string
 }> = props => {
   const { product, quantity = 1, button, selectedAttributes } = props
 

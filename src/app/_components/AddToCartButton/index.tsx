@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 
 import { Post, Product } from '../../../payload/payload-types'
 import { useCart } from '../../_providers/Cart'
+import { useToast } from '../../_providers/Toast/ToastContext'
 import { Button, Props } from '../Button'
 
 import classes from './index.module.scss'
@@ -27,6 +28,7 @@ export const AddToCartButton: React.FC<{
   const { cart, addItemToCart, isProductInCart, hasInitializedCart } = useCart()
   const [isInCart, setIsInCart] = useState<boolean>(false)
   const router = useRouter()
+  const { addToast } = useToast()
 
   useEffect(() => {
     setIsInCart(isProductInCart(product))
@@ -36,15 +38,13 @@ export const AddToCartButton: React.FC<{
     const validatedQuantity = Math.max(1, quantity)
     const storedTotalPrice = JSON.parse(localStorage.getItem('totalPrice') || '0')
 
-    // Check if all required attributes are selected
     if (product.ProductsAttributes && product.ProductsAttributes.length > 0) {
       const allAttributesSelected = product.ProductsAttributes.every(
         attribute => selectedAttributes && selectedAttributes[attribute.Attribute_Name]?.length > 0,
       )
 
-      // Prevent adding to cart if attributes are not selected
       if (!allAttributesSelected) {
-        alert('Please select all required attributes before adding to cart.')
+        addToast('Please select atleast one color or quantity before adding to cart.', 'error') // Show toast with error type
         return
       }
     }
@@ -54,11 +54,11 @@ export const AddToCartButton: React.FC<{
         product,
         quantity: validatedQuantity,
         selectedAttributes,
-        attributePrices: { totalPrice: storedTotalPrice }, // Update with stored total price
+        attributePrices: { totalPrice: storedTotalPrice },
       })
-      router.push('/cart') // Navigate to the cart after adding
+      addToast(`Added ${product.title} to cart!`, 'success') // Trigger toast with success type
+      router.push('/cart')
     } else {
-      // Navigate to cart directly if the product is already in the cart
       router.push('/cart')
     }
   }

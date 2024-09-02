@@ -20,6 +20,7 @@ import SliderArchiveBlock from '../../_blocks/SliderArchiveBlock'
 import TopDealsArchive from '../../_blocks/TopDealsArchive'
 import { toKebabCase } from '../../_utilities/toKebabCase'
 import { BackgroundColor } from '../BackgroundColor/index'
+import FlexBanner from '../FlexBanner'
 import { HolidayBannersComponent } from '../Holiday_Banner/index'
 import { PromoBanner } from '../Promo_Banner/index'
 import { VerticalPadding, VerticalPaddingOptions } from '../VerticalPadding/index'
@@ -41,6 +42,7 @@ const blockComponents = {
   promoBanner: PromoBanner,
   holiday: HolidayBannersComponent,
   favouriteProducts: FavoriteProductsBlock,
+  FlexBanner: FlexBanner,
 }
 
 export const Blocks: React.FC<{

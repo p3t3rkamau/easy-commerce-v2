@@ -1,12 +1,11 @@
 'use client'
-
 import React, { Fragment, useCallback, useEffect, useRef, useState } from 'react'
 import qs from 'qs'
 
 import { Post, Product } from '../../../payload/payload-types'
 import type { ArchiveBlockProps } from '../../_blocks/ArchiveBlock/types'
 import { useFilter } from '../../_providers/Filter'
-import { Card } from '../Card'
+import Card from '../Card'
 import { PageRange } from '../PageRange'
 import { Pagination } from '../Pagination'
 
@@ -155,6 +154,19 @@ export const CollectionArchive: React.FC<Props> = props => {
       if (timer) clearTimeout(timer)
     }
   }, [page, categoryFilters, relationTo, onResultChange, sort, limit, priceFilteredProducts])
+
+  // Check if the window object is available (i.e., code is running on the client)
+  const isClient = typeof window !== 'undefined'
+
+  useEffect(() => {
+    if (isClient && hasHydrated.current) {
+      // This code will only run on the client after the component has hydrated
+      console.log('Client-side code running after hydration')
+
+      // You can add any client-specific logic here that should only run after hydration.
+      // For example, updating the UI, interacting with localStorage, etc.
+    }
+  }, [isClient, results]) // Add any dependencies that should trigger this effect
 
   return (
     <div className={[classes.collectionArchive, className].filter(Boolean).join(' ')}>

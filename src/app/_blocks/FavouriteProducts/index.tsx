@@ -1,4 +1,3 @@
-// components/FavoriteProductsClient.tsx
 'use client'
 import React, { useEffect, useState } from 'react'
 
@@ -7,8 +6,16 @@ import { FavoriteProductCard } from '../FavouriteProducts/FavoriteProductCard'
 
 import classes from './index.module.scss'
 
+interface FavoriteProduct {
+  id: string
+  name: string
+  price: number
+  imageUrl: string
+  url: string
+}
+
 export const FavoriteProductsBlock: React.FC = () => {
-  const [favoriteProducts, setFavoriteProducts] = useState<any[]>([])
+  const [favoriteProducts, setFavoriteProducts] = useState<FavoriteProduct[]>([])
 
   useEffect(() => {
     const favoriteItems = JSON.parse(localStorage.getItem('favoriteItems') || '[]')
@@ -23,11 +30,11 @@ export const FavoriteProductsBlock: React.FC = () => {
           {favoriteProducts.length > 0 ? (
             favoriteProducts.map(product => (
               <FavoriteProductCard
-                key={product.url}
+                key={product?.id || `${product?.name}-${product?.price}`}
                 name={product.name}
-                price={product.price}
-                imageUrl={product.imageUrl}
-                url={product.url}
+                price={product?.price}
+                imageUrl={product?.imageUrl}
+                url={product?.url}
               />
             ))
           ) : (

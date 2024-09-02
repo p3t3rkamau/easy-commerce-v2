@@ -28,19 +28,20 @@ export const Card: React.FC<{
   }
 
   const { slug, discount, discountedPrice } = doc as Product // Cast to Product, will be ignored for Post
-  const titleToUse = titleFromProps || doc.title
+  const titleToUse = titleFromProps || doc?.title
   const href = `/${relationTo}/${slug}`
 
   return (
     <Link href={href}>
       <div className={classes.card} style={{ position: 'relative' }}>
-        <FavoriteButton
-          className={classes.favIcon} // Pass className here
-          productName={titleToUse}
-          productPrice={doc.price}
-          productUrl={href}
-          mainImage={doc?.meta?.image} // Ensure to pass mainImage if needed
-        />
+        {relationTo === 'products' && (
+          <FavoriteButton
+            product={doc as Product}
+            className="absolute top-2 right-2 shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+            size="medium"
+            variant="default"
+          />
+        )}
 
         <div className={classes.mediaWrapper}>
           {newTag && (
@@ -61,12 +62,12 @@ export const Card: React.FC<{
           {relationTo === 'products' ? (
             <>
               <div className={classes.price}>
-                <Price product={doc as Product} />
+                <Price product={doc as Product} className={''} />
                 {discountedPrice > 0 && (
                   <div className={classes.discountedPrice}>{discountedPrice}</div>
                 )}
               </div>
-              <AddToCartButton product={doc as Product} />
+              <AddToCartButton product={doc as Product} quantity={1} />
             </>
           ) : (
             <span className={classes.description}>{doc.description || ''}</span>

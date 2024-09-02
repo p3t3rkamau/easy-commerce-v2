@@ -7,26 +7,36 @@ import CategoryCard from './CategoryCard'
 
 import classes from './index.module.scss'
 
+// Simple loading animation component (can be customized or replaced)
+const LoadingSpinner = () => (
+  <div className={classes.loadingSpinner}>
+    <div className={classes.spinner}></div>
+  </div>
+)
+
 const CategoriesComponent = ({ categories }: { categories: Category[] }) => {
   const [isSmallScreen, setIsSmallScreen] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
+
   useEffect(() => {
+    setIsMounted(true) // Mark the component as mounted
     const handleResize = () => {
-      // Check the window width and update the isSmallScreen state
       setIsSmallScreen(window.innerWidth <= 767)
     }
-    // Initial check on component mount
+
     handleResize()
-    // Attach resize event listener
     window.addEventListener('resize', handleResize)
-    // Cleanup the event listener on component unmount
+
     return () => {
       window.removeEventListener('resize', handleResize)
     }
   }, [])
 
-  // Adjust the number of displayed categories based on screen size
+  if (!isMounted) {
+    return <LoadingSpinner /> // Return loading spinner while waiting for mount
+  }
+
   const numberOfCategories = isSmallScreen ? 6 : 12
-  // Take the first `numberOfCategories` elements
   const displayedCategories = categories?.slice(0, numberOfCategories)
 
   return (

@@ -58,21 +58,21 @@ export default async function Product({ params: { slug } }) {
             ],
             docs: relatedProducts,
           },
-          {
-            blockType: 'favouriteProducts',
-            blockName: 'Favorite Products',
-            introContent: [
-              {
-                type: 'h3',
-                children: [
-                  {
-                    text: 'Your Favorite Products',
-                  },
-                ],
-              },
-            ],
-            docs: FavoriteProductsBlock,
-          },
+          // {
+          //   blockType: 'favouriteProducts',
+          //   blockName: 'Favorite Products',
+          //   introContent: [
+          //     {
+          //       type: 'h3',
+          //       children: [
+          //         {
+          //           text: 'Your Favorite Products',
+          //         },
+          //       ],
+          //     },
+          //   ],
+          //   docs: FavoriteProductsBlock,
+          // },
         ]}
       />
     </>
