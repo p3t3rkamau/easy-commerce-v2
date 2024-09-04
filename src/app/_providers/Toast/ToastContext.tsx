@@ -1,3 +1,4 @@
+'use client'
 import React, { createContext, ReactNode, useContext, useState } from 'react'
 
 import Toast from '../../_components/Toast'
