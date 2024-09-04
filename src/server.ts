@@ -11,6 +11,7 @@ import path from 'path'
 import payload from 'payload'
 
 import generateSitemap from '../genarateSitemap'
+import { sendEmail } from './payload/utilities/sendemail.jsx'
 
 dotenv.config({
   path: path.resolve(__dirname, '../.env'),
@@ -239,6 +240,8 @@ const start = async (): Promise<void> => {
   app.post('/api/users/reset-password', async (req, res) => {
     try {
       const { token, password } = req.body
+
+      // Reset the user's password using Payload CMS
       const result = await payload.resetPassword({
         collection: 'users',
         token,
@@ -250,13 +253,30 @@ const start = async (): Promise<void> => {
       res.status(500).json({ error: error })
     }
   })
+
+  // Forgot Password Route
   app.post('/api/users/forgot-password', async (req, res) => {
     try {
       const { email } = req.body
+
+      // Generate a reset password token using Payload CMS
       await payload.forgotPassword({
         collection: 'users',
         data: { email },
       })
+
+      // Construct the password reset email
+      const resetLink = `http://localhost:3001/reset-password?email=${email}`
+      const subject = 'Reset Your Password'
+      const html = `<p>Please click the following link to reset your password:</p><a href="${resetLink}">${resetLink}</a>`
+
+      // Send the email using the custom sendEmail function
+      await sendEmail({
+        to: email,
+        subject,
+        html,
+      })
+
       res.json({ message: 'Password reset email sent successfully' })
     } catch (error: unknown) {
       res.status(500).json({ error: error })
