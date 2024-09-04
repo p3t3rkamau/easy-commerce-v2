@@ -26,10 +26,7 @@ const RecommededArchive: React.FC<RecommendedBlock & { className?: string }> = p
     <div className={classes.rowWrapper}>
       <div className={classes.container}>
         <div className={classes.rowHead}>
-          <div
-            className={`${classes.headerContainer} ${className}`}
-            style={{ backgroundColor: 'wheat', color: 'black' }}
-          >
+          <div className={`${classes.headerContainer} ${className}`}>
             <div>Recommended</div>
             <div className={classes.seeAll}>
               <div>See All </div>
