@@ -4,8 +4,6 @@ import React, { ReactNode, useEffect, useState } from 'react'
 import ErrorPage from '../../_components/ErrorPage'
 import { useToast } from '../Toast/ToastContext'
 
-import styles from './ErrorBoundary.module.scss' // Assuming you have a CSS module for styling
-
 interface ErrorBoundaryProps {
   children: ReactNode
 }
@@ -43,7 +41,7 @@ const ErrorBoundary: React.FC<ErrorBoundaryProps> = ({ children }) => {
 
   if (hasError) {
     return (
-      <div className={styles.errorPage}>
+      <div>
         <ErrorPage />
       </div>
     )
