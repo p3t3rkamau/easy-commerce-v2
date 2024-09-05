@@ -89,7 +89,7 @@ const SearchBar: React.FC = () => {
   }, [])
 
   const handleCardClick = () => {
-    console.log('clicked search product')
+    setIsFocused(false)
   }
 
   return (
