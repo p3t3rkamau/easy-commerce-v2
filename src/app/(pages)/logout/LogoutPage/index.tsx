@@ -6,6 +6,8 @@ import Link from 'next/link'
 import { Settings } from '../../../../payload/payload-types'
 import { useAuth } from '../../../_providers/Auth'
 
+import styles from './index.module.scss' // Import the CSS module
+
 export const LogoutPage: React.FC<{
   settings: Settings
 }> = props => {
@@ -29,9 +31,9 @@ export const LogoutPage: React.FC<{
   }, [logout])
 
   return (
-    <Fragment>
+    <div className={styles.logoutContainer}>
       {(error || success) && (
-        <div>
+        <div className={`${styles.message} ${error ? styles.error : styles.success}`}>
           <h1>{error || success}</h1>
           <p>
             {'What would you like to do next?'}
@@ -48,6 +50,6 @@ export const LogoutPage: React.FC<{
           </p>
         </div>
       )}
-    </Fragment>
+    </div>
   )
 }

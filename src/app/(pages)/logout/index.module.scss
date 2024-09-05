@@ -1,3 +1,49 @@
-.logout {
-  margin-bottom: var(--block-padding);
+.logoutContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  background-color: #f9f9f9;
+  padding: 20px;
+  
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  p {
+    font-size: 1.1rem;
+    color: #555;
+  }
+  
+  a {
+    color: #0070f3;
+    text-decoration: underline;
+  
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+.message {
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 100%;
+  background-color: #fff;
+}
+
+
+
+.success {
+  border-left: 5px solid #28a745;
+  color: #28a745;
+}
+
+.error {
+  border-left: 5px solid #dc3545;
+  color: #dc3545;
 }
