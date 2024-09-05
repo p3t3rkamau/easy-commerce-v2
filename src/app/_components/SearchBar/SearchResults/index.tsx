@@ -24,7 +24,7 @@ const Card: React.FC<CardProps> = ({ title, price, imageUrl, slug, onCardClick }
     // Call onCardClick before navigating
     onCardClick()
     // Navigate to the product page after a short delay to ensure toast is visible
-    setTimeout(() => router.push(`/products/${slug}`), 300)
+    router.push(`/products/${slug}`)
   }
 
   return (
