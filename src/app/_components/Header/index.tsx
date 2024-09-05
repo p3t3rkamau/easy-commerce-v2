@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import { BubbleChat } from 'flowise-embed-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -15,7 +15,6 @@ import classes from './index.module.scss'
 
 const HeaderComponent = ({ header }: { header: Header }) => {
   const pathname = usePathname()
-
   return (
     <nav
       className={[classes.header, noHeaderFooterUrls.includes(pathname) && classes.hide]

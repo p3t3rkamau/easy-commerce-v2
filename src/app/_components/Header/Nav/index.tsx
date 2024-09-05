@@ -8,7 +8,6 @@ import { Button } from '../../Button'
 import CartDropDown from '../../CartDropDown'
 import { CartLink } from '../../CartLink'
 import { CMSLink } from '../../Link'
-import MobileSearch from '../../SearchBar/MobileSearch'
 import SearchView from '../../SearchView'
 import MobileNav from '../MobileNav'
 
@@ -17,7 +16,6 @@ import classes from './index.module.scss'
 export const HeaderNav: React.FC<{ header: HeaderType }> = ({ header }) => {
   const navItems = header?.navItems || []
   const { user } = useAuth()
-  const [openItem, setOpenItem] = useState<number | null>(null)
 
   const dropdownRef = useRef<HTMLDivElement | null>(null)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)

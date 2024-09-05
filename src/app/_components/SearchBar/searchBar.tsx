@@ -88,6 +88,10 @@ const SearchBar: React.FC = () => {
     }
   }, [])
 
+  const handleCardClick = () => {
+    console.log('clicked search product')
+  }
+
   return (
     <div className={classes.container} ref={searchBarRef}>
       <div className={classes.wrap}>
@@ -124,6 +128,7 @@ const SearchBar: React.FC = () => {
                   title={result.title}
                   price={result.price}
                   imageUrl={result.imageUrl || '/Easy-logo.svg'}
+                  onCardClick={handleCardClick}
                 />
               ))}
             </div>

@@ -145,7 +145,7 @@ const start = async (): Promise<void> => {
     express: app,
     email: {
       transport: transporter,
-      fromName: 'EasyBakeSuppliesLimited',
+      fromName: 'Easy Bake Supplies Limited',
       fromAddress: 'noreply@berleensafaris.com',
     },
     onInit: () => {
