@@ -1,6 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
+import Image from 'next/image'
 
 import classes from './index.module.scss'
 
@@ -71,10 +72,12 @@ export const HeaderCategoriesLayout: React.FC<HeaderCategoriesLayoutProps> = ({
           <div className={classes.subcategoriesContainer}>
             {category?.Subcategory?.map((subcategory: Subcategory, subcategoryIndex: number) => (
               <div key={subcategoryIndex} className={classes.subcategory}>
-                <img
+                <Image
                   src={subcategory.SubcategoryImage.imagekit.url}
                   alt={subcategory.Name}
                   className={classes.subcategoryImage}
+                  width={100}
+                  height={100}
                 />
                 <div className={classes.subcategoryName}>{subcategory.Name}</div>
                 <div className={classes.attributesContainer}>

@@ -14,10 +14,13 @@ const FlashDealsArchive: React.FC<FlashDealsBlock & { className?: string }> = pr
   const { Heading, BackgroundColor, TextColor, selectedDocs, className } = props
 
   const [timeRemaining, setTimeRemaining] = useState('')
+  const [isClient, setIsClient] = useState(false)
 
   useEffect(() => {
+    // Ensure this runs only on the client side
+    setIsClient(true)
+
     const fetchFlashSaleTimes = async () => {
-      // Replace this with actual fetch from your database
       const startTime = new Date('2024-06-17T12:00:00Z')
       const endTime = new Date('2024-06-17T18:00:00Z')
 
@@ -48,10 +51,16 @@ const FlashDealsArchive: React.FC<FlashDealsBlock & { className?: string }> = pr
   }
 
   const validDocs = selectedDocs?.filter(isProduct) || []
+
+  // Only render the carousel after ensuring the component is mounted on the client
+  if (!isClient) {
+    return null
+  }
+
   return (
-    <div className={`${classes.rowWrapper}`}>
+    <div className={classes.rowWrapper}>
       <div className={classes.container}>
-      <div
+        <div
           className={classes.rowHead}
           style={{ backgroundColor: BackgroundColor, color: TextColor }}
         >
