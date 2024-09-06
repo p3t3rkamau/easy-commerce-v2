@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { Settings } from '../../../../payload/payload-types'
 import { useAuth } from '../../../_providers/Auth'
 
-import styles from './index.module.scss' // Import the CSS module
+import styles from '../index.module.scss' // Import the CSS module
 
 export const LogoutPage: React.FC<{
   settings: Settings
