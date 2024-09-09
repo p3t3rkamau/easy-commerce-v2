@@ -7,6 +7,7 @@ export const useAttributeHandler = (ProductsAttributes: AttributesCollection[]) 
   const [selectedAttributes, setSelectedAttributes] = useState<{
     [key: string]: Array<{ value: string; quantity: number }>
   }>({})
+
   const [selectedAttributePrice, setSelectedAttributePrice] = useState<number | null>(null)
 
   const handleAttributeSelect = useCallback(
@@ -18,8 +19,7 @@ export const useAttributeHandler = (ProductsAttributes: AttributesCollection[]) 
 
         if (attributeIndex >= 0) {
           newAttributes = currentAttributes.map((attr, idx) =>
-            idx === attributeIndex ? { ...attr, quantity } : attr,
-          )
+            idx === attributeIndex ? { ...attr, quantity } : attr,)
         } else {
           newAttributes = [...currentAttributes, { value, quantity }]
         }
@@ -29,18 +29,17 @@ export const useAttributeHandler = (ProductsAttributes: AttributesCollection[]) 
         ) as AttributesCollection
 
         const selectedProperties = attribute?.Attribute_Property?.filter(prop =>
-          newAttributes.map(attr => attr.value).includes(prop.Value),
-        )
+          newAttributes.map(attr => attr.value).includes(prop.Value),)
 
-        // Calculate total price of selected attributes
+        // Calculate total price by multiplying each color's quantity by its price
         const totalSelectedPrice =
-          selectedProperties?.reduce(
-            (total, prop) =>
-              total +
-              (prop.price || 0) *
-                (newAttributes.find(attr => attr.value === prop.Value)?.quantity || 0),
-            0,
-          ) || 0
+          selectedProperties?.reduce((total, prop) => {
+            const selectedAttribute = newAttributes.find(attr => attr.value === prop.Value)
+            const attributeQuantity = selectedAttribute?.quantity || 0
+            const attributePrice = prop.price || 0
+
+            return total + attributePrice * attributeQuantity
+          }, 0) || 0
 
         setSelectedAttributePrice(totalSelectedPrice)
 
