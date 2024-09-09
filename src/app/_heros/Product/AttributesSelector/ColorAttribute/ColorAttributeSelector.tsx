@@ -17,13 +17,6 @@ export const ColorAttributeSelector: React.FC<ColorAttributeSelectorProps> = ({
     return selectedAttributes[attribute.Attribute_Name]?.some(attr => attr.value === value)
   }
 
-  const toggleAttribute = (value: string) => {
-    const currentQuantity =
-      selectedAttributes[attribute.Attribute_Name]?.find(attr => attr.value === value)?.quantity ||
-      0
-    handleAttributeSelect(attribute.Attribute_Name, value, currentQuantity === 0 ? 1 : 0)
-  }
-
   const handleQuantityChange = (value: string, change: number) => {
     const currentQuantity =
       selectedAttributes[attribute.Attribute_Name]?.find(attr => attr.value === value)?.quantity ||
@@ -42,7 +35,7 @@ export const ColorAttributeSelector: React.FC<ColorAttributeSelectorProps> = ({
                 isSelected(property.colourValue) ? 'border-white' : 'border-transparent'
               }`}
               style={{ backgroundColor: property.colourValue }}
-              onClick={() => toggleAttribute(property.colourValue)}
+              onClick={() => handleQuantityChange(property.colourValue, 1)}
             />
             {isSelected(property.colourValue) && (
               <div className="flex items-center bg-gray-700 rounded-full px-2 py-1">

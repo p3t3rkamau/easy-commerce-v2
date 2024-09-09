@@ -3,14 +3,10 @@ import { draftMode } from 'next/headers'
 
 import { Category, Page } from '../../../payload/payload-types'
 import { fetchDoc } from '../../_api/fetchDoc'
-import { fetchDocs } from '../../_api/fetchDocs'
-import LastViewed from '../../_blocks/LastViewed'
-import Recommeded from '../../_blocks/Recommended'
 import { Blocks } from '../../_components/Blocks'
 import { Gutter } from '../../_components/Gutter'
 import { HR } from '../../_components/HR'
 import SortAndFilter from '../../_components/SortComponent'
-import BudgetFilter from './BudgetFilter'
 import Filters from './Filters'
 
 import classes from './index.module.scss'
@@ -19,7 +15,6 @@ const Products = async () => {
   const { isEnabled: isDraftMode } = draftMode()
 
   let page: Page | null = null
-  let categories: Category[] | null = null
 
   try {
     page = await fetchDoc<Page>({
@@ -27,19 +22,21 @@ const Products = async () => {
       slug: 'products',
       draft: isDraftMode,
     })
-
-    categories = await fetchDocs<Page>('categories')
   } catch (error) {
     console.log(error)
   }
 
-  const { Categories } = page
+  // Filter to ensure we only pass valid Category objects
+  const categories: Category[] = (page?.Categories || []).filter(
+    (category): category is Category => typeof category !== 'string',
+  )
 
   return (
     <div className={classes.container}>
       <Gutter className={classes.MainContainer}>
         <div className={classes.products}>
           <div className={classes.filtersFlex}>
+            {/* Pass the categories from page into Filters */}
             <Filters categories={categories} />
           </div>
           <div>

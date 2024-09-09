@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -9,6 +9,8 @@ import { Button } from '../../../_components/Button'
 import { Input } from '../../../_components/Input'
 import { Message } from '../../../_components/Message'
 import { useAuth } from '../../../_providers/Auth'
+import { useLoader } from '../../../_providers/LoaderContext'
+import { useToast } from '../../../_providers/Toast/ToastContext'
 
 import classes from './index.module.scss'
 
@@ -24,6 +26,9 @@ const CreateAccountForm: React.FC = () => {
   const allParams = searchParams.toString() ? `?${searchParams.toString()}` : ''
   const { login } = useAuth()
   const router = useRouter()
+  const { showLoader, hideLoader } = useLoader()
+  const { addToast } = useToast()
+
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -37,41 +42,58 @@ const CreateAccountForm: React.FC = () => {
   const password = useRef({})
   password.current = watch('password', '')
 
+  // Hide the loader when the component is mounted or the route changes
+  useEffect(() => {
+    hideLoader()
+
+    return () => {
+      hideLoader() // Ensure loader hides on component unmount
+    }
+  }, [router])
+
   const onSubmit = useCallback(
     async (data: FormData) => {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users`, {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-
-      if (!response.ok) {
-        const message = response.statusText || 'There was an error creating the account.'
-        setError(message)
-        return
-      }
-
-      const redirect = searchParams.get('redirect')
-
-      const timer = setTimeout(() => {
-        setLoading(true)
-      }, 1000)
+      showLoader() // Show loader when form submission starts
+      setError(null) // Reset any previous errors
 
       try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users`, {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+
+        if (!response.ok) {
+          const message = response.statusText || 'There was an error creating the account.'
+          setError(message)
+          addToast(message, 'error')
+          hideLoader() // Hide loader if there's an error
+          return
+        }
+
         await login(data)
-        clearTimeout(timer)
+        addToast('Account created successfully!', 'success')
+
+        const redirect = searchParams.get('redirect')
         if (redirect) router.push(redirect as string)
-        else router.push(`/`)
-        window.location.href = '/'
+        else router.push('/')
       } catch (_) {
-        clearTimeout(timer)
         setError('There was an error with the credentials provided. Please try again.')
+        addToast('Error creating account. Please try again.', 'error')
+      } finally {
+        hideLoader() // Hide the loader after the process completes
       }
     },
-    [login, router, searchParams],
+    [login, router, searchParams, showLoader, hideLoader, addToast],
   )
+
+  const handleLinkClick = (message: string, href: string) => {
+    addToast(message, 'info')
+    showLoader() // Show loader when navigating to another link
+    router.push(href) // Navigate using router.push
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
@@ -118,7 +140,9 @@ const CreateAccountForm: React.FC = () => {
       />
       <div>
         {'Already have an account? '}
-        <Link href={`/login${allParams}`}>Login</Link>
+        <a onClick={() => handleLinkClick('Navigating to login page.', `/login${allParams}`)}>
+          Login
+        </a>
       </div>
     </form>
   )

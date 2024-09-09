@@ -19,7 +19,6 @@ export const AttributeSelector: React.FC<AttributeSelectorProps> = ({
     <div className="space-y-4">
       {ProductsAttributes.map((attribute, index) => (
         <div key={index} className="relative">
-          {/* If the attribute is of type color, render ColorAttributeSelector */}
           {attribute.Attribute_Property?.some(property => property.type === 'color') ? (
             <ColorAttributeSelector
               attribute={attribute}

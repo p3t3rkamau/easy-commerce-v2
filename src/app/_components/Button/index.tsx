@@ -9,7 +9,7 @@ export type Props = {
   label?: string
   appearance?: 'default' | 'primary' | 'secondary' | 'none'
   el?: 'button' | 'link' | 'a'
-  onClick?: () => void
+  onClick?: (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement, MouseEvent>) => void // Accept event argument
   href?: string
   newTab?: boolean
   className?: string
@@ -70,7 +70,7 @@ export const Button: React.FC<Props> = ({
       className={className}
       type={type}
       {...newTabProps}
-      onClick={onClick}
+      onClick={onClick} // Accept onClick handler with event
       disabled={disabled}
     >
       {content}

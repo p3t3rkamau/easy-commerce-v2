@@ -140,7 +140,7 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
               quantity={quantity}
               className={classes.addToCartButton}
               selectedAttributes={selectedAttributes}
-              attributePrices={{}} // Pass empty object or update if needed
+              attributePrices={{}}
             />
 
             <button

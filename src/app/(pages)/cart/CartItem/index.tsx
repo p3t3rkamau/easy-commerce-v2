@@ -68,6 +68,7 @@ const CartItem = ({ product, title, metaImage, qty, addItemToCart, selectedAttri
             quantity={quantity}
             button={false}
             selectedAttributes={selectedAttributes}
+            className={''}
           />
         </div>
 

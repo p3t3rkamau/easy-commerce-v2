@@ -14,7 +14,15 @@ const ErrorBoundary: React.FC<ErrorBoundaryProps> = ({ children }) => {
 
   useEffect(() => {
     const handleError = (error: Error) => {
-      setHasError(true)
+      if (error.message.includes('ChunkLoadError')) {
+        // Special handling for chunk load errors
+        setHasError(true)
+        addToast(`Chunk loading error: ${error.message}`, 'error')
+      } else {
+        // Handle other types of errors
+        setHasError(true)
+        addToast(`Error: ${error.message}`, 'error')
+      }
 
       if (addToast) {
         addToast(`Error: ${error.message}`, 'error')
