@@ -1002,6 +1002,7 @@ export interface AttributesCollection {
         NumberValue?: number | null;
         media?: string | Media | null;
         price?: number | null;
+        stock: number;
         id?: string | null;
       }[]
     | null;

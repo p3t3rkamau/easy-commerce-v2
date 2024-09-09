@@ -3220,6 +3220,7 @@ type AttributesCollection_Attribute_Property {
   NumberValue: Float
   media(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType, where: AttributesCollection_Attribute_Property_Media_where): Media
   price: Float
+  stock: Float
   id: String
 }
 
@@ -21892,6 +21893,7 @@ input AttributesCollection_where {
   Attribute_Property__NumberValue: AttributesCollection_Attribute_Property__NumberValue_operator
   Attribute_Property__media: AttributesCollection_Attribute_Property__media_operator
   Attribute_Property__price: AttributesCollection_Attribute_Property__price_operator
+  Attribute_Property__stock: AttributesCollection_Attribute_Property__stock_operator
   Attribute_Property__id: AttributesCollection_Attribute_Property__id_operator
   updatedAt: AttributesCollection_updatedAt_operator
   createdAt: AttributesCollection_createdAt_operator
@@ -21991,6 +21993,15 @@ input AttributesCollection_Attribute_Property__price_operator {
   exists: Boolean
 }
 
+input AttributesCollection_Attribute_Property__stock_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+}
+
 input AttributesCollection_Attribute_Property__id_operator {
   equals: String
   not_equals: String
@@ -22045,6 +22056,7 @@ input AttributesCollection_where_and {
   Attribute_Property__NumberValue: AttributesCollection_Attribute_Property__NumberValue_operator
   Attribute_Property__media: AttributesCollection_Attribute_Property__media_operator
   Attribute_Property__price: AttributesCollection_Attribute_Property__price_operator
+  Attribute_Property__stock: AttributesCollection_Attribute_Property__stock_operator
   Attribute_Property__id: AttributesCollection_Attribute_Property__id_operator
   updatedAt: AttributesCollection_updatedAt_operator
   createdAt: AttributesCollection_createdAt_operator
@@ -22063,6 +22075,7 @@ input AttributesCollection_where_or {
   Attribute_Property__NumberValue: AttributesCollection_Attribute_Property__NumberValue_operator
   Attribute_Property__media: AttributesCollection_Attribute_Property__media_operator
   Attribute_Property__price: AttributesCollection_Attribute_Property__price_operator
+  Attribute_Property__stock: AttributesCollection_Attribute_Property__stock_operator
   Attribute_Property__id: AttributesCollection_Attribute_Property__id_operator
   updatedAt: AttributesCollection_updatedAt_operator
   createdAt: AttributesCollection_createdAt_operator
@@ -22165,6 +22178,7 @@ type AttributesCollectionDocAccessFields_Attribute_Property_Fields {
   NumberValue: AttributesCollectionDocAccessFields_Attribute_Property_NumberValue
   media: AttributesCollectionDocAccessFields_Attribute_Property_media
   price: AttributesCollectionDocAccessFields_Attribute_Property_price
+  stock: AttributesCollectionDocAccessFields_Attribute_Property_stock
   id: AttributesCollectionDocAccessFields_Attribute_Property_id
 }
 
@@ -22326,6 +22340,29 @@ type AttributesCollectionDocAccessFields_Attribute_Property_price_Update {
 }
 
 type AttributesCollectionDocAccessFields_Attribute_Property_price_Delete {
+  permission: Boolean!
+}
+
+type AttributesCollectionDocAccessFields_Attribute_Property_stock {
+  create: AttributesCollectionDocAccessFields_Attribute_Property_stock_Create
+  read: AttributesCollectionDocAccessFields_Attribute_Property_stock_Read
+  update: AttributesCollectionDocAccessFields_Attribute_Property_stock_Update
+  delete: AttributesCollectionDocAccessFields_Attribute_Property_stock_Delete
+}
+
+type AttributesCollectionDocAccessFields_Attribute_Property_stock_Create {
+  permission: Boolean!
+}
+
+type AttributesCollectionDocAccessFields_Attribute_Property_stock_Read {
+  permission: Boolean!
+}
+
+type AttributesCollectionDocAccessFields_Attribute_Property_stock_Update {
+  permission: Boolean!
+}
+
+type AttributesCollectionDocAccessFields_Attribute_Property_stock_Delete {
   permission: Boolean!
 }
 
@@ -35725,6 +35762,7 @@ type AttributesCollectionFields_Attribute_Property_Fields {
   NumberValue: AttributesCollectionFields_Attribute_Property_NumberValue
   media: AttributesCollectionFields_Attribute_Property_media
   price: AttributesCollectionFields_Attribute_Property_price
+  stock: AttributesCollectionFields_Attribute_Property_stock
   id: AttributesCollectionFields_Attribute_Property_id
 }
 
@@ -35886,6 +35924,29 @@ type AttributesCollectionFields_Attribute_Property_price_Update {
 }
 
 type AttributesCollectionFields_Attribute_Property_price_Delete {
+  permission: Boolean!
+}
+
+type AttributesCollectionFields_Attribute_Property_stock {
+  create: AttributesCollectionFields_Attribute_Property_stock_Create
+  read: AttributesCollectionFields_Attribute_Property_stock_Read
+  update: AttributesCollectionFields_Attribute_Property_stock_Update
+  delete: AttributesCollectionFields_Attribute_Property_stock_Delete
+}
+
+type AttributesCollectionFields_Attribute_Property_stock_Create {
+  permission: Boolean!
+}
+
+type AttributesCollectionFields_Attribute_Property_stock_Read {
+  permission: Boolean!
+}
+
+type AttributesCollectionFields_Attribute_Property_stock_Update {
+  permission: Boolean!
+}
+
+type AttributesCollectionFields_Attribute_Property_stock_Delete {
   permission: Boolean!
 }
 
@@ -41248,6 +41309,7 @@ input mutationAttributesCollection_Attribute_PropertyInput {
   NumberValue: Float
   media: String
   price: Float
+  stock: Float!
   id: String
 }
 
@@ -41274,6 +41336,7 @@ input mutationAttributesCollectionUpdate_Attribute_PropertyInput {
   NumberValue: Float
   media: String
   price: Float
+  stock: Float!
   id: String
 }
 

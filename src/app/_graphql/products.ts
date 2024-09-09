@@ -60,6 +60,7 @@ export const PRODUCT = `
                 url
               }
             }
+            stock
             price
           }
         }
