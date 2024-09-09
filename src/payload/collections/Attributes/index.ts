@@ -135,6 +135,16 @@ const AttributeCollection: CollectionConfig = {
                     fixedDecimalScale: true,
                   },
                 ),
+                {
+                  name: 'stock',
+                  type: 'number',
+                  required: true,
+                  label: 'Stock Quantity',
+                  admin: {
+                    readOnly: false,
+                    hidden: false,
+                  },
+                },
               ],
             },
           ],
