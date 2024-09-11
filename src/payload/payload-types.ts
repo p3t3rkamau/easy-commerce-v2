@@ -1022,6 +1022,7 @@ export interface Review {
 }
 export interface Headercategory {
   id: string;
+  title?: string | null;
   Category: string;
   Subcategory?: SubCategory;
   updatedAt: string;
