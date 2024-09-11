@@ -6,11 +6,11 @@ import CustomOrderReceiptButton from '../../components/Receipt/ReceiptButton'
 import { adminsOrOrderedBy } from './access/adminsOrOrderedBy'
 import calculateOrderTotal from './hooks/calculateOrderTotal'
 import { clearUserCart } from './hooks/clearUserCart'
+import { deductStockAfterPurchase } from './hooks/deductStockAfterPurchase'
 import { populateOrderedBy } from './hooks/populateOrderedBy'
 import { sendOrderEmails } from './hooks/sendOrderEmails'
 import sendOrderToWhatsApp from './hooks/sendWhatsappMess'
 import { updateUserPurchases } from './hooks/updateUserPurchases'
-
 export const Orders: CollectionConfig = {
   slug: 'orders',
   admin: {
@@ -20,7 +20,13 @@ export const Orders: CollectionConfig = {
   },
   hooks: {
     beforeChange: [calculateOrderTotal], // Added beforeChange hook
-    afterChange: [updateUserPurchases, clearUserCart, sendOrderEmails, sendOrderToWhatsApp],
+    afterChange: [
+      updateUserPurchases,
+      clearUserCart,
+      sendOrderEmails,
+      sendOrderToWhatsApp,
+      deductStockAfterPurchase,
+    ],
   },
   access: {
     read: adminsOrOrderedBy,

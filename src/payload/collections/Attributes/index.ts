@@ -138,6 +138,8 @@ const AttributeCollection: CollectionConfig = {
                 {
                   name: 'stock',
                   type: 'number',
+                  defaultValue: '20',
+                  min: 0,
                   required: true,
                   label: 'Stock Quantity',
                   admin: {

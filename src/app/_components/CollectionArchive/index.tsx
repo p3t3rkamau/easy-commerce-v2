@@ -6,6 +6,7 @@ import { Post, Product } from '../../../payload/payload-types'
 import type { ArchiveBlockProps } from '../../_blocks/ArchiveBlock/types'
 import { useFilter } from '../../_providers/Filter'
 import Card from '../Card'
+import ErrorMessage from '../ErrorMessage'
 import { PageRange } from '../PageRange'
 import { Pagination } from '../Pagination'
 
@@ -171,7 +172,10 @@ export const CollectionArchive: React.FC<Props> = props => {
   return (
     <div className={[classes.collectionArchive, className].filter(Boolean).join(' ')}>
       <div ref={scrollRef} className={classes.scrollRef} />
-      {!isLoading && error && <div className={classes.error}>{error}</div>}
+      {!isLoading && error && <ErrorMessage message={error} />}
+      {!isLoading && !error && results.docs.length === 0 && (
+        <ErrorMessage message="No products found. Please try again later." />
+      )}
       <Fragment>
         {showPageRange !== false && populateBy !== 'selection' && (
           <div className={classes.pageRange}>
