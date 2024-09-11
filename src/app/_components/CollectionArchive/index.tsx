@@ -173,7 +173,7 @@ export const CollectionArchive: React.FC<Props> = props => {
     <div className={[classes.collectionArchive, className].filter(Boolean).join(' ')}>
       <div ref={scrollRef} className={classes.scrollRef} />
       {!isLoading && error && <ErrorMessage message={error} />}
-      {!isLoading && !error && results.docs.length === 0 && (
+      {!isLoading && !error && results?.docs?.length === 0 && (
         <ErrorMessage message="No products found. Please try again later." />
       )}
       <Fragment>
