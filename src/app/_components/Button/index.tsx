@@ -7,7 +7,7 @@ import classes from './index.module.scss'
 
 export type Props = {
   label?: string
-  appearance?: 'default' | 'primary' | 'secondary' | 'none'
+  appearance?: 'default' | 'primary' | 'secondary' | 'none' | 'danger'
   el?: 'button' | 'link' | 'a'
   onClick?: (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement, MouseEvent>) => void // Accept event argument
   href?: string
