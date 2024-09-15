@@ -4,10 +4,10 @@ import { ReceiptEmailHtml } from '../../app/_components/emails/ReceiptEmail'
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const truncateDescription = (description: string, maxWords = 10) => {
   const words = description.split(' ')
-  if (words.length <= maxWords) {
+  if (words?.length <= maxWords) {
     return description
   }
-  return words.slice(0, maxWords).join(' ') + '...'
+  return words?.slice(0, maxWords).join(' ') + '...'
 }
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const generateEmailContent = order => {

@@ -3899,6 +3899,7 @@ type Category_Breadcrumbs {
 
 type Headercategory {
   id: String
+  title: String
   Category: String!
   Subcategory: [SubCategory!]
   updatedAt: DateTime
@@ -12727,6 +12728,7 @@ type Order {
   refId: String
   total: Float!
   deliveryCost: Float!
+  canceled: Boolean
   items: [Order_Items!]
   phoneNumber: String
   orderNotes: String
@@ -12766,6 +12768,7 @@ input Order_where {
   refId: Order_refId_operator
   total: Order_total_operator
   deliveryCost: Order_deliveryCost_operator
+  canceled: Order_canceled_operator
   items__product: Order_items__product_operator
   items__price: Order_items__price_operator
   items__quantity: Order_items__quantity_operator
@@ -12821,6 +12824,12 @@ input Order_deliveryCost_operator {
   greater_than: Float
   less_than_equal: Float
   less_than: Float
+}
+
+input Order_canceled_operator {
+  equals: Boolean
+  not_equals: Boolean
+  exists: Boolean
 }
 
 input Order_items__product_operator {
@@ -12982,6 +12991,7 @@ input Order_where_and {
   refId: Order_refId_operator
   total: Order_total_operator
   deliveryCost: Order_deliveryCost_operator
+  canceled: Order_canceled_operator
   items__product: Order_items__product_operator
   items__price: Order_items__price_operator
   items__quantity: Order_items__quantity_operator
@@ -13006,6 +13016,7 @@ input Order_where_or {
   refId: Order_refId_operator
   total: Order_total_operator
   deliveryCost: Order_deliveryCost_operator
+  canceled: Order_canceled_operator
   items__product: Order_items__product_operator
   items__price: Order_items__price_operator
   items__quantity: Order_items__quantity_operator
@@ -13038,6 +13049,7 @@ type OrdersDocAccessFields {
   refId: OrdersDocAccessFields_refId
   total: OrdersDocAccessFields_total
   deliveryCost: OrdersDocAccessFields_deliveryCost
+  canceled: OrdersDocAccessFields_canceled
   items: OrdersDocAccessFields_items
   phoneNumber: OrdersDocAccessFields_phoneNumber
   orderNotes: OrdersDocAccessFields_orderNotes
@@ -13139,6 +13151,29 @@ type OrdersDocAccessFields_deliveryCost_Update {
 }
 
 type OrdersDocAccessFields_deliveryCost_Delete {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_canceled {
+  create: OrdersDocAccessFields_canceled_Create
+  read: OrdersDocAccessFields_canceled_Read
+  update: OrdersDocAccessFields_canceled_Update
+  delete: OrdersDocAccessFields_canceled_Delete
+}
+
+type OrdersDocAccessFields_canceled_Create {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_canceled_Read {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_canceled_Update {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_canceled_Delete {
   permission: Boolean!
 }
 
@@ -21383,6 +21418,7 @@ type Headercategories {
 }
 
 input Headercategory_where {
+  title: Headercategory_title_operator
   Category: Headercategory_Category_operator
   Subcategory__Name: Headercategory_Subcategory__Name_operator
   Subcategory__url: Headercategory_Subcategory__url_operator
@@ -21396,6 +21432,17 @@ input Headercategory_where {
   id: Headercategory_id_operator
   AND: [Headercategory_where_and]
   OR: [Headercategory_where_or]
+}
+
+input Headercategory_title_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
 }
 
 input Headercategory_Category_operator {
@@ -21511,6 +21558,7 @@ input Headercategory_id_operator {
 }
 
 input Headercategory_where_and {
+  title: Headercategory_title_operator
   Category: Headercategory_Category_operator
   Subcategory__Name: Headercategory_Subcategory__Name_operator
   Subcategory__url: Headercategory_Subcategory__url_operator
@@ -21527,6 +21575,7 @@ input Headercategory_where_and {
 }
 
 input Headercategory_where_or {
+  title: Headercategory_title_operator
   Category: Headercategory_Category_operator
   Subcategory__Name: Headercategory_Subcategory__Name_operator
   Subcategory__url: Headercategory_Subcategory__url_operator
@@ -21551,10 +21600,34 @@ type headercategoriesDocAccess {
 }
 
 type HeadercategoriesDocAccessFields {
+  title: HeadercategoriesDocAccessFields_title
   Category: HeadercategoriesDocAccessFields_Category
   Subcategory: HeadercategoriesDocAccessFields_Subcategory
   updatedAt: HeadercategoriesDocAccessFields_updatedAt
   createdAt: HeadercategoriesDocAccessFields_createdAt
+}
+
+type HeadercategoriesDocAccessFields_title {
+  create: HeadercategoriesDocAccessFields_title_Create
+  read: HeadercategoriesDocAccessFields_title_Read
+  update: HeadercategoriesDocAccessFields_title_Update
+  delete: HeadercategoriesDocAccessFields_title_Delete
+}
+
+type HeadercategoriesDocAccessFields_title_Create {
+  permission: Boolean!
+}
+
+type HeadercategoriesDocAccessFields_title_Read {
+  permission: Boolean!
+}
+
+type HeadercategoriesDocAccessFields_title_Update {
+  permission: Boolean!
+}
+
+type HeadercategoriesDocAccessFields_title_Delete {
+  permission: Boolean!
 }
 
 type HeadercategoriesDocAccessFields_Category {
@@ -31430,6 +31503,7 @@ type OrdersFields {
   refId: OrdersFields_refId
   total: OrdersFields_total
   deliveryCost: OrdersFields_deliveryCost
+  canceled: OrdersFields_canceled
   items: OrdersFields_items
   phoneNumber: OrdersFields_phoneNumber
   orderNotes: OrdersFields_orderNotes
@@ -31531,6 +31605,29 @@ type OrdersFields_deliveryCost_Update {
 }
 
 type OrdersFields_deliveryCost_Delete {
+  permission: Boolean!
+}
+
+type OrdersFields_canceled {
+  create: OrdersFields_canceled_Create
+  read: OrdersFields_canceled_Read
+  update: OrdersFields_canceled_Update
+  delete: OrdersFields_canceled_Delete
+}
+
+type OrdersFields_canceled_Create {
+  permission: Boolean!
+}
+
+type OrdersFields_canceled_Read {
+  permission: Boolean!
+}
+
+type OrdersFields_canceled_Update {
+  permission: Boolean!
+}
+
+type OrdersFields_canceled_Delete {
   permission: Boolean!
 }
 
@@ -35350,10 +35447,34 @@ type headercategoriesAccess {
 }
 
 type HeadercategoriesFields {
+  title: HeadercategoriesFields_title
   Category: HeadercategoriesFields_Category
   Subcategory: HeadercategoriesFields_Subcategory
   updatedAt: HeadercategoriesFields_updatedAt
   createdAt: HeadercategoriesFields_createdAt
+}
+
+type HeadercategoriesFields_title {
+  create: HeadercategoriesFields_title_Create
+  read: HeadercategoriesFields_title_Read
+  update: HeadercategoriesFields_title_Update
+  delete: HeadercategoriesFields_title_Delete
+}
+
+type HeadercategoriesFields_title_Create {
+  permission: Boolean!
+}
+
+type HeadercategoriesFields_title_Read {
+  permission: Boolean!
+}
+
+type HeadercategoriesFields_title_Update {
+  permission: Boolean!
+}
+
+type HeadercategoriesFields_title_Delete {
+  permission: Boolean!
 }
 
 type HeadercategoriesFields_Category {
@@ -40572,6 +40693,7 @@ input mutationOrderInput {
   refId: String
   total: Float!
   deliveryCost: Float!
+  canceled: Boolean
   items: [mutationOrder_ItemsInput]
   phoneNumber: String
   orderNotes: String
@@ -40597,6 +40719,7 @@ input mutationOrderUpdateInput {
   refId: String
   total: Float
   deliveryCost: Float
+  canceled: Boolean
   items: [mutationOrderUpdate_ItemsInput]
   phoneNumber: String
   orderNotes: String
@@ -41252,6 +41375,7 @@ enum AlertUpdate_Links_Link_appearance_MutationInput {
 }
 
 input mutationHeadercategoryInput {
+  title: String
   Category: String!
   Subcategory: [mutationHeadercategory_SubcategoryInput]
   updatedAt: String
@@ -41273,6 +41397,7 @@ input mutationHeadercategory_Subcategory_AttributeInput {
 }
 
 input mutationHeadercategoryUpdateInput {
+  title: String
   Category: String
   Subcategory: [mutationHeadercategoryUpdate_SubcategoryInput]
   updatedAt: String

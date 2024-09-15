@@ -5,6 +5,7 @@ import { adminsOrLoggedIn } from '../../access/adminsOrLoggedIn'
 import CustomOrderReceiptButton from '../../components/Receipt/ReceiptButton'
 import { adminsOrOrderedBy } from './access/adminsOrOrderedBy'
 import calculateOrderTotal from './hooks/calculateOrderTotal'
+import { cancelOrderHook } from './hooks/cancelorder'
 import { clearUserCart } from './hooks/clearUserCart'
 import { deductStockAfterPurchase } from './hooks/deductStockAfterPurchase'
 import { populateOrderedBy } from './hooks/populateOrderedBy'
@@ -26,11 +27,12 @@ export const Orders: CollectionConfig = {
       sendOrderEmails,
       sendOrderToWhatsApp,
       deductStockAfterPurchase,
+      cancelOrderHook,
     ],
   },
   access: {
     read: adminsOrOrderedBy,
-    update: admins,
+    update: adminsOrOrderedBy,
     create: adminsOrLoggedIn,
     delete: admins,
   },
@@ -69,6 +71,13 @@ export const Orders: CollectionConfig = {
       min: 0,
       admin: {
         readOnly: true,
+        position: 'sidebar',
+      },
+    },
+    {
+      name: 'canceled',
+      type: 'checkbox',
+      admin: {
         position: 'sidebar',
       },
     },
