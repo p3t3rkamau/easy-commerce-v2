@@ -1034,6 +1034,7 @@ export interface Order {
   refId?: string | null;
   total: number;
   deliveryCost: number;
+  canceled?: boolean | null;
   items?:
     | {
         product: string | Product;
