@@ -32,7 +32,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-, "src/payload/collections/Orders/hooks/initiateMpesaPayment.js"],
+, "src/payload/collections/Orders/hooks/initiateMpesaPayment.js", "jest.setup.js", "src/payload/utilities/Emailtemplates/cancelorder.js"],
   "exclude": [
     "node_modules"
   ],
