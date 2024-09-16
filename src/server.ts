@@ -244,6 +244,7 @@ const start = async (): Promise<void> => {
       // Reset the user's password using Payload CMS
       const result = await payload.resetPassword({
         collection: 'users',
+        // @ts-ignore
         token,
         password,
       })
