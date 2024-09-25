@@ -244,7 +244,7 @@ const start = async (): Promise<void> => {
       // Reset the user's password using Payload CMS
       const result = await payload.resetPassword({
         collection: 'users',
-        // @ts-ignore
+        // @ts-expect-error
         token,
         password,
       })
@@ -254,6 +254,43 @@ const start = async (): Promise<void> => {
       res.status(500).json({ error: error })
     }
   })
+  app.get('/api/flash-sales', async (req, res) => {
+    try {
+      const currentTime = new Date().toISOString()
+
+      // Fetch active flash sales
+      const flashSales = await payload.find({
+        collection: 'flashSales',
+        where: {
+          EndTime: {
+            greater_than: currentTime, // Only fetch flash sales that haven't ended
+          },
+        },
+      })
+
+      if (flashSales.docs.length === 0) {
+        return res.status(404).json({ message: 'No active flash sales' })
+      }
+
+      // Fetch products that are part of these flash sales
+      const flashSaleProductIds = flashSales.docs.flatMap(flashSale => flashSale.selectedDocs)
+
+      const productsInFlashSale = await payload.find({
+        collection: 'products',
+        where: {
+          id: {
+            in: flashSaleProductIds, // Fetch products in active flash sales
+          },
+        },
+      })
+
+      res.status(200).json(productsInFlashSale.docs)
+    } catch (error: unknown) {
+      console.error('Error fetching flash sales:', error)
+      res.status(500).json({ error: 'Failed to fetch flash sales' })
+    }
+  })
+
   app.post('/api/orders/:id/cancel', async (req, res) => {
     const { id } = req.params
 
