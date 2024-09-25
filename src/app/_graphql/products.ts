@@ -38,6 +38,8 @@ export const PRODUCT = `
             }
           }
         }
+        isFlashSale
+        stock
         relatedProducts {
           id
           slug
@@ -62,6 +64,7 @@ export const PRODUCT = `
             }
             stock
             price
+            
           }
         }
         ${META}
