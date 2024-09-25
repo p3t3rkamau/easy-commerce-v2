@@ -1,5 +1,4 @@
 'use client'
-
 import React, { useEffect, useState } from 'react'
 import Carousel from 'react-grid-carousel'
 import Link from 'next/link'
@@ -15,35 +14,44 @@ const FlashDealsArchive: React.FC<FlashDealsBlock & { className?: string }> = pr
 
   const [timeRemaining, setTimeRemaining] = useState('')
   const [isClient, setIsClient] = useState(false)
+  const [flashSales, setFlashSales] = useState<FlashDealsBlock | null>(null)
 
   useEffect(() => {
     // Ensure this runs only on the client side
     setIsClient(true)
 
-    const fetchFlashSaleTimes = async () => {
-      const startTime = new Date('2024-06-17T12:00:00Z')
-      const endTime = new Date('2024-06-17T18:00:00Z')
+    // Fetch FlashSales data from the backend
+    const fetchFlashSalesData = async () => {
+      try {
+        const res = await fetch('/api/flash-sales') // Replace with your actual API route
+        const data = await res.json()
+        setFlashSales(data) // Store FlashSale data for rendering
+        const endTime = new Date(data.EndTime)
 
-      const updateRemainingTime = () => {
-        const now = new Date()
-        const timeDiff = endTime.getTime() - now.getTime()
-        if (timeDiff > 0) {
-          const hours = Math.floor(timeDiff / (1000 * 60 * 60))
-          const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60))
-          const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000)
-          setTimeRemaining(`${hours}H:${minutes}M:${seconds}S`)
-        } else {
-          setTimeRemaining('Sale Ended')
+        const updateRemainingTime = () => {
+          const now = new Date()
+          const timeDiff = endTime.getTime() - now.getTime()
+
+          if (timeDiff > 0) {
+            const hours = Math.floor(timeDiff / (1000 * 60 * 60))
+            const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60))
+            const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000)
+            setTimeRemaining(`${hours}H:${minutes}M:${seconds}S`)
+          } else {
+            setTimeRemaining('Sale Ended')
+          }
         }
+
+        updateRemainingTime()
+        const interval = setInterval(updateRemainingTime, 1000)
+
+        return () => clearInterval(interval)
+      } catch (error) {
+        console.error('Failed to fetch flash sales:', error)
       }
-
-      updateRemainingTime()
-      const interval = setInterval(updateRemainingTime, 1000)
-
-      return () => clearInterval(interval)
     }
 
-    fetchFlashSaleTimes()
+    fetchFlashSalesData()
   }, [])
 
   function isProduct(doc: any): doc is Product {
@@ -53,7 +61,7 @@ const FlashDealsArchive: React.FC<FlashDealsBlock & { className?: string }> = pr
   const validDocs = selectedDocs?.filter(isProduct) || []
 
   // Only render the carousel after ensuring the component is mounted on the client
-  if (!isClient) {
+  if (!isClient || !flashSales) {
     return null
   }
 
