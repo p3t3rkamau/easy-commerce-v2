@@ -27,7 +27,9 @@ import { heroImage } from '../../fields/HeroComponent'
 import { slugField } from '../../fields/slug'
 import { populateArchiveBlock } from '../../hooks/populateArchiveBlock'
 import { adminsOrPublished } from './access/adminsOrPublished'
+import { removeExpiredFlashSales } from './hooks/removeExpiredFlashSales'
 import { revalidatePage } from './hooks/revalidatePage'
+
 export const Pages: CollectionConfig = {
   slug: 'pages',
   admin: {
@@ -41,8 +43,8 @@ export const Pages: CollectionConfig = {
     group: 'Content',
   },
   hooks: {
-    afterChange: [revalidatePage],
-    afterRead: [populateArchiveBlock],
+    afterChange: [revalidatePage, removeExpiredFlashSales],
+    afterRead: [populateArchiveBlock, removeExpiredFlashSales],
   },
   versions: {
     drafts: true,

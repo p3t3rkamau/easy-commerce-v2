@@ -387,6 +387,8 @@ type Product {
   slug: String
   OtherImages: [Product_OtherImages!]
   OutOfStock: Boolean
+  stock: Float
+  isFlashSale: Boolean
   skipSync: Boolean
   brands: Product_brands
   Reviews(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Review!]
@@ -10821,6 +10823,8 @@ input Product_where {
   OtherImages__media: Product_OtherImages__media_operator
   OtherImages__id: Product_OtherImages__id_operator
   OutOfStock: Product_OutOfStock_operator
+  stock: Product_stock_operator
+  isFlashSale: Product_isFlashSale_operator
   skipSync: Product_skipSync_operator
   brands: Product_brands_operator
   Reviews: Product_Reviews_operator
@@ -10949,6 +10953,21 @@ input Product_OtherImages__id_operator {
 }
 
 input Product_OutOfStock_operator {
+  equals: Boolean
+  not_equals: Boolean
+  exists: Boolean
+}
+
+input Product_stock_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+}
+
+input Product_isFlashSale_operator {
   equals: Boolean
   not_equals: Boolean
   exists: Boolean
@@ -11105,6 +11124,8 @@ input Product_where_and {
   OtherImages__media: Product_OtherImages__media_operator
   OtherImages__id: Product_OtherImages__id_operator
   OutOfStock: Product_OutOfStock_operator
+  stock: Product_stock_operator
+  isFlashSale: Product_isFlashSale_operator
   skipSync: Product_skipSync_operator
   brands: Product_brands_operator
   Reviews: Product_Reviews_operator
@@ -11133,6 +11154,8 @@ input Product_where_or {
   OtherImages__media: Product_OtherImages__media_operator
   OtherImages__id: Product_OtherImages__id_operator
   OutOfStock: Product_OutOfStock_operator
+  stock: Product_stock_operator
+  isFlashSale: Product_isFlashSale_operator
   skipSync: Product_skipSync_operator
   brands: Product_brands_operator
   Reviews: Product_Reviews_operator
@@ -11170,6 +11193,8 @@ type ProductsDocAccessFields {
   slug: ProductsDocAccessFields_slug
   OtherImages: ProductsDocAccessFields_OtherImages
   OutOfStock: ProductsDocAccessFields_OutOfStock
+  stock: ProductsDocAccessFields_stock
+  isFlashSale: ProductsDocAccessFields_isFlashSale
   skipSync: ProductsDocAccessFields_skipSync
   brands: ProductsDocAccessFields_brands
   Reviews: ProductsDocAccessFields_Reviews
@@ -11530,6 +11555,52 @@ type ProductsDocAccessFields_OutOfStock_Delete {
   permission: Boolean!
 }
 
+type ProductsDocAccessFields_stock {
+  create: ProductsDocAccessFields_stock_Create
+  read: ProductsDocAccessFields_stock_Read
+  update: ProductsDocAccessFields_stock_Update
+  delete: ProductsDocAccessFields_stock_Delete
+}
+
+type ProductsDocAccessFields_stock_Create {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_stock_Read {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_stock_Update {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_stock_Delete {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_isFlashSale {
+  create: ProductsDocAccessFields_isFlashSale_Create
+  read: ProductsDocAccessFields_isFlashSale_Read
+  update: ProductsDocAccessFields_isFlashSale_Update
+  delete: ProductsDocAccessFields_isFlashSale_Delete
+}
+
+type ProductsDocAccessFields_isFlashSale_Create {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_isFlashSale_Read {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_isFlashSale_Update {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_isFlashSale_Delete {
+  permission: Boolean!
+}
+
 type ProductsDocAccessFields_skipSync {
   create: ProductsDocAccessFields_skipSync_Create
   read: ProductsDocAccessFields_skipSync_Read
@@ -11863,6 +11934,8 @@ type ProductVersion_Version {
   slug: String
   OtherImages: [ProductVersion_Version_OtherImages!]
   OutOfStock: Boolean
+  stock: Float
+  isFlashSale: Boolean
   skipSync: Boolean
   brands: ProductVersion_Version_brands
   Reviews(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Review!]
@@ -12348,6 +12421,8 @@ input versionsProduct_where {
   version__OtherImages__media: versionsProduct_version__OtherImages__media_operator
   version__OtherImages__id: versionsProduct_version__OtherImages__id_operator
   version__OutOfStock: versionsProduct_version__OutOfStock_operator
+  version__stock: versionsProduct_version__stock_operator
+  version__isFlashSale: versionsProduct_version__isFlashSale_operator
   version__skipSync: versionsProduct_version__skipSync_operator
   version__brands: versionsProduct_version__brands_operator
   version__Reviews: versionsProduct_version__Reviews_operator
@@ -12488,6 +12563,21 @@ input versionsProduct_version__OtherImages__id_operator {
 }
 
 input versionsProduct_version__OutOfStock_operator {
+  equals: Boolean
+  not_equals: Boolean
+  exists: Boolean
+}
+
+input versionsProduct_version__stock_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+}
+
+input versionsProduct_version__isFlashSale_operator {
   equals: Boolean
   not_equals: Boolean
   exists: Boolean
@@ -12673,6 +12763,8 @@ input versionsProduct_where_and {
   version__OtherImages__media: versionsProduct_version__OtherImages__media_operator
   version__OtherImages__id: versionsProduct_version__OtherImages__id_operator
   version__OutOfStock: versionsProduct_version__OutOfStock_operator
+  version__stock: versionsProduct_version__stock_operator
+  version__isFlashSale: versionsProduct_version__isFlashSale_operator
   version__skipSync: versionsProduct_version__skipSync_operator
   version__brands: versionsProduct_version__brands_operator
   version__Reviews: versionsProduct_version__Reviews_operator
@@ -12705,6 +12797,8 @@ input versionsProduct_where_or {
   version__OtherImages__media: versionsProduct_version__OtherImages__media_operator
   version__OtherImages__id: versionsProduct_version__OtherImages__id_operator
   version__OutOfStock: versionsProduct_version__OutOfStock_operator
+  version__stock: versionsProduct_version__stock_operator
+  version__isFlashSale: versionsProduct_version__isFlashSale_operator
   version__skipSync: versionsProduct_version__skipSync_operator
   version__brands: versionsProduct_version__brands_operator
   version__Reviews: versionsProduct_version__Reviews_operator
@@ -30820,6 +30914,8 @@ type ProductsFields {
   slug: ProductsFields_slug
   OtherImages: ProductsFields_OtherImages
   OutOfStock: ProductsFields_OutOfStock
+  stock: ProductsFields_stock
+  isFlashSale: ProductsFields_isFlashSale
   skipSync: ProductsFields_skipSync
   brands: ProductsFields_brands
   Reviews: ProductsFields_Reviews
@@ -31177,6 +31273,52 @@ type ProductsFields_OutOfStock_Update {
 }
 
 type ProductsFields_OutOfStock_Delete {
+  permission: Boolean!
+}
+
+type ProductsFields_stock {
+  create: ProductsFields_stock_Create
+  read: ProductsFields_stock_Read
+  update: ProductsFields_stock_Update
+  delete: ProductsFields_stock_Delete
+}
+
+type ProductsFields_stock_Create {
+  permission: Boolean!
+}
+
+type ProductsFields_stock_Read {
+  permission: Boolean!
+}
+
+type ProductsFields_stock_Update {
+  permission: Boolean!
+}
+
+type ProductsFields_stock_Delete {
+  permission: Boolean!
+}
+
+type ProductsFields_isFlashSale {
+  create: ProductsFields_isFlashSale_Create
+  read: ProductsFields_isFlashSale_Read
+  update: ProductsFields_isFlashSale_Update
+  delete: ProductsFields_isFlashSale_Delete
+}
+
+type ProductsFields_isFlashSale_Create {
+  permission: Boolean!
+}
+
+type ProductsFields_isFlashSale_Read {
+  permission: Boolean!
+}
+
+type ProductsFields_isFlashSale_Update {
+  permission: Boolean!
+}
+
+type ProductsFields_isFlashSale_Delete {
   permission: Boolean!
 }
 
@@ -40542,6 +40684,8 @@ input mutationProductInput {
   slug: String
   OtherImages: [mutationProduct_OtherImagesInput]
   OutOfStock: Boolean
+  stock: Float!
+  isFlashSale: Boolean
   skipSync: Boolean
   brands: Product_brands_MutationInput
   Reviews: [String]
@@ -40622,6 +40766,8 @@ input mutationProductUpdateInput {
   slug: String
   OtherImages: [mutationProductUpdate_OtherImagesInput]
   OutOfStock: Boolean
+  stock: Float
+  isFlashSale: Boolean
   skipSync: Boolean
   brands: ProductUpdate_brands_MutationInput
   Reviews: [String]

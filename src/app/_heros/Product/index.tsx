@@ -34,6 +34,7 @@ export const ProductHero: React.FC<{ product: Product }> = ({ product }) => {
     meta: { image: metaImage, description, url, slug },
     OtherImages,
     ProductsAttributes,
+    isFlashSale,
   } = product
 
   const [mainImage, setMainImage] = useState(metaImage) // Initially set to the main image

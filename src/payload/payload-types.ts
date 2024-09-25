@@ -631,6 +631,8 @@ export interface Product {
       }[]
     | null;
   OutOfStock?: boolean | null;
+  stock: number;
+  isFlashSale?: boolean | null;
   skipSync?: boolean | null;
   brands?:
     | (
