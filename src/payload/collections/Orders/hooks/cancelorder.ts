@@ -1,7 +1,6 @@
 import type { AfterChangeHook } from 'payload/dist/collections/config/types'
-
 import type { Order } from '../../../payload-types'
-import { sendOrderCanceledEmails } from '../../../utilities/cancelOrderEmails' // Ensure correct import path
+import { sendOrderCanceledEmails } from '../../../utilities/cancelOrderEmails'
 
 export const cancelOrderHook: AfterChangeHook<Order> = async ({
   doc,
@@ -11,6 +10,7 @@ export const cancelOrderHook: AfterChangeHook<Order> = async ({
 }) => {
   const { payload } = req
 
+  // Check if this is an update operation and the order was just canceled
   if (operation === 'update' && doc.canceled && !previousDoc?.canceled) {
     const orderedBy = typeof doc.orderedBy === 'string' ? doc.orderedBy : doc.orderedBy.id
 
@@ -45,9 +45,7 @@ export const cancelOrderHook: AfterChangeHook<Order> = async ({
         })
 
         if (!attribute?.Attribute_Property || !Array.isArray(attribute.Attribute_Property)) {
-          console.log(
-            `Attribute or properties not found for attributeId: ${attributes.attributeId}`,
-          )
+          console.log(`Attribute or properties not found for attributeId: ${attributes.attributeId}`)
           continue
         }
 
@@ -98,6 +96,20 @@ export const cancelOrderHook: AfterChangeHook<Order> = async ({
       }
     } catch (error: unknown) {
       console.error('Error sending email:', error)
+    }
+
+    // Update the 'canceled' field of the order to true
+    try {
+      const result = await payload.update({
+        collection: 'orders',
+        id: doc.id, // Make sure to use the correct order ID
+        data: {
+          canceled: true,
+        },
+      })
+      console.log('Order cancellation status updated:', result)
+    } catch (error: unknown) {
+      console.error('Error updating order cancellation status:', error)
     }
   }
 

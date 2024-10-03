@@ -63,7 +63,7 @@ export const AddToCartButton: React.FC<{
     }
   }
 
-  const isOutOfStock = product.OutOfStock
+  const isOutOfStock = product?.OutOfStock
 
   return (
     <Button
