@@ -31,7 +31,7 @@ const SearchBar: React.FC = () => {
     if (value.trim() !== '') {
       debounceTimeoutRef.current = setTimeout(() => {
         fetchSearchResults(value)
-      }, 3000) // Adjust the delay as needed
+      }, 300) // Adjust the delay as needed
     } else {
       setResults([])
     }
