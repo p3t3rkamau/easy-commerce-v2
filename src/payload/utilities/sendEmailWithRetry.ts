@@ -1,4 +1,4 @@
-import { sendEmail } from './sendemail.jsx'
+import { sendEmail } from './sendemail'
 
 const MAX_RETRIES = 3
 const RETRY_DELAY_MS = 4000 

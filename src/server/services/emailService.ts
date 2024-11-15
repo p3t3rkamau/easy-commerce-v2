@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer'
 
-import { sendEmail } from '../../../src/payload/utilities/sendemail.jsx'
+import { sendEmail } from '../../../src/payload/utilities/sendemail'
 import { RESEND_API_KEY } from '../config/enviroments'
 
 const transporter = nodemailer.createTransport({

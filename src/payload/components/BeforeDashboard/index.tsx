@@ -3,7 +3,7 @@ import { Banner } from 'payload/components'
 
 import Dashboard from '../DashBoard/Dashboard'
 
-import './index.scss'
+// import './index.scss'
 
 const baseClass = 'before-dashboard'
 

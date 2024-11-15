@@ -1,6 +1,6 @@
 import payload from 'payload'
 
-import { sendEmail } from '../../../payload/utilities/sendemail.jsx'
+import { sendEmail } from '../../../payload/utilities/sendemail'
 
 export const forgotPassword = async email => {
   try {

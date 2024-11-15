@@ -11,7 +11,7 @@ import path from 'path'
 import payload from 'payload'
 
 import generateSitemap from '../genarateSitemap'
-import { sendEmail } from './payload/utilities/sendemail.jsx'
+import { sendEmail } from './payload/utilities/sendemail'
 
 dotenv.config({
   path: path.resolve(__dirname, '../.env'),
