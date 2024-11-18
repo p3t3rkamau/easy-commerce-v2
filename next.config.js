@@ -9,7 +9,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ['localhost', process.env.NEXT_PUBLIC_SERVER_URL, 'ik.imagekit.io'],
+    domains: ['localhost', 'http://localhost:3001', 'ik.imagekit.io'],
   },
   redirects,
 
@@ -23,10 +23,6 @@ const nextConfig = {
       {
         source: '/robots.txt',
         destination: '/api/robots',
-      },
-      {
-        source: '/api/socket', // Source URL for Socket.IO
-        destination: '/api/socket', // Destination URL for Socket.IO API route
       },
     ]
   },

@@ -75,6 +75,9 @@ type Query {
   Payment(id: String!, draft: Boolean, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType): Payment
   Payments(draft: Boolean, where: Payment_where, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType, limit: Int, page: Int, sort: String): Payments
   docAccessPayment(id: String!): paymentsDocAccess
+  FlashSalesCollection(id: String!, draft: Boolean, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType): FlashSalesCollection
+  FlashSalesCollections(draft: Boolean, where: FlashSalesCollection_where, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType, limit: Int, page: Int, sort: String): FlashSalesCollections
+  docAccessFlashSalesCollection(id: String!): flashSalesCollectionDocAccess
   Search(id: String!, draft: Boolean, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType): Search
   Searches(draft: Boolean, where: Search_where, fallbackLocale: FallbackLocaleInputType, locale: LocaleInputType, limit: Int, page: Int, sort: String): Searches
   docAccessSearch(id: String!): searchDocAccess
@@ -25931,6 +25934,346 @@ type PaymentsDeleteDocAccess {
   where: JSONObject
 }
 
+type FlashSalesCollection {
+  id: String
+  title: String!
+  startTime: DateTime!
+  endTime: DateTime!
+  selectedDocs(locale: LocaleInputType, fallbackLocale: FallbackLocaleInputType): [Product!]!
+  isActive: Boolean
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type FlashSalesCollections {
+  docs: [FlashSalesCollection]
+  hasNextPage: Boolean
+  hasPrevPage: Boolean
+  limit: Int
+  nextPage: Int
+  offset: Int
+  page: Int
+  pagingCounter: Int
+  prevPage: Int
+  totalDocs: Int
+  totalPages: Int
+}
+
+input FlashSalesCollection_where {
+  title: FlashSalesCollection_title_operator
+  startTime: FlashSalesCollection_startTime_operator
+  endTime: FlashSalesCollection_endTime_operator
+  selectedDocs: FlashSalesCollection_selectedDocs_operator
+  isActive: FlashSalesCollection_isActive_operator
+  updatedAt: FlashSalesCollection_updatedAt_operator
+  createdAt: FlashSalesCollection_createdAt_operator
+  id: FlashSalesCollection_id_operator
+  AND: [FlashSalesCollection_where_and]
+  OR: [FlashSalesCollection_where_or]
+}
+
+input FlashSalesCollection_title_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input FlashSalesCollection_startTime_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+}
+
+input FlashSalesCollection_endTime_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+}
+
+input FlashSalesCollection_selectedDocs_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input FlashSalesCollection_isActive_operator {
+  equals: Boolean
+  not_equals: Boolean
+  exists: Boolean
+}
+
+input FlashSalesCollection_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input FlashSalesCollection_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input FlashSalesCollection_id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input FlashSalesCollection_where_and {
+  title: FlashSalesCollection_title_operator
+  startTime: FlashSalesCollection_startTime_operator
+  endTime: FlashSalesCollection_endTime_operator
+  selectedDocs: FlashSalesCollection_selectedDocs_operator
+  isActive: FlashSalesCollection_isActive_operator
+  updatedAt: FlashSalesCollection_updatedAt_operator
+  createdAt: FlashSalesCollection_createdAt_operator
+  id: FlashSalesCollection_id_operator
+  AND: [FlashSalesCollection_where_and]
+  OR: [FlashSalesCollection_where_or]
+}
+
+input FlashSalesCollection_where_or {
+  title: FlashSalesCollection_title_operator
+  startTime: FlashSalesCollection_startTime_operator
+  endTime: FlashSalesCollection_endTime_operator
+  selectedDocs: FlashSalesCollection_selectedDocs_operator
+  isActive: FlashSalesCollection_isActive_operator
+  updatedAt: FlashSalesCollection_updatedAt_operator
+  createdAt: FlashSalesCollection_createdAt_operator
+  id: FlashSalesCollection_id_operator
+  AND: [FlashSalesCollection_where_and]
+  OR: [FlashSalesCollection_where_or]
+}
+
+type flashSalesCollectionDocAccess {
+  fields: FlashSalesCollectionDocAccessFields
+  create: FlashSalesCollectionCreateDocAccess
+  read: FlashSalesCollectionReadDocAccess
+  update: FlashSalesCollectionUpdateDocAccess
+  delete: FlashSalesCollectionDeleteDocAccess
+}
+
+type FlashSalesCollectionDocAccessFields {
+  title: FlashSalesCollectionDocAccessFields_title
+  startTime: FlashSalesCollectionDocAccessFields_startTime
+  endTime: FlashSalesCollectionDocAccessFields_endTime
+  selectedDocs: FlashSalesCollectionDocAccessFields_selectedDocs
+  isActive: FlashSalesCollectionDocAccessFields_isActive
+  updatedAt: FlashSalesCollectionDocAccessFields_updatedAt
+  createdAt: FlashSalesCollectionDocAccessFields_createdAt
+}
+
+type FlashSalesCollectionDocAccessFields_title {
+  create: FlashSalesCollectionDocAccessFields_title_Create
+  read: FlashSalesCollectionDocAccessFields_title_Read
+  update: FlashSalesCollectionDocAccessFields_title_Update
+  delete: FlashSalesCollectionDocAccessFields_title_Delete
+}
+
+type FlashSalesCollectionDocAccessFields_title_Create {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionDocAccessFields_title_Read {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionDocAccessFields_title_Update {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionDocAccessFields_title_Delete {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionDocAccessFields_startTime {
+  create: FlashSalesCollectionDocAccessFields_startTime_Create
+  read: FlashSalesCollectionDocAccessFields_startTime_Read
+  update: FlashSalesCollectionDocAccessFields_startTime_Update
+  delete: FlashSalesCollectionDocAccessFields_startTime_Delete
+}
+
+type FlashSalesCollectionDocAccessFields_startTime_Create {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionDocAccessFields_startTime_Read {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionDocAccessFields_startTime_Update {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionDocAccessFields_startTime_Delete {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionDocAccessFields_endTime {
+  create: FlashSalesCollectionDocAccessFields_endTime_Create
+  read: FlashSalesCollectionDocAccessFields_endTime_Read
+  update: FlashSalesCollectionDocAccessFields_endTime_Update
+  delete: FlashSalesCollectionDocAccessFields_endTime_Delete
+}
+
+type FlashSalesCollectionDocAccessFields_endTime_Create {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionDocAccessFields_endTime_Read {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionDocAccessFields_endTime_Update {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionDocAccessFields_endTime_Delete {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionDocAccessFields_selectedDocs {
+  create: FlashSalesCollectionDocAccessFields_selectedDocs_Create
+  read: FlashSalesCollectionDocAccessFields_selectedDocs_Read
+  update: FlashSalesCollectionDocAccessFields_selectedDocs_Update
+  delete: FlashSalesCollectionDocAccessFields_selectedDocs_Delete
+}
+
+type FlashSalesCollectionDocAccessFields_selectedDocs_Create {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionDocAccessFields_selectedDocs_Read {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionDocAccessFields_selectedDocs_Update {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionDocAccessFields_selectedDocs_Delete {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionDocAccessFields_isActive {
+  create: FlashSalesCollectionDocAccessFields_isActive_Create
+  read: FlashSalesCollectionDocAccessFields_isActive_Read
+  update: FlashSalesCollectionDocAccessFields_isActive_Update
+  delete: FlashSalesCollectionDocAccessFields_isActive_Delete
+}
+
+type FlashSalesCollectionDocAccessFields_isActive_Create {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionDocAccessFields_isActive_Read {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionDocAccessFields_isActive_Update {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionDocAccessFields_isActive_Delete {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionDocAccessFields_updatedAt {
+  create: FlashSalesCollectionDocAccessFields_updatedAt_Create
+  read: FlashSalesCollectionDocAccessFields_updatedAt_Read
+  update: FlashSalesCollectionDocAccessFields_updatedAt_Update
+  delete: FlashSalesCollectionDocAccessFields_updatedAt_Delete
+}
+
+type FlashSalesCollectionDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionDocAccessFields_createdAt {
+  create: FlashSalesCollectionDocAccessFields_createdAt_Create
+  read: FlashSalesCollectionDocAccessFields_createdAt_Read
+  update: FlashSalesCollectionDocAccessFields_createdAt_Update
+  delete: FlashSalesCollectionDocAccessFields_createdAt_Delete
+}
+
+type FlashSalesCollectionDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type FlashSalesCollectionReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type FlashSalesCollectionUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type FlashSalesCollectionDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
 type Search {
   id: String
   title: String
@@ -29448,6 +29791,7 @@ type Access {
   feedbackform: feedbackformAccess
   employees: employeesAccess
   payments: paymentsAccess
+  flashSalesCollection: flashSalesCollectionAccess
   search: searchAccess
   redirects: redirectsAccess
   forms: formsAccess
@@ -38250,6 +38594,205 @@ type PaymentsDeleteAccess {
   where: JSONObject
 }
 
+type flashSalesCollectionAccess {
+  fields: FlashSalesCollectionFields
+  create: FlashSalesCollectionCreateAccess
+  read: FlashSalesCollectionReadAccess
+  update: FlashSalesCollectionUpdateAccess
+  delete: FlashSalesCollectionDeleteAccess
+}
+
+type FlashSalesCollectionFields {
+  title: FlashSalesCollectionFields_title
+  startTime: FlashSalesCollectionFields_startTime
+  endTime: FlashSalesCollectionFields_endTime
+  selectedDocs: FlashSalesCollectionFields_selectedDocs
+  isActive: FlashSalesCollectionFields_isActive
+  updatedAt: FlashSalesCollectionFields_updatedAt
+  createdAt: FlashSalesCollectionFields_createdAt
+}
+
+type FlashSalesCollectionFields_title {
+  create: FlashSalesCollectionFields_title_Create
+  read: FlashSalesCollectionFields_title_Read
+  update: FlashSalesCollectionFields_title_Update
+  delete: FlashSalesCollectionFields_title_Delete
+}
+
+type FlashSalesCollectionFields_title_Create {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionFields_title_Read {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionFields_title_Update {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionFields_title_Delete {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionFields_startTime {
+  create: FlashSalesCollectionFields_startTime_Create
+  read: FlashSalesCollectionFields_startTime_Read
+  update: FlashSalesCollectionFields_startTime_Update
+  delete: FlashSalesCollectionFields_startTime_Delete
+}
+
+type FlashSalesCollectionFields_startTime_Create {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionFields_startTime_Read {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionFields_startTime_Update {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionFields_startTime_Delete {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionFields_endTime {
+  create: FlashSalesCollectionFields_endTime_Create
+  read: FlashSalesCollectionFields_endTime_Read
+  update: FlashSalesCollectionFields_endTime_Update
+  delete: FlashSalesCollectionFields_endTime_Delete
+}
+
+type FlashSalesCollectionFields_endTime_Create {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionFields_endTime_Read {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionFields_endTime_Update {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionFields_endTime_Delete {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionFields_selectedDocs {
+  create: FlashSalesCollectionFields_selectedDocs_Create
+  read: FlashSalesCollectionFields_selectedDocs_Read
+  update: FlashSalesCollectionFields_selectedDocs_Update
+  delete: FlashSalesCollectionFields_selectedDocs_Delete
+}
+
+type FlashSalesCollectionFields_selectedDocs_Create {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionFields_selectedDocs_Read {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionFields_selectedDocs_Update {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionFields_selectedDocs_Delete {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionFields_isActive {
+  create: FlashSalesCollectionFields_isActive_Create
+  read: FlashSalesCollectionFields_isActive_Read
+  update: FlashSalesCollectionFields_isActive_Update
+  delete: FlashSalesCollectionFields_isActive_Delete
+}
+
+type FlashSalesCollectionFields_isActive_Create {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionFields_isActive_Read {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionFields_isActive_Update {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionFields_isActive_Delete {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionFields_updatedAt {
+  create: FlashSalesCollectionFields_updatedAt_Create
+  read: FlashSalesCollectionFields_updatedAt_Read
+  update: FlashSalesCollectionFields_updatedAt_Update
+  delete: FlashSalesCollectionFields_updatedAt_Delete
+}
+
+type FlashSalesCollectionFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionFields_createdAt {
+  create: FlashSalesCollectionFields_createdAt_Create
+  read: FlashSalesCollectionFields_createdAt_Read
+  update: FlashSalesCollectionFields_createdAt_Update
+  delete: FlashSalesCollectionFields_createdAt_Delete
+}
+
+type FlashSalesCollectionFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type FlashSalesCollectionCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type FlashSalesCollectionReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type FlashSalesCollectionUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type FlashSalesCollectionDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
 type searchAccess {
   fields: SearchFields
   create: SearchCreateAccess
@@ -40372,6 +40915,9 @@ type Mutation {
   createPayment(data: mutationPaymentInput!, draft: Boolean, locale: LocaleInputType): Payment
   updatePayment(id: String!, autosave: Boolean, data: mutationPaymentUpdateInput!, draft: Boolean, locale: LocaleInputType): Payment
   deletePayment(id: String!): Payment
+  createFlashSalesCollection(data: mutationFlashSalesCollectionInput!, draft: Boolean, locale: LocaleInputType): FlashSalesCollection
+  updateFlashSalesCollection(id: String!, autosave: Boolean, data: mutationFlashSalesCollectionUpdateInput!, draft: Boolean, locale: LocaleInputType): FlashSalesCollection
+  deleteFlashSalesCollection(id: String!): FlashSalesCollection
   createSearch(data: mutationSearchInput!, draft: Boolean, locale: LocaleInputType): Search
   updateSearch(id: String!, autosave: Boolean, data: mutationSearchUpdateInput!, draft: Boolean, locale: LocaleInputType): Search
   deleteSearch(id: String!): Search
@@ -41888,6 +42434,26 @@ enum PaymentUpdate_status_MutationInput {
   pending
   completed
   failed
+}
+
+input mutationFlashSalesCollectionInput {
+  title: String!
+  startTime: String!
+  endTime: String!
+  selectedDocs: [String]
+  isActive: Boolean
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationFlashSalesCollectionUpdateInput {
+  title: String
+  startTime: String
+  endTime: String
+  selectedDocs: [String]
+  isActive: Boolean
+  updatedAt: String
+  createdAt: String
 }
 
 input mutationSearchInput {

@@ -48,6 +48,7 @@ import BeforeLogin from './components/BeforeLogin'
 import { Footer } from './globals/Footer'
 import { Header } from './globals/Header'
 import { Settings } from './globals/Settings'
+import FlashSales from './collections/FlashSales'
 // import payloadMux from './plugins/payload-mux/plugin'
 // import payloadVercel from './plugins/payload-vercel/plugin'
 // import { priceUpdated } from './stripe/webhooks/priceUpdated'
@@ -117,7 +118,7 @@ export default buildConfig({
   editor: slateEditor({}), // editor-config
   // database-adapter-config-start
   db: mongooseAdapter({
-    url: process.env.DATABASE_URI,
+    url: 'mongodb+srv://peter2:sLlS1LfhMXsDAsxH@cluster0.pavziv6.mongodb.net/?retryWrites=true&w=majority',
   }),
   // database-adapter-config-end
   serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
@@ -144,6 +145,7 @@ export default buildConfig({
     FeedBackForm,
     Employees,
     Payments,
+    FlashSales,
 
     // CaseStudies,
     // QuestionSets,

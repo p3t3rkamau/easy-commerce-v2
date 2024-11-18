@@ -55,6 +55,7 @@ app.post('/api/feedbackform', async (req, res) => {
               collection: 'feedbackform',
               id: existingDoc.id,
               data: {
+                // @ts-ignore
                 count: existingDoc.count + 1,
               },
             })
@@ -118,6 +119,7 @@ const saveSearchTerm = async (term: string) => {
         collection: 'searchTerms',
         id: existingTerm.docs[0].id,
         data: {
+            // @ts-ignore
           count: existingTerm.docs[0].count + 1,
           // @ts-expect-error
           lastSearched: new Date(),
@@ -209,6 +211,7 @@ const start = async (): Promise<void> => {
       const { type, value, applicableTo, expiryDate } = coupon.docs[0]
 
       // Check if coupon is expired
+        // @ts-ignore
       if (expiryDate && new Date(expiryDate) < new Date()) {
         return res.status(400).json({ message: 'Coupon has expired' })
       }
@@ -254,13 +257,13 @@ const start = async (): Promise<void> => {
       res.status(500).json({ error: error })
     }
   })
-  app.get('/api/flash-sales', async (req, res) => {
+  app.get('/api/flashSalesCollection', async (req, res) => {
     try {
       const currentTime = new Date().toISOString()
 
       // Fetch active flash sales
       const flashSales = await payload.find({
-        collection: 'flashSales',
+        collection: 'flashSalesCollection',
         where: {
           EndTime: {
             greater_than: currentTime, // Only fetch flash sales that haven't ended

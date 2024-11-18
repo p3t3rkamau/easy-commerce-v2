@@ -54,6 +54,7 @@ export interface Config {
     feedbackform: Feedbackform;
     employees: Employee;
     payments: Payment;
+    flashSalesCollection: FlashSalesCollection;
     search: Search;
     redirects: Redirect;
     forms: Form;
@@ -1248,6 +1249,16 @@ export interface Payment {
   status?: ('pending' | 'completed' | 'failed') | null;
   employee: string | Employee;
   amount: number;
+  updatedAt: string;
+  createdAt: string;
+}
+export interface FlashSalesCollection {
+  id: string;
+  title: string;
+  startTime: string;
+  endTime: string;
+  selectedDocs: (string | Product)[];
+  isActive?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Banner } from 'payload/components'
 
-import Dashboard from '../DashBoard/Dashboard'
+// import Dashboard from '../DashBoard/Dashboard'
 
 // import './index.scss'
 
@@ -31,7 +31,7 @@ const BeforeDashboard: React.FC = () => {
         {showDashboard ? 'Hide' : 'Show'} Dashboard
       </button>
       <div className={`${baseClass}__dashboard ${showDashboard ? 'visible' : 'hidden'}`}>
-        <Dashboard />
+        {/* <Dashboard /> */}
       </div>
     </div>
   )
