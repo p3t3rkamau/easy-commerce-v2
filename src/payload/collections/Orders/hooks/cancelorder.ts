@@ -1,4 +1,5 @@
 import type { AfterChangeHook } from 'payload/dist/collections/config/types'
+
 import type { Order } from '../../../payload-types'
 import { sendOrderCanceledEmails } from '../../../utilities/cancelOrderEmails'
 
@@ -45,7 +46,9 @@ export const cancelOrderHook: AfterChangeHook<Order> = async ({
         })
 
         if (!attribute?.Attribute_Property || !Array.isArray(attribute.Attribute_Property)) {
-          console.log(`Attribute or properties not found for attributeId: ${attributes.attributeId}`)
+          console.log(
+            `Attribute or properties not found for attributeId: ${attributes.attributeId}`,
+          )
           continue
         }
 

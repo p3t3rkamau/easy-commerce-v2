@@ -1,16 +1,17 @@
-import type { AfterChangeHook } from 'payload/dist/collections/config/types';
-import type { Product } from '../../../payload-types';
+import type { AfterChangeHook } from 'payload/dist/collections/config/types'
+
+import type { Product } from '../../../payload-types'
 
 export const markProductAsFlashSale: AfterChangeHook<Product> = async ({
   doc,
   req,
   previousDoc,
 }) => {
-  const { payload } = req;
-  const { FlashSalesItems } = doc;
+  const { payload } = req
+  const { FlashSalesItems } = doc
 
   // Ensure FlashSalesItems is an array
-  const isInFlashSale = Array.isArray(FlashSalesItems) && FlashSalesItems?.length > 0;
+  const isInFlashSale = Array.isArray(FlashSalesItems) && FlashSalesItems?.length > 0
 
   if (isInFlashSale && !previousDoc.isFlashSale) {
     await payload.update({
@@ -19,7 +20,7 @@ export const markProductAsFlashSale: AfterChangeHook<Product> = async ({
       data: {
         isFlashSale: true,
       },
-    });
+    })
   } else if (!isInFlashSale && previousDoc.isFlashSale) {
     await payload.update({
       collection: 'products',
@@ -27,8 +28,8 @@ export const markProductAsFlashSale: AfterChangeHook<Product> = async ({
       data: {
         isFlashSale: false,
       },
-    });
+    })
   }
 
-  return;
-};
+  return
+}

@@ -1,5 +1,6 @@
-import type { CollectionConfig } from 'payload/types';
-import { updateFlashSaleProducts, resetFlashSaleProducts } from './hooks/updateFlashSaleProducts';
+import type { CollectionConfig } from 'payload/types'
+
+import { resetFlashSaleProducts, updateFlashSaleProducts } from './hooks/updateFlashSaleProducts'
 
 const flashSalesCollection: CollectionConfig = {
   slug: 'flashSalesCollection',
@@ -51,6 +52,6 @@ const flashSalesCollection: CollectionConfig = {
     afterChange: [updateFlashSaleProducts],
     afterDelete: [resetFlashSaleProducts],
   },
-};
+}
 
-export default flashSalesCollection;
+export default flashSalesCollection

@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from 'react'
 
 import {
   Select,
@@ -8,7 +8,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "../Shadcn-ui/ui/select"
+} from '../Shadcn-ui/ui/select'
 
 export function ShadCnSelect() {
   return (

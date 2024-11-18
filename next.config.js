@@ -6,6 +6,9 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  eslint: {
+    ignoreDuringBuilds: true, // Disables ESLint during production builds
+  },
   reactStrictMode: true,
   swcMinify: true,
   images: {

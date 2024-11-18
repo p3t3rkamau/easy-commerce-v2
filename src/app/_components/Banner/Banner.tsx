@@ -1,11 +1,13 @@
-"use client";
+'use client'
 
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Autoplay } from "swiper/modules";
-import { homeBanners } from "../../constants";
-import Image from "next/image";
-import "swiper/css";
-import "swiper/css/pagination";
+import Image from 'next/image'
+import { Autoplay, Pagination } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/react'
+
+import { homeBanners } from '../../constants'
+
+import 'swiper/css'
+import 'swiper/css/pagination'
 
 export default function Banner() {
   return (
@@ -15,8 +17,8 @@ export default function Banner() {
         clickable: true,
       }}
       style={{
-        marginTop: "40px",
-        marginLeft: "0px",
+        marginTop: '40px',
+        marginLeft: '0px',
       }}
       modules={[Pagination, Autoplay]}
       loop
@@ -34,8 +36,8 @@ export default function Banner() {
               priority
             />
           </SwiperSlide>
-        );
+        )
       })}
     </Swiper>
-  );
+  )
 }

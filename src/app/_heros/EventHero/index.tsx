@@ -20,12 +20,14 @@ export const EventHero: React.FC<Page['heroImage']> = ({
 
   const handlePrevious = () => {
     setCurrentImageIndex(prevIndex =>
-      prevIndex === 0 ? SliderHero?.SliderImages.length - 1 : prevIndex - 1,)
+      prevIndex === 0 ? SliderHero?.SliderImages.length - 1 : prevIndex - 1,
+    )
   }
 
   const handleNext = () => {
     setCurrentImageIndex(prevIndex =>
-      prevIndex === SliderHero?.SliderImages.length - 1 ? 0 : prevIndex + 1,)
+      prevIndex === SliderHero?.SliderImages.length - 1 ? 0 : prevIndex + 1,
+    )
   }
 
   const getImageUrl = (media: Media): string | undefined => {

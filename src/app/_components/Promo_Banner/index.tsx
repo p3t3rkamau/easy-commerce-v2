@@ -1,15 +1,17 @@
 import React from 'react'
 import Image from 'next/image'
+
 import { Media, Page } from '../../../payload/payload-types'
-import styles from './index.module.scss'
 import { CMSLink } from '../Link'
+
+import styles from './index.module.scss'
 
 type Props = Extract<Page['layout'][0], { blockType: 'promo-banners' }>
 
-export const PromoBanner: React.FC<Props> = (props) => {
+export const PromoBanner: React.FC<Props> = props => {
   const {
     discountPercentage,
-   
+
     productTitle,
     productDescription,
     originalPrice,

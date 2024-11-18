@@ -316,4 +316,3 @@ export const PROMO_BANNER_BLOCK = `
   }
  }
 `
-

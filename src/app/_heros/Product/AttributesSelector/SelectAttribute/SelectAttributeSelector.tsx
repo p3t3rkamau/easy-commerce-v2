@@ -90,7 +90,8 @@ export const SelectAttributeSelector: React.FC<SelectAttributeSelectorProps> = (
               </button>
             </div>
           </div>
-        ) : null,)}
+        ) : null,
+      )}
     </div>
   )
 }

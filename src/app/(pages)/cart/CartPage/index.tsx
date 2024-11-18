@@ -7,11 +7,12 @@ import { Button } from '../../../_components/Button'
 import { LoadingShimmer } from '../../../_components/LoadingShimmer'
 import { useAuth } from '../../../_providers/Auth'
 import { useCart } from '../../../_providers/Cart'
+import { useToast } from '../../../_providers/Toast/ToastContext'
 import CartItem from '../CartItem'
 import CouponForm from '../CouponForm'
 import ShippingForm from '../ShippingForm' // Make sure to import ShippingForm from the correct path
 import EmptyCartMessage from './EmptyCartPage' // Import EmptyCartMessage component
-import { useToast } from '../../../_providers/Toast/ToastContext'
+
 import classes from './index.module.scss'
 
 const encrypt = (value: number): string => {
@@ -193,7 +194,7 @@ export const CartPage: React.FC<{
                   onClick={handleCheckoutClick}
                   label={isLoading ? 'Processing...' : user ? 'Checkout' : 'Login to checkout'}
                   appearance="secondary"
-                  disabled={isLoading} 
+                  disabled={isLoading}
                 />
               </div>
             </div>

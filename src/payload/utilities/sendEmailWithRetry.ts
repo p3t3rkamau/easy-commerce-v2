@@ -1,7 +1,7 @@
 import { sendEmail } from './sendemail'
 
 const MAX_RETRIES = 3
-const RETRY_DELAY_MS = 4000 
+const RETRY_DELAY_MS = 4000
 
 export const sendEmailWithRetry = async (
   emailOptions: { to: string; from: string; subject: string; html: string },

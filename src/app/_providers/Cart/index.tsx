@@ -133,7 +133,8 @@ export const CartProvider: React.FC = ({ children }) => {
         cart.items.some(({ product }) =>
           typeof product === 'string'
             ? product === incomingProduct.id
-            : product?.id === incomingProduct.id,)
+            : product?.id === incomingProduct.id,
+        )
       )
     },
     [cart],

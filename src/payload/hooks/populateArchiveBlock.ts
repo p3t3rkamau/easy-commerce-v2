@@ -17,7 +17,7 @@ export const populateArchiveBlock: AfterReadHook = async ({ doc, context, req: {
         }
 
         if (archiveBlock.populateBy === 'collection' && !context.isPopulatingArchiveBlock) {
-          // @ts-ignore
+          // @ts-expect-error
           const res: { totalDocs: number; docs: Product[] } = await payload.find({
             collection: archiveBlock?.relationTo || 'products',
             limit: archiveBlock.limit || 10,

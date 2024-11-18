@@ -68,7 +68,8 @@ export const cartReducer = (cart: CartType, action: CartAction): CartType => {
           : cart.items.map((item, index) =>
               index === existingIndex
                 ? { ...item, quantity: item.quantity + newItem.quantity }
-                : item,)
+                : item,
+            )
 
       return {
         ...cart,

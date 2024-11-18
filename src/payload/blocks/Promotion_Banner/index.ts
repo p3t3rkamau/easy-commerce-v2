@@ -1,9 +1,10 @@
-import link from '../../fields/link';
-import { Block } from 'payload/types';
+import type { Block } from 'payload/types'
+
+import link from '../../fields/link'
 
 const PromoBanners: Block = {
   slug: 'promo-banners',
-  
+
   imageURL: 'https://ik.imagekit.io/6cga8hi9z/All_Products/Home__16__qMMz7QG8C.png',
   fields: [
     {
@@ -39,6 +40,6 @@ const PromoBanners: Block = {
       required: true,
     },
   ],
-};
+}
 
-export default PromoBanners;
+export default PromoBanners

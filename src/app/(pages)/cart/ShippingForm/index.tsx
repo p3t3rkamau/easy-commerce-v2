@@ -184,7 +184,9 @@ const ShippingForm: React.FC<Props> = ({
         )
       case 'pickup':
         return (
-          <p className={classes.paragraph}>Pick up available at Our Shop Annas arcade Room 29c, Pick before 6 PM or the next day.</p>
+          <p className={classes.paragraph}>
+            Pick up available at Our Shop Annas arcade Room 29c, Pick before 6 PM or the next day.
+          </p>
         )
       default:
         return null

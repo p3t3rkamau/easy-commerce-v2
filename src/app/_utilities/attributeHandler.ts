@@ -19,7 +19,8 @@ export const useAttributeHandler = (ProductsAttributes: AttributesCollection[]) 
 
         if (attributeIndex >= 0) {
           newAttributes = currentAttributes.map((attr, idx) =>
-            idx === attributeIndex ? { ...attr, quantity } : attr,)
+            idx === attributeIndex ? { ...attr, quantity } : attr,
+          )
         } else {
           newAttributes = [...currentAttributes, { value, quantity }]
         }
@@ -29,7 +30,8 @@ export const useAttributeHandler = (ProductsAttributes: AttributesCollection[]) 
         ) as AttributesCollection
 
         const selectedProperties = attribute?.Attribute_Property?.filter(prop =>
-          newAttributes.map(attr => attr.value).includes(prop.Value),)
+          newAttributes.map(attr => attr.value).includes(prop.Value),
+        )
 
         // Calculate total price by multiplying each color's quantity by its price
         const totalSelectedPrice =

@@ -49,7 +49,8 @@ const Products = async () => {
 
   // Filter fetched categories to only include allowed ones
   const filteredCategories = categories?.filter(category =>
-    allowedCategories.includes(category.title),)
+    allowedCategories.includes(category.title),
+  )
 
   return (
     <div className={classes.container}>

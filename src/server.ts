@@ -55,7 +55,7 @@ app.post('/api/feedbackform', async (req, res) => {
               collection: 'feedbackform',
               id: existingDoc.id,
               data: {
-                // @ts-ignore
+                                                           
                 count: existingDoc.count + 1,
               },
             })
@@ -113,33 +113,34 @@ const saveSearchTerm = async (term: string) => {
           equals: term,
         },
       },
-    })
+    });
+
+    const currentDateString = new Date().toISOString(); // Convert Date to ISO string
+
     if (existingTerm.totalDocs > 0) {
       await payload.update({
         collection: 'searchTerms',
         id: existingTerm.docs[0].id,
         data: {
-            // @ts-ignore
           count: existingTerm.docs[0].count + 1,
-          // @ts-expect-error
-          lastSearched: new Date(),
+          lastSearched: currentDateString, // Assign string here
         },
-      })
+      });
     } else {
       await payload.create({
         collection: 'searchTerms',
         data: {
           term,
           count: 1,
-          // @ts-expect-error
-          lastSearched: new Date(),
+          lastSearched: currentDateString, // Assign string here
         },
-      })
+      });
     }
   } catch (error: unknown) {
-    console.error('Error saving search term:', error)
+    console.error('Error saving search term:', error);
   }
-}
+};
+
 
 const start = async (): Promise<void> => {
   await payload.init({
@@ -211,7 +212,7 @@ const start = async (): Promise<void> => {
       const { type, value, applicableTo, expiryDate } = coupon.docs[0]
 
       // Check if coupon is expired
-        // @ts-ignore
+      
       if (expiryDate && new Date(expiryDate) < new Date()) {
         return res.status(400).json({ message: 'Coupon has expired' })
       }

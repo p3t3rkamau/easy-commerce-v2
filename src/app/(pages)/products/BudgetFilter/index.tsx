@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
+
 import { useFilter } from '../../../_providers/Filter'
+
 import styles from './budget.module.scss'
 
 const BudgetFilter: React.FC = () => {
@@ -28,26 +30,26 @@ const BudgetFilter: React.FC = () => {
   return (
     <div className={styles['budget-filter']}>
       <div>
-      <div className={styles.flex}>
-      <label className={styles.label}>Min Price</label>
-        <input
-          type="number"
-          value={minPrice}
-          onChange={handleMinPriceChange}
-          placeholder="Min Price"
-          className={styles.input}
-        />
-      </div>
-      <div className={styles.flex}>
-      <label className={styles.label}>Max Price</label>
-        <input
-          type="number"
-          value={maxPrice}
-          onChange={handleMaxPriceChange}
-          placeholder="Max Price"
-          className={styles.input}
-        />
-      </div>
+        <div className={styles.flex}>
+          <label className={styles.label}>Min Price</label>
+          <input
+            type="number"
+            value={minPrice}
+            onChange={handleMinPriceChange}
+            placeholder="Min Price"
+            className={styles.input}
+          />
+        </div>
+        <div className={styles.flex}>
+          <label className={styles.label}>Max Price</label>
+          <input
+            type="number"
+            value={maxPrice}
+            onChange={handleMaxPriceChange}
+            placeholder="Max Price"
+            className={styles.input}
+          />
+        </div>
       </div>
     </div>
   )
