@@ -157,7 +157,7 @@
     "typescript": "^4.8.4"
   },
   "engines": {
-    "node": "^18.20.2 || >=20.9.0"
+    "node": "18.20.2"
   },
   "resolutions": {
     "jackspeak": "2.1.1"
