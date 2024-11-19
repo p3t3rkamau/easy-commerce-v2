@@ -5,8 +5,7 @@
   "main": "dist/server.js",
   "license": "MIT",
   "scripts": {
-    "dev": "cross-env PAYLOAD_CONFIG_PATH=src/payload/payload.config.ts NODE_OPTIONS=--max-old-space-size=4096",
-
+    "dev": "cross-env PAYLOAD_CONFIG_PATH=src/payload/payload.config.ts NODE_OPTIONS=--max-old-space-size=4096 nodemon",
     "seed": "rm -rf media && cross-env PAYLOAD_SEED=true PAYLOAD_DROP_DATABASE=true PAYLOAD_CONFIG_PATH=src/payload/payload.config.ts ts-node src/server.ts",
     "build:payload": "cross-env PAYLOAD_CONFIG_PATH=src/payload/payload.config.ts payload build",
     "build:server": "tsc --project tsconfig.server.json",
@@ -17,7 +16,7 @@
     "copyfiles": "copyfiles -u 1 \"src/**/*.{html,css,scss,ttf,woff,woff2,eot,svg,jpg,png,js}\" dist/",
     "generate:types": "cross-env PAYLOAD_CONFIG_PATH=src/payload/payload.config.ts payload generate:types",
     "generate:graphQLSchema": "PAYLOAD_CONFIG_PATH=src/payload/payload.config.ts payload generate:graphQLSchema",
-    "lint": "eslint src",
+    
    
     "test": "jest"
   },
