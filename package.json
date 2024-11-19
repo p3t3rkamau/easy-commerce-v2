@@ -36,7 +36,6 @@
     "@nextui-org/system": "^2.2.2",
     "@nextui-org/theme": "^2.2.6",
     "@nouance/payload-better-fields-plugin": "^1.4.1",
-    "@nouance/payload-simple-rbac": "^0.2.0",
     "@payloadcms/bundler-webpack": "^1.0.0",
     "@payloadcms/db-mongodb": "^1.0.0",
     "@payloadcms/plugin-cloud": "^2.0.0",

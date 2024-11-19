@@ -293,46 +293,46 @@ export default buildConfig({
       generateTitle,
       uploadsCollection: 'media',
     }),
-    payloadSimpleRBAC({
-      roles: ['customer', 'editor', 'manager', 'admin'],
-      users: [Users.slug],
-      defaultRole: 'customer',
-      collections: [
-        {
-          slug: Posts.slug,
-          permissions: {
-            read: 'publishedOnly',
-            update: 'editor',
-            create: 'editor',
-            delete: 'manager',
-          },
-        },
-        {
-          slug: Categories.slug,
-          permissions: {
-            read: 'public',
-          },
-        },
-        {
-          slug: Products.slug,
-          permissions: {
-            read: 'publishedOnly',
-            create: 'manager',
-            update: 'manager',
-            delete: 'admin',
-          },
-        },
-        {
-          slug: Orders.slug,
-          permissions: {
-            read: 'publishedOnly',
-            create: 'manager',
-            update: 'manager',
-            delete: 'admin',
-          },
-        },
-      ],
-    }),
+    // payloadSimpleRBAC({
+    //   roles: ['customer', 'editor', 'manager', 'admin'],
+    //   users: [Users.slug],
+    //   defaultRole: 'customer',
+    //   collections: [
+    //     {
+    //       slug: Posts.slug,
+    //       permissions: {
+    //         read: 'publishedOnly',
+    //         update: 'editor',
+    //         create: 'editor',
+    //         delete: 'manager',
+    //       },
+    //     },
+    //     {
+    //       slug: Categories.slug,
+    //       permissions: {
+    //         read: 'public',
+    //       },
+    //     },
+    //     {
+    //       slug: Products.slug,
+    //       permissions: {
+    //         read: 'publishedOnly',
+    //         create: 'manager',
+    //         update: 'manager',
+    //         delete: 'admin',
+    //       },
+    //     },
+    //     {
+    //       slug: Orders.slug,
+    //       permissions: {
+    //         read: 'publishedOnly',
+    //         create: 'manager',
+    //         update: 'manager',
+    //         delete: 'admin',
+    //       },
+    //     },
+    //   ],
+    // }),
     // warding(
     //   convention.opts({
     //     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
